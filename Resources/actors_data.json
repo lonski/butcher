@@ -1,0 +1,20 @@
+{
+  actors: [
+    {
+      id: 1,
+      name: "Player",
+      type: 1,
+      blocks: 1,
+      transparent: 1,
+      sprite_file: "player.png"
+    },
+    {
+      id: 2,
+      name: "Cow",
+      type: 0,
+      blocks: 1,
+      transparent: 1,
+      sprite_file: "cow.png"
+    }
+  ]
+}

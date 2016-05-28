@@ -1,0 +1,11 @@
+cocos2d
+bin
+proj.android/bin
+CMakeLists.txt.user
+proj.android-studio/
+proj.ios_mac/
+proj.tizen/
+proj.android/libs
+proj.android/obj
+proj.android/assets
+proj.android/gen

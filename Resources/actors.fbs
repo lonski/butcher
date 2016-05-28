@@ -1,0 +1,22 @@
+namespace butcher;
+
+table ActorsData { 
+	actors:[ActorData]; 
+}
+
+enum ActorType:byte { 
+	Monster = 0, 
+	Player = 1, 
+	Item = 2 
+}
+
+table ActorData {
+	id:uint;
+	type:ActorType;
+	name:string;
+	blocks:bool;
+	transparent:bool;
+	sprite_file:string;
+}
+
+root_type ActorsData;
