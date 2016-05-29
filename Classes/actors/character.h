@@ -25,9 +25,15 @@ public:
     int attribute(AttributeType type);
     void setAttribute(AttributeType type, int value);
 
+    int hp() const;
+    void setHp(int hp);
+
+    int takeDamage(int damage, Actor* attacker);
+
 private:
     int _level;
     int _exp;
+    int _hp;
     std::map<AttributeType, int> _attributes;
 };
 

@@ -45,6 +45,11 @@ struct ActorData : private flatbuffers::Table {
   uint8_t blocks() const { return GetField<uint8_t>(10, 0); }
   uint8_t transparent() const { return GetField<uint8_t>(12, 0); }
   const flatbuffers::String *sprite_file() const { return GetPointer<const flatbuffers::String *>(14); }
+  uint32_t hp() const { return GetField<uint32_t>(16, 0); }
+  uint16_t attack() const { return GetField<uint16_t>(18, 0); }
+  uint16_t defense() const { return GetField<uint16_t>(20, 0); }
+  uint16_t damage() const { return GetField<uint16_t>(22, 0); }
+  uint16_t damage_reduction() const { return GetField<uint16_t>(24, 0); }
 };
 
 struct ActorDataBuilder {
@@ -56,15 +61,25 @@ struct ActorDataBuilder {
   void add_blocks(uint8_t blocks) { fbb_.AddElement<uint8_t>(10, blocks, 0); }
   void add_transparent(uint8_t transparent) { fbb_.AddElement<uint8_t>(12, transparent, 0); }
   void add_sprite_file(flatbuffers::Offset<flatbuffers::String> sprite_file) { fbb_.AddOffset(14, sprite_file); }
+  void add_hp(uint32_t hp) { fbb_.AddElement<uint32_t>(16, hp, 0); }
+  void add_attack(uint16_t attack) { fbb_.AddElement<uint16_t>(18, attack, 0); }
+  void add_defense(uint16_t defense) { fbb_.AddElement<uint16_t>(20, defense, 0); }
+  void add_damage(uint16_t damage) { fbb_.AddElement<uint16_t>(22, damage, 0); }
+  void add_damage_reduction(uint16_t damage_reduction) { fbb_.AddElement<uint16_t>(24, damage_reduction, 0); }
   ActorDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 6)); }
+  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 11)); }
 };
 
-inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file) {
+inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, uint16_t damage, uint16_t damage_reduction) {
   ActorDataBuilder builder_(_fbb);
+  builder_.add_hp(hp);
   builder_.add_sprite_file(sprite_file);
   builder_.add_name(name);
   builder_.add_id(id);
+  builder_.add_damage_reduction(damage_reduction);
+  builder_.add_damage(damage);
+  builder_.add_defense(defense);
+  builder_.add_attack(attack);
   builder_.add_transparent(transparent);
   builder_.add_blocks(blocks);
   builder_.add_type(type);

@@ -29,7 +29,7 @@ void Monster::nextTurn()
 {
   int i = RandomHelper::random_int( 0, 4 );
 
-  performAction( new MoveAction( (Direction)i, BUTCHER.currentDungeon() ) );
+  performAction( new MoveAction( (Direction)i ) );
 }
 
 }

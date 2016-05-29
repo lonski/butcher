@@ -135,7 +135,10 @@ set(GAME_SRC
   Classes/dungeon/dungeon_layer.cpp
   Classes/dungeon/dungeon_state.cpp
   Classes/actors/actions/move_action.cpp
+  Classes/actors/actions/attack_action.cpp
+  Classes/actors/actions/die_action.cpp
   Classes/utils/utils.cpp
+  Classes/utils/target.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -153,8 +156,11 @@ set(GAME_HEADERS
   Classes/dungeon/dungeon_state.h
   Classes/actors/actions/actor_action.h
   Classes/actors/actions/move_action.h
+  Classes/actors/actions/attack_action.h
+  Classes/actors/actions/die_action.h
   Classes/utils/directions.h
   Classes/utils/utils.h
+  Classes/utils/target.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

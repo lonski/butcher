@@ -3,6 +3,7 @@
 #include <actors/player.h>
 #include <dungeon/dungeon_layer.h>
 #include <utils/utils.h>
+#include <algorithm>
 
 using namespace cocos2d;
 
@@ -12,6 +13,7 @@ DungeonState::DungeonState()
   : _map(nullptr)
   , _tiles(nullptr)
   , _meta(nullptr)
+  , _currentView(nullptr)
 {
 
 }
@@ -80,10 +82,28 @@ bool DungeonState::setMap(const std::string& fn)
 
 void DungeonState::spawnActors(DungeonLayer *view)
 {
+  _currentView = view;
+
   spawnPlayer();
 
   for ( auto a : _actors )
     view->addChild(a->sprite());
+}
+
+bool DungeonState::removeActor(Actor *actor)
+{
+  auto it = std::find_if(_actors.begin(), _actors.end(), [actor](std::shared_ptr<Actor> a){
+     return a.get() == actor;
+  });
+
+  if ( it != _actors.end() )
+  {
+    _currentView->removeChild( (*it)->sprite());
+    _actors.erase(it);
+    return true;
+  }
+
+  return false;
 }
 
 void DungeonState::spawnPlayer()

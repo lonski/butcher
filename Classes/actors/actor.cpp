@@ -4,6 +4,9 @@
 #include <actors/monster.h>
 #include "cocos2d.h"
 #include <actors/actions/actor_action.h>
+#include <utils/utils.h>
+#include <butcher.h>
+#include <dungeon/dungeon_state.h>
 
 using namespace cocos2d;
 
@@ -19,6 +22,7 @@ Actor::Actor()
 
 Actor::~Actor()
 {
+  delete _sprite;
 }
 
 Actor* Actor::create(const ActorData *data)
@@ -120,7 +124,24 @@ bool Actor::performAction(ActorAction* action)
   return a->perform(this);
 }
 
+bool Actor::collide(Actor* obstacle)
+{
+  return true;
+}
+
+Vec2 Actor::getTileCoord()
+{
+  if ( BUTCHER.currentDungeon() == nullptr )
+    return 0;
+
+  return positionToTileCoord(BUTCHER.currentDungeon()->map(), sprite()->getPosition());
+}
+
 void Actor::nextTurn()
+{
+}
+
+void Actor::onDie()
 {
 }
 

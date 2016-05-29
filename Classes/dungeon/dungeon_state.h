@@ -20,6 +20,7 @@ public:
   bool setMap(const std::string& fn);
 
   void spawnActors(DungeonLayer* view);
+  bool removeActor(Actor* actor);
 
   void nextTurn();
 
@@ -29,6 +30,7 @@ private:
   cocos2d::TMXTiledMap* _map;
   cocos2d::TMXLayer*    _tiles;
   cocos2d::TMXLayer*    _meta;
+  DungeonLayer* _currentView;
 
   std::set< std::shared_ptr<Actor> > _actors;
 

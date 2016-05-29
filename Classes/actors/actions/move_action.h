@@ -12,7 +12,7 @@ class DungeonState;
 class MoveAction : public ActorAction
 {
 public:
-  MoveAction(Direction direction, DungeonState* state);
+  MoveAction(Direction direction);
   virtual bool perform(Actor* actor);
 
 private:

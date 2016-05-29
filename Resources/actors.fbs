@@ -11,12 +11,20 @@ enum ActorType:byte {
 }
 
 table ActorData {
+	//Actor
 	id:uint;
 	type:ActorType;
 	name:string;
 	blocks:bool;
 	transparent:bool;
 	sprite_file:string;
+
+	//Character
+	hp:uint;
+	attack:ushort;
+	defense:ushort;
+	damage:ushort;
+	damage_reduction:ushort;
 }
 
 root_type ActorsData;

@@ -8,8 +8,8 @@ using namespace cocos2d;
 
 namespace butcher {
 
-MoveAction::MoveAction(Direction direction, DungeonState *state)
-  : _state(state)
+MoveAction::MoveAction(Direction direction)
+  : _state( BUTCHER.currentDungeon() )
   , _direction(direction)
 {
 
@@ -42,7 +42,7 @@ bool MoveAction::perform(Actor *actor)
   if ( _state->isBlocked(positionToTileCoord(map,pos), &blocking_actor) )
   {
     if ( blocking_actor != nullptr )
-      log("%s blocks the path for %s!", blocking_actor->name().c_str(), BUTCHER.getPlayer()->name().c_str());
+      actor->collide(blocking_actor);
 
     return false;
   }

@@ -18,6 +18,8 @@ public:
     static Actor* create(const ActorData* data);
     virtual Actor* clone(Actor* allocated = nullptr);
 
+    unsigned id() const;
+
     std::string name() const;
     void setName(const std::string &name);
 
@@ -27,13 +29,15 @@ public:
     bool transparent() const;
     void setTransparent(bool transparent);
 
-    unsigned id() const;
+    cocos2d::Vec2 getTileCoord();
 
     cocos2d::Sprite* sprite() const;
 
-    bool performAction(ActorAction* action);
-
+    virtual bool performAction(ActorAction* action);
+    virtual bool collide(Actor* obstacle);
     virtual void nextTurn();
+
+    virtual void onDie();
 
 private:
     unsigned _id;

@@ -6,7 +6,13 @@
       type: 1,
       blocks: 1,
       transparent: 1,
-      sprite_file: "player.png"
+      sprite_file: "player.png",
+
+      hp: 20,
+      attack : 5,
+      defense : 5,
+      damage : 5,
+      damage_reduction : 0
     },
     {
       id: 2,
@@ -14,7 +20,13 @@
       type: 0,
       blocks: 1,
       transparent: 1,
-      sprite_file: "cow.png"
+      sprite_file: "cow.png",
+
+      hp: 10,
+      attack : 5,
+      defense : 5,
+      damage : 5,
+      damage_reduction : 0
     }
   ]
 }
