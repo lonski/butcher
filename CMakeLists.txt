@@ -139,6 +139,12 @@ set(GAME_SRC
   Classes/actors/actions/die_action.cpp
   Classes/utils/utils.cpp
   Classes/utils/target.cpp
+  Classes/actors/ai/ai.cpp
+  Classes/actors/ai/fsm/fsm.cpp
+  Classes/actors/ai/fsm/states/fsm_state.cpp
+  Classes/actors/ai/fsm/states/idle_state.cpp
+  Classes/actors/ai/fsm/states/wandering_state.cpp
+  Classes/actors/ai/fsm/states/move_to_target_state.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -161,6 +167,13 @@ set(GAME_HEADERS
   Classes/utils/directions.h
   Classes/utils/utils.h
   Classes/utils/target.h
+  Classes/actors/ai/ai.h
+  Classes/actors/ai/fsm/fsm.h
+  Classes/actors/ai/fsm/fsm_state_type.h
+  Classes/actors/ai/fsm/states/fsm_state.h
+  Classes/actors/ai/fsm/states/idle_state.h
+  Classes/actors/ai/fsm/states/wandering_state.h
+  Classes/actors/ai/fsm/states/move_to_target_state.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 
