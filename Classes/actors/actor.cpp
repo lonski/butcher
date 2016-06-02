@@ -163,7 +163,7 @@ void Actor::onDie()
 
 void Actor::fadeText(const std::string &text, Color4B color)
 {
-  Label* label = Label::createWithTTF(text, "fonts/Marker Felt.ttf", 18);
+  Label* label = Label::createWithTTF(text, "fonts/Marker Felt.ttf", 22);
   label->setTextColor(color);
 
   Size size = sprite()->getBoundingBox().size;
