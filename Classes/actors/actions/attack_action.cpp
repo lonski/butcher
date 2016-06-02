@@ -42,7 +42,7 @@ bool AttackAction::perform(Actor *performer)
   if ( attacker_score > target_score )
     t->takeDamage( a->attribute(AttributeType::Damage), performer );
   else
-    cocos2d::log("%s: %s misses %s", __PRETTY_FUNCTION__, a->name().c_str(), t->name().c_str());
+    t->fadeText("miss", cocos2d::Color4B(32,32,32,255));
 
   return true;
 }

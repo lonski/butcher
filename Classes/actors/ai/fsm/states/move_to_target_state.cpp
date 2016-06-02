@@ -57,7 +57,7 @@ void MoveToTarget::update()
 
 bool MoveToTarget::canEnter()
 {
-
+  return true;
 }
 
 }}

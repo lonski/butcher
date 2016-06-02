@@ -65,9 +65,7 @@ int Character::takeDamage(int damage, Actor* attacker)
 
   _hp -= damage;
 
-  cocos2d::log("%s: %s got %d damage from %s",
-               __PRETTY_FUNCTION__, name().c_str(), damage,
-               attacker ? attacker->name().c_str() : "unknown" );
+  fadeText( "-" + Value(damage).asString(), Color4B::RED );
 
   if ( _hp <= 0 )
   {

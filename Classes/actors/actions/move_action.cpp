@@ -20,7 +20,7 @@ bool MoveAction::perform(Actor *actor)
   if ( _direction == Direction::None )
     return false;
 
-  Vec2 pos = actor->sprite()->getPosition();
+  Vec2 pos = actor->getPosition();
   TMXTiledMap* map = _state->map();
 
   switch(_direction)
@@ -31,6 +31,7 @@ bool MoveAction::perform(Actor *actor)
     case Direction::South: pos.y += map->getTileSize().height; break;
     default:;
   }
+
 
   if ( !validatePosition(pos) )
   {
@@ -47,7 +48,10 @@ bool MoveAction::perform(Actor *actor)
     return false;
   }
 
-  actor->sprite()->setPosition(pos);
+  actor->setPosition(pos, true);
+
+  MoveTo* move_action = MoveTo::create(0.1, pos);
+  actor->sprite()->runAction( move_action );
 
   return true;
 }

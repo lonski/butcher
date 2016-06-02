@@ -17,7 +17,6 @@ DungeonLayer::DungeonLayer()
 
 DungeonLayer::~DungeonLayer()
 {
-  log("~DungeonLayer()");
 }
 
 bool DungeonLayer::init()
@@ -60,7 +59,7 @@ void DungeonLayer::onEnter()
     addChild( _state->map() );
     _state->spawnActors(this);
 
-    setViewPointCenter(BUTCHER.getPlayer()->sprite()->getPosition());
+    setViewPointCenter(BUTCHER.getPlayer()->getPosition());
 }
 
 void DungeonLayer::onExit()
@@ -80,11 +79,11 @@ bool DungeonLayer::onTouchBegan(Touch*, Event*)
 void DungeonLayer::onTouchEnded(Touch* touch, Event*)
 {
   Vec2 touchLocation = touch->getLocationInView();
-  touchLocation = Director::sharedDirector()->convertToGL(touchLocation);
+  touchLocation = Director::getInstance()->convertToGL(touchLocation);
   touchLocation = this->convertToNodeSpace(touchLocation);
 
-  Vec2 playerPos = BUTCHER.getPlayer()->sprite()->getPosition();
-  Vec2 diff = ccpSub(touchLocation, playerPos);
+  Vec2 playerPos = BUTCHER.getPlayer()->getPosition();
+  Vec2 diff = touchLocation - playerPos;
 
   Direction direction = Direction::None;
 
@@ -96,7 +95,7 @@ void DungeonLayer::onTouchEnded(Touch* touch, Event*)
   if ( direction != Direction::None )
   {
     if ( BUTCHER.getPlayer()->performAction( new MoveAction(direction) ) )
-      this->setViewPointCenter(BUTCHER.getPlayer()->sprite()->getPosition());
+      this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
 
     BUTCHER.nextTurn();
   }
@@ -104,18 +103,18 @@ void DungeonLayer::onTouchEnded(Touch* touch, Event*)
 
 void DungeonLayer::setViewPointCenter(Vec2 position)
 {
-  Size winSize = Director::sharedDirector()->getWinSize();
+  Size winSize = Director::getInstance()->getWinSize();
 
-  int x = MAX(position.x, winSize.width/2);
-  int y = MAX(position.y, winSize.height/2);
-  x = MIN(x, (_state->map()->getMapSize().width * this->_state->map()->getTileSize().width ) - winSize.width / 2);
-  y = MIN(y, (_state->map()->getMapSize().height * _state->map()->getTileSize().height) - winSize.height/2);
-  Vec2 actualPosition = ccp(x, y);
+  int x = std::max(position.x, winSize.width/2);
+  int y = std::max(position.y, winSize.height/2);
+  x = std::min(x, (int)((_state->map()->getMapSize().width * this->_state->map()->getTileSize().width ) - winSize.width / 2));
+  y = std::min(y, (int)((_state->map()->getMapSize().height * _state->map()->getTileSize().height) - winSize.height/2));
+  Vec2 actualPosition(x, y);
 
-  Vec2 centerOfView = ccp(winSize.width/2, winSize.height/2);
-  Vec2 viewPoint = ccpSub(centerOfView, actualPosition);
+  Vec2 centerOfView(winSize.width/2, winSize.height/2);
+  Vec2 viewPoint = centerOfView - actualPosition;
 
-  this->setPosition(viewPoint);
+  runAction( MoveTo::create(0.1,viewPoint));
 }
 
 }

@@ -22,7 +22,6 @@ Actor::Actor()
 
 Actor::~Actor()
 {
-  delete _sprite;
 }
 
 Actor* Actor::create(const ActorData *data)
@@ -53,7 +52,7 @@ Actor* Actor::create(const ActorData *data)
     actor->setBlocks( data->blocks() );
     actor->setTransparent( data->transparent() );
     actor->setName( data->name()->c_str() );
-    actor->_sprite = new Sprite();
+    actor->_sprite.reset(new Sprite());
     actor->_sprite->initWithFile( data->sprite_file()->c_str() );
   }
 
@@ -70,7 +69,7 @@ Actor *Actor::clone(Actor *allocated)
     allocated->_id = _id;
 
     if ( allocated->_sprite == nullptr )
-      allocated->_sprite = new Sprite();
+      allocated->_sprite.reset(new Sprite());
 
     allocated->_sprite->initWithFile( _sprite->getResourceName() );
   }
@@ -113,7 +112,7 @@ unsigned Actor::id() const
   return _id;
 }
 
-cocos2d::Sprite *Actor::sprite() const
+std::unique_ptr<Sprite>& Actor::sprite()
 {
   return _sprite;
 }
@@ -134,7 +133,24 @@ Vec2 Actor::getTileCoord()
   if ( BUTCHER.currentDungeon() == nullptr )
     return 0;
 
-  return positionToTileCoord(BUTCHER.currentDungeon()->map(), sprite()->getPosition());
+  return positionToTileCoord(BUTCHER.currentDungeon()->map(), getPosition());
+}
+
+void Actor::setPosition(int x, int y, bool no_sprite_pos)
+{
+  setPosition(Vec2(x,y), no_sprite_pos);
+}
+
+void Actor::setPosition(Vec2 pos, bool no_sprite_pos)
+{
+  _position = pos;
+  if ( !no_sprite_pos )
+    _sprite->setPosition(pos);
+}
+
+Vec2 Actor::getPosition() const
+{
+  return _position;
 }
 
 void Actor::nextTurn()
@@ -143,6 +159,20 @@ void Actor::nextTurn()
 
 void Actor::onDie()
 {
+}
+
+void Actor::fadeText(const std::string &text, Color4B color)
+{
+  Label* label = Label::createWithTTF(text, "fonts/Marker Felt.ttf", 18);
+  label->setTextColor(color);
+
+  Size size = sprite()->getBoundingBox().size;
+  label->setPosition( size.width / 2, size.height );
+
+  sprite()->addChild(label, 1);
+
+  label->runAction( MoveBy::create(0.5, Vec2(0, size.height / 3)) );
+  label->runAction( FadeOut::create(0.5) );
 }
 
 }

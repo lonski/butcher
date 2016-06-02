@@ -30,8 +30,11 @@ public:
     void setTransparent(bool transparent);
 
     cocos2d::Vec2 getTileCoord();
+    void setPosition(int x, int y, bool no_sprite_pos = false);
+    void setPosition(cocos2d::Vec2 pos, bool no_sprite_pos = false);
+    cocos2d::Vec2 getPosition() const;
 
-    cocos2d::Sprite* sprite() const;
+    std::unique_ptr<cocos2d::Sprite>& sprite();
 
     virtual bool performAction(ActorAction* action);
     virtual bool collide(Actor* obstacle);
@@ -39,13 +42,16 @@ public:
 
     virtual void onDie();
 
+    void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
+
 private:
     unsigned _id;
     std::string _name;
     bool _blocks;
     bool _transparent;
+    cocos2d::Vec2 _position;
 
-    cocos2d::Sprite* _sprite;
+    std::unique_ptr<cocos2d::Sprite> _sprite;
 
 };
 

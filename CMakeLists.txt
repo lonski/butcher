@@ -134,6 +134,7 @@ set(GAME_SRC
   Classes/data/actors_database.cpp
   Classes/dungeon/dungeon_layer.cpp
   Classes/dungeon/dungeon_state.cpp
+  Classes/dungeon/map.cpp
   Classes/actors/actions/move_action.cpp
   Classes/actors/actions/attack_action.cpp
   Classes/actors/actions/die_action.cpp
@@ -145,6 +146,7 @@ set(GAME_SRC
   Classes/actors/ai/fsm/states/idle_state.cpp
   Classes/actors/ai/fsm/states/wandering_state.cpp
   Classes/actors/ai/fsm/states/move_to_target_state.cpp
+  Classes/fov/permissive-fov.cc
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -160,6 +162,7 @@ set(GAME_HEADERS
   Classes/data/actors_database.h
   Classes/dungeon/dungeon_layer.h
   Classes/dungeon/dungeon_state.h
+  Classes/dungeon/map.h
   Classes/actors/actions/actor_action.h
   Classes/actors/actions/move_action.h
   Classes/actors/actions/attack_action.h
@@ -174,6 +177,8 @@ set(GAME_HEADERS
   Classes/actors/ai/fsm/states/idle_state.h
   Classes/actors/ai/fsm/states/wandering_state.h
   Classes/actors/ai/fsm/states/move_to_target_state.h
+  Classes/fov/permissive-fov.h
+  Classes/fov/permissive-fov-cpp.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

@@ -16,4 +16,34 @@ Vec2 positionToTileCoord(TMXTiledMap *map, Vec2 pos)
     return Vec2(x, y);
 }
 
+std::vector<std::string> explode(const std::string &str, char ch)
+{
+  std::vector<std::string> result;
+  std::string line;
+
+  for (auto s : str)
+  {
+    if (s == ch)
+    {
+      if (!line.empty())
+      {
+        result.push_back(line);
+        line.clear();
+      }
+    }
+    else
+    {
+      line += s;
+    }
+  }
+
+  if (!line.empty())
+  {
+    result.push_back(line);
+    line.clear();
+  }
+
+  return result;
+}
+
 }
