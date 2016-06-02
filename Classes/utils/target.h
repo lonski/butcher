@@ -13,6 +13,7 @@ struct Target
   Target(Actor* actor);
 
   Actor* first();
+  bool isEmpty();
 
   std::vector<Actor*> actors;
   int x;

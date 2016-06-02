@@ -146,6 +146,7 @@ set(GAME_SRC
   Classes/actors/ai/fsm/states/idle_state.cpp
   Classes/actors/ai/fsm/states/wandering_state.cpp
   Classes/actors/ai/fsm/states/move_to_target_state.cpp
+  Classes/actors/ai/fsm/states/melee_attack_state.cpp
   Classes/fov/permissive-fov.cc
   ${PLATFORM_SPECIFIC_SRC}
 )
@@ -177,6 +178,7 @@ set(GAME_HEADERS
   Classes/actors/ai/fsm/states/idle_state.h
   Classes/actors/ai/fsm/states/wandering_state.h
   Classes/actors/ai/fsm/states/move_to_target_state.h
+  Classes/actors/ai/fsm/states/melee_attack_state.h
   Classes/fov/permissive-fov.h
   Classes/fov/permissive-fov-cpp.h
   ${PLATFORM_SPECIFIC_HEADERS}

@@ -32,4 +32,9 @@ Actor *Target::first()
   return actors.front();
 }
 
+bool Target::isEmpty()
+{
+  return actors.empty() && x == 0 && y == 0;
+}
+
 }

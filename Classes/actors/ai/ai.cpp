@@ -2,6 +2,8 @@
 #include <actors/ai/fsm/states/fsm_state.h>
 #include <actors/actor.h>
 #include <butcher.h>
+#include <utils/utils.h>
+#include <dungeon/dungeon_state.h>
 
 namespace butcher {
 
@@ -13,9 +15,15 @@ Ai::Ai(Actor *actor)
 
 void Ai::update()
 {
-  //TODO determine ai state
-  if ( _fsm.getCurrentState()->getType() != FSMStateType::MOVE_TO_TARGET )
-    _fsm.changeState( FSMStateType::MOVE_TO_TARGET );
+  if ( !getTarget().actors.empty() )
+  {
+    float distance = calculateDistance(getActor()->getTileCoord(), getTarget().first()->getTileCoord());
+    _fsm.changeState( distance < 2 ? FSMStateType::MELEE_ATTACK : FSMStateType::MOVE_TO_TARGET );
+  }
+  else
+  {
+    _fsm.changeState( FSMStateType::WANDERING );
+  }
 
   _fsm.update();
 }
@@ -27,8 +35,10 @@ Actor* Ai::getActor()
 
 Target Ai::getTarget()
 {
-  //TODO
-  return Target((Actor*)BUTCHER.getPlayer().get());
+  if ( BUTCHER.currentDungeon()->isInFov( getActor()->getTileCoord()) )
+    return Target((Actor*)BUTCHER.getPlayer().get());
+
+  return Target();
 }
 
 }

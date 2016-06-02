@@ -37,13 +37,16 @@ void FSM::addState(FSMStatePtr state)
 
 bool FSM::changeState(FSMStateType newState)
 {
-  auto it = _states.find( newState );
-  if ( it != _states.end() && it->second && it->second->canEnter() )
+  if ( !_currentState || newState != _currentState->getType() )
   {
-    _currentState->onExit();
-    _currentState = it->second;
-    _currentState->onEnter();
-    return true;
+    auto it = _states.find( newState );
+    if ( it != _states.end() && it->second && it->second->canEnter() )
+    {
+      _currentState->onExit();
+      _currentState = it->second;
+      _currentState->onEnter();
+      return true;
+    }
   }
   return false;
 }

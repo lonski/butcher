@@ -46,4 +46,12 @@ std::vector<std::string> explode(const std::string &str, char ch)
   return result;
 }
 
+float calculateDistance(Vec2 a, Vec2 b)
+{
+  int dx = b.x - a.x;
+  int dy = b.y - a.y;
+
+  return sqrtf(dx*dx + dy*dy);
+}
+
 }
