@@ -66,10 +66,13 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
   {
     for ( int x = 0; x < _map->getMapSize().width; ++x)
     {
-      //_fov->setTileGID( (int)GID::Unexplored, Vec2(x,y));
       cc::Sprite* s = _tiles->getTileAt(cc::Vec2(x,y));
       if ( s )
         s->setVisible(false);
+
+      cc::Sprite* o = _objects->getTileAt(cc::Vec2(x,y));
+      if ( o )
+        o->setVisible(false);
     }
   }
 
@@ -246,13 +249,17 @@ void DungeonState::visit(int x, int y)
     if (s)
     {
       if ( !s->isVisible() )
-      {
         s->setVisible(true);
-        s->setOpacity(0);
-        s->runAction( cc::FadeIn::create(0.2));
-      }
 
       s->setOpacity(255);
+    }
+    cc::Sprite* o = _objects->getTileAt(coord);
+    if (o)
+    {
+      if ( !o->isVisible() )
+        o->setVisible(true);
+
+      o->setOpacity(255);
     }
   }
 }
@@ -281,6 +288,13 @@ void DungeonState::computeFov(int x, int y)
         {
           s->setOpacity(100);
         }
+
+        cc::Sprite* o = _objects->getTileAt(coord);
+        if ( o && o->isVisible() )
+        {
+          o->setOpacity(100);
+        }
+
       }
     }
   }

@@ -179,7 +179,7 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
   objects.push_back( cc::Value(playerSpawn) );
 
   //spawn stairs up
-  _objects->setTileGID((int)CaveTileGID::StairsDown, cc::Vec2(spawnX, spawnY));
+  _objects->setTileGID((int)CaveTileGID::StairsUp, cc::Vec2(spawnX, spawnY));
 
   //spawn stairs down
   char tile = 'X';
