@@ -28,6 +28,7 @@ public:
 private:
     cocos2d::EventListenerTouchOneByOne* _listener;
     DungeonState* _state;
+    cocos2d::Vec2 _viewPoint;
 
     void setViewPointCenter(cocos2d::Vec2 position);
 

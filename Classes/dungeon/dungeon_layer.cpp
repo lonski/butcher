@@ -74,7 +74,7 @@ void DungeonLayer::onExit()
 
 bool DungeonLayer::onTouchBegan(cc::Touch*, cc::Event*)
 {
-    return true;
+  return getPosition() == _viewPoint;
 }
 
 void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
@@ -138,9 +138,9 @@ void DungeonLayer::setViewPointCenter(cc::Vec2 position)
   cc::Size winSize = cc::Director::getInstance()->getWinSize();
 
   cc::Vec2 centerOfView(winSize.width/2, winSize.height/2);
-  cc::Vec2 viewPoint = centerOfView - pos;
+  _viewPoint = centerOfView - pos;
 
-  runAction( cc::MoveTo::create(0.1,viewPoint));
+  runAction( cc::MoveTo::create(0.1,_viewPoint));
 }
 
 }
