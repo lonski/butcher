@@ -27,7 +27,7 @@ void MoveToTarget::update()
     Target target = _ai->getTarget();
     Actor* me = _ai->getActor();
     cocos2d::Vec2 myPos = me->getTileCoord();
-    DungeonState* dungeon = BUTCHER.currentDungeon();
+    DungeonState* dungeon = BUTCHER.getCurrentDungeon();
 
     int dx = target.x - myPos.x;
     int dy = target.y - myPos.y;

@@ -3,7 +3,7 @@
 #include <butcher.h>
 #include <dungeon/dungeon_state.h>
 
-using namespace cocos2d;
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -22,9 +22,9 @@ bool DieAction::perform(Actor *actor)
 
   actor->onDie();
 
-  Sprite* s = actor->sprite().release();
-  s->runAction( Sequence::create(FadeOut::create(0.5), RemoveSelf::create(), nullptr) );
-  BUTCHER.currentDungeon()->removeActor(actor, false);
+  cc::Sprite* s = actor->sprite().release();
+  s->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );
+  BUTCHER.getCurrentDungeon()->removeActor(actor, false);
 
   return true;
 }

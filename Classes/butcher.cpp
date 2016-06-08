@@ -3,8 +3,14 @@
 #include <actors/player.h>
 #include <dungeon/dungeon_layer.h>
 #include <dungeon/dungeon_state.h>
+#include <dungeon/generators/cave_grid_generator.h>
+#include <dungeon/generators/tmx_builder.h>
+#include <dungeon/generators/dungeon_maker_generator.h>
+#include <utils/profiler.h>
+#include <loading_scene.h>
+#include <memory>
 
-using namespace cocos2d;
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -45,48 +51,64 @@ cocos2d::Scene* Butcher::getCurrentScene() const
 
 void Butcher::goToNextLevel()
 {
-  goToLevel(dungeonLevel() + 1);
+  goToLevel(getDungeonLevel() + 1);
 }
 
-void Butcher::goToLevel(unsigned level)
+void Butcher::goToLevel(unsigned level, bool switch_algo)
 {
-  std::string mapFn = "dungeons/" + Value(level).asString() + ".tmx";
 
-  if ( FileUtils::getInstance()->isFileExist(mapFn) )
+  auto it = _dungeons.find(level);
+  DungeonState* dungeonState = it != _dungeons.end() ? it->second : nullptr;
+
+  if ( dungeonState == nullptr )
   {
-    auto it = _dungeons.find(level);
+    dungeonState = new DungeonState();
+    dungeonState->setMap( generateMap(level, switch_algo) );
+    _dungeons[level] = dungeonState;
+  }
 
-    DungeonState* dungeonState = it != _dungeons.end() ? it->second : nullptr;
+  _dungeonLevel = level;
 
-    if ( dungeonState == nullptr )
-    {
-      dungeonState = new DungeonState();
-      dungeonState->setMap(mapFn);
-      _dungeons[level] = dungeonState;
-    }
+  DungeonLayer* layer = DungeonLayer::create();
+  layer->setState(dungeonState);
 
-    _dungeonLevel = level;
+  cc::Scene* new_scene = cocos2d::Scene::create();
+  new_scene->addChild(layer);
+  new_scene->addChild(_hud);
 
-    DungeonLayer* layer = DungeonLayer::create();
-    layer->setState(dungeonState);
+  cc::Director::getInstance()->replaceScene( new_scene );
+  _currentScene = new_scene;
+}
 
-    Scene* new_scene = cocos2d::Scene::create();
-    new_scene->addChild(layer);
-    new_scene->addChild(_hud);
+cc::TMXTiledMap* Butcher::generateMap(unsigned level, bool switch_algo)
+{
+  std::string mapFn = "dungeons/" + cc::Value(level).asString() + ".tmx";
+  cc::TMXTiledMap* map = nullptr;
 
-    Director::getInstance()->replaceScene( TransitionFade::create(0.5, new_scene));
+  if ( !cc::FileUtils::getInstance()->isFileExist(mapFn) )
+  {
+    std::unique_ptr<GridGenerator> gen;
 
-    _currentScene->removeAllChildren();
-    _currentScene = new_scene;
+    if ( switch_algo )
+      gen.reset(new DungeonMakerGenerator);
+    else
+      gen.reset( new CaveGenerator );
+
+    Grid grid = gen->generate();
+
+    TMXBuilder builder;
+    map = builder.build(grid);
   }
   else
   {
-    log("Butcher::goToLevel: Can't open dungeon map: %s", mapFn.c_str());
+    map = new cc::TMXTiledMap();
+    map->initWithTMXFile(mapFn);
   }
 
+  return map;
 }
 
-unsigned Butcher::dungeonLevel() const
+unsigned Butcher::getDungeonLevel() const
 {
   return _dungeonLevel;
 }
@@ -99,7 +121,7 @@ std::shared_ptr<Player> Butcher::getPlayer()
   }
 
   if ( _player == nullptr )
-    log("Butcher::getPlayer: failed to create player");
+    cc::log("Butcher::getPlayer: failed to create player");
 
   return _player;
 }
@@ -109,14 +131,14 @@ ActorDatabase& Butcher::actorsDatabase()
   return _actors;
 }
 
-DungeonState *Butcher::currentDungeon()
+DungeonState *Butcher::getCurrentDungeon()
 {
   return _dungeons[_dungeonLevel];
 }
 
 void Butcher::nextTurn()
 {
-  DungeonState* d = currentDungeon();
+  DungeonState* d = getCurrentDungeon();
   if ( d )
     d->nextTurn();
 }

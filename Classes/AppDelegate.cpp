@@ -49,10 +49,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     //director->setDisplayStats(true);
-    //director->setAnimationInterval(1.0f / 60);
+    director->setAnimationInterval(1.0f / 60);
 
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
     register_all_packages();
+
+    director->setDepthTest(false);
+    director->setProjection(Director::Projection::_2D);
 
     butcher::Butcher& butcher = butcher::Butcher::getInstance();
 

@@ -9,8 +9,11 @@ class HudLayer : public cocos2d::Layer
 {
 public:
     HudLayer();
+    ~HudLayer();
 
     virtual bool init();
+
+
     void showMenu(cocos2d::Ref*);
     void showMenu2(cocos2d::Ref*);
 

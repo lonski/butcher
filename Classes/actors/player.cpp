@@ -1,23 +1,21 @@
 #include "player.h"
 #include <actors/monster.h>
 #include <actors/actions/attack_action.h>
-
-using namespace cocos2d;
+#include <actors/object.h>
+#include <butcher.h>
 
 namespace butcher {
 
-Player* Player::create(const ActorData *data, Player *allocated)
+Player::Player(const ActorData *data)
+  : Character(data)
 {
-  Player* p = allocated ? allocated : new Player;
-  Character::create(data, p);
-  return p;
 }
 
-Actor *Player::clone(Actor *allocated)
+Actor* Player::clone(Actor *allocated)
 {
   Player* p = dynamic_cast<Player*>(allocated);
   if ( p == nullptr )
-    p = new Player();
+    p = new Player(nullptr);
 
   Character::clone(p);
 
@@ -31,6 +29,22 @@ bool Player::collide(Actor *obstacle)
   {
     return performAction( new AttackAction(Target(mob)) );
   }
+
+  Object* obj = dynamic_cast<Object*>(obstacle);
+  if ( obj )
+  {
+    switch( static_cast<Actor::ID>(obj->id()) )
+    {
+      case Actor::StairsDownID:
+        BUTCHER.goToNextLevel();
+        break;
+      case Actor::StairsUpID:
+        BUTCHER.goToLevel(BUTCHER.getDungeonLevel() - 1);
+        break;
+      default:;
+    }
+  }
+
   return false;
 }
 

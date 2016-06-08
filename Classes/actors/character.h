@@ -10,10 +10,9 @@ namespace butcher {
 class Character : public Actor
 {
 public:
-    Character();
+    Character(const ActorData* data);
     virtual ~Character() = 0;
 
-    static Character* create(const ActorData* data, Character* allocated = nullptr);
     virtual Actor* clone(Actor* allocated = nullptr);
 
     int level() const;

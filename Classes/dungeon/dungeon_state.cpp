@@ -5,8 +5,9 @@
 #include <utils/utils.h>
 #include <algorithm>
 #include <fov/permissive-fov-cpp.h>
+#include <utils/profiler.h>
 
-using namespace cocos2d;
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -28,10 +29,10 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
 {
   _map = map;
 
-  TMXObjectGroup* objectGroup = _map->getObjectGroup("Objects");
+  cc::TMXObjectGroup* objectGroup = _map->getObjectGroup("Objects");
   if(objectGroup == nullptr)
   {
-      log("%s: Tile map has no objects object layer.", __FUNCTION__);
+      cc::log("%s: Tile map has no objects object layer.", __FUNCTION__);
       return false;
   }
 
@@ -39,7 +40,7 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
 
   if ( _tiles == nullptr )
   {
-    log("%s: Tile map has no layer 'Background'.", __FUNCTION__);
+    cc::log("%s: Tile map has no layer 'Background'.", __FUNCTION__);
     return false;
   }
 
@@ -47,7 +48,7 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
 
   if ( _meta == nullptr )
   {
-    log("%s: Tile map has no layer 'Meta'.", __FUNCTION__);
+    cc::log("%s: Tile map has no layer 'Meta'.", __FUNCTION__);
     return false;
   }
 
@@ -58,39 +59,38 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
     for ( int x = 0; x < _map->getMapSize().width; ++x)
     {
       //_fov->setTileGID( (int)GID::Unexplored, Vec2(x,y));
-      Sprite* s = _tiles->getTileAt(Vec2(x,y));
+      cc::Sprite* s = _tiles->getTileAt(cc::Vec2(x,y));
       if ( s )
         s->setVisible(false);
     }
   }
 
   //Load actor spawns
-  ValueVector objects = objectGroup->getObjects();
-  for ( Value o : objects )
+  cc::ValueVector objects = objectGroup->getObjects();
+  for ( cc::Value o : objects )
   {
-    ValueMap obj = o.asValueMap();
-    if ( obj["name"].asString() == "mob_spawn" && obj.find("mob") != obj.end())
+    cc::ValueMap obj = o.asValueMap();
+    if ( obj["name"].asString() == "actor_spawn" && obj.find("id") != obj.end())
     {
-      spawn(obj["mob"].asInt(), obj["x"].asInt(), obj["y"].asInt());
+      spawn(obj["id"].asInt(), obj["x"].asInt(), obj["y"].asInt());
     }
   }
 
   //init explored map
-  int cnt = _map->getMapSize().height * _map->getMapSize().width;
-  _exploredMask = std::string(cnt, '0' );
+  _exploredMask = Grid(_map->getMapSize().width, _map->getMapSize().height, '0');
 
   return true;
 }
 
 bool DungeonState::setMap(const std::string& fn)
 {
-  if ( !FileUtils::getInstance()->isFileExist(fn) )
+  if ( !cc::FileUtils::getInstance()->isFileExist(fn) )
   {
-    log("DungeonState::setMap: file does not exists - %s", fn.c_str());
+    cc::log("DungeonState::setMap: file does not exists - %s", fn.c_str());
     return false;
   }
 
-  TMXTiledMap* map = new TMXTiledMap();
+  cc::TMXTiledMap* map = new cc::TMXTiledMap();
   map->initWithTMXFile(fn);
 
   return setMap(map);
@@ -102,11 +102,15 @@ void DungeonState::spawnActors(DungeonLayer *view)
 
   spawnPlayer();
 
-  for ( auto a : _actors )
-    view->addChild(a->sprite().get());
 
   computeFov(BUTCHER.getPlayer()->getTileCoord().x,
              BUTCHER.getPlayer()->getTileCoord().y);
+
+  for ( auto a : _actors )
+  {
+    view->addChild(a->sprite().get());
+    a->sprite()->setVisible( isInFov(a->getTileCoord()));
+  }
 
 }
 
@@ -132,7 +136,7 @@ void DungeonState::spawnPlayer()
 {
   std::shared_ptr<Player> player = BUTCHER.getPlayer();
 
-  ValueMap spawnPoint = _map->getObjectGroup("Objects")->getObject("SpawnPoint");
+  cc::ValueMap spawnPoint = _map->getObjectGroup("Objects")->getObject("SpawnPoint");
   player->setPosition( spawnPoint["x"].asInt(), spawnPoint["y"].asInt() );
 
   _actors.insert( player );
@@ -144,16 +148,23 @@ void DungeonState::nextTurn()
              BUTCHER.getPlayer()->getTileCoord().y);
 
   for(auto a : _actors)
+  {
     a->nextTurn();
-
-  for(auto a : _actors)
     a->sprite()->setVisible( isInFov(a->getTileCoord()) );
+  }
 
 }
 
-bool DungeonState::isBlocked(Vec2 tileCoord, Actor** blocking_actor)
+bool DungeonState::isBlocked(cc::Vec2 tileCoord, Actor** blocking_actor)
 {
   bool blocked = false;
+
+  if ( tileCoord.x >= _map->getMapSize().width || tileCoord.y >= _map->getMapSize().height
+       || tileCoord.x < 0 || tileCoord.y < 0 )
+  {
+    cc::log("%s out of range: x=%f y=%f", __PRETTY_FUNCTION__, tileCoord.x, tileCoord.y);
+    return true;
+  }
 
   //Check if tile is enterable
   unsigned gid = _meta->getTileGIDAt(tileCoord);
@@ -172,7 +183,7 @@ bool DungeonState::isBlocked(Vec2 tileCoord, Actor** blocking_actor)
   {
     for(std::shared_ptr<Actor> a : _actors)
     {
-      Vec2 tc = positionToTileCoord(_map, a->getPosition());
+      cc::Vec2 tc = positionToTileCoord(_map, a->getPosition());
       if ( tc == tileCoord && a->blocks() )
       {
         blocked = true;
@@ -186,7 +197,7 @@ bool DungeonState::isBlocked(Vec2 tileCoord, Actor** blocking_actor)
   return blocked;
 }
 
-bool DungeonState::isOpaque(Vec2 tileCoord)
+bool DungeonState::isOpaque(cc::Vec2 tileCoord)
 {
   Actor* blocking_actor = nullptr;
   bool blocked = isBlocked(tileCoord, &blocking_actor);
@@ -196,28 +207,26 @@ bool DungeonState::isOpaque(Vec2 tileCoord)
 
 bool DungeonState::isOpaque(int x, int y)
 {
-  return isOpaque(Vec2(x,y));
+  return isOpaque(cc::Vec2(x,y));
 }
 
 void DungeonState::visit(int x, int y)
 {
-  Vec2 coord(x,y);
-
-  size_t loc = y*_map->getMapSize().width + x;
-  if ( loc < _exploredMask.size() )
-  {
-    //Mark as visited
-    _exploredMask[loc] = '1';
+  cc::Vec2 coord(x,y);
+  if ( _exploredMask.get(x,y) != Tiles::FoV )
+  {    
+    //Mark as in FoV
+    _exploredMask.set(x,y,Tiles::FoV);
 
     //Light tile
-    Sprite* s = _tiles->getTileAt(coord);
+    cc::Sprite* s = _tiles->getTileAt(coord);
     if (s)
     {
       if ( !s->isVisible() )
       {
         s->setVisible(true);
         s->setOpacity(0);
-        s->runAction( FadeIn::create(0.2));
+        s->runAction( cc::FadeIn::create(0.2));
       }
 
       s->setOpacity(255);
@@ -227,7 +236,7 @@ void DungeonState::visit(int x, int y)
 
 bool DungeonState::isInFov(cocos2d::Vec2 tileCoord)
 {
-  Sprite* s = _tiles->getTileAt(tileCoord);
+  cc::Sprite* s = _tiles->getTileAt(tileCoord);
   return s && s->isVisible() && s->getOpacity() == 255;
 }
 
@@ -241,7 +250,7 @@ void DungeonState::spawn(int id, int x, int y)
   }
   else
   {
-    log("DungeonState::spawn: Failed to create actor id=%d.", id);
+    cc::log("DungeonState::spawn: Failed to create actor id=%d.", id);
   }
 }
 
@@ -252,10 +261,13 @@ void DungeonState::computeFov(int x, int y)
   {
     for ( int x = 0; x < _map->getMapSize().width; ++x)
     {
-      Vec2 coord(x,y);
-      if ( _exploredMask[ y*_map->getMapSize().width + x ] == '1' )
+      cc::Vec2 coord(x,y);
+      if ( _exploredMask.get(x,y) == Tiles::FoV )
       {
-        Sprite* s = _tiles->getTileAt(coord);
+        //Mark as in FoG
+        _exploredMask.set(x,y,Tiles::FoG);
+
+        cc::Sprite* s = _tiles->getTileAt(coord);
         if ( s && s->isVisible() )
         {
           s->setOpacity(100);

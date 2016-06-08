@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include <fov/permissive-fov-cpp.h>
+#include <dungeon/tile_gid.h>
+#include <utils/grid.h>
 
 namespace butcher {
 
@@ -33,20 +35,13 @@ public:
   bool isInFov(cocos2d::Vec2 tileCoord);
 
 private:
-  enum class GID {
-    Shadow = 35,
-    Unexplored = 36,
-    Transparent = 37,
-  };
-
   cocos2d::TMXTiledMap* _map;
   cocos2d::TMXLayer*    _tiles;
   cocos2d::TMXLayer*    _meta;
   DungeonLayer* _currentView;
   permissive::maskT _fovMask;
 
-  std::string _exploredMask;
-
+  Grid _exploredMask;
   std::set< std::shared_ptr<Actor> > _actors;
 
   void spawnPlayer();

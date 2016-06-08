@@ -114,7 +114,6 @@ include_directories(
   ${COCOS2D_ROOT}/cocos/platform
   ${COCOS2D_ROOT}/cocos/audio/include/
   Classes
-  Classes/scenes
 )
 if ( WIN32 )
   include_directories(
@@ -128,13 +127,13 @@ set(GAME_SRC
   Classes/butcher.cpp
   Classes/hud_layer.cpp
   Classes/actors/actor.cpp
+  Classes/actors/object.cpp
   Classes/actors/character.cpp
   Classes/actors/player.cpp
   Classes/actors/monster.cpp
   Classes/data/actors_database.cpp
   Classes/dungeon/dungeon_layer.cpp
   Classes/dungeon/dungeon_state.cpp
-  Classes/dungeon/map.cpp
   Classes/actors/actions/move_action.cpp
   Classes/actors/actions/attack_action.cpp
   Classes/actors/actions/die_action.cpp
@@ -148,6 +147,12 @@ set(GAME_SRC
   Classes/actors/ai/fsm/states/move_to_target_state.cpp
   Classes/actors/ai/fsm/states/melee_attack_state.cpp
   Classes/fov/permissive-fov.cc
+  Classes/dungeon/generators/cave_grid_generator.cpp
+  Classes/dungeon/generators/tmx_builder.cpp
+  Classes/dungeon/generators/DungeonMaker.cpp
+  Classes/dungeon/generators/dungeon_maker_generator.cpp
+  Classes/utils/profiler.cpp
+  Classes/loading_scene.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -163,7 +168,6 @@ set(GAME_HEADERS
   Classes/data/actors_database.h
   Classes/dungeon/dungeon_layer.h
   Classes/dungeon/dungeon_state.h
-  Classes/dungeon/map.h
   Classes/actors/actions/actor_action.h
   Classes/actors/actions/move_action.h
   Classes/actors/actions/attack_action.h
@@ -181,6 +185,16 @@ set(GAME_HEADERS
   Classes/actors/ai/fsm/states/melee_attack_state.h
   Classes/fov/permissive-fov.h
   Classes/fov/permissive-fov-cpp.h
+  Classes/dungeon/tile_gid.h
+  Classes/utils/grid.h
+  Classes/utils/profiler.h
+  Classes/loading_scene.h
+  Classes/dungeon/generators/grid_generator.h
+  Classes/dungeon/generators/cave_grid_generator.h
+  Classes/dungeon/generators/DungeonMaker.h
+  Classes/dungeon/generators/tmx_builder.h
+  Classes/dungeon/generators/dungeon_maker_generator.h
+  Classes/actors/object.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

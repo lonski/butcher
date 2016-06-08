@@ -6,8 +6,9 @@ table ActorsData {
 
 enum ActorType:byte { 
 	Monster = 0, 
-	Player = 1, 
-	Item = 2 
+	Player = 1,
+	Item = 2 ,
+	Object = 3
 }
 
 table ActorData {

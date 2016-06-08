@@ -1,27 +1,21 @@
 #include "monster.h"
 #include <butcher.h>
 
-using namespace cocos2d;
+
 
 namespace butcher {
 
-Monster::Monster()
+Monster::Monster(const ActorData* data)
   : _ai(this)
+  , Character(data)
 {
-}
-
-Monster* Monster::create(const ActorData *data, Monster *allocated)
-{
-  Monster* p = allocated ? allocated : new Monster;
-  Character::create(data, p);
-  return p;
 }
 
 Actor *Monster::clone(Actor *allocated)
 {
   Monster* p = dynamic_cast<Monster*>(allocated);
   if ( p == nullptr )
-    p = new Monster();
+    p = new Monster(nullptr);
 
   Character::clone(p);
 

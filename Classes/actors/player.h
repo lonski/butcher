@@ -10,9 +10,9 @@ struct ActorData;
 class Player : public Character
 {
 public:
-  static Player* create(const ActorData* data, Player* allocated = nullptr);
-  virtual Actor* clone(Actor* allocated = nullptr);
+  Player(const ActorData* data);
 
+  virtual Actor* clone(Actor* allocated = nullptr);
   virtual bool collide(Actor* obstacle);
 
 };

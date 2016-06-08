@@ -35,7 +35,7 @@ Actor* Ai::getActor()
 
 Target Ai::getTarget()
 {
-  if ( BUTCHER.currentDungeon()->isInFov( getActor()->getTileCoord()) )
+  if ( BUTCHER.getCurrentDungeon()->isInFov( getActor()->getTileCoord()) )
     return Target((Actor*)BUTCHER.getPlayer().get());
 
   return Target();

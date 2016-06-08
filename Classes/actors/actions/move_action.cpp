@@ -4,12 +4,12 @@
 #include <dungeon/dungeon_state.h>
 #include <utils/utils.h>
 
-using namespace cocos2d;
+namespace cc = cocos2d;
 
 namespace butcher {
 
 MoveAction::MoveAction(Direction direction)
-  : _state( BUTCHER.currentDungeon() )
+  : _state( BUTCHER.getCurrentDungeon() )
   , _direction(direction)
 {
 
@@ -20,8 +20,8 @@ bool MoveAction::perform(Actor *actor)
   if ( _direction == Direction::None )
     return false;
 
-  Vec2 pos = actor->getPosition();
-  TMXTiledMap* map = _state->map();
+  cc::Vec2 pos = actor->getPosition();
+  cc::TMXTiledMap* map = _state->map();
 
   switch(_direction)
   {
@@ -29,13 +29,29 @@ bool MoveAction::perform(Actor *actor)
     case Direction::West: pos.x -= map->getTileSize().width; break;
     case Direction::North: pos.y -= map->getTileSize().height; break;
     case Direction::South: pos.y += map->getTileSize().height; break;
+    case Direction::SouthWest: {
+      pos.y += map->getTileSize().height;
+      pos.x -= map->getTileSize().width;
+    }break;
+    case Direction::SouthEast: {
+      pos.y += map->getTileSize().height;
+      pos.x += map->getTileSize().width;
+    }break;
+    case Direction::NorthEast: {
+      pos.y -= map->getTileSize().height;
+      pos.x += map->getTileSize().width;
+    }break;
+    case Direction::NorthWest: {
+      pos.y -= map->getTileSize().height;
+      pos.x -= map->getTileSize().width;
+    }break;
     default:;
   }
 
 
   if ( !validatePosition(pos) )
   {
-    log("MoveAction: invalid position!");
+    cc::log("MoveAction: invalid position!");
     return false;
   }
 
@@ -50,15 +66,15 @@ bool MoveAction::perform(Actor *actor)
 
   actor->setPosition(pos, true);
 
-  MoveTo* move_action = MoveTo::create(0.1, pos);
+  cc::MoveTo* move_action = cc::MoveTo::create(0.1, pos);
   actor->sprite()->runAction( move_action );
 
   return true;
 }
 
-bool MoveAction::validatePosition(Vec2 pos)
+bool MoveAction::validatePosition(cc::Vec2 pos)
 {
-  TMXTiledMap* map = _state->map();
+  cc::TMXTiledMap* map = _state->map();
 
   if (pos.x <= (map->getMapSize().width * map->getTileSize().width) &&
       pos.y <= (map->getMapSize().height * map->getTileSize().height) &&

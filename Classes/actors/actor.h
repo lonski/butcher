@@ -12,46 +12,54 @@ class ActorAction;
 class Actor
 {
 public:
-    Actor();
-    virtual ~Actor() = 0;
+  enum ID {
+    PlayerID = 1,
+    CowID,
+    StairsDownID,
+    StairsUpID,
+  };
 
-    static Actor* create(const ActorData* data);
-    virtual Actor* clone(Actor* allocated = nullptr);
+  Actor(const ActorData *data);
+  virtual ~Actor() = 0;
 
-    unsigned id() const;
+  static Actor* create(const ActorData* data);
+  virtual Actor* clone(Actor* allocated = nullptr);
 
-    std::string name() const;
-    void setName(const std::string &name);
+  unsigned id() const;
 
-    bool blocks() const;
-    void setBlocks(bool blocks);
+  std::string name() const;
+  void setName(const std::string &name);
 
-    bool transparent() const;
-    void setTransparent(bool transparent);
+  bool blocks() const;
+  void setBlocks(bool blocks);
 
-    cocos2d::Vec2 getTileCoord();
-    void setPosition(int x, int y, bool no_sprite_pos = false);
-    void setPosition(cocos2d::Vec2 pos, bool no_sprite_pos = false);
-    cocos2d::Vec2 getPosition() const;
+  bool transparent() const;
+  void setTransparent(bool transparent);
 
-    std::unique_ptr<cocos2d::Sprite>& sprite();
+  cocos2d::Vec2 getTileCoord();
+  void setTileCoord(cocos2d::Vec2 coord);
+  void setPosition(int x, int y, bool no_sprite_pos = false);
+  void setPosition(cocos2d::Vec2 pos, bool no_sprite_pos = false);
+  cocos2d::Vec2 getPosition() const;
 
-    virtual bool performAction(ActorAction* action);
-    virtual bool collide(Actor* obstacle);
-    virtual void nextTurn();
+  std::unique_ptr<cocos2d::Sprite>& sprite();
 
-    virtual void onDie();
+  virtual bool performAction(ActorAction* action);
+  virtual bool collide(Actor* obstacle);
+  virtual void nextTurn();
 
-    void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
+  virtual void onDie();
+
+  void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
 
 private:
-    unsigned _id;
-    std::string _name;
-    bool _blocks;
-    bool _transparent;
-    cocos2d::Vec2 _position;
+  unsigned _id;
+  std::string _name;
+  bool _blocks;
+  bool _transparent;
+  cocos2d::Vec2 _position;
 
-    std::unique_ptr<cocos2d::Sprite> _sprite;
+  std::unique_ptr<cocos2d::Sprite> _sprite;
 
 };
 

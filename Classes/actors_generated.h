@@ -1,6 +1,7 @@
-#ifndef ACTORSDATA_H
-#define ACTORSDATA_H
 // automatically generated, do not modify
+
+#ifndef ACTORS_DATA_GENERATED_H
+#define ACTORS_DATA_GENERATED_H
 
 #include "flatbuffers/flatbuffers.h"
 
@@ -10,10 +11,11 @@ enum {
   ActorType_Monster = 0,
   ActorType_Player = 1,
   ActorType_Item = 2,
+  ActorType_Object = 3,
 };
 
 inline const char **EnumNamesActorType() {
-  static const char *names[] = { "Monster", "Player", "Item", nullptr };
+  static const char *names[] = { "Monster", "Player", "Item", "Object", nullptr };
   return names;
 }
 

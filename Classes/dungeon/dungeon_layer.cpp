@@ -4,8 +4,9 @@
 #include <dungeon/dungeon_state.h>
 #include <utils/directions.h>
 #include <actors/actions/move_action.h>
+#include <utils/utils.h>
 
-using namespace cocos2d;
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -40,18 +41,18 @@ void DungeonLayer::onEnter()
 
     if ( _state == nullptr )
     {
-      log("DungeonLayer::onEnter: DungeonState not set!");
+      cc::log("DungeonLayer::onEnter: DungeonState not set!");
       return;
     }
 
     if ( _listener == nullptr )
     {
-      _listener = EventListenerTouchOneByOne::create();
+      _listener = cc::EventListenerTouchOneByOne::create();
       _listener->onTouchBegan = CC_CALLBACK_2(DungeonLayer::onTouchBegan, this);
       _listener->onTouchEnded = CC_CALLBACK_2(DungeonLayer::onTouchEnded, this);
     }
 
-    auto dispatcher = Director::getInstance()->getEventDispatcher();
+    auto dispatcher = cc::Director::getInstance()->getEventDispatcher();
     dispatcher->addEventListenerWithSceneGraphPriority(_listener, this);
 
     removeAllChildren();
@@ -66,31 +67,58 @@ void DungeonLayer::onExit()
 {
   removeAllChildren();
 
-  auto dispatcher = Director::getInstance()->getEventDispatcher();
+  auto dispatcher = cc::Director::getInstance()->getEventDispatcher();
   dispatcher->removeEventListener(_listener);
   _listener = nullptr;
 }
 
-bool DungeonLayer::onTouchBegan(Touch*, Event*)
+bool DungeonLayer::onTouchBegan(cc::Touch*, cc::Event*)
 {
     return true;
 }
 
-void DungeonLayer::onTouchEnded(Touch* touch, Event*)
+void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 {
-  Vec2 touchLocation = touch->getLocationInView();
-  touchLocation = Director::getInstance()->convertToGL(touchLocation);
+  cc::Vec2 touchLocation = touch->getLocationInView();
+  touchLocation = cc::Director::getInstance()->convertToGL(touchLocation);
   touchLocation = this->convertToNodeSpace(touchLocation);
 
-  Vec2 playerPos = BUTCHER.getPlayer()->getPosition();
-  Vec2 diff = touchLocation - playerPos;
-
+  cc::Vec2 diff = positionToTileCoord(_state->map(), touchLocation) - BUTCHER.getPlayer()->getTileCoord();
   Direction direction = Direction::None;
 
-  if ( abs(diff.x) > abs(diff.y) )
-      direction = diff.x > 0 ? Direction::East : Direction::West;
-  else
-    direction = diff.y > 0 ? Direction::South : Direction::North;
+
+  if ( diff.x > 0 && diff.y == 0 )
+  {
+    direction = Direction::East;
+  }
+  else if ( diff.x < 0 && diff.y == 0 )
+  {
+    direction = Direction::West;
+  }
+  else if ( diff.x == 0 && diff.y > 0 )
+  {
+    direction = Direction::North;
+  }
+  else if ( diff.x == 0 && diff.y < 0 )
+  {
+    direction = Direction::South;
+  }
+  else if ( diff.x < 0 && diff.y < 0 )
+  {
+    direction = Direction::SouthWest;
+  }
+  else if ( diff.x > 0 && diff.y < 0 )
+  {
+    direction = Direction::SouthEast;
+  }
+  else if ( diff.x < 0 && diff.y > 0 )
+  {
+    direction = Direction::NorthWest;
+  }
+  else if ( diff.x > 0 && diff.y > 0 )
+  {
+    direction = Direction::NorthEast;
+  }
 
   if ( direction != Direction::None )
   {
@@ -101,20 +129,18 @@ void DungeonLayer::onTouchEnded(Touch* touch, Event*)
   }
 }
 
-void DungeonLayer::setViewPointCenter(Vec2 position)
+void DungeonLayer::setViewPointCenter(cc::Vec2 position)
 {
-  Size winSize = Director::getInstance()->getWinSize();
+  cc::Vec2 coord = positionToTileCoord(_state->map(), position);
+  auto tiles = _state->map()->getLayer("Background");
+  cc::Vec2 pos = tiles->getPositionAt(coord);
 
-  int x = std::max(position.x, winSize.width/2);
-  int y = std::max(position.y, winSize.height/2);
-  x = std::min(x, (int)((_state->map()->getMapSize().width * this->_state->map()->getTileSize().width ) - winSize.width / 2));
-  y = std::min(y, (int)((_state->map()->getMapSize().height * _state->map()->getTileSize().height) - winSize.height/2));
-  Vec2 actualPosition(x, y);
+  cc::Size winSize = cc::Director::getInstance()->getWinSize();
 
-  Vec2 centerOfView(winSize.width/2, winSize.height/2);
-  Vec2 viewPoint = centerOfView - actualPosition;
+  cc::Vec2 centerOfView(winSize.width/2, winSize.height/2);
+  cc::Vec2 viewPoint = centerOfView - pos;
 
-  runAction( MoveTo::create(0.1,viewPoint));
+  runAction( cc::MoveTo::create(0.1,viewPoint));
 }
 
 }

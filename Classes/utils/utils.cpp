@@ -1,19 +1,30 @@
 #include "utils.h"
 
-using namespace cocos2d;
+namespace cc = cocos2d;
 
 namespace butcher {
 
-Vec2 positionToTileCoord(TMXTiledMap *map, Vec2 pos)
+cc::Vec2 positionToTileCoord(cc::TMXTiledMap *map, cc::Vec2 pos)
 {
     if ( !map )
-        return Vec2::ZERO;
+        return cc::Vec2::ZERO;
 
     int x = pos.x / map->getTileSize().width;
     int y = ((map->getMapSize().height * map->getTileSize().height) - pos.y)
-            / map->getTileSize().height/ Director::getInstance()->getContentScaleFactor();
+            / map->getTileSize().height;
 
-    return Vec2(x, y);
+    return cc::Vec2(x, y);
+}
+
+cc::Vec2 tileCoordToPosition(cc::TMXTiledMap *map, cc::Vec2 coord)
+{
+    if ( !map )
+        return cc::Vec2::ZERO;
+
+    int x = coord.x * map->getTileSize().width;
+    int y = (map->getMapSize().height*map->getTileSize().height - map->getTileSize().height * coord.y) ;
+
+    return cc::Vec2(x + map->getTileSize().height/2, y - map->getTileSize().width/2);
 }
 
 std::vector<std::string> explode(const std::string &str, char ch)
@@ -46,7 +57,7 @@ std::vector<std::string> explode(const std::string &str, char ch)
   return result;
 }
 
-float calculateDistance(Vec2 a, Vec2 b)
+float calculateDistance(cc::Vec2 a, cc::Vec2 b)
 {
   int dx = b.x - a.x;
   int dy = b.y - a.y;

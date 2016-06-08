@@ -29,7 +29,10 @@ public:
       t = dynamic_cast<T*>(actor);
 
       if ( t == nullptr )
+      {
+        cocos2d::log("ActorDatabase::createActor: failed to cast actor id=%u.", id);
         delete actor;
+      }
     }
     else
     {

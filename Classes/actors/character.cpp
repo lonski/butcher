@@ -2,14 +2,23 @@
 #include <actors_generated.h>
 #include <actors/actions/die_action.h>
 
-using namespace cocos2d;
+
 
 namespace butcher {
 
-Character::Character()
-    : _level(0)
-    , _exp(0)
+Character::Character(const ActorData* data)
+  : Actor(data)
+  , _level(0)
+  , _exp(0)
 {
+  if ( data )
+  {
+    _hp = data->hp();
+    setAttribute(AttributeType::Attack, data->attack());
+    setAttribute(AttributeType::Defense, data->defense());
+    setAttribute(AttributeType::Damage, data->damage());
+    setAttribute(AttributeType::DamageReduction, data->damage_reduction());
+  }
 }
 
 Character::~Character()
@@ -65,7 +74,7 @@ int Character::takeDamage(int damage, Actor* attacker)
 
   _hp -= damage;
 
-  fadeText( "-" + Value(damage).asString(), Color4B::RED );
+  fadeText( "-" + cocos2d::Value(damage).asString(), cocos2d::Color4B::RED );
 
   if ( _hp <= 0 )
   {
@@ -74,19 +83,6 @@ int Character::takeDamage(int damage, Actor* attacker)
   }
 
   return damage;
-}
-
-Character* Character::create(const ActorData *data, Character *allocated)
-{
-  if ( allocated )
-  {
-    allocated->_hp = data->hp();
-    allocated->setAttribute(AttributeType::Attack, data->attack());
-    allocated->setAttribute(AttributeType::Defense, data->defense());
-    allocated->setAttribute(AttributeType::Damage, data->damage());
-    allocated->setAttribute(AttributeType::DamageReduction, data->damage_reduction());
-  }
-  return allocated;
 }
 
 Actor* Character::clone(Actor* allocated)

@@ -19,12 +19,11 @@ public:
     void init();
 
     cocos2d::Scene* getCurrentScene() const;
+    DungeonState* getCurrentDungeon();
+    unsigned getDungeonLevel() const;
 
     void goToNextLevel();
-    void goToLevel(unsigned level);
-
-    unsigned dungeonLevel() const;
-    DungeonState* currentDungeon();
+    void goToLevel(unsigned level, bool switch_algo=false);
 
     void nextTurn();
 
@@ -36,16 +35,15 @@ private:
     Butcher(const Butcher&) = delete;
     Butcher& operator=(const Butcher&) = delete;
 
-    cocos2d::Scene* _currentScene;
-    HudLayer*       _hud;
-
+    cocos2d::Scene*         _currentScene;
+    HudLayer*               _hud;
     std::shared_ptr<Player> _player;
 
     ActorDatabase _actors;
-
     unsigned _dungeonLevel;
 
     std::map<unsigned /*level*/, DungeonState*> _dungeons;
+    cocos2d::TMXTiledMap * generateMap(unsigned level, bool switch_algo);
 };
 
 #define BUTCHER Butcher::getInstance()
