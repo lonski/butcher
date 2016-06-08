@@ -35,6 +35,14 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
     return nullptr;
   }
 
+  _objects = map->getLayer("Foreground");
+
+  if ( _objects == nullptr )
+  {
+    cc::log("%s: Tile map has no layer 'Foreground'.", __FUNCTION__);
+    return false;
+  }
+
   _meta = map->getLayer("Meta");
   if ( _meta == nullptr )
   {
@@ -151,8 +159,8 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
           cc::ValueMap mobSpawn;
           mobSpawn["name"] = cc::Value("actor_spawn");
           mobSpawn["id"] = cc::Value(2);
-          mobSpawn["x"] = cc::Value(pos.x);
-          mobSpawn["y"] = cc::Value(pos.y);
+          mobSpawn["x"] = cc::Value(x);
+          mobSpawn["y"] = cc::Value(y);
           objects.push_back( cc::Value(mobSpawn) );
           ++mobs_count;
         }
@@ -161,6 +169,17 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
       }
     }
   }
+
+  //spawn Player
+  cc::Vec2 pos = tileCoordToPosition(map, cc::Vec2(spawnX,spawnY));
+  cc::ValueMap playerSpawn;
+  playerSpawn["name"] = cc::Value("SpawnPoint");
+  playerSpawn["x"] = cc::Value(spawnX);
+  playerSpawn["y"] = cc::Value(spawnY);
+  objects.push_back( cc::Value(playerSpawn) );
+
+  //spawn stairs up
+  _objects->setTileGID((int)CaveTileGID::StairsDown, cc::Vec2(spawnX, spawnY));
 
   //spawn stairs down
   char tile = 'X';
@@ -171,30 +190,11 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
     tile =  grid.get(x,y);
     if ( tile == Tiles::FLOOR )
     {
-      cc::Vec2 pos = tileCoordToPosition(map, cc::Vec2(x,y));
-      cc::ValueMap stairs;
-      stairs["name"] = cc::Value("actor_spawn");
-      stairs["id"] = cc::Value(3);
-      stairs["x"] = cc::Value(pos.x);
-      stairs["y"] = cc::Value(pos.y);
-      objects.push_back( cc::Value(stairs) );
+      _objects->setTileGID((int)CaveTileGID::StairsDown, cc::Vec2(x,y));
     }
   }
   while ( tile != Tiles::FLOOR );
 
-  cc::Vec2 pos = tileCoordToPosition(map, cc::Vec2(spawnX,spawnY));
-  cc::ValueMap playerSpawn;
-  playerSpawn["name"] = cc::Value("SpawnPoint");
-  playerSpawn["x"] = cc::Value(pos.x);
-  playerSpawn["y"] = cc::Value(pos.y);
-  objects.push_back( cc::Value(playerSpawn) );
-
-  cc::ValueMap stairs_up;
-  stairs_up["name"] = cc::Value("actor_spawn");
-  stairs_up["id"] = cc::Value(4);
-  stairs_up["x"] = cc::Value(pos.x);
-  stairs_up["y"] = cc::Value(pos.y);
-  objects.push_back( cc::Value(stairs_up) );
 
   objectGroup->setObjects(objects);
 

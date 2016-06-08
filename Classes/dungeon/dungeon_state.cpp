@@ -44,6 +44,14 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
     return false;
   }
 
+  _objects = _map->getLayer("Foreground");
+
+  if ( _objects == nullptr )
+  {
+    cc::log("%s: Tile map has no layer 'Foreground'.", __FUNCTION__);
+    return false;
+  }
+
   _meta = _map->getLayer("Meta");
 
   if ( _meta == nullptr )
@@ -72,9 +80,11 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
     cc::ValueMap obj = o.asValueMap();
     if ( obj["name"].asString() == "actor_spawn" && obj.find("id") != obj.end())
     {
-      spawn(obj["id"].asInt(), obj["x"].asInt(), obj["y"].asInt());
+      spawn(obj["id"].asInt(), cc::Vec2(obj["x"].asInt(), obj["y"].asInt()) );
     }
   }
+
+  spawnPlayer();
 
   //init explored map
   _exploredMask = Grid(_map->getMapSize().width, _map->getMapSize().height, '0');
@@ -99,9 +109,6 @@ bool DungeonState::setMap(const std::string& fn)
 void DungeonState::spawnActors(DungeonLayer *view)
 {
   _currentView = view;
-
-  spawnPlayer();
-
 
   computeFov(BUTCHER.getPlayer()->getTileCoord().x,
              BUTCHER.getPlayer()->getTileCoord().y);
@@ -137,9 +144,25 @@ void DungeonState::spawnPlayer()
   std::shared_ptr<Player> player = BUTCHER.getPlayer();
 
   cc::ValueMap spawnPoint = _map->getObjectGroup("Objects")->getObject("SpawnPoint");
-  player->setPosition( spawnPoint["x"].asInt(), spawnPoint["y"].asInt() );
+  cc::Vec2 pos =  tileCoordToPosition(_map, cc::Vec2(spawnPoint["x"].asInt(), spawnPoint["y"].asInt()));
+  player->setPosition(pos);
 
   _actors.insert( player );
+}
+
+void DungeonState::spawn(int id, cc::Vec2 coord)
+{
+  Actor* actor = BUTCHER.actorsDatabase().createActor<Actor>(id);
+  if ( actor )
+  {
+    cc::Vec2 pos = tileCoordToPosition(_map, coord);
+    actor->setPosition(pos);
+    _actors.insert( std::shared_ptr<Actor>(actor) );
+  }
+  else
+  {
+    cc::log("DungeonState::spawn: Failed to create actor id=%d.", id);
+  }
 }
 
 void DungeonState::nextTurn()
@@ -238,20 +261,6 @@ bool DungeonState::isInFov(cocos2d::Vec2 tileCoord)
 {
   cc::Sprite* s = _tiles->getTileAt(tileCoord);
   return s && s->isVisible() && s->getOpacity() == 255;
-}
-
-void DungeonState::spawn(int id, int x, int y)
-{
-  Actor* actor = BUTCHER.actorsDatabase().createActor<Actor>(id);
-  if ( actor )
-  {
-    actor->setPosition(x,y);
-    _actors.insert( std::shared_ptr<Actor>(actor) );
-  }
-  else
-  {
-    cc::log("DungeonState::spawn: Failed to create actor id=%d.", id);
-  }
 }
 
 void DungeonState::computeFov(int x, int y)

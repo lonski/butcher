@@ -56,6 +56,11 @@ void Butcher::goToNextLevel()
 
 void Butcher::goToLevel(unsigned level, bool switch_algo)
 {
+  if ( level <= 0 )
+  {
+    cc::log("Can't go to level %d!", level);
+    return;
+  }
 
   auto it = _dungeons.find(level);
   DungeonState* dungeonState = it != _dungeons.end() ? it->second : nullptr;

@@ -37,6 +37,7 @@ public:
 private:
   cocos2d::TMXTiledMap* _map;
   cocos2d::TMXLayer*    _tiles;
+  cocos2d::TMXLayer*    _objects;
   cocos2d::TMXLayer*    _meta;
   DungeonLayer* _currentView;
   permissive::maskT _fovMask;
@@ -45,7 +46,7 @@ private:
   std::set< std::shared_ptr<Actor> > _actors;
 
   void spawnPlayer();
-  void spawn(int id, int x, int y);
+  void spawn(int id, cocos2d::Vec2 coord);
 
   void computeFov(int x, int y);
 

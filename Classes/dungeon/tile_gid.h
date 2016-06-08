@@ -27,7 +27,8 @@ enum class CaveTileGID {
   TopDeadEnd,
   BottomDeadEnd,
   RightDeadEnd,
-  LeftDeadEnd
+  LeftDeadEnd,
+  StairsDown
 };
 
 }

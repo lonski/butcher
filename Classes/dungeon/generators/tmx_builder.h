@@ -18,6 +18,7 @@ public:
 private:
   cocos2d::TMXLayer*    _tiles;
   cocos2d::TMXLayer*    _meta;
+  cocos2d::TMXLayer*    _objects;
   Grid _grid;
 
   bool checkPattern(const std::string& pattern, std::map<Direction, char>);
