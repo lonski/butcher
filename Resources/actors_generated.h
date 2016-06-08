@@ -1,6 +1,4 @@
 // automatically generated, do not modify
-#ifndef actors_gen_h
-#define actors_gen_h
 
 #include "flatbuffers/flatbuffers.h"
 
@@ -91,5 +89,3 @@ inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBui
 inline const ActorsData *GetActorsData(const void *buf) { return flatbuffers::GetRoot<ActorsData>(buf); }
 
 }; // namespace butcher
-
-#endif
