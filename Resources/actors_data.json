@@ -27,6 +27,22 @@
       defense : 4,
       damage : 2,
       damage_reduction : 0
+    },
+    {
+      id: 3,
+      name: "Stairs down",
+      type: 3,
+      blocks: 1,
+      transparent: 1,
+      sprite_file: "stairs_down.png"
+    },
+    {
+      id: 4,
+      name: "Stairs up",
+      type: 3,
+      blocks: 1,
+      transparent: 1,
+      sprite_file: "stairs_down.png"
     }
   ]
 }

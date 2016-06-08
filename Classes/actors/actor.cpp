@@ -2,11 +2,14 @@
 #include <actors_generated.h>
 #include <actors/player.h>
 #include <actors/monster.h>
+#include <actors/object.h>
 #include "cocos2d.h"
 #include <actors/actions/actor_action.h>
 #include <utils/utils.h>
 #include <butcher.h>
 #include <dungeon/dungeon_state.h>
+
+
 
 namespace butcher {
 
@@ -42,6 +45,9 @@ Actor* Actor::create(const ActorData *data)
 
   switch(data->type())
   {
+    case ActorType_Object:
+      actor = new Object(data);
+      break;
     case ActorType_Monster:
       actor = new Monster(data);
       break;

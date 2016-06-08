@@ -127,6 +127,7 @@ set(GAME_SRC
   Classes/butcher.cpp
   Classes/hud_layer.cpp
   Classes/actors/actor.cpp
+  Classes/actors/object.cpp
   Classes/actors/character.cpp
   Classes/actors/player.cpp
   Classes/actors/monster.cpp
@@ -193,6 +194,7 @@ set(GAME_HEADERS
   Classes/dungeon/generators/DungeonMaker.h
   Classes/dungeon/generators/tmx_builder.h
   Classes/dungeon/generators/dungeon_maker_generator.h
+  Classes/actors/object.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

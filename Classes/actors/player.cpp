@@ -1,6 +1,7 @@
 #include "player.h"
 #include <actors/monster.h>
 #include <actors/actions/attack_action.h>
+#include <actors/object.h>
 #include <butcher.h>
 
 namespace butcher {
@@ -27,6 +28,21 @@ bool Player::collide(Actor *obstacle)
   if ( mob )
   {
     return performAction( new AttackAction(Target(mob)) );
+  }
+
+  Object* obj = dynamic_cast<Object*>(obstacle);
+  if ( obj )
+  {
+    switch( static_cast<Actor::ID>(obj->id()) )
+    {
+      case Actor::StairsDownID:
+        BUTCHER.goToNextLevel();
+        break;
+      case Actor::StairsUpID:
+        BUTCHER.goToLevel(BUTCHER.getDungeonLevel() - 1);
+        break;
+      default:;
+    }
   }
 
   return false;
