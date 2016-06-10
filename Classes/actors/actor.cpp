@@ -154,6 +154,7 @@ void Actor::setPosition(int x, int y, bool no_sprite_pos)
 
 void Actor::setPosition(cocos2d::Vec2 pos, bool no_sprite_pos)
 {
+
   _position = pos;
   if ( !no_sprite_pos )
     _sprite->setPosition(pos);

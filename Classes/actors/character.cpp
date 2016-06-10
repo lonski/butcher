@@ -101,4 +101,9 @@ Actor* Character::clone(Actor* allocated)
   return c;
 }
 
+int Character::getZ() const
+{
+  return 20;
+}
+
 }

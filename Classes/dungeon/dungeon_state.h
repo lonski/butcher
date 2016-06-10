@@ -37,7 +37,6 @@ public:
 private:
   cocos2d::TMXTiledMap* _map;
   cocos2d::TMXLayer*    _tiles;
-  cocos2d::TMXLayer*    _objects;
   cocos2d::TMXLayer*    _meta;
   DungeonLayer* _currentView;
   permissive::maskT _fovMask;

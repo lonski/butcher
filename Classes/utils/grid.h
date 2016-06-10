@@ -2,6 +2,9 @@
 #define GRID_H
 
 #include <string>
+#include <vector>
+#include <memory>
+#include "cocos2d.h"
 
 namespace butcher {
 

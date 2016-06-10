@@ -11,6 +11,7 @@ class Object : public Actor
 {
 public:
   Object(const ActorData* data);
+  virtual int getZ() const;
 
   virtual Actor* clone(Actor* allocated = nullptr);
 

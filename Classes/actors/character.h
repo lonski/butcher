@@ -14,6 +14,7 @@ public:
     virtual ~Character() = 0;
 
     virtual Actor* clone(Actor* allocated = nullptr);
+    virtual int getZ() const;
 
     int level() const;
     void setLevel(int level);

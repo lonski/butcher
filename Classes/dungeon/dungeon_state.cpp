@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <fov/permissive-fov-cpp.h>
 #include <utils/profiler.h>
+#include <actors/object.h>
 
 namespace cc = cocos2d;
 
@@ -44,14 +45,6 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
     return false;
   }
 
-  _objects = _map->getLayer("Foreground");
-
-  if ( _objects == nullptr )
-  {
-    cc::log("%s: Tile map has no layer 'Foreground'.", __FUNCTION__);
-    return false;
-  }
-
   _meta = _map->getLayer("Meta");
 
   if ( _meta == nullptr )
@@ -69,10 +62,6 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
       cc::Sprite* s = _tiles->getTileAt(cc::Vec2(x,y));
       if ( s )
         s->setVisible(false);
-
-      cc::Sprite* o = _objects->getTileAt(cc::Vec2(x,y));
-      if ( o )
-        o->setVisible(false);
     }
   }
 
@@ -83,7 +72,7 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
     cc::ValueMap obj = o.asValueMap();
     if ( obj["name"].asString() == "actor_spawn" && obj.find("id") != obj.end())
     {
-      spawn(obj["id"].asInt(), cc::Vec2(obj["x"].asInt(), obj["y"].asInt()) );
+      spawn(obj["id"].asInt(), cc::Vec2(obj["x"].asInt(), obj["y"].asInt()));
     }
   }
 
@@ -118,7 +107,8 @@ void DungeonState::spawnActors(DungeonLayer *view)
 
   for ( auto a : _actors )
   {
-    view->addChild(a->sprite().get());
+    view->addChild(a->sprite().get(), a->getZ());
+
     a->sprite()->setVisible( isInFov(a->getTileCoord()));
   }
 
@@ -253,14 +243,6 @@ void DungeonState::visit(int x, int y)
 
       s->setOpacity(255);
     }
-    cc::Sprite* o = _objects->getTileAt(coord);
-    if (o)
-    {
-      if ( !o->isVisible() )
-        o->setVisible(true);
-
-      o->setOpacity(255);
-    }
   }
 }
 
@@ -288,13 +270,6 @@ void DungeonState::computeFov(int x, int y)
         {
           s->setOpacity(100);
         }
-
-        cc::Sprite* o = _objects->getTileAt(coord);
-        if ( o && o->isVisible() )
-        {
-          o->setOpacity(100);
-        }
-
       }
     }
   }

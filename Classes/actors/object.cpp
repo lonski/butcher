@@ -7,6 +7,11 @@ Object::Object(const ActorData* data)
 {
 }
 
+int Object::getZ() const
+{
+  return 10;
+}
+
 Actor* Object::clone(Actor* allocated)
 {
   Object* o = dynamic_cast<Object*>(allocated);

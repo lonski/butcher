@@ -3,6 +3,9 @@
 #include <actors/actions/attack_action.h>
 #include <actors/object.h>
 #include <butcher.h>
+#include "cocos2d.h"
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -33,6 +36,7 @@ bool Player::collide(Actor *obstacle)
   Object* obj = dynamic_cast<Object*>(obstacle);
   if ( obj )
   {
+    cc::log("id %d name %s", obj->id(), obj->name().c_str());
     switch( static_cast<Actor::ID>(obj->id()) )
     {
       case Actor::StairsDownID:

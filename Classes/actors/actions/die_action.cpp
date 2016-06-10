@@ -24,7 +24,8 @@ bool DieAction::perform(Actor *actor)
 
   cc::Sprite* s = actor->sprite().release();
   s->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );
-  BUTCHER.getCurrentDungeon()->removeActor(actor, false);
+  if ( !BUTCHER.getCurrentDungeon()->removeActor(actor, false) )
+    cc::log("%s Failed to remove actor!", __PRETTY_FUNCTION__);
 
   return true;
 }

@@ -11,8 +11,8 @@ CaveGenerator::CaveGenerator()
 
 Grid CaveGenerator::generate()
 {
-  size_x     = 50;
-  size_y     = 50;
+  size_x     = 40;
+  size_y     = 40;
   fillprob   = 40;
 
   generations = 3;

@@ -26,6 +26,7 @@ public:
   virtual Actor* clone(Actor* allocated = nullptr);
 
   unsigned id() const;
+  virtual int getZ() const = 0;
 
   std::string name() const;
   void setName(const std::string &name);

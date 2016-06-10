@@ -35,14 +35,6 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
     return nullptr;
   }
 
-  _objects = map->getLayer("Foreground");
-
-  if ( _objects == nullptr )
-  {
-    cc::log("%s: Tile map has no layer 'Foreground'.", __FUNCTION__);
-    return false;
-  }
-
   _meta = map->getLayer("Meta");
   if ( _meta == nullptr )
   {
@@ -155,7 +147,6 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
         //Spawn mob
         if ( mobs_count < max_mobs && cc::RandomHelper::random_int(0,100) < 3 )
         {
-          cc::Vec2 pos = tileCoordToPosition(map, cc::Vec2(x,y));
           cc::ValueMap mobSpawn;
           mobSpawn["name"] = cc::Value("actor_spawn");
           mobSpawn["id"] = cc::Value(2);
@@ -171,7 +162,6 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
   }
 
   //spawn Player
-  cc::Vec2 pos = tileCoordToPosition(map, cc::Vec2(spawnX,spawnY));
   cc::ValueMap playerSpawn;
   playerSpawn["name"] = cc::Value("SpawnPoint");
   playerSpawn["x"] = cc::Value(spawnX);
@@ -179,7 +169,12 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
   objects.push_back( cc::Value(playerSpawn) );
 
   //spawn stairs up
-  _objects->setTileGID((int)CaveTileGID::StairsUp, cc::Vec2(spawnX, spawnY));
+  cc::ValueMap stairs_up;
+  stairs_up["name"] = cc::Value("actor_spawn");
+  stairs_up["id"] = cc::Value(4);
+  stairs_up["x"] = cc::Value(spawnX);
+  stairs_up["y"] = cc::Value(spawnY);
+  objects.push_back( cc::Value(stairs_up) );
 
   //spawn stairs down
   char tile = 'X';
@@ -190,7 +185,12 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
     tile =  grid.get(x,y);
     if ( tile == Tiles::FLOOR )
     {
-      _objects->setTileGID((int)CaveTileGID::StairsDown, cc::Vec2(x,y));
+      cc::ValueMap stairs_down;
+      stairs_down["name"] = cc::Value("actor_spawn");
+      stairs_down["id"] = cc::Value(3);
+      stairs_down["x"] = cc::Value(x);
+      stairs_down["y"] = cc::Value(y);
+      objects.push_back( cc::Value(stairs_down) );
     }
   }
   while ( tile != Tiles::FLOOR );
