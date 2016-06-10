@@ -14,7 +14,6 @@ public:
   virtual int getZ() const;
 
   virtual Actor* clone(Actor* allocated = nullptr);
-
 };
 
 }

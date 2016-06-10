@@ -3,6 +3,7 @@
 #include <actors/player.h>
 #include <dungeon/dungeon_state.h>
 #include <utils/utils.h>
+#include <actors/instances/stairs_up.h>
 
 namespace cc = cocos2d;
 
@@ -70,7 +71,7 @@ bool MoveAction::perform(Actor *actor)
   actor->sprite()->runAction( move_action );
 
   for ( auto a : _state->getActorsAt(actor->getTileCoord()) )
-    if ( a.get() != actor->get() )
+    if ( a.get() != actor )
       a->onInterract(actor);
 
   return true;

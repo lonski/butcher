@@ -153,6 +153,8 @@ set(GAME_SRC
   Classes/dungeon/generators/dungeon_maker_generator.cpp
   Classes/utils/profiler.cpp
   Classes/loading_scene.cpp
+  Classes/actors/instances/stairs_down.cpp
+  Classes/actors/instances/stairs_up.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -195,6 +197,8 @@ set(GAME_HEADERS
   Classes/dungeon/generators/tmx_builder.h
   Classes/dungeon/generators/dungeon_maker_generator.h
   Classes/actors/object.h
+  Classes/actors/instances/stairs_down.h
+  Classes/actors/instances/stairs_up.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

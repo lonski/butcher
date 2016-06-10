@@ -12,13 +12,6 @@ class ActorAction;
 class Actor
 {
 public:
-  enum ID {
-    PlayerID = 1,
-    CowID,
-    StairsDownID,
-    StairsUpID,
-  };
-
   Actor(const ActorData *data);
   virtual ~Actor() = 0;
 

@@ -8,8 +8,8 @@
 #include <utils/utils.h>
 #include <butcher.h>
 #include <dungeon/dungeon_state.h>
-
-
+#include <actors/instances/stairs_down.h>
+#include <actors/instances/stairs_up.h>
 
 namespace butcher {
 
@@ -43,6 +43,8 @@ Actor* Actor::create(const ActorData *data)
 
   Actor* actor = nullptr;
 
+  cocos2d::log("%s %s %d", __PRETTY_FUNCTION__, data->name()->c_str(), data->type());
+
   switch(data->type())
   {
     case ActorType_Object:
@@ -53,6 +55,12 @@ Actor* Actor::create(const ActorData *data)
       break;
     case ActorType_Player:
       actor = new Player(data);
+      break;
+    case ActorType_StairsDown:
+      actor = new StairsDown(data);
+      break;
+    case ActorType_StairsUp:
+      actor = new StairsUp(data);
       break;
     default:
       cocos2d::log("Actor::create: incorrect actor type (%d)!", data->type());
@@ -132,6 +140,7 @@ void Actor::onCollide(Actor*)
 
 void Actor::onInterract(Actor*)
 {
+  cocos2d::log("%s Not implemented.", __PRETTY_FUNCTION__);
 }
 
 cocos2d::Vec2 Actor::getTileCoord()
