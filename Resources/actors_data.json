@@ -32,7 +32,7 @@
       id: 3,
       name: "Stairs down",
       type: 3,
-      blocks: 1,
+      blocks: 0,
       transparent: 1,
       sprite_file: "stairs_down.png"
     },
@@ -40,7 +40,7 @@
       id: 4,
       name: "Stairs up",
       type: 3,
-      blocks: 1,
+      blocks: 0,
       transparent: 1,
       sprite_file: "stairs_up.png"
     }

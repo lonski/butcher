@@ -13,7 +13,7 @@ public:
   Player(const ActorData* data);
 
   virtual Actor* clone(Actor* allocated = nullptr);
-  virtual bool collide(Actor* obstacle);
+  virtual void onCollide(Actor* obstacle);
 
 };
 

@@ -34,6 +34,8 @@ public:
   void visit(int x, int y);
   bool isInFov(cocos2d::Vec2 tileCoord);
 
+  std::vector< std::shared_ptr<Actor> > getActorsAt(cocos2d::Vec2 coord);
+
 private:
   cocos2d::TMXTiledMap* _map;
   cocos2d::TMXLayer*    _tiles;

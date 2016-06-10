@@ -59,7 +59,7 @@ bool MoveAction::perform(Actor *actor)
   if ( _state->isBlocked(positionToTileCoord(map,pos), &blocking_actor) )
   {
     if ( blocking_actor != nullptr )
-      actor->collide(blocking_actor);
+      actor->onCollide(blocking_actor);
 
     return false;
   }
@@ -68,6 +68,10 @@ bool MoveAction::perform(Actor *actor)
 
   cc::MoveTo* move_action = cc::MoveTo::create(0.1, pos);
   actor->sprite()->runAction( move_action );
+
+  for ( auto a : _state->getActorsAt(actor->getTileCoord()) )
+    if ( a.get() != actor->get() )
+      a->onInterract(actor);
 
   return true;
 }

@@ -25,31 +25,13 @@ Actor* Player::clone(Actor *allocated)
   return p;
 }
 
-bool Player::collide(Actor *obstacle)
+void Player::onCollide(Actor *obstacle)
 {
   Monster* mob = dynamic_cast<Monster*>(obstacle);
   if ( mob )
   {
-    return performAction( new AttackAction(Target(mob)) );
+    performAction( new AttackAction(Target(mob)) );
   }
-
-  Object* obj = dynamic_cast<Object*>(obstacle);
-  if ( obj )
-  {
-    cc::log("id %d name %s", obj->id(), obj->name().c_str());
-    switch( static_cast<Actor::ID>(obj->id()) )
-    {
-      case Actor::StairsDownID:
-        BUTCHER.goToNextLevel();
-        break;
-      case Actor::StairsUpID:
-        BUTCHER.goToLevel(BUTCHER.getDungeonLevel() - 1);
-        break;
-      default:;
-    }
-  }
-
-  return false;
 }
 
 }

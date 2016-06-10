@@ -46,8 +46,19 @@ public:
   std::unique_ptr<cocos2d::Sprite>& sprite();
 
   virtual bool performAction(ActorAction* action);
-  virtual bool collide(Actor* obstacle);
   virtual void nextTurn();
+
+  /**
+   * @brief Function is launched when actor tries to enter tile occubied by another actor
+   * @param actor - an actor who is preveinting to enter tile
+   */
+  virtual void onCollide(Actor* obstacle);
+
+  /**
+   * @brief Function is launched when actor enters a tile with another actors
+   * @param actor - an actor who is entering the tile
+   */
+  virtual void onInterract(Actor* actor);
 
   virtual void onDie();
 

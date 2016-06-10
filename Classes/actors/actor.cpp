@@ -126,9 +126,12 @@ bool Actor::performAction(ActorAction* action)
   return a->perform(this);
 }
 
-bool Actor::collide(Actor* obstacle)
+void Actor::onCollide(Actor*)
 {
-  return true;
+}
+
+void Actor::onInterract(Actor*)
+{
 }
 
 cocos2d::Vec2 Actor::getTileCoord()

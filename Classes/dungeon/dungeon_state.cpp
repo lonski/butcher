@@ -158,6 +158,17 @@ void DungeonState::spawn(int id, cc::Vec2 coord)
   }
 }
 
+std::vector<std::shared_ptr<Actor> > DungeonState::getActorsAt(cocos2d::Vec2 coord)
+{
+  std::vector<std::shared_ptr<Actor> > actors;
+
+  for ( auto a : _actors )
+    if ( a->getTileCoord() == coord )
+      actors.push_back(a);
+
+  return actors;
+}
+
 void DungeonState::nextTurn()
 {
   computeFov(BUTCHER.getPlayer()->getTileCoord().x,
