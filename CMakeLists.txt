@@ -155,6 +155,7 @@ set(GAME_SRC
   Classes/loading_scene.cpp
   Classes/actors/instances/stairs_down.cpp
   Classes/actors/instances/stairs_up.cpp
+  Classes/dungeon/level_manager.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -199,6 +200,7 @@ set(GAME_HEADERS
   Classes/actors/object.h
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
+  Classes/dungeon/level_manager.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

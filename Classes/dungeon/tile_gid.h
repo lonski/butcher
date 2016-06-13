@@ -11,7 +11,7 @@ enum class MetaTileGID {
   Transparent = 37,
 };
 
-enum class CaveTileGID {
+enum class TileGID {
   Mid = 1,
   NONE,
   HPassage,

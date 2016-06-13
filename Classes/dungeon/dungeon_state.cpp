@@ -72,11 +72,11 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
     cc::ValueMap obj = o.asValueMap();
     if ( obj["name"].asString() == "actor_spawn" && obj.find("id") != obj.end())
     {
-      spawn(obj["id"].asInt(), cc::Vec2(obj["x"].asInt(), obj["y"].asInt()));
+      addActor(obj["id"].asInt(), cc::Vec2(obj["x"].asInt(), obj["y"].asInt()));
     }
   }
 
-  spawnPlayer();
+  addPlayer();
 
   //init explored map
   _exploredMask = Grid(_map->getMapSize().width, _map->getMapSize().height, '0');
@@ -98,16 +98,26 @@ bool DungeonState::setMap(const std::string& fn)
   return setMap(map);
 }
 
-void DungeonState::spawnActors(DungeonLayer *view)
+void DungeonState::onEnter(DungeonLayer *view)
 {
   _currentView = view;
+  addPlayer();
+  spawnActors();
+}
 
+void DungeonState::onExit()
+{
+  removeActor( BUTCHER.getPlayer().get() );
+}
+
+void DungeonState::spawnActors()
+{
   computeFov(BUTCHER.getPlayer()->getTileCoord().x,
              BUTCHER.getPlayer()->getTileCoord().y);
 
   for ( auto a : _actors )
   {
-    view->addChild(a->sprite().get(), a->getZ());
+    _currentView->addChild(a->sprite().get(), a->getZ());
 
     a->sprite()->setVisible( isInFov(a->getTileCoord()));
   }
@@ -132,18 +142,14 @@ bool DungeonState::removeActor(Actor *actor, bool remove_node_child)
   return false;
 }
 
-void DungeonState::spawnPlayer()
+void DungeonState::addPlayer()
 {
   std::shared_ptr<Player> player = BUTCHER.getPlayer();
-
-  cc::ValueMap spawnPoint = _map->getObjectGroup("Objects")->getObject("SpawnPoint");
-  cc::Vec2 pos =  tileCoordToPosition(_map, cc::Vec2(spawnPoint["x"].asInt(), spawnPoint["y"].asInt()));
-  player->setPosition(pos);
 
   _actors.insert( player );
 }
 
-void DungeonState::spawn(int id, cc::Vec2 coord)
+void DungeonState::addActor(int id, cc::Vec2 coord)
 {
   Actor* actor = BUTCHER.actorsDatabase().createActor<Actor>(id);
   if ( actor )
@@ -164,6 +170,17 @@ std::vector<std::shared_ptr<Actor> > DungeonState::getActorsAt(cocos2d::Vec2 coo
 
   for ( auto a : _actors )
     if ( a->getTileCoord() == coord )
+      actors.push_back(a);
+
+  return actors;
+}
+
+std::vector<std::shared_ptr<Actor> > DungeonState::getActors(std::function<bool (std::shared_ptr<Actor>)> filter)
+{
+  std::vector<std::shared_ptr<Actor> > actors;
+
+  for ( auto a : _actors )
+    if ( filter(a) )
       actors.push_back(a);
 
   return actors;

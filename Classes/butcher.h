@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <data/actors_database.h>
+#include <dungeon/level_manager.h>
 
 namespace butcher {
 
@@ -22,9 +23,7 @@ public:
     DungeonState* getCurrentDungeon();
     unsigned getDungeonLevel() const;
 
-    void goToNextLevel();
-    void goToLevel(unsigned level, bool switch_algo=false);
-
+    void goToLevel(unsigned level);
     void nextTurn();
 
     std::shared_ptr<Player> getPlayer();
@@ -40,10 +39,11 @@ private:
     std::shared_ptr<Player> _player;
 
     ActorDatabase _actors;
+    LevelManager _dungeons;
+
     unsigned _dungeonLevel;
 
-    std::map<unsigned /*level*/, DungeonState*> _dungeons;
-    cocos2d::TMXTiledMap * generateMap(unsigned level, bool switch_algo);
+    void setPlayerPosition(unsigned level, DungeonState* dungeonState);
 };
 
 #define BUTCHER Butcher::getInstance()

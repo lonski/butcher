@@ -40,7 +40,11 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/dungeon/generators/DungeonMaker.cpp \
 ../../Classes/dungeon/generators/dungeon_maker_generator.cpp \
 ../../Classes/utils/profiler.cpp \
-../../Classes/loading_scene.cpp 
+../../Classes/loading_scene.cpp  \
+../../Classes/actors/object.cpp  \
+../../Classes/actors/instances/stairs_down.cpp  \
+../../Classes/actors/instances/stairs_up.cpp  \
+../../Classes/dungeon/level_manager.cpp  
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
                     $(LOCAL_PATH)/../../Classes/dungeon

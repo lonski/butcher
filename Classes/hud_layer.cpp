@@ -60,15 +60,12 @@ bool HudLayer::init()
 void HudLayer::showMenu(Ref *)
 {
   LoadingScreen::run([&](){
-    Butcher::getInstance().goToNextLevel();
+    BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
   }, "Generating level..");
 }
 
 void HudLayer::showMenu2(Ref *)
 {
-  LoadingScreen::run([&](){
-    Butcher::getInstance().goToLevel(BUTCHER.getDungeonLevel() + 1, true);
-  }, "Generating level..");
 }
 
 }

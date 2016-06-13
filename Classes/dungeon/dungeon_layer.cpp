@@ -58,13 +58,15 @@ void DungeonLayer::onEnter()
     removeAllChildren();
 
     addChild( _state->map() );
-    _state->spawnActors(this);
+    _state->onEnter(this);
 
     setViewPointCenter(BUTCHER.getPlayer()->getPosition());
 }
 
 void DungeonLayer::onExit()
 {
+  _state->onExit();
+
   removeAllChildren();
 
   auto dispatcher = cc::Director::getInstance()->getEventDispatcher();

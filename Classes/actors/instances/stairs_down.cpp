@@ -25,7 +25,7 @@ void StairsDown::onInterract(Actor *actor)
 {
   if ( dynamic_cast<Player*>(actor) )
   {
-    BUTCHER.goToNextLevel();
+    BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
   }
 }
 

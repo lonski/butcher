@@ -22,7 +22,9 @@ public:
   bool setMap(cocos2d::TMXTiledMap* map);
   bool setMap(const std::string& fn);
 
-  void spawnActors(DungeonLayer* view);
+  void onEnter(DungeonLayer* view);
+  void onExit();
+
   bool removeActor(Actor* actor, bool remove_node_child = true);
 
   void nextTurn();
@@ -35,6 +37,7 @@ public:
   bool isInFov(cocos2d::Vec2 tileCoord);
 
   std::vector< std::shared_ptr<Actor> > getActorsAt(cocos2d::Vec2 coord);
+  std::vector< std::shared_ptr<Actor> > getActors(std::function<bool(std::shared_ptr<Actor>)> filter);
 
 private:
   cocos2d::TMXTiledMap* _map;
@@ -46,8 +49,9 @@ private:
   Grid _exploredMask;
   std::set< std::shared_ptr<Actor> > _actors;
 
-  void spawnPlayer();
-  void spawn(int id, cocos2d::Vec2 coord);
+  void addPlayer();
+  void addActor(int id, cocos2d::Vec2 coord);
+  void spawnActors();
 
   void computeFov(int x, int y);
 

@@ -49,7 +49,6 @@ bool MoveAction::perform(Actor *actor)
     default:;
   }
 
-
   if ( !validatePosition(pos) )
   {
     cc::log("MoveAction: invalid position!");

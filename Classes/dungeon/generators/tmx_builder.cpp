@@ -49,8 +49,6 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
       return nullptr;
   }
 
-  int spawnX(0), spawnY(0);
-
   //Fill layers
   std::map<Direction, char> neighbours;
   cc::ValueVector objects;
@@ -80,103 +78,75 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
         if ( checkPattern(" . "
                           "#X."
                           " . ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::Left, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::Left, cc::Vec2(x,y));
         else if ( checkPattern(" . "
                                ".X#"
                                " . ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::Right, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::Right, cc::Vec2(x,y));
         else if ( checkPattern(" # "
                                ".X."
                                " . ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::Top, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::Top, cc::Vec2(x,y));
         else if ( checkPattern(" . "
                                ".X."
                                " # ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::Bottom, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::Bottom, cc::Vec2(x,y));
         else if ( checkPattern(" # "
                                ".X#"
                                " . ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::TopRight, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::TopRight, cc::Vec2(x,y));
         else if ( checkPattern(" . "
                                ".X#"
                                " # ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::BottomRight, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::BottomRight, cc::Vec2(x,y));
         else if ( checkPattern(" . "
                                "#X."
                                " # ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::BottomLeft, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::BottomLeft, cc::Vec2(x,y));
         else if ( checkPattern(" # "
                                "#X."
                                " . ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::TopLeft, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::TopLeft, cc::Vec2(x,y));
         else if ( checkPattern(" . "
                                "#X#"
                                " . ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::VPassage, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::VPassage, cc::Vec2(x,y));
         else if ( checkPattern(" # "
                                ".X."
                                " # ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::HPassage, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::HPassage, cc::Vec2(x,y));
         else if ( checkPattern(" # "
                                "#X#"
                                " . ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::TopDeadEnd, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::TopDeadEnd, cc::Vec2(x,y));
         else if ( checkPattern(" . "
                                "#X#"
                                " # ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::BottomDeadEnd, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::BottomDeadEnd, cc::Vec2(x,y));
         else if ( checkPattern(" # "
                                ".X#"
                                " # ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::RightDeadEnd, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::RightDeadEnd, cc::Vec2(x,y));
         else if ( checkPattern(" # "
                                "#X."
                                " # ", neighbours) )
-          _tiles->setTileGID((int)CaveTileGID::LeftDeadEnd, cc::Vec2(x,y));
+          _tiles->setTileGID((int)TileGID::LeftDeadEnd, cc::Vec2(x,y));
 
         else
-          _tiles->setTileGID((int)CaveTileGID::Mid, cc::Vec2(x,y));
-
-        //Spawn player
-        if (spawnX == 0 && x < 80 && x > 20 && y < 80 && y > 20)
-        {
-          spawnX = x;
-          spawnY = y;
-        }
+          _tiles->setTileGID((int)TileGID::Mid, cc::Vec2(x,y));
 
         //Spawn mob
         if ( mobs_count < max_mobs && cc::RandomHelper::random_int(0,100) < 3 )
         {
-          cc::ValueMap mobSpawn;
-          mobSpawn["name"] = cc::Value("actor_spawn");
-          mobSpawn["id"] = cc::Value(2);
-          mobSpawn["x"] = cc::Value(x);
-          mobSpawn["y"] = cc::Value(y);
-          objects.push_back( cc::Value(mobSpawn) );
+          objects.push_back( addActorSpawn(2, y, x) );
           ++mobs_count;
         }
-
 
       }
     }
   }
 
-  //spawn Player
-  cc::ValueMap playerSpawn;
-  playerSpawn["name"] = cc::Value("SpawnPoint");
-  playerSpawn["x"] = cc::Value(spawnX);
-  playerSpawn["y"] = cc::Value(spawnY);
-  objects.push_back( cc::Value(playerSpawn) );
-
   //spawn stairs up
-  cc::ValueMap stairs_up;
-  stairs_up["name"] = cc::Value("actor_spawn");
-  stairs_up["id"] = cc::Value(4);
-  stairs_up["x"] = cc::Value(spawnX);
-  stairs_up["y"] = cc::Value(spawnY);
-  objects.push_back( cc::Value(stairs_up) );
-
-  //spawn stairs down
   char tile = 'X';
   do
   {
@@ -185,12 +155,21 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
     tile =  grid.get(x,y);
     if ( tile == Tiles::FLOOR )
     {
-      cc::ValueMap stairs_down;
-      stairs_down["name"] = cc::Value("actor_spawn");
-      stairs_down["id"] = cc::Value(3);
-      stairs_down["x"] = cc::Value(x);
-      stairs_down["y"] = cc::Value(y);
-      objects.push_back( cc::Value(stairs_down) );
+      objects.push_back( addActorSpawn(4, y, x) );
+    }
+  }
+  while ( tile != Tiles::FLOOR );
+
+  //spawn stairs down
+  tile = 'X';
+  do
+  {
+    int y = cc::RandomHelper::random_int(0,grid.height);
+    int x = cc::RandomHelper::random_int(0,grid.width);
+    tile =  grid.get(x,y);
+    if ( tile == Tiles::FLOOR )
+    {
+      objects.push_back( addActorSpawn(3, y, x) );
     }
   }
   while ( tile != Tiles::FLOOR );
@@ -201,6 +180,17 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
   cc::log("%s: Generated %d mob spawns.", __PRETTY_FUNCTION__, mobs_count);
 
   return map;
+}
+
+cocos2d::Value TMXBuilder::addActorSpawn(int id, int y, int x)
+{
+  cc::ValueMap spawn;
+  spawn["name"] = cc::Value("actor_spawn");
+  spawn["id"] = cc::Value(id);
+  spawn["x"] = cc::Value(x);
+  spawn["y"] = cc::Value(y);
+
+  return cc::Value(spawn);
 }
 
 bool TMXBuilder::checkPattern(const std::string &pattern, std::map<Direction, char> n)

@@ -118,9 +118,9 @@ void Actor::setTransparent(bool transparent)
   _transparent = transparent;
 }
 
-unsigned Actor::id() const
+Actor::ID Actor::id() const
 {
-  return _id;
+  return static_cast<ID>(_id);
 }
 
 std::unique_ptr<cocos2d::Sprite>& Actor::sprite()

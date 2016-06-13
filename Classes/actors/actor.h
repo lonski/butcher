@@ -12,13 +12,21 @@ class ActorAction;
 class Actor
 {
 public:
+  enum ID {
+    INVALID = 0,
+    PLAYER,
+    COW,
+    STAIRS_DOWN,
+    STAIRS_UP
+  };
+
   Actor(const ActorData *data);
   virtual ~Actor() = 0;
 
   static Actor* create(const ActorData* data);
   virtual Actor* clone(Actor* allocated = nullptr);
 
-  unsigned id() const;
+  ID id() const;
   virtual int getZ() const = 0;
 
   std::string name() const;
