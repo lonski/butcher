@@ -2,7 +2,7 @@
 #define LEVELGENERATOR_H
 
 #include <string>
-#include <dungeon/generators/DungeonMaker.h>
+#include <lib/DungeonMaker.h>
 #include <dungeon/generators/grid_generator.h>
 #include "cocos2d.h"
 

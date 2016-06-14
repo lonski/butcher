@@ -147,10 +147,10 @@ set(GAME_SRC
   Classes/actors/ai/fsm/states/wandering_state.cpp
   Classes/actors/ai/fsm/states/move_to_target_state.cpp
   Classes/actors/ai/fsm/states/melee_attack_state.cpp
-  Classes/fov/permissive-fov.cc
+  Classes/lib/permissive-fov.cc
   Classes/dungeon/generators/cave_grid_generator.cpp
   Classes/dungeon/generators/tmx_builder.cpp
-  Classes/dungeon/generators/DungeonMaker.cpp
+  Classes/lib/DungeonMaker.cpp
   Classes/dungeon/generators/dungeon_maker_generator.cpp
   Classes/utils/profiler.cpp
   Classes/loading_scene.cpp
@@ -188,15 +188,15 @@ set(GAME_HEADERS
   Classes/actors/ai/fsm/states/wandering_state.h
   Classes/actors/ai/fsm/states/move_to_target_state.h
   Classes/actors/ai/fsm/states/melee_attack_state.h
-  Classes/fov/permissive-fov.h
-  Classes/fov/permissive-fov-cpp.h
+  Classes/lib/permissive-fov.h
+  Classes/lib/permissive-fov-cpp.h
   Classes/dungeon/tile_gid.h
   Classes/utils/grid.h
   Classes/utils/profiler.h
   Classes/loading_scene.h
   Classes/dungeon/generators/grid_generator.h
   Classes/dungeon/generators/cave_grid_generator.h
-  Classes/dungeon/generators/DungeonMaker.h
+  Classes/lib/DungeonMaker.h
   Classes/dungeon/generators/tmx_builder.h
   Classes/dungeon/generators/dungeon_maker_generator.h
   Classes/actors/object.h

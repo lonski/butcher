@@ -1,5 +1,5 @@
 #include "dungeon_maker_generator.h"
-#include <dungeon/generators/DungeonMaker.h>
+#include <lib/DungeonMaker.h>
 #include "cocos2d.h"
 
 namespace cc = cocos2d;

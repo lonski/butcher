@@ -4,7 +4,7 @@
 #include <dungeon/dungeon_layer.h>
 #include <utils/utils.h>
 #include <algorithm>
-#include <fov/permissive-fov-cpp.h>
+#include <lib/permissive-fov-cpp.h>
 #include <utils/profiler.h>
 #include <actors/object.h>
 

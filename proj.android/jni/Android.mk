@@ -34,17 +34,18 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/ai/fsm/states/wandering_state.cpp \
 ../../Classes/actors/ai/fsm/states/move_to_target_state.cpp \
 ../../Classes/actors/ai/fsm/states/melee_attack_state.cpp \
-../../Classes/fov/permissive-fov.cc \
+../../Classes/lib/permissive-fov.cc \
 ../../Classes/dungeon/generators/cave_grid_generator.cpp \
 ../../Classes/dungeon/generators/tmx_builder.cpp \
-../../Classes/dungeon/generators/DungeonMaker.cpp \
+../../Classes/lib/DungeonMaker.cpp \
 ../../Classes/dungeon/generators/dungeon_maker_generator.cpp \
 ../../Classes/utils/profiler.cpp \
 ../../Classes/loading_scene.cpp  \
 ../../Classes/actors/object.cpp  \
 ../../Classes/actors/instances/stairs_down.cpp  \
 ../../Classes/actors/instances/stairs_up.cpp  \
-../../Classes/dungeon/level_manager.cpp  
+../../Classes/dungeon/level_manager.cpp  \
+../../Classes/data/levels_database.cpp  
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
                     $(LOCAL_PATH)/../../Classes/dungeon

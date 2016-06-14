@@ -5,7 +5,7 @@
 #include <actors/player.h>
 #include <utils/utils.h>
 #include <dungeon/dungeon_state.h>
-#include <dungeon/generators/DungeonMaker.h>
+#include <lib/DungeonMaker.h>
 #include <loading_scene.h>
 
 namespace cc = cocos2d;

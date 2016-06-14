@@ -2,7 +2,7 @@
 #define DUNGEONSTATE_H
 
 #include "cocos2d.h"
-#include <fov/permissive-fov-cpp.h>
+#include <lib/permissive-fov-cpp.h>
 #include <dungeon/tile_gid.h>
 #include <utils/grid.h>
 
