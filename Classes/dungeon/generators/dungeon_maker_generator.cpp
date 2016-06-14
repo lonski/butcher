@@ -10,7 +10,7 @@ DungeonMakerGenerator::DungeonMakerGenerator()
 {
 }
 
-Grid DungeonMakerGenerator::generate()
+Grid DungeonMakerGenerator::generate(const LevelData *data)
 {
   
 

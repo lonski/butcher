@@ -9,7 +9,7 @@ CaveGenerator::CaveGenerator()
 
 }
 
-Grid CaveGenerator::generate()
+Grid CaveGenerator::generate(const LevelData *data)
 {
   size_x     = 40;
   size_y     = 40;

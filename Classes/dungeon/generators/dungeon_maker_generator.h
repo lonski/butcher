@@ -10,7 +10,7 @@ class DungeonMakerGenerator : public GridGenerator
 public:
   DungeonMakerGenerator();
 
-  virtual Grid generate();
+  virtual Grid generate(const LevelData* data);
 };
 
 }

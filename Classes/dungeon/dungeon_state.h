@@ -12,6 +12,11 @@ class Actor;
 class Player;
 class DungeonLayer;
 
+/**
+ * @brief This class represents single dungeon level.
+ *        It holds map state - field of view, fog of war,
+ *        actors (mobs, objects).
+ */
 class DungeonState
 {
 public:

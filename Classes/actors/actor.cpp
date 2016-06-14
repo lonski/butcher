@@ -43,8 +43,6 @@ Actor* Actor::create(const ActorData *data)
 
   Actor* actor = nullptr;
 
-  cocos2d::log("%s %s %d", __PRETTY_FUNCTION__, data->name()->c_str(), data->type());
-
   switch(data->type())
   {
     case ActorType_Object:

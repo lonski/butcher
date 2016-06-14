@@ -132,6 +132,7 @@ set(GAME_SRC
   Classes/actors/player.cpp
   Classes/actors/monster.cpp
   Classes/data/actors_database.cpp
+  Classes/data/levels_database.cpp
   Classes/dungeon/dungeon_layer.cpp
   Classes/dungeon/dungeon_state.cpp
   Classes/actors/actions/move_action.cpp
@@ -169,6 +170,7 @@ set(GAME_HEADERS
   Classes/actors/monster.h
   Classes/actors/attribute_type.h
   Classes/data/actors_database.h
+  Classes/data/levels_database.h
   Classes/dungeon/dungeon_layer.h
   Classes/dungeon/dungeon_state.h
   Classes/actors/actions/actor_action.h
@@ -201,6 +203,7 @@ set(GAME_HEADERS
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
   Classes/dungeon/level_manager.h
+  Classes/levels_generated.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

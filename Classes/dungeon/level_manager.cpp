@@ -1,8 +1,8 @@
 #include "level_manager.h"
 #include <dungeon/dungeon_state.h>
 #include <dungeon/generators/cave_grid_generator.h>
-#include <dungeon/generators/tmx_builder.h>
 #include <dungeon/generators/dungeon_maker_generator.h>
+#include <levels_generated.h>
 
 namespace cc = cocos2d;
 
@@ -10,6 +10,7 @@ namespace butcher {
 
 LevelManager::LevelManager()
 {
+  _levels.load("levels_data_wire.bin");
 }
 
 DungeonState *LevelManager::getLevel(int level)
@@ -27,29 +28,36 @@ DungeonState *LevelManager::getLevel(int level)
   return dungeonState;
 }
 
-cocos2d::TMXTiledMap *LevelManager::generateMap(unsigned level)
+cc::TMXTiledMap *LevelManager::generateMap(unsigned level)
 {
-  std::string mapFn = "dungeons/" + cc::Value(level).asString() + ".tmx";
-  cc::TMXTiledMap* map = nullptr;
+  const LevelData* levelData = _levels.getLevelData(level);
 
-  if ( !cc::FileUtils::getInstance()->isFileExist(mapFn) )
+  if ( !levelData )
   {
-    std::unique_ptr<GridGenerator> gen;
-
-    gen.reset( new CaveGenerator );
-
-    Grid grid = gen->generate();
-
-    TMXBuilder builder;
-    map = builder.build(grid);
-  }
-  else
-  {
-    map = new cc::TMXTiledMap();
-    map->initWithTMXFile(mapFn);
+    cc::log("LevelManager::generateMap level id=%u not found!", level);
+    return nullptr;
   }
 
-  return map;
+  std::unique_ptr<GridGenerator> gen;
+
+  switch(levelData->generator())
+  {
+    case GeneratorType_NaturalCave:
+      gen.reset( new CaveGenerator );
+    break;
+    case GeneratorType_DungeonMaker:
+      gen.reset( new DungeonMakerGenerator );
+    break;
+  }
+
+  if ( !gen )
+  {
+    cc::log("LevelManager::generateMap invalid level generator %d!", levelData->generator());
+    return nullptr;
+  }
+
+  _mapBuilder.setMapTemplate( levelData->map_template()->c_str() );
+  return _mapBuilder.build( gen->generate(levelData) );
 }
 
 }

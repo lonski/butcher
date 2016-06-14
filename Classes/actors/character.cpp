@@ -77,10 +77,7 @@ int Character::takeDamage(int damage, Actor* attacker)
   fadeText( "-" + cocos2d::Value(damage).asString(), cocos2d::Color4B::RED );
 
   if ( _hp <= 0 )
-  {
-    cocos2d::log("%s: %s dies.", __PRETTY_FUNCTION__, name().c_str());
     performAction( new DieAction() );
-  }
 
   return damage;
 }

@@ -13,7 +13,7 @@ class CaveGenerator : public GridGenerator
 public:
   CaveGenerator();
 
-  virtual Grid generate();
+  virtual Grid generate(const LevelData* data);
 
 private:
 

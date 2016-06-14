@@ -5,13 +5,15 @@
 
 namespace butcher {
 
+struct LevelData;
+
 class GridGenerator
 {
 public:
   GridGenerator() {}
   virtual ~GridGenerator() {}
 
-  virtual Grid generate() = 0;
+  virtual Grid generate(const LevelData* data) = 0;
 };
 
 

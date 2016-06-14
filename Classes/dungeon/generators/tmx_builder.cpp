@@ -15,17 +15,15 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
 {
   _grid = grid;
 
-  static const std::string tmx_template = "dungeons/empty_cave.tmx";
-
-  if ( !cc::FileUtils::getInstance()->isFileExist(tmx_template) )
+  if ( !cc::FileUtils::getInstance()->isFileExist(_mapTemplateFn) )
   {
-    cc::log("%s: Failed to open file %s.", __FUNCTION__, tmx_template.c_str());
+    cc::log("%s: Failed to open file %s.", __FUNCTION__, _mapTemplateFn.c_str());
     return nullptr;
   }
 
   //Init Empty map
   cc::TMXTiledMap* map = new cc::TMXTiledMap();
-  map->initWithTMXFile(tmx_template);
+  map->initWithTMXFile(_mapTemplateFn);
 
   //Read layers
   _tiles = map->getLayer("Background");
@@ -180,6 +178,11 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
   cc::log("%s: Generated %d mob spawns.", __PRETTY_FUNCTION__, mobs_count);
 
   return map;
+}
+
+void TMXBuilder::setMapTemplate(const std::string &fn)
+{
+  _mapTemplateFn = fn;
 }
 
 cocos2d::Value TMXBuilder::addActorSpawn(int id, int y, int x)

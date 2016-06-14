@@ -9,6 +9,10 @@ namespace butcher {
 class Actor;
 class DungeonState;
 
+/**
+ * @brief This is 'view' class.
+ *        A scene layer displaying gui and receiving player input
+ */
 class DungeonLayer : public cocos2d::Layer
 {
 public:

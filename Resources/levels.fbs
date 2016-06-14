@@ -1,0 +1,18 @@
+namespace butcher;
+
+table LevelsData { 
+	levels:[LevelData]; 
+}
+
+enum GeneratorType:byte { 
+	NaturalCave = 0, 
+	DungeonMaker = 1
+}
+
+table LevelData {
+	id:uint;
+	generator:GeneratorType;
+	map_template:string;
+}
+
+root_type LevelsData;

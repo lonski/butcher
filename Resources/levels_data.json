@@ -1,0 +1,19 @@
+{
+  levels: [
+    {
+      id: 1,
+      generator: 0,
+      map_template: "dungeons/empty_cave.tmx"
+    },
+    {
+      id: 2,
+      generator: 0,
+      map_template: "dungeons/empty_cave.tmx"
+    },
+    {
+      id: 3,
+      generator: 1,
+      map_template: "dungeons/empty_cave.tmx"
+    }
+  ]
+}
