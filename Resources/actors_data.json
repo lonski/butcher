@@ -6,7 +6,7 @@
       type: 1,
       blocks: 1,
       transparent: 1,
-      sprite_file: "player.png",
+      sprite_file: "images/player.png",
 
       hp: 100,
       attack : 7,
@@ -20,7 +20,7 @@
       type: 0,
       blocks: 1,
       transparent: 1,
-      sprite_file: "cow.png",
+      sprite_file: "images/cow.png",
 
       hp: 10,
       attack : 4,
@@ -34,7 +34,7 @@
       type: 4,
       blocks: 0,
       transparent: 1,
-      sprite_file: "stairs_down.png"
+      sprite_file: "images/stairs_down.png"
     },
     {
       id: 4,
@@ -42,7 +42,7 @@
       type: 5,
       blocks: 0,
       transparent: 1,
-      sprite_file: "stairs_up.png"
+      sprite_file: "images/stairs_up.png"
     }
   ]
 }

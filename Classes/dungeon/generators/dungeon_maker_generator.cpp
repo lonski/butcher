@@ -1,5 +1,6 @@
 #include "dungeon_maker_generator.h"
 #include <lib/DungeonMaker.h>
+#include <data/levels_generated.h>
 #include "cocos2d.h"
 
 namespace cc = cocos2d;
@@ -12,18 +13,14 @@ DungeonMakerGenerator::DungeonMakerGenerator()
 
 Grid DungeonMakerGenerator::generate(const LevelData *data)
 {
-  
-
-  std::string fn = "my.design";
-
-  if ( !cocos2d::FileUtils::getInstance()->isFileExist(fn) )
+  if ( !cocos2d::FileUtils::getInstance()->isFileExist(data->design_file()->c_str()) )
   {
-    cc::log("%s file %s does not exist", __FUNCTION__, fn.c_str());
+    cc::log("%s file %s does not exist", __FUNCTION__, data->design_file()->c_str());
     return Grid();
   }
 
   alifegames::Config config;
-  std::string fileContent = cc::FileUtils::getInstance()->getStringFromFile(fn);
+  std::string fileContent = cc::FileUtils::getInstance()->getStringFromFile(data->design_file()->c_str());
 
   if ( !config.AcceptDesign( fileContent.c_str() ) )
   {

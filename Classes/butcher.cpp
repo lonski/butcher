@@ -1,10 +1,10 @@
 #include "butcher.h"
-#include <hud_layer.h>
+#include <view/hud_layer.h>
+#include <view/loading_scene.h>
+#include <view/dungeon_layer.h>
 #include <actors/player.h>
-#include <dungeon/dungeon_layer.h>
 #include <dungeon/dungeon_state.h>
 #include <utils/profiler.h>
-#include <loading_scene.h>
 #include <memory>
 
 namespace cc = cocos2d;

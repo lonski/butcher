@@ -13,7 +13,8 @@
     {
       id: 3,
       generator: 1,
-      map_template: "dungeons/empty_cave.tmx"
+      map_template: "dungeons/empty_cave.tmx",
+      design_file: "default.design"
     }
   ]
 }

@@ -2,7 +2,7 @@
 #include <dungeon/dungeon_state.h>
 #include <dungeon/generators/cave_grid_generator.h>
 #include <dungeon/generators/dungeon_maker_generator.h>
-#include <levels_generated.h>
+#include <data/levels_generated.h>
 
 namespace cc = cocos2d;
 

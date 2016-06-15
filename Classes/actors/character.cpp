@@ -1,8 +1,6 @@
 #include "character.h"
-#include <actors_generated.h>
+#include <data/actors_generated.h>
 #include <actors/actions/die_action.h>
-
-
 
 namespace butcher {
 

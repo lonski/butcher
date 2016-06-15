@@ -1,5 +1,5 @@
 #include "actor.h"
-#include <actors_generated.h>
+#include <data/actors_generated.h>
 #include <actors/player.h>
 #include <actors/monster.h>
 #include <actors/object.h>

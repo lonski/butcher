@@ -66,7 +66,7 @@ bool MoveAction::perform(Actor *actor)
 
   actor->setPosition(pos, true);
 
-  cc::MoveTo* move_action = cc::MoveTo::create(0.1, pos);
+  cc::MoveTo* move_action = cc::MoveTo::create(0.08, pos);
   actor->sprite()->runAction( move_action );
 
   for ( auto a : _state->getActorsAt(actor->getTileCoord()) )

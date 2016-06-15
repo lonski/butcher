@@ -2,7 +2,7 @@
 #define LEVELS_DATABASE_H
 
 #include <string>
-#include <levels_generated.h>
+#include <data/levels_generated.h>
 #include "cocos2d.h"
 
 namespace butcher {

@@ -1,7 +1,7 @@
 #include "dungeon_state.h"
 #include <butcher.h>
 #include <actors/player.h>
-#include <dungeon/dungeon_layer.h>
+#include <view/dungeon_layer.h>
 #include <utils/utils.h>
 #include <algorithm>
 #include <lib/permissive-fov-cpp.h>

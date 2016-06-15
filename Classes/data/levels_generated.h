@@ -1,3 +1,5 @@
+#ifndef levels_generated_h
+#define levels_generated_h
 // automatically generated, do not modify
 
 #include "flatbuffers/flatbuffers.h"
@@ -41,6 +43,7 @@ struct LevelData : private flatbuffers::Table {
   uint32_t id() const { return GetField<uint32_t>(4, 0); }
   int8_t generator() const { return GetField<int8_t>(6, 0); }
   const flatbuffers::String *map_template() const { return GetPointer<const flatbuffers::String *>(8); }
+  const flatbuffers::String *design_file() const { return GetPointer<const flatbuffers::String *>(10); }
 };
 
 struct LevelDataBuilder {
@@ -49,12 +52,14 @@ struct LevelDataBuilder {
   void add_id(uint32_t id) { fbb_.AddElement<uint32_t>(4, id, 0); }
   void add_generator(int8_t generator) { fbb_.AddElement<int8_t>(6, generator, 0); }
   void add_map_template(flatbuffers::Offset<flatbuffers::String> map_template) { fbb_.AddOffset(8, map_template); }
+  void add_design_file(flatbuffers::Offset<flatbuffers::String> design_file) { fbb_.AddOffset(10, design_file); }
   LevelDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<LevelData> Finish() { return flatbuffers::Offset<LevelData>(fbb_.EndTable(start_, 3)); }
+  flatbuffers::Offset<LevelData> Finish() { return flatbuffers::Offset<LevelData>(fbb_.EndTable(start_, 4)); }
 };
 
-inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t generator, flatbuffers::Offset<flatbuffers::String> map_template) {
+inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t generator, flatbuffers::Offset<flatbuffers::String> map_template, flatbuffers::Offset<flatbuffers::String> design_file) {
   LevelDataBuilder builder_(_fbb);
+  builder_.add_design_file(design_file);
   builder_.add_map_template(map_template);
   builder_.add_id(id);
   builder_.add_generator(generator);
@@ -64,3 +69,4 @@ inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBui
 inline const LevelsData *GetLevelsData(const void *buf) { return flatbuffers::GetRoot<LevelsData>(buf); }
 
 }; // namespace butcher
+#endif

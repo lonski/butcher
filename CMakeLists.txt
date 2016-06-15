@@ -125,21 +125,23 @@ endif( WIN32 )
 set(GAME_SRC
   Classes/AppDelegate.cpp
   Classes/butcher.cpp
-  Classes/hud_layer.cpp
+
+  Classes/view/hud_layer.cpp
+  Classes/view/dungeon_layer.cpp
+  Classes/view/loading_scene.cpp
+
   Classes/actors/actor.cpp
   Classes/actors/object.cpp
   Classes/actors/character.cpp
   Classes/actors/player.cpp
   Classes/actors/monster.cpp
-  Classes/data/actors_database.cpp
-  Classes/data/levels_database.cpp
-  Classes/dungeon/dungeon_layer.cpp
-  Classes/dungeon/dungeon_state.cpp
+  Classes/actors/instances/stairs_down.cpp
+  Classes/actors/instances/stairs_up.cpp
+
   Classes/actors/actions/move_action.cpp
   Classes/actors/actions/attack_action.cpp
   Classes/actors/actions/die_action.cpp
-  Classes/utils/utils.cpp
-  Classes/utils/target.cpp
+
   Classes/actors/ai/ai.cpp
   Classes/actors/ai/fsm/fsm.cpp
   Classes/actors/ai/fsm/states/fsm_state.cpp
@@ -147,39 +149,48 @@ set(GAME_SRC
   Classes/actors/ai/fsm/states/wandering_state.cpp
   Classes/actors/ai/fsm/states/move_to_target_state.cpp
   Classes/actors/ai/fsm/states/melee_attack_state.cpp
-  Classes/lib/permissive-fov.cc
+
+  Classes/data/actors_database.cpp
+  Classes/data/levels_database.cpp
+
+  Classes/dungeon/dungeon_state.cpp
+  Classes/dungeon/level_manager.cpp
   Classes/dungeon/generators/cave_grid_generator.cpp
   Classes/dungeon/generators/tmx_builder.cpp
-  Classes/lib/DungeonMaker.cpp
   Classes/dungeon/generators/dungeon_maker_generator.cpp
+
+  Classes/utils/utils.cpp
+  Classes/utils/target.cpp
   Classes/utils/profiler.cpp
-  Classes/loading_scene.cpp
-  Classes/actors/instances/stairs_down.cpp
-  Classes/actors/instances/stairs_up.cpp
-  Classes/dungeon/level_manager.cpp
+
+  Classes/lib/permissive-fov.cc
+  Classes/lib/DungeonMaker.cpp
+
   ${PLATFORM_SPECIFIC_SRC}
 )
 
 set(GAME_HEADERS
   Classes/AppDelegate.h
   Classes/butcher.h
-  Classes/hud_layer.h
+
+  Classes/view/hud_layer.h
+  Classes/view/dungeon_layer.h
+  Classes/view/loading_scene.h
+
   Classes/actors/actor.h
   Classes/actors/character.h
   Classes/actors/player.h
+  Classes/actors/object.h
   Classes/actors/monster.h
+  Classes/actors/instances/stairs_down.h
+  Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h
-  Classes/data/actors_database.h
-  Classes/data/levels_database.h
-  Classes/dungeon/dungeon_layer.h
-  Classes/dungeon/dungeon_state.h
+
   Classes/actors/actions/actor_action.h
   Classes/actors/actions/move_action.h
   Classes/actors/actions/attack_action.h
   Classes/actors/actions/die_action.h
-  Classes/utils/directions.h
-  Classes/utils/utils.h
-  Classes/utils/target.h
+
   Classes/actors/ai/ai.h
   Classes/actors/ai/fsm/fsm.h
   Classes/actors/ai/fsm/fsm_state_type.h
@@ -188,22 +199,30 @@ set(GAME_HEADERS
   Classes/actors/ai/fsm/states/wandering_state.h
   Classes/actors/ai/fsm/states/move_to_target_state.h
   Classes/actors/ai/fsm/states/melee_attack_state.h
-  Classes/lib/permissive-fov.h
-  Classes/lib/permissive-fov-cpp.h
+
+  Classes/data/actors_database.h
+  Classes/data/levels_database.h  
+  Classes/data/levels_generated.h
+  Classes/data/actors_generated.h
+
+  Classes/dungeon/dungeon_state.h
   Classes/dungeon/tile_gid.h
-  Classes/utils/grid.h
-  Classes/utils/profiler.h
-  Classes/loading_scene.h
+  Classes/dungeon/level_manager.h
   Classes/dungeon/generators/grid_generator.h
   Classes/dungeon/generators/cave_grid_generator.h
-  Classes/lib/DungeonMaker.h
   Classes/dungeon/generators/tmx_builder.h
   Classes/dungeon/generators/dungeon_maker_generator.h
-  Classes/actors/object.h
-  Classes/actors/instances/stairs_down.h
-  Classes/actors/instances/stairs_up.h
-  Classes/dungeon/level_manager.h
-  Classes/levels_generated.h
+
+  Classes/utils/directions.h
+  Classes/utils/utils.h
+  Classes/utils/target.h
+  Classes/utils/grid.h
+  Classes/utils/profiler.h
+
+  Classes/lib/permissive-fov.h
+  Classes/lib/permissive-fov-cpp.h
+  Classes/lib/DungeonMaker.h
+
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include <actors_generated.h>
+#include <data/actors_generated.h>
 #include <actors/actor.h>
 #include "cocos2d.h"
 

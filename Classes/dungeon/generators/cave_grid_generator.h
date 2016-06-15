@@ -23,7 +23,6 @@ private:
     int reps;
   };
 
-
   Grid grid;
   Grid grid2;
 
