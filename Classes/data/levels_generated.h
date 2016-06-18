@@ -6,12 +6,11 @@
 namespace butcher {
 
 enum {
-  GeneratorType_NaturalCave = 0,
-  GeneratorType_DungeonMaker = 1,
+  GeneratorType_DungeonGenerator = 0,
 };
 
 inline const char **EnumNamesGeneratorType() {
-  static const char *names[] = { "NaturalCave", "DungeonMaker", nullptr };
+  static const char *names[] = { "DungeonGenerator", nullptr };
   return names;
 }
 
@@ -49,6 +48,7 @@ struct LevelData : private flatbuffers::Table {
   int32_t max_room_size() const { return GetField<int32_t>(18, 0); }
   int32_t max_rooms() const { return GetField<int32_t>(20, 0); }
   int32_t multiple_room_exit_chance() const { return GetField<int32_t>(22, 0); }
+  int32_t windy_chance() const { return GetField<int32_t>(24, 0); }
 };
 
 struct LevelDataBuilder {
@@ -64,12 +64,14 @@ struct LevelDataBuilder {
   void add_max_room_size(int32_t max_room_size) { fbb_.AddElement<int32_t>(18, max_room_size, 0); }
   void add_max_rooms(int32_t max_rooms) { fbb_.AddElement<int32_t>(20, max_rooms, 0); }
   void add_multiple_room_exit_chance(int32_t multiple_room_exit_chance) { fbb_.AddElement<int32_t>(22, multiple_room_exit_chance, 0); }
+  void add_windy_chance(int32_t windy_chance) { fbb_.AddElement<int32_t>(24, windy_chance, 0); }
   LevelDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<LevelData> Finish() { return flatbuffers::Offset<LevelData>(fbb_.EndTable(start_, 10)); }
+  flatbuffers::Offset<LevelData> Finish() { return flatbuffers::Offset<LevelData>(fbb_.EndTable(start_, 11)); }
 };
 
-inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t generator, flatbuffers::Offset<flatbuffers::String> map_template, flatbuffers::Offset<flatbuffers::String> design_file, int32_t width, int32_t height, int32_t min_room_size, int32_t max_room_size, int32_t max_rooms, int32_t multiple_room_exit_chance) {
+inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t generator, flatbuffers::Offset<flatbuffers::String> map_template, flatbuffers::Offset<flatbuffers::String> design_file, int32_t width, int32_t height, int32_t min_room_size, int32_t max_room_size, int32_t max_rooms, int32_t multiple_room_exit_chance, int32_t windy_chance) {
   LevelDataBuilder builder_(_fbb);
+  builder_.add_windy_chance(windy_chance);
   builder_.add_multiple_room_exit_chance(multiple_room_exit_chance);
   builder_.add_max_rooms(max_rooms);
   builder_.add_max_room_size(max_room_size);

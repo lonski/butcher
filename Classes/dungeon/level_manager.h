@@ -5,7 +5,7 @@
 #include <map>
 #include "cocos2d.h"
 #include <data/levels_database.h>
-#include <dungeon/generators/tmx_builder.h>
+#include <dungeon/tmx_builder.h>
 
 namespace butcher {
 

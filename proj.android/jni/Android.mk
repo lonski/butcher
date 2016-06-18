@@ -38,14 +38,14 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/data/levels_database.cpp \
 ../../Classes/dungeon/dungeon_state.cpp \
 ../../Classes/dungeon/level_manager.cpp \
-../../Classes/dungeon/generators/cave_grid_generator.cpp \
-../../Classes/dungeon/generators/tmx_builder.cpp \
-../../Classes/dungeon/generators/dungeon_maker_generator.cpp \
+../../Classes/dungeon/tmx_builder.cpp \
+../../Classes/dungeon/dungeon_generator.cpp \
+../../Classes/dungeon/room.cpp \
 ../../Classes/utils/utils.cpp \
 ../../Classes/utils/target.cpp \
 ../../Classes/utils/profiler.cpp \
-../../Classes/lib/permissive-fov.cc \
-../../Classes/lib/DungeonMaker.cpp 
+../../Classes/utils/directions.cpp \
+../../Classes/lib/permissive-fov.cc
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
                     $(LOCAL_PATH)/../../Classes/dungeon

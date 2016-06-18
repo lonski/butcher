@@ -5,8 +5,7 @@ table LevelsData {
 }
 
 enum GeneratorType:byte { 
-	NaturalCave = 0, 
-	DungeonMaker = 1
+	DungeonGenerator = 0
 }
 
 table LevelData {
@@ -21,6 +20,7 @@ table LevelData {
 	max_room_size:int;
 	max_rooms:int;
 	multiple_room_exit_chance:int;
+	windy_chance:int;
 }
 
 root_type LevelsData;

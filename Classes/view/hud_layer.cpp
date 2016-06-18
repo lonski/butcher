@@ -1,13 +1,11 @@
 #include "hud_layer.h"
 #include <butcher.h>
-#include <dungeon/generators/cave_grid_generator.h>
-#include <dungeon/generators/tmx_builder.h>
+#include <dungeon/tmx_builder.h>
 #include <actors/player.h>
 #include <utils/utils.h>
 #include <dungeon/dungeon_state.h>
-#include <lib/DungeonMaker.h>
 #include <view/loading_scene.h>
-#include <dungeon/generators/dungeon_generator.h>
+#include <dungeon/dungeon_generator.h>
 
 namespace cc = cocos2d;
 

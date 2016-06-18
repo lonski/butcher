@@ -155,10 +155,9 @@ set(GAME_SRC
 
   Classes/dungeon/dungeon_state.cpp
   Classes/dungeon/level_manager.cpp
-  Classes/dungeon/generators/cave_grid_generator.cpp
-  Classes/dungeon/generators/tmx_builder.cpp
-  Classes/dungeon/generators/dungeon_maker_generator.cpp
-  Classes/dungeon/generators/dungeon_generator.cpp
+  Classes/dungeon/tmx_builder.cpp
+  Classes/dungeon/dungeon_generator.cpp
+  Classes/dungeon/room.cpp
 
   Classes/utils/utils.cpp
   Classes/utils/target.cpp
@@ -166,7 +165,6 @@ set(GAME_SRC
   Classes/utils/directions.cpp
 
   Classes/lib/permissive-fov.cc
-  Classes/lib/DungeonMaker.cpp
 
   ${PLATFORM_SPECIFIC_SRC}
 )
@@ -210,11 +208,10 @@ set(GAME_HEADERS
   Classes/dungeon/dungeon_state.h
   Classes/dungeon/tile_gid.h
   Classes/dungeon/level_manager.h
-  Classes/dungeon/generators/grid_generator.h
-  Classes/dungeon/generators/cave_grid_generator.h
-  Classes/dungeon/generators/tmx_builder.h
-  Classes/dungeon/generators/dungeon_maker_generator.h
-  Classes/dungeon/generators/dungeon_generator.h
+  Classes/dungeon/grid_generator.h
+  Classes/dungeon/tmx_builder.h
+  Classes/dungeon/dungeon_generator.h
+  Classes/dungeon/room.h
 
   Classes/utils/directions.h
   Classes/utils/utils.h
@@ -224,7 +221,6 @@ set(GAME_HEADERS
 
   Classes/lib/permissive-fov.h
   Classes/lib/permissive-fov-cpp.h
-  Classes/lib/DungeonMaker.h
 
   ${PLATFORM_SPECIFIC_HEADERS}
 )

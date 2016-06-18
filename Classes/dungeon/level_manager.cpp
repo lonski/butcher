@@ -1,8 +1,6 @@
 #include "level_manager.h"
 #include <dungeon/dungeon_state.h>
-#include <dungeon/generators/cave_grid_generator.h>
-#include <dungeon/generators/dungeon_maker_generator.h>
-#include <dungeon/generators/dungeon_generator.h>
+#include <dungeon/dungeon_generator.h>
 #include <data/levels_generated.h>
 
 namespace cc = cocos2d;
@@ -43,10 +41,7 @@ cc::TMXTiledMap *LevelManager::generateMap(unsigned level)
 
   switch(levelData->generator())
   {
-    case GeneratorType_NaturalCave:
-      gen.reset( new CaveGenerator );
-    break;
-    case GeneratorType_DungeonMaker:
+    case GeneratorType_DungeonGenerator:
       gen.reset( new DungeonGenerator );
     break;
   }

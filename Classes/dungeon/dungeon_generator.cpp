@@ -44,19 +44,13 @@ void DungeonGenerator::putRooms()
     int x = cocos2d::RandomHelper::random_int(w / 2 + 2, _grid.width - w / 2 - 2);
     int y = cocos2d::RandomHelper::random_int(h / 2 + 2, _grid.height - h / 2 - 2);
 
-    Room room(x,y,w,h);
+    std::shared_ptr<Room> room(new RectRoom(w,h));
 
-    bool intersects = false;
-    for (auto r : _rooms)
-    {
-      intersects = room.intersects(r);
-      if ( intersects )
-        break;
-    }
+    bool overlaps = room->overlaps(_grid, cc::Vec2(x,y));
 
-    if ( !intersects )
+    if ( !overlaps )
     {
-      room.put_into(_grid);
+      room->put_into(_grid, cc::Vec2(x,y));
       _rooms.push_back(room);
     }
   }
@@ -67,6 +61,8 @@ void DungeonGenerator::growMaze(cc::Vec2 pos)
   std::vector<cc::Vec2> cells;
   cells.push_back( pos );
   _grid.set(pos, Tiles::FLOOR);
+
+  Direction::Symbol lastDir = Direction::None;
 
   while( !cells.empty() )
   {
@@ -80,8 +76,17 @@ void DungeonGenerator::growMaze(cc::Vec2 pos)
 
     if ( !possibleDirections.empty() )
     {
-      int i = cc::RandomHelper::random_int(0, (int)possibleDirections.size() - 1);
-      cc::Vec2 nb = Direction::getNeighbour(cell, possibleDirections[i]);
+      Direction::Symbol dir = possibleDirections[cc::RandomHelper::random_int(0, (int)possibleDirections.size() - 1)];
+
+      if ( std::find(possibleDirections.begin(), possibleDirections.end(), lastDir) != possibleDirections.end() &&
+           cc::RandomHelper::random_int(0,100) < _settings->windy_chance() )
+      {
+        dir = lastDir;
+      }
+
+      lastDir = dir;
+
+      cc::Vec2 nb = Direction::getNeighbour(cell, dir);
       _grid.set(nb, Tiles::FLOOR);
       cells.push_back(nb);
     }
@@ -163,12 +168,12 @@ void DungeonGenerator::removeDeadEnds()
 
 void DungeonGenerator::connectRooms()
 {
-  for ( Room& r : _rooms )
+  for ( std::shared_ptr<Room> r : _rooms )
   {
     bool connected = false;
     while ( !connected || cc::RandomHelper::random_int(0,100) <= _settings->multiple_room_exit_chance() )
     {
-      cc::Vec2 hole = r.getRandomWall();
+      cc::Vec2 hole = r->getRandomWall();
 
       if ( _grid.checkPattern(hole, " . "
                                     "#X#"
