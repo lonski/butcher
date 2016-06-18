@@ -86,7 +86,7 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   touchLocation = this->convertToNodeSpace(touchLocation);
 
   cc::Vec2 diff = positionToTileCoord(_state->map(), touchLocation) - BUTCHER.getPlayer()->getTileCoord();
-  Direction direction = Direction::None;
+  Direction::Symbol direction = Direction::None;
 
 
   if ( diff.x > 0 && diff.y == 0 )

@@ -9,7 +9,7 @@ namespace cc = cocos2d;
 
 namespace butcher {
 
-MoveAction::MoveAction(Direction direction)
+MoveAction::MoveAction(Direction::Symbol direction)
   : _state( BUTCHER.getCurrentDungeon() )
   , _direction(direction)
 {

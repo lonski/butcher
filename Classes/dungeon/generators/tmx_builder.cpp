@@ -48,7 +48,6 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
   }
 
   //Fill layers
-  std::map<Direction, char> neighbours;
   cc::ValueVector objects;
   int mobs_count(0);
   int max_mobs(100);
@@ -64,70 +63,63 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
       }
       else if ( tile == Tiles::FLOOR )
       {
-        neighbours[Direction::North] = grid.get(x,y-1);
-        neighbours[Direction::NorthEast] = grid.get(x+1,y-1);
-        neighbours[Direction::East] = grid.get(x+1,y);
-        neighbours[Direction::SouthEast] = grid.get(x+1,y+1);
-        neighbours[Direction::South] = grid.get(x,y+1);
-        neighbours[Direction::SouthWest] = grid.get(x-1,y+1);
-        neighbours[Direction::West] = grid.get(x-1,y);
-        neighbours[Direction::NorthWest] = grid.get(x-1,y-1);
+        cc::Vec2 pos(x,y);
 
-        if ( checkPattern(" . "
-                          "#X."
-                          " . ", neighbours) )
+        if ( grid.checkPattern( pos, " . "
+                                     "#X."
+                                     " . ") )
           _tiles->setTileGID((int)TileGID::Left, cc::Vec2(x,y));
-        else if ( checkPattern(" . "
-                               ".X#"
-                               " . ", neighbours) )
+        else if ( grid.checkPattern(pos, " . "
+                                         ".X#"
+                                         " . ") )
           _tiles->setTileGID((int)TileGID::Right, cc::Vec2(x,y));
-        else if ( checkPattern(" # "
-                               ".X."
-                               " . ", neighbours) )
+        else if ( grid.checkPattern( pos, " # "
+                                          ".X."
+                                          " . ") )
           _tiles->setTileGID((int)TileGID::Top, cc::Vec2(x,y));
-        else if ( checkPattern(" . "
-                               ".X."
-                               " # ", neighbours) )
+        else if ( grid.checkPattern( pos, " . "
+                                          ".X."
+                                          " # ") )
           _tiles->setTileGID((int)TileGID::Bottom, cc::Vec2(x,y));
-        else if ( checkPattern(" # "
-                               ".X#"
-                               " . ", neighbours) )
+        else if ( grid.checkPattern( pos, " # "
+                                          ".X#"
+                                          " . ") )
           _tiles->setTileGID((int)TileGID::TopRight, cc::Vec2(x,y));
-        else if ( checkPattern(" . "
-                               ".X#"
-                               " # ", neighbours) )
+        else if ( grid.checkPattern( pos, " . "
+                                          ".X#"
+                                          " # ") )
           _tiles->setTileGID((int)TileGID::BottomRight, cc::Vec2(x,y));
-        else if ( checkPattern(" . "
-                               "#X."
-                               " # ", neighbours) )
+        else if ( grid.checkPattern( pos, " . "
+                                          "#X."
+                                          " # ") )
           _tiles->setTileGID((int)TileGID::BottomLeft, cc::Vec2(x,y));
-        else if ( checkPattern(" # "
-                               "#X."
-                               " . ", neighbours) )
+        else if ( grid.checkPattern( pos, " # "
+                                          "#X."
+                                          " . ") )
           _tiles->setTileGID((int)TileGID::TopLeft, cc::Vec2(x,y));
-        else if ( checkPattern(" . "
-                               "#X#"
-                               " . ", neighbours) )
+        else if ( grid.checkPattern( pos, " . "
+                                          "#X#"
+                                          " . ") )
           _tiles->setTileGID((int)TileGID::VPassage, cc::Vec2(x,y));
-        else if ( checkPattern(" # "
-                               ".X."
-                               " # ", neighbours) )
+        else if ( grid.checkPattern( pos, " # "
+                                          ".X."
+                                          " # ") )
           _tiles->setTileGID((int)TileGID::HPassage, cc::Vec2(x,y));
-        else if ( checkPattern(" # "
-                               "#X#"
-                               " . ", neighbours) )
+        else if ( grid.checkPattern( pos, " # "
+                                          "#X#"
+                                          " . ") )
           _tiles->setTileGID((int)TileGID::TopDeadEnd, cc::Vec2(x,y));
-        else if ( checkPattern(" . "
-                               "#X#"
-                               " # ", neighbours) )
+        else if ( grid.checkPattern( pos, " . "
+                                          "#X#"
+                                          " # ") )
           _tiles->setTileGID((int)TileGID::BottomDeadEnd, cc::Vec2(x,y));
-        else if ( checkPattern(" # "
-                               ".X#"
-                               " # ", neighbours) )
+        else if ( grid.checkPattern( pos, " # "
+                                          ".X#"
+                                          " # ") )
           _tiles->setTileGID((int)TileGID::RightDeadEnd, cc::Vec2(x,y));
-        else if ( checkPattern(" # "
-                               "#X."
-                               " # ", neighbours) )
+        else if ( grid.checkPattern( pos, " # "
+                                          "#X."
+                                          " # ") )
           _tiles->setTileGID((int)TileGID::LeftDeadEnd, cc::Vec2(x,y));
 
         else
@@ -194,25 +186,6 @@ cocos2d::Value TMXBuilder::addActorSpawn(int id, int y, int x)
   spawn["y"] = cc::Value(y);
 
   return cc::Value(spawn);
-}
-
-bool TMXBuilder::checkPattern(const std::string &pattern, std::map<Direction, char> n)
-{
-  if ( pattern.size() < 9 )
-  {
-    cc::log("invalid pattern size - %u", (unsigned)pattern.size());
-    return false;
-  }
-
-  return (n[Direction::NorthWest] == pattern[0] || pattern[0] == ' ') &&
-         (n[Direction::North] == pattern[1] || pattern[1] == ' ') &&
-         (n[Direction::NorthEast] == pattern[2] || pattern[2] == ' ') &&
-         (n[Direction::West] == pattern[3] || pattern[3] == ' ') &&
-         (n[Direction::East] == pattern[5] || pattern[5] == ' ') &&
-         (n[Direction::SouthWest] == pattern[6] || pattern[6] == ' ') &&
-         (n[Direction::South] == pattern[7] || pattern[7] == ' ') &&
-         (n[Direction::SouthEast] == pattern[8] || pattern[8] == ' ');
-
 }
 
 }

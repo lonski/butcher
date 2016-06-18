@@ -14,6 +14,13 @@ table LevelData {
 	generator:GeneratorType;
 	map_template:string;
 	design_file:string;
+	
+	width:int;
+	height:int;
+	min_room_size:int;
+	max_room_size:int;
+	max_rooms:int;
+	multiple_room_exit_chance:int;
 }
 
 root_type LevelsData;

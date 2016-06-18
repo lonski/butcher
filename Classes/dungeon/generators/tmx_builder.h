@@ -23,7 +23,6 @@ private:
   Grid _grid;
   std::string _mapTemplateFn;
 
-  bool checkPattern(const std::string& pattern, std::map<Direction, char>);
   cocos2d::Value addActorSpawn(int id, int y, int x);
 };
 

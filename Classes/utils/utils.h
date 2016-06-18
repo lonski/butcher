@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include "cocos2d.h"
+#include <utils/directions.h>
 
 namespace butcher {
 

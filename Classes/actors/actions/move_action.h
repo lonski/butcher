@@ -12,12 +12,12 @@ class DungeonState;
 class MoveAction : public ActorAction
 {
 public:
-  MoveAction(Direction direction);
+  MoveAction(Direction::Symbol direction);
   virtual bool perform(Actor* actor);
 
 private:
   DungeonState* _state;
-  Direction _direction;
+  Direction::Symbol _direction;
 
   bool validatePosition(cocos2d::Vec2 pos);
 };

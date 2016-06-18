@@ -158,10 +158,12 @@ set(GAME_SRC
   Classes/dungeon/generators/cave_grid_generator.cpp
   Classes/dungeon/generators/tmx_builder.cpp
   Classes/dungeon/generators/dungeon_maker_generator.cpp
+  Classes/dungeon/generators/dungeon_generator.cpp
 
   Classes/utils/utils.cpp
   Classes/utils/target.cpp
   Classes/utils/profiler.cpp
+  Classes/utils/directions.cpp
 
   Classes/lib/permissive-fov.cc
   Classes/lib/DungeonMaker.cpp
@@ -212,6 +214,7 @@ set(GAME_HEADERS
   Classes/dungeon/generators/cave_grid_generator.h
   Classes/dungeon/generators/tmx_builder.h
   Classes/dungeon/generators/dungeon_maker_generator.h
+  Classes/dungeon/generators/dungeon_generator.h
 
   Classes/utils/directions.h
   Classes/utils/utils.h

@@ -14,7 +14,24 @@
       id: 3,
       generator: 1,
       map_template: "dungeons/empty_cave.tmx",
-      design_file: "default.design"
+	  width: 50,
+	  height: 50,
+	  min_room_size: 5,
+	  max_room_size: 15,
+	  max_rooms: 50,
+	  multiple_room_exit_chance: 10
+    },
+    {
+      id: 4,
+      generator: 1,
+      map_template: "dungeons/empty_cave.tmx",
+	  width: 80,
+	  height: 80,
+	  min_room_size: 5,
+	  max_room_size: 20,
+	  max_rooms: 50,
+	  multiple_room_exit_chance: 20
     }
   ]
 }
+

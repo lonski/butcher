@@ -7,6 +7,7 @@
 #include <dungeon/dungeon_state.h>
 #include <lib/DungeonMaker.h>
 #include <view/loading_scene.h>
+#include <dungeon/generators/dungeon_generator.h>
 
 namespace cc = cocos2d;
 

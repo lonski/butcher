@@ -23,7 +23,7 @@ void Wandering::update()
   if ( validatePreconditions() )
   {
     int i = cocos2d::RandomHelper::random_int( 0, 4 );
-    _ai->getActor()->performAction( new MoveAction( (Direction)i ) );
+    _ai->getActor()->performAction( new MoveAction( (Direction::Symbol)i ) );
   }
 }
 
