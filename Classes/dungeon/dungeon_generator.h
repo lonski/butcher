@@ -2,16 +2,31 @@
 #define DUNGEON_GENERATOR_H
 
 #include <string>
-#include <dungeon/grid_generator.h>
 #include <dungeon/room.h>
 #include "cocos2d.h"
 
 namespace butcher {
 
-class DungeonGenerator : public GridGenerator
+struct LevelData;
+
+struct DungeonDescription
+{
+  DungeonDescription()
+  {}
+
+  DungeonDescription(const Grid& g, std::vector<std::shared_ptr<Room>> r)
+    : grid(g)
+    , rooms(r)
+  {}
+
+  Grid grid;
+  std::vector<std::shared_ptr<Room>> rooms;
+};
+
+class DungeonGenerator
 {
 public:
-  virtual Grid generate(const LevelData* data);
+  DungeonDescription generate(const LevelData* data);
 
     
 private:

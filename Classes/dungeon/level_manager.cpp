@@ -1,6 +1,5 @@
 #include "level_manager.h"
 #include <dungeon/dungeon_state.h>
-#include <dungeon/dungeon_generator.h>
 #include <data/levels_generated.h>
 
 namespace cc = cocos2d;
@@ -27,7 +26,7 @@ DungeonState *LevelManager::getLevel(int level)
   return dungeonState;
 }
 
-cc::TMXTiledMap *LevelManager::generateMap(unsigned level)
+cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
 {
   const LevelData* levelData = _levels.getLevelData(level);
 
@@ -37,11 +36,12 @@ cc::TMXTiledMap *LevelManager::generateMap(unsigned level)
     return nullptr;
   }
 
-  std::unique_ptr<GridGenerator> gen( new DungeonGenerator );
+  DungeonDescription dsc = _dungeonGenerator.generate(levelData);
 
   _mapBuilder.setMapTemplate( levelData->map_template()->c_str() );
-  Grid grid = gen->generate(levelData);
-  return _mapBuilder.build( grid );
+  cc::TMXTiledMap* map = _mapBuilder.build( dsc.grid );
+
+  return map;
 }
 
 }

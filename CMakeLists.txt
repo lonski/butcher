@@ -208,7 +208,6 @@ set(GAME_HEADERS
   Classes/dungeon/dungeon_state.h
   Classes/dungeon/tile_gid.h
   Classes/dungeon/level_manager.h
-  Classes/dungeon/grid_generator.h
   Classes/dungeon/tmx_builder.h
   Classes/dungeon/dungeon_generator.h
   Classes/dungeon/room.h

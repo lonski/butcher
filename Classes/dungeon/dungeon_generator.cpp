@@ -6,16 +6,17 @@ namespace cc = cocos2d;
 
 namespace butcher {
 
-Grid DungeonGenerator::generate(const LevelData* data)
+DungeonDescription DungeonGenerator::generate(const LevelData* data)
 {
   if ( data == nullptr )
   {
     cc::log("%s LevelData is null!", __PRETTY_FUNCTION__);
-    return Grid();
+    return DungeonDescription();
   }
 
   _settings = data;
   _grid = Grid(_settings->width(), _settings->height());
+  _rooms.clear();
 
   putRooms();
 
@@ -35,7 +36,7 @@ Grid DungeonGenerator::generate(const LevelData* data)
   connectRooms();
   removeDeadEnds();
 
-  return _grid;
+  return DungeonDescription(_grid, _rooms);
 }
 
 void DungeonGenerator::putRooms()
