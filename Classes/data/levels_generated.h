@@ -27,7 +27,7 @@ inline flatbuffers::Offset<LevelsData> CreateLevelsData(flatbuffers::FlatBufferB
 }
 
 struct LevelData : private flatbuffers::Table {
-  uint32_t id() const { return GetField<uint32_t>(4, 0); }
+  const flatbuffers::Vector<int32_t> *depth() const { return GetPointer<const flatbuffers::Vector<int32_t> *>(4); }
   const flatbuffers::String *map_template() const { return GetPointer<const flatbuffers::String *>(6); }
   int32_t width() const { return GetField<int32_t>(8, 0); }
   int32_t height() const { return GetField<int32_t>(10, 0); }
@@ -42,7 +42,7 @@ struct LevelData : private flatbuffers::Table {
 struct LevelDataBuilder {
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_id(uint32_t id) { fbb_.AddElement<uint32_t>(4, id, 0); }
+  void add_depth(flatbuffers::Offset<flatbuffers::Vector<int32_t>> depth) { fbb_.AddOffset(4, depth); }
   void add_map_template(flatbuffers::Offset<flatbuffers::String> map_template) { fbb_.AddOffset(6, map_template); }
   void add_width(int32_t width) { fbb_.AddElement<int32_t>(8, width, 0); }
   void add_height(int32_t height) { fbb_.AddElement<int32_t>(10, height, 0); }
@@ -56,7 +56,7 @@ struct LevelDataBuilder {
   flatbuffers::Offset<LevelData> Finish() { return flatbuffers::Offset<LevelData>(fbb_.EndTable(start_, 10)); }
 };
 
-inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, flatbuffers::Offset<flatbuffers::String> map_template, int32_t width, int32_t height, int32_t min_room_size, int32_t max_room_size, int32_t max_rooms, int32_t rect_room_chance, int32_t polygon_room_chance, int32_t windy_chance) {
+inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, flatbuffers::Offset<flatbuffers::Vector<int32_t>> depth, flatbuffers::Offset<flatbuffers::String> map_template, int32_t width, int32_t height, int32_t min_room_size, int32_t max_room_size, int32_t max_rooms, int32_t rect_room_chance, int32_t polygon_room_chance, int32_t windy_chance) {
   LevelDataBuilder builder_(_fbb);
   builder_.add_windy_chance(windy_chance);
   builder_.add_polygon_room_chance(polygon_room_chance);
@@ -67,7 +67,7 @@ inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBui
   builder_.add_height(height);
   builder_.add_width(width);
   builder_.add_map_template(map_template);
-  builder_.add_id(id);
+  builder_.add_depth(depth);
   return builder_.Finish();
 }
 

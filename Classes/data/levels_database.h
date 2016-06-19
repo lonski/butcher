@@ -12,7 +12,7 @@ class LevelDatabase
 public:
   LevelDatabase();
   bool load(const std::string& fn);
-  const LevelData* getLevelData(unsigned id);
+  const LevelData* getLevelData(unsigned depth);
 
 private:
   cocos2d::Data _fileData;

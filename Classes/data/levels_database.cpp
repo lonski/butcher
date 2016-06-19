@@ -34,12 +34,12 @@ bool LevelDatabase::load(const std::string &fn)
   return true;
 }
 
-const LevelData *LevelDatabase::getLevelData(unsigned id)
+const LevelData *LevelDatabase::getLevelData(unsigned depth)
 {
   for (unsigned i = 0; i < _levels->Length(); ++i)
   {
     const LevelData* d = _levels->Get(i);
-    if ( d->id() == id )
+    if ( depth >= (unsigned)d->depth()->Get(0) &&  depth <= (unsigned)d->depth()->Get(1) )
       return d;
   }
   return nullptr;

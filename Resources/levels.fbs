@@ -5,7 +5,8 @@ table LevelsData {
 }
 
 table LevelData {
-	id:uint;
+	depth:[int];
+	
 	map_template:string;
 	
 	width:int;
