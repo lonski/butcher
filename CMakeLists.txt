@@ -211,6 +211,7 @@ set(GAME_HEADERS
   Classes/dungeon/tmx_builder.h
   Classes/dungeon/dungeon_generator.h
   Classes/dungeon/room.h
+  Classes/dungeon/dungeon_description.h
 
   Classes/utils/directions.h
   Classes/utils/utils.h

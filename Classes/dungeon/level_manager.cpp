@@ -36,12 +36,16 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
     return nullptr;
   }
 
-  DungeonDescription dsc = _dungeonGenerator.generate(levelData);
+  DungeonDescription description;
+  description.settings = levelData;
+
+  if ( !_dungeonGenerator.generate(description) )
+    return nullptr;
 
   _mapBuilder.setMapTemplate( levelData->map_template()->c_str() );
-  cc::TMXTiledMap* map = _mapBuilder.build( dsc.grid );
+  description.tmx = _mapBuilder.build( description.grid );
 
-  return map;
+  return description.tmx;
 }
 
 }

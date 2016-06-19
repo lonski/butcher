@@ -3,36 +3,20 @@
 
 #include <string>
 #include <dungeon/room.h>
+#include <dungeon/dungeon_description.h>
 #include "cocos2d.h"
 
 namespace butcher {
 
 struct LevelData;
 
-struct DungeonDescription
-{
-  DungeonDescription()
-  {}
-
-  DungeonDescription(const Grid& g, std::vector<std::shared_ptr<Room>> r)
-    : grid(g)
-    , rooms(r)
-  {}
-
-  Grid grid;
-  std::vector<std::shared_ptr<Room>> rooms;
-};
-
 class DungeonGenerator
 {
 public:
-  DungeonDescription generate(const LevelData* data);
+  bool generate(DungeonDescription& description);
 
-    
 private:
-  std::vector<std::shared_ptr<Room>> _rooms;
-  Grid _grid;
-  const LevelData* _settings;
+  DungeonDescription* _data;
 
   void putRooms();
   void growMaze(cocos2d::Vec2 pos);
