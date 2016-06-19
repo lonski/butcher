@@ -8,7 +8,7 @@
 	  min_room_size: 10,
 	  max_room_size: 20,
 	  max_rooms: 100,
-      rect_room_chance: 0,
+      rect_room_chance: 100,
 	  polygon_room_chance: 100,
 	  windy_chance: 0
     },
@@ -20,7 +20,7 @@
 	  min_room_size: 10,
 	  max_room_size: 20,
 	  max_rooms: 100,
-      rect_room_chance: 0,
+      rect_room_chance: 100,
 	  polygon_room_chance: 100,
 	  windy_chance: 0
     },
@@ -32,7 +32,7 @@
 	  min_room_size: 4,
 	  max_room_size: 15,
 	  max_rooms: 100,
-      rect_room_chance: 30,
+      rect_room_chance: 100,
 	  polygon_room_chance: 70,
 	  windy_chance: 40
     },
@@ -44,7 +44,7 @@
 	  min_room_size: 4,
 	  max_room_size: 15,
 	  max_rooms: 100,
-      rect_room_chance: 80,
+      rect_room_chance: 100,
 	  polygon_room_chance: 20,
 	  windy_chance: 70
     }

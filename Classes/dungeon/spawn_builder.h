@@ -7,14 +7,21 @@ namespace butcher {
 
 class LevelData;
 struct DungeonDescription;
+struct Room;
 
 class SpawnBuilder
 {
 public:
-  void generateSpawns(const cocos2d::TMXTiledMap& map, const DungeonDescription& dungeon);
+  bool generateSpawns(DungeonDescription& dungeon);
 
 private:
-  const LevelData* _settings;
+  DungeonDescription* _dungeon;
+  cocos2d::TMXObjectGroup* _objectsLayer;
+  cocos2d::ValueVector _objects;
+
+  void addActorSpawn(int id, int y, int x);
+  void addActorSpawn(int id, cocos2d::Vec2 pos);
+  std::shared_ptr<Room> getRandomRoom() const;
 
 };
 

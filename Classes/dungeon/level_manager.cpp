@@ -45,6 +45,9 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
   _mapBuilder.setMapTemplate( levelData->map_template()->c_str() );
   description.tmx = _mapBuilder.build( description.grid );
 
+  if ( !_spawnBuilder.generateSpawns(description) )
+    return nullptr;
+
   return description.tmx;
 }
 

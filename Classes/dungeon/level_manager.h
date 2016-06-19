@@ -7,6 +7,7 @@
 #include <data/levels_database.h>
 #include <dungeon/tmx_builder.h>
 #include <dungeon/dungeon_generator.h>
+#include <dungeon/spawn_builder.h>
 
 namespace butcher {
 
@@ -29,6 +30,7 @@ private:
   LevelDatabase _levels;
   TMXBuilder _mapBuilder;
   DungeonGenerator _dungeonGenerator;
+  SpawnBuilder _spawnBuilder;
 
   cocos2d::TMXTiledMap* generateMap(unsigned level);
 

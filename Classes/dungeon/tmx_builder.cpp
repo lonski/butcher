@@ -40,18 +40,7 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
     return nullptr;
   }
 
-  cc::TMXObjectGroup* objectGroup = map->getObjectGroup("Objects");
-  if(objectGroup == nullptr)
-  {
-      cc::log("%s: Tile map has no objects object layer.", __FUNCTION__);
-      return nullptr;
-  }
-
   //Fill layers
-  cc::ValueVector objects;
-  int mobs_count(0);
-  int max_mobs(100);
-
   for(int y=0; y < grid.height; ++y)
   {
     for(int x=0; x < grid.width; ++x)
@@ -125,53 +114,9 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
         else
           _tiles->setTileGID((int)TileGID::Mid, cc::Vec2(x,y));
 
-        //Spawn mob
-        if ( mobs_count < max_mobs && cc::RandomHelper::random_int(0,100) < 3 )
-        {
-          objects.push_back( addActorSpawn(2, y, x) );
-          ++mobs_count;
-        }
-
       }
     }
   }
-
-  //spawn stairs up
-  char tile = 'X';
-  do
-  {
-    int y = cc::RandomHelper::random_int(0,grid.height);
-    int x = cc::RandomHelper::random_int(0,grid.width);
-    tile =  grid.get(x,y);
-    if ( tile == Tiles::FLOOR )
-    {
-      objects.push_back( addActorSpawn(4, y, x) );
-
-      Grid tmp = _grid;
-      tmp.floodfill(cc::Vec2(x,y), '+');
-      cc::log("%s", tmp.toStr().c_str());
-    }
-  }
-  while ( tile != Tiles::FLOOR );
-
-  //spawn stairs down
-  tile = 'X';
-  do
-  {
-    int y = cc::RandomHelper::random_int(0,grid.height);
-    int x = cc::RandomHelper::random_int(0,grid.width);
-    tile =  grid.get(x,y);
-    if ( tile == Tiles::FLOOR )
-    {
-      objects.push_back( addActorSpawn(3, y, x) );
-    }
-  }
-  while ( tile != Tiles::FLOOR );
-
-
-  objectGroup->setObjects(objects);
-
-  cc::log("%s: Generated %d mob spawns.", __PRETTY_FUNCTION__, mobs_count);
 
   return map;
 }
@@ -179,17 +124,6 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
 void TMXBuilder::setMapTemplate(const std::string &fn)
 {
   _mapTemplateFn = fn;
-}
-
-cocos2d::Value TMXBuilder::addActorSpawn(int id, int y, int x)
-{
-  cc::ValueMap spawn;
-  spawn["name"] = cc::Value("actor_spawn");
-  spawn["id"] = cc::Value(id);
-  spawn["x"] = cc::Value(x);
-  spawn["y"] = cc::Value(y);
-
-  return cc::Value(spawn);
 }
 
 }

@@ -158,6 +158,7 @@ set(GAME_SRC
   Classes/dungeon/tmx_builder.cpp
   Classes/dungeon/dungeon_generator.cpp
   Classes/dungeon/room.cpp
+  Classes/dungeon/spawn_builder.cpp
 
   Classes/utils/utils.cpp
   Classes/utils/target.cpp
@@ -212,6 +213,7 @@ set(GAME_HEADERS
   Classes/dungeon/dungeon_generator.h
   Classes/dungeon/room.h
   Classes/dungeon/dungeon_description.h
+  Classes/dungeon/spawn_builder.h
 
   Classes/utils/directions.h
   Classes/utils/utils.h
