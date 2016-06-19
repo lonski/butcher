@@ -8,6 +8,7 @@ namespace butcher {
 
 bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
 {
+  _objects.clear();
   _dungeon = &dungeon;
 
   if(_dungeon->tmx == nullptr)
@@ -23,16 +24,31 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
       return false;
   }
 
-  addActorSpawn(4, getRandomRoom()->getRandomTile(Tiles::FLOOR));
-  addActorSpawn(3, getRandomRoom()->getRandomTile(Tiles::FLOOR));
+  addStairs();
+  addMobs();
+
+  debugMapPrint();
 
   _objectsLayer->setObjects(_objects);
 
-  Grid tmp = _dungeon->grid;
-  tmp.floodfill(getRandomRoom()->getRandomTile(Tiles::FLOOR), '+');
-  cc::log("%s", tmp.toStr().c_str());
-
   return true;
+}
+
+void SpawnBuilder::addStairs()
+{
+  addActorSpawn(4, _dungeon->rooms.front()->getRandomTile(Tiles::FLOOR));
+  addActorSpawn(3, _dungeon->rooms.back()->getRandomTile(Tiles::FLOOR));
+}
+
+void SpawnBuilder::addMobs()
+{
+  for ( std::shared_ptr<Room> room : _dungeon->rooms )
+  {
+    int maxMobsInRoom = room->getTiles(Tiles::FLOOR).size() / 10;
+    while ( maxMobsInRoom-- )
+      if ( cc::RandomHelper::random_int(0,1) == 1 )
+        addActorSpawn(2, room->getRandomTile(Tiles::FLOOR));
+  }
 }
 
 void SpawnBuilder::addActorSpawn(int id, int y, int x)
@@ -48,7 +64,7 @@ void SpawnBuilder::addActorSpawn(int id, int y, int x)
 
 void SpawnBuilder::addActorSpawn(int id, cocos2d::Vec2 pos)
 {
-  addActorSpawn(id, pos.x, pos.y);
+  addActorSpawn(id, pos.y, pos.x);
 }
 
 std::shared_ptr<Room> SpawnBuilder::getRandomRoom() const
@@ -56,5 +72,11 @@ std::shared_ptr<Room> SpawnBuilder::getRandomRoom() const
   return _dungeon->rooms[ cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1) ];
 }
 
+void SpawnBuilder::debugMapPrint()
+{
+  Grid tmp = _dungeon->grid;
+  tmp.floodfill(getRandomRoom()->getRandomTile(Tiles::FLOOR), '+');
+  cc::log("%s", tmp.toStr().c_str());
+}
 
 }
