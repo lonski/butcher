@@ -77,6 +77,22 @@ struct Grid
 
   }
 
+  void floodfill(cocos2d::Vec2 pos, char c)
+  {
+    set(pos, c);
+    for( auto d : Direction::Symbol() )
+    {
+      if ( Direction::isCardinal(d) )
+      {
+        cocos2d::Vec2 nb = Direction::getNeighbour(pos, d);
+        if ( isValid(nb) && get(nb) != Tiles::WALL && get(nb) != c)
+        {
+          floodfill(nb, c);
+        }
+      }
+    }
+  }
+
   std::string toStr() const
   {
     std::string str;

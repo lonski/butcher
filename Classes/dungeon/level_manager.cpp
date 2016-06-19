@@ -37,23 +37,11 @@ cc::TMXTiledMap *LevelManager::generateMap(unsigned level)
     return nullptr;
   }
 
-  std::unique_ptr<GridGenerator> gen;
-
-  switch(levelData->generator())
-  {
-    case GeneratorType_DungeonGenerator:
-      gen.reset( new DungeonGenerator );
-    break;
-  }
-
-  if ( !gen )
-  {
-    cc::log("LevelManager::generateMap invalid level generator %d!", levelData->generator());
-    return nullptr;
-  }
+  std::unique_ptr<GridGenerator> gen( new DungeonGenerator );
 
   _mapBuilder.setMapTemplate( levelData->map_template()->c_str() );
-  return _mapBuilder.build( gen->generate(levelData) );
+  Grid grid = gen->generate(levelData);
+  return _mapBuilder.build( grid );
 }
 
 }

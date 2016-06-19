@@ -146,6 +146,10 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
     if ( tile == Tiles::FLOOR )
     {
       objects.push_back( addActorSpawn(4, y, x) );
+
+      Grid tmp = _grid;
+      tmp.floodfill(cc::Vec2(x,y), '+');
+      cc::log("%s", tmp.toStr().c_str());
     }
   }
   while ( tile != Tiles::FLOOR );

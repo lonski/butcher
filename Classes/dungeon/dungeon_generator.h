@@ -13,6 +13,7 @@ class DungeonGenerator : public GridGenerator
 public:
   virtual Grid generate(const LevelData* data);
 
+    
 private:
   std::vector<std::shared_ptr<Room>> _rooms;
   Grid _grid;
@@ -23,6 +24,8 @@ private:
   bool canCarve(cocos2d::Vec2 pos, Direction::Symbol dir);
   void removeDeadEnds();
   void connectRooms();
+  bool connectRoomAt(cocos2d::Vec2 hole);
+  int exitCount(cocos2d::Vec2 pos);
 };
 
 }

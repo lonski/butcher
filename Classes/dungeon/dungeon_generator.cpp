@@ -1,5 +1,6 @@
 #include "dungeon_generator.h"
 #include <data/levels_generated.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
@@ -20,13 +21,19 @@ Grid DungeonGenerator::generate(const LevelData* data)
 
   for (int y = 1; y < _grid.height; y += 2)
     for (int x = 1; x < _grid.width; x += 2)
-      if (_grid.checkPattern(cc::Vec2(x,y), "#########") )
+      if ( exitCount(cc::Vec2(x,y)) == 0 )
         growMaze(cc::Vec2(x,y));
 
   connectRooms();
   removeDeadEnds();
 
-  cc::log("%s", _grid.toStr().c_str());
+  for (int y = 1; y < _grid.height; y += 2)
+    for (int x = 1; x < _grid.width; x += 2)
+      if ( exitCount(cc::Vec2(x,y)) == 0 )
+        growMaze(cc::Vec2(x,y));
+
+  connectRooms();
+  removeDeadEnds();
 
   return _grid;
 }
@@ -44,7 +51,13 @@ void DungeonGenerator::putRooms()
     int x = cocos2d::RandomHelper::random_int(w / 2 + 2, _grid.width - w / 2 - 2);
     int y = cocos2d::RandomHelper::random_int(h / 2 + 2, _grid.height - h / 2 - 2);
 
-    std::shared_ptr<Room> room(new RectRoom(w,h));
+    int roll = cocos2d::RandomHelper::random_int(0,100);
+    std::shared_ptr<Room> room;
+
+    if ( roll <= _settings->rect_room_chance() )
+      room.reset(new RectRoom(w,h));
+    else
+      room.reset(new PolygonRoom(w,h));
 
     bool overlaps = room->overlaps(_grid, cc::Vec2(x,y));
 
@@ -150,13 +163,8 @@ void DungeonGenerator::removeDeadEnds()
         if ( _grid.get(x,y) == Tiles::WALL)
           continue;
 
-        int exits = 0;
-        for( auto dir : Direction::Symbol() )
-          if ( Direction::isCardinal(dir) )
-            if ( _grid.get(Direction::getNeighbour(cc::Vec2(x,y), dir)) != Tiles::WALL)
-              ++exits;
 
-        if ( exits > 1 )
+        if ( exitCount(cc::Vec2(x,y)) > 1 )
           continue;
 
         _grid.set(cc::Vec2(x,y), Tiles::WALL);
@@ -166,27 +174,59 @@ void DungeonGenerator::removeDeadEnds()
   }
 }
 
+bool DungeonGenerator::connectRoomAt(cc::Vec2 pos)
+{
+  if ( _grid.checkPattern(pos, " . "
+                               "#X#"
+                               " . ") ||
+       _grid.checkPattern(pos, " # "
+                               ".X."
+                               " # ") )
+  {
+    _grid.set(pos, Tiles::FLOOR);
+    return true;
+  }
+
+  return false;
+}
+
+int DungeonGenerator::exitCount(cocos2d::Vec2 pos)
+{
+  int exits = 0;
+
+  for( auto dir : Direction::Symbol() )
+    if ( Direction::isCardinal(dir) )
+      if ( _grid.get(Direction::getNeighbour(pos, dir)) != Tiles::WALL)
+        ++exits;
+
+  return exits;
+}
+
 void DungeonGenerator::connectRooms()
 {
-  for ( std::shared_ptr<Room> r : _rooms )
+  for (auto room : _rooms)
   {
     bool connected = false;
-    while ( !connected || cc::RandomHelper::random_int(0,100) <= _settings->multiple_room_exit_chance() )
-    {
-      cc::Vec2 hole = r->getRandomWall();
+    int connectAttempts = 10;
 
-      if ( _grid.checkPattern(hole, " . "
-                                    "#X#"
-                                    " . ") ||
-           _grid.checkPattern(hole, " # "
-                                    ".X."
-                                    " # ") )
+    while ( !connected && connectAttempts-- )
+    {
+      connected = connectRoomAt( room->getRandomTile(Tiles::WALL) );
+    }
+
+    //recovery if failed to connect via random wall
+    if ( connectAttempts == 0 )
+    {
+      std::vector<cc::Vec2> allWalls = room->getTiles(Tiles::WALL);
+      for (cc::Vec2 w : allWalls )
       {
-        _grid.set(hole, Tiles::FLOOR);
-        connected = true;
+        connected = connectRoomAt(w);
+        if ( connected )
+            break;
       }
     }
   }
+
 }
 
 }
