@@ -2,6 +2,7 @@
 #define ACTOR_H
 
 #include <string>
+#include <actors/actor_id.h>
 #include "cocos2d.h"
 
 namespace butcher {
@@ -12,21 +13,13 @@ class ActorAction;
 class Actor
 {
 public:
-  enum ID {
-    INVALID = 0,
-    PLAYER,
-    COW,
-    STAIRS_DOWN,
-    STAIRS_UP
-  };
-
   Actor(const ActorData *data);
   virtual ~Actor() = 0;
 
   static Actor* create(const ActorData* data);
   virtual Actor* clone(Actor* allocated = nullptr);
 
-  ID id() const;
+  ActorID id() const;
   virtual int getZ() const = 0;
 
   std::string name() const;
@@ -61,7 +54,7 @@ public:
    */
   virtual void onInterract(Actor* actor);
 
-  virtual void onDie();
+  virtual void onDestroy();
 
   void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
 

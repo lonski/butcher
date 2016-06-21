@@ -181,6 +181,7 @@ set(GAME_HEADERS
   Classes/view/hud_log.h
 
   Classes/actors/actor.h
+  Classes/actors/actor_id.h
   Classes/actors/character.h
   Classes/actors/player.h
   Classes/actors/object.h

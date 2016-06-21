@@ -116,9 +116,9 @@ void Actor::setTransparent(bool transparent)
   _transparent = transparent;
 }
 
-Actor::ID Actor::id() const
+ActorID Actor::id() const
 {
-  return static_cast<ID>(_id);
+  return static_cast<ActorID>(_id);
 }
 
 std::unique_ptr<cocos2d::Sprite>& Actor::sprite()
@@ -179,7 +179,7 @@ void Actor::nextTurn()
 {
 }
 
-void Actor::onDie()
+void Actor::onDestroy()
 {
 }
 

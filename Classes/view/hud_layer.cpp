@@ -59,7 +59,6 @@ bool HudLayer::init()
 
 void HudLayer::log(const std::string &str)
 {
-
   cc::Vec2 origin = cc::Director::getInstance()->getVisibleOrigin();
   auto visibleSize = cc::Director::getInstance()->getVisibleSize();
 
@@ -69,7 +68,6 @@ void HudLayer::log(const std::string &str)
   _log.setPosition( origin.x + 16, origin.y + visibleSize.height - 16 );
 
   addChild(&_log, 1);
-
 }
 
 void HudLayer::showMenu(Ref *)

@@ -20,7 +20,7 @@ bool DieAction::perform(Actor *actor)
     return false;
   }
 
-  actor->onDie();
+  actor->onDestroy();
 
   cc::Sprite* s = actor->sprite().release();
   s->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );
