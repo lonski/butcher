@@ -3,6 +3,7 @@
 #include <actors/player.h>
 #include <actors/monster.h>
 #include <actors/object.h>
+#include <actors/item.h>
 #include "cocos2d.h"
 #include <actors/actions/actor_action.h>
 #include <utils/utils.h>
@@ -59,6 +60,9 @@ Actor* Actor::create(const ActorData *data)
       break;
     case ActorType_StairsUp:
       actor = new StairsUp(data);
+      break;
+    case ActorType_Item:
+      actor = new Item(data);
       break;
     default:
       cocos2d::log("Actor::create: incorrect actor type (%d)!", data->type());

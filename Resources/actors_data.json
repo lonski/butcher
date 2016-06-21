@@ -43,6 +43,22 @@
       blocks: 0,
       transparent: 1,
       sprite_file: "images/stairs_up.png"
+    },
+    {
+      id: 5,
+      name: "Meat",
+      type: 2,
+      blocks: 0,
+      transparent: 1,
+      sprite_file: ""
+    },
+    {
+      id: 6,
+      name: "Bone",
+      type: 2,
+      blocks: 0,
+      transparent: 1,
+      sprite_file: ""
     }
   ]
 }

@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <actors/character.h>
+#include <actors/item.h>
 
 namespace butcher {
 
@@ -14,6 +15,12 @@ public:
 
   virtual Actor* clone(Actor* allocated = nullptr);
   virtual void onCollide(Actor* obstacle);
+
+private:
+  typedef std::map<ActorID, AmountedItem> Inventory;
+
+  Inventory _inventory;
+
 
 };
 

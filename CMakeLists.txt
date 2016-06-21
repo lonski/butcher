@@ -133,6 +133,7 @@ set(GAME_SRC
 
   Classes/actors/actor.cpp
   Classes/actors/object.cpp
+  Classes/actors/item.cpp
   Classes/actors/character.cpp
   Classes/actors/player.cpp
   Classes/actors/monster.cpp
@@ -186,6 +187,7 @@ set(GAME_HEADERS
   Classes/actors/player.h
   Classes/actors/object.h
   Classes/actors/monster.h
+  Classes/actors/item.h
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h

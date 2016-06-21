@@ -20,6 +20,9 @@ Actor* Player::clone(Actor *allocated)
   if ( p == nullptr )
     p = new Player(nullptr);
 
+  for ( auto& kv : _inventory )
+    p->_inventory[kv.first] = kv.second;
+
   Character::clone(p);
 
   return p;

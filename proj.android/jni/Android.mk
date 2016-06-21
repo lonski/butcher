@@ -20,6 +20,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/view/hud_log.cpp \
 ../../Classes/actors/actor.cpp \
 ../../Classes/actors/object.cpp \
+../../Classes/actors/item.cpp \
 ../../Classes/actors/character.cpp \
 ../../Classes/actors/player.cpp \
 ../../Classes/actors/monster.cpp \

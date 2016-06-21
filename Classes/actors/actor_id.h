@@ -9,7 +9,9 @@ enum class ActorID
   PLAYER,
   COW,
   STAIRS_DOWN,
-  STAIRS_UP
+  STAIRS_UP,
+  MEAT,
+  BONE
 };
 
 }
