@@ -72,7 +72,8 @@ bool DungeonState::setMap(cocos2d::TMXTiledMap *map)
     cc::ValueMap obj = o.asValueMap();
     if ( obj["name"].asString() == "actor_spawn" && obj.find("id") != obj.end())
     {
-      addActor(obj["id"].asInt(), cc::Vec2(obj["x"].asInt(), obj["y"].asInt()));
+      addActor( static_cast<ActorID>(obj["id"].asInt()),
+                cc::Vec2(obj["x"].asInt(), obj["y"].asInt()) );
     }
   }
 
@@ -149,7 +150,7 @@ void DungeonState::addPlayer()
   _actors.insert( player );
 }
 
-void DungeonState::addActor(int id, cc::Vec2 coord)
+void DungeonState::addActor(ActorID id, cc::Vec2 coord)
 {
   Actor* actor = BUTCHER.actorsDatabase().createActor<Actor>(id);
   if ( actor )

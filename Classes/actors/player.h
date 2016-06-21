@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include <actors/character.h>
-#include <actors/item.h>
+#include <actors/amounted_item.h>
 
 namespace butcher {
 

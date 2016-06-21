@@ -1,7 +1,6 @@
 // automatically generated, do not modify
 #ifndef dupa_cycki
 #define dupa_cycki
-
 #include "flatbuffers/flatbuffers.h"
 
 namespace butcher {
@@ -23,6 +22,7 @@ inline const char **EnumNamesActorType() {
 inline const char *EnumNameActorType(int e) { return EnumNamesActorType()[e]; }
 
 struct ActorsData;
+struct DropRuleData;
 struct ActorData;
 
 struct ActorsData : private flatbuffers::Table {
@@ -43,6 +43,33 @@ inline flatbuffers::Offset<ActorsData> CreateActorsData(flatbuffers::FlatBufferB
   return builder_.Finish();
 }
 
+struct DropRuleData : private flatbuffers::Table {
+  uint32_t item_id() const { return GetField<uint32_t>(4, 0); }
+  uint16_t chance() const { return GetField<uint16_t>(6, 0); }
+  uint16_t amount_min() const { return GetField<uint16_t>(8, 0); }
+  uint16_t amount_max() const { return GetField<uint16_t>(10, 0); }
+};
+
+struct DropRuleDataBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_item_id(uint32_t item_id) { fbb_.AddElement<uint32_t>(4, item_id, 0); }
+  void add_chance(uint16_t chance) { fbb_.AddElement<uint16_t>(6, chance, 0); }
+  void add_amount_min(uint16_t amount_min) { fbb_.AddElement<uint16_t>(8, amount_min, 0); }
+  void add_amount_max(uint16_t amount_max) { fbb_.AddElement<uint16_t>(10, amount_max, 0); }
+  DropRuleDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
+  flatbuffers::Offset<DropRuleData> Finish() { return flatbuffers::Offset<DropRuleData>(fbb_.EndTable(start_, 4)); }
+};
+
+inline flatbuffers::Offset<DropRuleData> CreateDropRuleData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t item_id, uint16_t chance, uint16_t amount_min, uint16_t amount_max) {
+  DropRuleDataBuilder builder_(_fbb);
+  builder_.add_item_id(item_id);
+  builder_.add_amount_max(amount_max);
+  builder_.add_amount_min(amount_min);
+  builder_.add_chance(chance);
+  return builder_.Finish();
+}
+
 struct ActorData : private flatbuffers::Table {
   uint32_t id() const { return GetField<uint32_t>(4, 0); }
   int8_t type() const { return GetField<int8_t>(6, 0); }
@@ -55,6 +82,7 @@ struct ActorData : private flatbuffers::Table {
   uint16_t defense() const { return GetField<uint16_t>(20, 0); }
   uint16_t damage() const { return GetField<uint16_t>(22, 0); }
   uint16_t damage_reduction() const { return GetField<uint16_t>(24, 0); }
+  const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *drop_rules() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *>(26); }
 };
 
 struct ActorDataBuilder {
@@ -71,12 +99,14 @@ struct ActorDataBuilder {
   void add_defense(uint16_t defense) { fbb_.AddElement<uint16_t>(20, defense, 0); }
   void add_damage(uint16_t damage) { fbb_.AddElement<uint16_t>(22, damage, 0); }
   void add_damage_reduction(uint16_t damage_reduction) { fbb_.AddElement<uint16_t>(24, damage_reduction, 0); }
+  void add_drop_rules(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules) { fbb_.AddOffset(26, drop_rules); }
   ActorDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 11)); }
+  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 12)); }
 };
 
-inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, uint16_t damage, uint16_t damage_reduction) {
+inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, uint16_t damage, uint16_t damage_reduction, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules) {
   ActorDataBuilder builder_(_fbb);
+  builder_.add_drop_rules(drop_rules);
   builder_.add_hp(hp);
   builder_.add_sprite_file(sprite_file);
   builder_.add_name(name);
@@ -94,5 +124,4 @@ inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBui
 inline const ActorsData *GetActorsData(const void *buf) { return flatbuffers::GetRoot<ActorsData>(buf); }
 
 }; // namespace butcher
-
 #endif

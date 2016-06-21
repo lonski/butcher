@@ -13,6 +13,13 @@ enum ActorType:byte {
 	StairsUp = 5
 }
 
+table DropRuleData {
+	item_id:uint;
+	chance:ushort;
+	amount_min:ushort;
+	amount_max:ushort;
+}
+
 table ActorData {
 	//Actor
 	id:uint;
@@ -28,6 +35,9 @@ table ActorData {
 	defense:ushort;
 	damage:ushort;
 	damage_reduction:ushort;
+
+	//Monster
+	drop_rules:[DropRuleData];
 }
 
 root_type ActorsData;

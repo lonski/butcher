@@ -54,7 +54,7 @@ public:
    */
   virtual void onInterract(Actor* actor);
 
-  virtual void onDestroy();
+  virtual void onDestroy(Actor* destroyer);
 
   void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
 

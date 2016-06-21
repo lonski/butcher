@@ -30,7 +30,7 @@ bool ActorDatabase::load(const std::string &fn)
   for (unsigned i = 0; i < actors->Length(); ++i)
   {
     const ActorData* d = actors->Get(i);
-    _actorTemplates[d->id()] = Actor::create(d);
+    _actorTemplates[ static_cast<ActorID>(d->id()) ] = Actor::create(d);
   }
 
   cc::log("ActorDatabase: loaded %lu actor templates.", _actorTemplates.size());

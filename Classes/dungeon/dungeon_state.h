@@ -5,6 +5,7 @@
 #include <lib/permissive-fov-cpp.h>
 #include <dungeon/tile_gid.h>
 #include <utils/grid.h>
+#include <actors/actor_id.h>
 
 namespace butcher {
 
@@ -55,7 +56,7 @@ private:
   std::set< std::shared_ptr<Actor> > _actors;
 
   void addPlayer();
-  void addActor(int id, cocos2d::Vec2 coord);
+  void addActor(ActorID id, cocos2d::Vec2 coord);
   void spawnActors();
 
   void computeFov(int x, int y);

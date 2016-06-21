@@ -1,7 +1,8 @@
 #include "monster.h"
 #include <butcher.h>
+#include <butcher.h>
 
-
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -9,6 +10,12 @@ Monster::Monster(const ActorData* data)
   : _ai(this)
   , Character(data)
 {
+  if ( data )
+  {
+    auto dropRules = data->drop_rules();
+    for (unsigned i = 0; i < dropRules->Length(); ++i)
+      _dropRules.push_back( DropRule(dropRules->Get(i)) );
+  }
 }
 
 Actor *Monster::clone(Actor *allocated)
@@ -17,6 +24,7 @@ Actor *Monster::clone(Actor *allocated)
   if ( p == nullptr )
     p = new Monster(nullptr);
 
+  p->_dropRules = _dropRules;
   Character::clone(p);
 
   return p;
@@ -25,6 +33,20 @@ Actor *Monster::clone(Actor *allocated)
 void Monster::nextTurn()
 {
   _ai.update();
+}
+
+void Monster::onDestroy(Actor *destroyer)
+{
+  for(DropRule& drop : _dropRules)
+  {
+    if ( cc::RandomHelper::random_int(0, 100) <= drop.chance )
+    {
+      int amount = cc::RandomHelper::random_int(drop.amountMin, drop.amountMax);
+      std::shared_ptr<Actor> item( BUTCHER.actorsDatabase().createActor<Actor>(drop.itemId) );
+
+      //TODO pickup action by destroyer
+    }
+  }
 }
 
 }

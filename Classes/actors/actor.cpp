@@ -183,7 +183,7 @@ void Actor::nextTurn()
 {
 }
 
-void Actor::onDestroy()
+void Actor::onDestroy(Actor*)
 {
 }
 

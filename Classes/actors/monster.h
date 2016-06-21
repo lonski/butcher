@@ -3,6 +3,7 @@
 
 #include <actors/character.h>
 #include <actors/ai/ai.h>
+#include <actors/drop_rule.h>
 
 namespace butcher {
 
@@ -16,9 +17,11 @@ public:
   virtual Actor* clone(Actor* allocated = nullptr);
 
   virtual void nextTurn();
+  virtual void onDestroy(Actor* destroyer);
 
 private:
   Ai _ai;
+  std::vector<DropRule> _dropRules;
 
 };
 

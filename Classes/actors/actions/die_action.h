@@ -8,8 +8,11 @@ namespace butcher {
 class DieAction : public ActorAction
 {
 public:
-  DieAction();
+  DieAction(Actor* killer);
   virtual bool perform(Actor* actor);
+
+private:
+ Actor* _killer;
 };
 
 }

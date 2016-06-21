@@ -188,6 +188,7 @@ set(GAME_HEADERS
   Classes/actors/object.h
   Classes/actors/monster.h
   Classes/actors/item.h
+  Classes/actors/drop_rule.h
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h

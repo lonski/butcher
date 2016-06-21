@@ -7,9 +7,9 @@ namespace cc = cocos2d;
 
 namespace butcher {
 
-DieAction::DieAction()
+DieAction::DieAction(Actor *killer)
+  : _killer(killer)
 {
-
 }
 
 bool DieAction::perform(Actor *actor)
@@ -20,7 +20,7 @@ bool DieAction::perform(Actor *actor)
     return false;
   }
 
-  actor->onDestroy();
+  actor->onDestroy(_killer);
 
   cc::Sprite* s = actor->sprite().release();
   s->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );

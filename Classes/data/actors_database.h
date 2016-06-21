@@ -18,7 +18,7 @@ public:
   bool load(const std::string& fn);
 
   template<typename T>
-  T* createActor(unsigned id)
+  T* createActor(ActorID id)
   {
     T* t = nullptr;
 
@@ -43,7 +43,7 @@ public:
   }
 
 private:
-  std::map<unsigned, Actor*> _actorTemplates;
+  std::map<ActorID, Actor*> _actorTemplates;
 };
 
 }
