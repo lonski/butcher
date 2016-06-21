@@ -13,7 +13,7 @@ class Player : public Character
 public:
   Player(const ActorData* data);
 
-  virtual Actor* clone(Actor* allocated = nullptr);
+  virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
   virtual void onCollide(Actor* obstacle);
 
 private:

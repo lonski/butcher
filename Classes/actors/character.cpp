@@ -80,20 +80,18 @@ int Character::takeDamage(int damage, Actor* attacker)
   return damage;
 }
 
-Actor* Character::clone(Actor* allocated)
+std::unique_ptr<Actor> Character::clone(std::unique_ptr<Actor> allocated)
 {
-  Character* c = dynamic_cast<Character*>(allocated);
+  Character* c = dynamic_cast<Character*>(allocated.release());
   if ( c != nullptr )
   {
-    Actor::clone(c);
-
     c->_attributes = _attributes;
     c->_level = _level;
     c->_exp = _exp;
     c->_hp = _hp;
   }
 
-  return c;
+  return std::move(Actor::clone(std::unique_ptr<Actor>{c}));
 }
 
 int Character::getZ() const

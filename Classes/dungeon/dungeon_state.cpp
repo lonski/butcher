@@ -152,12 +152,12 @@ void DungeonState::addPlayer()
 
 void DungeonState::addActor(ActorID id, cc::Vec2 coord)
 {
-  Actor* actor = BUTCHER.actorsDatabase().createActor<Actor>(id);
+  std::shared_ptr<Actor> actor{ BUTCHER.actorsDatabase().createActor<Actor>(id) };
   if ( actor )
   {
     cc::Vec2 pos = tileCoordToPosition(_map, coord);
     actor->setPosition(pos);
-    _actors.insert( std::shared_ptr<Actor>(actor) );
+    _actors.insert( actor );
   }
   else
   {

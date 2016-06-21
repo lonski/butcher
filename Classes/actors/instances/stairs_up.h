@@ -9,7 +9,7 @@ class StairsUp : public Object
 {
 public:
   StairsUp(const ActorData* data);
-  virtual Actor* clone(Actor* allocated = nullptr);
+  virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
 
   virtual void onInterract(Actor* actor);
 

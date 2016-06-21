@@ -2,6 +2,7 @@
 #define ACTOR_H
 
 #include <string>
+#include <memory>
 #include <actors/actor_id.h>
 #include "cocos2d.h"
 
@@ -16,8 +17,8 @@ public:
   Actor(const ActorData *data);
   virtual ~Actor() = 0;
 
-  static Actor* create(const ActorData* data);
-  virtual Actor* clone(Actor* allocated = nullptr);
+  static std::unique_ptr<Actor> create(const ActorData* data);
+  virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
 
   ActorID id() const;
   virtual int getZ() const = 0;

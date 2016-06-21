@@ -90,7 +90,7 @@ std::shared_ptr<Player> Butcher::getPlayer()
 {
   if (_player == nullptr)
   {
-    _player.reset( _actors.createActor<Player>( ActorID::PLAYER) );
+    _player = std::shared_ptr<Player>{ _actors.createActor<Player>( ActorID::PLAYER) };
   }
 
   if ( _player == nullptr )

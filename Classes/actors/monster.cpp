@@ -18,16 +18,15 @@ Monster::Monster(const ActorData* data)
   }
 }
 
-Actor *Monster::clone(Actor *allocated)
+std::unique_ptr<Actor> Monster::clone(std::unique_ptr<Actor> allocated)
 {
-  Monster* p = dynamic_cast<Monster*>(allocated);
+  Monster* p = dynamic_cast<Monster*>(allocated.release());
   if ( p == nullptr )
     p = new Monster(nullptr);
 
   p->_dropRules = _dropRules;
-  Character::clone(p);
 
-  return p;
+  return std::move( Character::clone(std::unique_ptr<Actor>{p}) );
 }
 
 void Monster::nextTurn()

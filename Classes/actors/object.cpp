@@ -12,15 +12,13 @@ int Object::getZ() const
   return 10;
 }
 
-Actor* Object::clone(Actor* allocated)
+std::unique_ptr<Actor> Object::clone(std::unique_ptr<Actor> allocated)
 {
-  Object* o = dynamic_cast<Object*>(allocated);
+  Object* o = dynamic_cast<Object*>(allocated.release());
   if ( o == nullptr )
     o = new Object(nullptr);
 
-  Actor::clone(o);
-
-  return o;
+  return std::move( Actor::clone(std::unique_ptr<Actor>{o}) );
 }
 
 }

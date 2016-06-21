@@ -14,18 +14,16 @@ Player::Player(const ActorData *data)
 {
 }
 
-Actor* Player::clone(Actor *allocated)
+std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
 {
-  Player* p = dynamic_cast<Player*>(allocated);
+  Player* p = dynamic_cast<Player*>(allocated.release());
   if ( p == nullptr )
     p = new Player(nullptr);
 
   for ( auto& kv : _inventory )
     p->_inventory[kv.first] = kv.second;
 
-  Character::clone(p);
-
-  return p;
+  return std::move( Character::clone(std::move(std::unique_ptr<Actor>{p})) );
 }
 
 void Player::onCollide(Actor *obstacle)

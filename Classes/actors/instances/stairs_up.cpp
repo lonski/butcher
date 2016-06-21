@@ -9,15 +9,13 @@ StairsUp::StairsUp(const ActorData *data)
 {
 }
 
-Actor *StairsUp::clone(Actor *allocated)
+std::unique_ptr<Actor> StairsUp::clone(std::unique_ptr<Actor> allocated)
 {
-  StairsUp* o = dynamic_cast<StairsUp*>(allocated);
+  StairsUp* o = dynamic_cast<StairsUp*>(allocated.release());
   if ( o == nullptr )
     o = new StairsUp(nullptr);
 
-  Object::clone(o);
-
-  return o;
+  return std::move(Object::clone(std::unique_ptr<Actor>{o}));
 }
 
 void StairsUp::onInterract(Actor *actor)

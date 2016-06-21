@@ -35,34 +35,34 @@ Actor::~Actor()
 {
 }
 
-Actor* Actor::create(const ActorData *data)
+std::unique_ptr<Actor> Actor::create(const ActorData *data)
 {
   if ( data == nullptr )
   {
     cocos2d::log("Actor::create: ActorData is null!");
   }
 
-  Actor* actor = nullptr;
+  std::unique_ptr<Actor> actor;
 
   switch(data->type())
   {
     case ActorType_Object:
-      actor = new Object(data);
+      actor.reset(new Object(data));
       break;
     case ActorType_Monster:
-      actor = new Monster(data);
+      actor.reset(new Monster(data));
       break;
     case ActorType_Player:
-      actor = new Player(data);
+      actor.reset(new Player(data));
       break;
     case ActorType_StairsDown:
-      actor = new StairsDown(data);
+      actor.reset(new StairsDown(data));
       break;
     case ActorType_StairsUp:
-      actor = new StairsUp(data);
+      actor.reset(new StairsUp(data));
       break;
     case ActorType_Item:
-      actor = new Item(data);
+      actor.reset(new Item(data));
       break;
     default:
       cocos2d::log("Actor::create: incorrect actor type (%d)!", data->type());
@@ -72,7 +72,7 @@ Actor* Actor::create(const ActorData *data)
   return actor;
 }
 
-Actor* Actor::clone(Actor* allocated)
+std::unique_ptr<Actor> Actor::clone(std::unique_ptr<Actor> allocated)
 {
   if ( allocated )
   {
@@ -87,7 +87,7 @@ Actor* Actor::clone(Actor* allocated)
     allocated->_sprite->initWithFile( _sprite->getResourceName() );
   }
 
-  return allocated;
+  return std::move(allocated);
 }
 
 std::string Actor::name() const

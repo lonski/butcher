@@ -18,32 +18,23 @@ public:
   bool load(const std::string& fn);
 
   template<typename T>
-  T* createActor(ActorID id)
+  std::unique_ptr<T> createActor(ActorID id)
   {
-    T* t = nullptr;
-
     auto it = _actorTemplates.find(id);
     if ( it != _actorTemplates.end() )
     {
-      Actor* actor = it->second->clone();
-      t = dynamic_cast<T*>(actor);
-
-      if ( t == nullptr )
-      {
-        cocos2d::log("ActorDatabase::createActor: failed to cast actor id=%u.", id);
-        delete actor;
-      }
+      return std::unique_ptr<T>{ dynamic_cast<T*>( it->second->clone().release()) };
     }
     else
     {
       cocos2d::log("ActorDatabase::createActor: failed to find actor id=%u.", id);
     }
 
-    return t;
+    return nullptr;
   }
 
 private:
-  std::map<ActorID, Actor*> _actorTemplates;
+  std::map<ActorID, std::unique_ptr<Actor>> _actorTemplates;
 };
 
 }

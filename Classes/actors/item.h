@@ -14,7 +14,7 @@ public:
 
   virtual int getZ() const;
 
-  virtual Actor* clone(Actor* allocated = nullptr);
+  virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
 };
 
 }

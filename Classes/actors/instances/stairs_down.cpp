@@ -10,15 +10,13 @@ StairsDown::StairsDown(const ActorData *data)
 
 }
 
-Actor* StairsDown::clone(Actor *allocated)
+std::unique_ptr<Actor> StairsDown::clone(std::unique_ptr<Actor> allocated)
 {
-  StairsDown* o = dynamic_cast<StairsDown*>(allocated);
+  StairsDown* o = dynamic_cast<StairsDown*>(allocated.release());
   if ( o == nullptr )
     o = new StairsDown(nullptr);
 
-  Object::clone(o);
-
-  return o;
+  return std::move(Object::clone(std::unique_ptr<Actor>{o}));
 }
 
 void StairsDown::onInterract(Actor *actor)
