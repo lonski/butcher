@@ -2,22 +2,28 @@
 #define HUDLAYER_H
 
 #include "cocos2d.h"
+#include <view/hud_log.h>
 
 namespace butcher {
 
 class HudLayer : public cocos2d::Layer
 {
 public:
-    HudLayer();
-    ~HudLayer();
+  HudLayer();
+  ~HudLayer();
 
-    virtual bool init();
+  virtual bool init();
+  void log(const std::string& str);
 
 
-    void showMenu(cocos2d::Ref*);
-    void showMenu2(cocos2d::Ref*);
+  void showMenu(cocos2d::Ref*);
+  void showMenu2(cocos2d::Ref*);
 
-    CREATE_FUNC(HudLayer);
+  CREATE_FUNC(HudLayer);
+
+private:
+  int _logCount;
+  HudLog _log;
 
 };
 

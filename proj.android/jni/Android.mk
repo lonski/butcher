@@ -17,6 +17,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/view/hud_layer.cpp \
 ../../Classes/view/dungeon_layer.cpp \
 ../../Classes/view/loading_scene.cpp \
+../../Classes/view/hud_log.cpp \
 ../../Classes/actors/actor.cpp \
 ../../Classes/actors/object.cpp \
 ../../Classes/actors/character.cpp \
@@ -41,6 +42,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/dungeon/tmx_builder.cpp \
 ../../Classes/dungeon/dungeon_generator.cpp \
 ../../Classes/dungeon/room.cpp \
+../../Classes/dungeon/spawn_builder.cpp \
 ../../Classes/utils/utils.cpp \
 ../../Classes/utils/target.cpp \
 ../../Classes/utils/profiler.cpp \

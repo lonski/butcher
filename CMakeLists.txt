@@ -129,6 +129,7 @@ set(GAME_SRC
   Classes/view/hud_layer.cpp
   Classes/view/dungeon_layer.cpp
   Classes/view/loading_scene.cpp
+  Classes/view/hud_log.cpp
 
   Classes/actors/actor.cpp
   Classes/actors/object.cpp
@@ -177,6 +178,7 @@ set(GAME_HEADERS
   Classes/view/hud_layer.h
   Classes/view/dungeon_layer.h
   Classes/view/loading_scene.h
+  Classes/view/hud_log.h
 
   Classes/actors/actor.h
   Classes/actors/character.h

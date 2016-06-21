@@ -18,6 +18,7 @@ HudLayer::HudLayer()
 
 HudLayer::~HudLayer()
 {
+  removeChild(&_log, false);
 }
 
 bool HudLayer::init()
@@ -56,6 +57,21 @@ bool HudLayer::init()
     return true;
 }
 
+void HudLayer::log(const std::string &str)
+{
+
+  cc::Vec2 origin = cc::Director::getInstance()->getVisibleOrigin();
+  auto visibleSize = cc::Director::getInstance()->getVisibleSize();
+
+  _log.addMessage(str);
+
+  _log.setAnchorPoint( cc::Vec2(0, 0) );
+  _log.setPosition( origin.x + 16, origin.y + visibleSize.height - 16 );
+
+  addChild(&_log, 1);
+
+}
+
 void HudLayer::showMenu(Ref *)
 {
   LoadingScreen::run([&](){
@@ -65,6 +81,7 @@ void HudLayer::showMenu(Ref *)
 
 void HudLayer::showMenu2(Ref *)
 {
+  log("Picked up meat x2.");
 }
 
 }

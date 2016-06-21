@@ -56,6 +56,7 @@ void Butcher::goToLevel(unsigned level)
 
   DungeonState* dungeonState = _dungeons.getLevel(level);
 
+  getPlayer()->sprite()->removeAllChildren();
   setPlayerPosition(level, dungeonState);
 
   _dungeonLevel = level;
