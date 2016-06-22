@@ -10,6 +10,7 @@ namespace butcher {
 
 struct ActorData;
 class ActorAction;
+class Character;
 
 class Actor : public std::enable_shared_from_this<Actor>
 {
@@ -55,7 +56,17 @@ public:
    */
   virtual void onInterract(std::shared_ptr<Actor> actor);
 
+  /**
+   * @brief Function is launched when actor is destroyed(killed).
+   * @param destroyer - actor who did destroy us.
+   */
   virtual void onDestroy(std::shared_ptr<Actor> destroyer);
+
+  /**
+   * @brief Function is launched when actor caused other character's death
+   * @param killed - a character who has been killed
+   */
+  virtual void onKill(std::shared_ptr<Character> killed);
 
   void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
 

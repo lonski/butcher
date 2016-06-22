@@ -15,7 +15,9 @@ public:
   Player(const ActorData* data);
 
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
+
   virtual void onCollide(std::shared_ptr<Actor> obstacle);
+  virtual void onKill(std::shared_ptr<Character> killed);
 
   Inventory& getInventory();
 

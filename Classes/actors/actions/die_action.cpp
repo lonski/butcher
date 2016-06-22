@@ -2,6 +2,7 @@
 #include "cocos2d.h"
 #include <butcher.h>
 #include <dungeon/dungeon_state.h>
+#include <actors/character.h>
 
 namespace cc = cocos2d;
 
@@ -21,6 +22,10 @@ bool DieAction::perform(std::shared_ptr<Actor> actor) const
   }
 
   actor->onDestroy(_killer);
+
+  std::shared_ptr<Character> c = std::dynamic_pointer_cast<Character>(actor);
+  if ( c )
+    _killer->onKill(c);
 
   cc::Sprite* s = actor->sprite().release();
   s->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );

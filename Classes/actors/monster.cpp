@@ -49,6 +49,8 @@ void Monster::onDestroy(std::shared_ptr<Actor> destroyer)
       destroyer->performAction( PickUpAction(item) );
     }
   }
+
+  Character::onDestroy(destroyer);
 }
 
 }

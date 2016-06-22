@@ -186,6 +186,10 @@ void Actor::onDestroy(std::shared_ptr<Actor>)
 {
 }
 
+void Actor::onKill(std::shared_ptr<Character>)
+{
+}
+
 void Actor::fadeText(const std::string &text, cocos2d::Color4B color)
 {
   cocos2d::Label* label = cocos2d::Label::createWithTTF(text, "fonts/Marker Felt.ttf", 22);

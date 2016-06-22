@@ -34,6 +34,11 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
   }
 }
 
+void Player::onKill(std::shared_ptr<Character> killed)
+{
+  setExp( exp() + killed->exp() );
+}
+
 Inventory& Player::getInventory()
 {
   return _inventory;
