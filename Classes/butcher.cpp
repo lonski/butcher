@@ -56,7 +56,7 @@ void Butcher::goToLevel(unsigned level)
 
   DungeonState* dungeonState = _dungeons.getLevel(level);
 
-  getPlayer()->sprite()->removeAllChildren();
+  getPlayer()->getSprite()->removeAllChildren();
   setPlayerPosition(level, dungeonState);
 
   _dungeonLevel = level;
@@ -77,7 +77,7 @@ void Butcher::goToLevel(unsigned level)
 void Butcher::setPlayerPosition(unsigned level, DungeonState* dungeonState)
 {
   auto actors = dungeonState->getActors([&](std::shared_ptr<Actor> a){
-    return a->id() == (level > _dungeonLevel ? ActorID::STAIRS_UP : ActorID::STAIRS_DOWN);
+    return a->getID() == (level > _dungeonLevel ? ActorID::STAIRS_UP : ActorID::STAIRS_DOWN);
   });
   if ( !actors.empty() )
     getPlayer()->setPosition(actors.front()->getPosition());

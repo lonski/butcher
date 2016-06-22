@@ -28,7 +28,7 @@ bool PickUpAction::perform(std::shared_ptr<Actor> pickuper) const
     {
       std::ostringstream os;
       os << "Picked up "
-         << _item.item->name()
+         << _item.item->getName()
          << " x" << _item.amount;
 
       BUTCHER.print(os.str());

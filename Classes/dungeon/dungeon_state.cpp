@@ -118,9 +118,9 @@ void DungeonState::spawnActors()
 
   for ( auto a : _actors )
   {
-    _currentView->addChild(a->sprite().get(), a->getZ());
+    _currentView->addChild(a->getSprite().get(), a->getZ());
 
-    a->sprite()->setVisible( isInFov(a->getTileCoord()));
+    a->getSprite()->setVisible( isInFov(a->getTileCoord()));
   }
 
 }
@@ -134,7 +134,7 @@ bool DungeonState::removeActor(std::shared_ptr<Actor> actor, bool remove_node_ch
   if ( it != _actors.end() )
   {
     if ( remove_node_child )
-      _currentView->removeChild( (*it)->sprite().get() );
+      _currentView->removeChild( (*it)->getSprite().get() );
 
     _actors.erase(it);
     return true;
@@ -195,9 +195,8 @@ void DungeonState::nextTurn()
   for(auto a : _actors)
   {
     a->nextTurn();
-    a->sprite()->setVisible( isInFov(a->getTileCoord()) );
+    a->getSprite()->setVisible( isInFov(a->getTileCoord()) );
   }
-
 }
 
 bool DungeonState::isBlocked(cc::Vec2 tileCoord, std::shared_ptr<Actor>* blocking_actor)
@@ -229,7 +228,7 @@ bool DungeonState::isBlocked(cc::Vec2 tileCoord, std::shared_ptr<Actor>* blockin
     for(std::shared_ptr<Actor> a : _actors)
     {
       cc::Vec2 tc = positionToTileCoord(_map, a->getPosition());
-      if ( tc == tileCoord && a->blocks() )
+      if ( tc == tileCoord && a->isBlocking() )
       {
         blocked = true;
         if (blocking_actor)
@@ -247,7 +246,7 @@ bool DungeonState::isOpaque(cc::Vec2 tileCoord)
   std::shared_ptr<Actor> blocking_actor;
   bool blocked = isBlocked(tileCoord, &blocking_actor);
 
-  return blocking_actor ? !blocking_actor->transparent() : blocked;
+  return blocking_actor ? !blocking_actor->isTransparent() : blocked;
 }
 
 bool DungeonState::isOpaque(int x, int y)

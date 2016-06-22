@@ -16,16 +16,16 @@ public:
     virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
     virtual int getZ() const;
 
-    int level() const;
+    int getLevel() const;
     void setLevel(int level);
 
-    int exp() const;
+    int getExp() const;
     void setExp(int exp);
 
-    int attribute(AttributeType type);
+    int getAttribute(AttributeType type);
     void setAttribute(AttributeType type, int value);
 
-    int hp() const;
+    int getHp() const;
     void setHp(int hp);
 
     int takeDamage(int damage, std::shared_ptr<Actor> attacker);

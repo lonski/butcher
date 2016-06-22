@@ -76,9 +76,9 @@ std::unique_ptr<Actor> Actor::clone(std::unique_ptr<Actor> allocated)
 {
   if ( allocated )
   {
-    allocated->setBlocks( blocks() );
-    allocated->setTransparent( transparent() );
-    allocated->setName(name());
+    allocated->setBlocks( isBlocking() );
+    allocated->setTransparent( isTransparent() );
+    allocated->setName(getName());
     allocated->_id = _id;
 
     if ( allocated->_sprite == nullptr )
@@ -90,7 +90,7 @@ std::unique_ptr<Actor> Actor::clone(std::unique_ptr<Actor> allocated)
   return std::move(allocated);
 }
 
-std::string Actor::name() const
+std::string Actor::getName() const
 {
     return _name;
 }
@@ -100,7 +100,7 @@ void Actor::setName(const std::string &name)
     _name = name;
 }
 
-bool Actor::blocks() const
+bool Actor::isBlocking() const
 {
     return _blocks;
 }
@@ -110,7 +110,7 @@ void Actor::setBlocks(bool blocks)
     _blocks = blocks;
 }
 
-bool Actor::transparent() const
+bool Actor::isTransparent() const
 {
     return _transparent;
 }
@@ -120,12 +120,12 @@ void Actor::setTransparent(bool transparent)
   _transparent = transparent;
 }
 
-ActorID Actor::id() const
+ActorID Actor::getID() const
 {
   return static_cast<ActorID>(_id);
 }
 
-std::unique_ptr<cocos2d::Sprite>& Actor::sprite()
+std::unique_ptr<cocos2d::Sprite>& Actor::getSprite()
 {
   return _sprite;
 }
@@ -195,10 +195,10 @@ void Actor::fadeText(const std::string &text, cocos2d::Color4B color)
   cocos2d::Label* label = cocos2d::Label::createWithTTF(text, "fonts/Marker Felt.ttf", 22);
   label->setTextColor(color);
 
-  cocos2d::Size size = sprite()->getBoundingBox().size;
+  cocos2d::Size size = getSprite()->getBoundingBox().size;
   label->setPosition( size.width / 2, size.height );
 
-  sprite()->addChild(label, 1);
+  getSprite()->addChild(label, 1);
 
   label->runAction( cocos2d::MoveBy::create(0.5, cocos2d::Vec2(0, size.height / 3)) );
   label->runAction( cocos2d::FadeOut::create(0.5) );

@@ -21,16 +21,16 @@ public:
   static std::unique_ptr<Actor> create(const ActorData* data);
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
 
-  ActorID id() const;
+  ActorID getID() const;
   virtual int getZ() const = 0;
 
-  std::string name() const;
-  void setName(const std::string &name);
+  std::string getName() const;
+  void setName(const std::string& name);
 
-  bool blocks() const;
+  bool isBlocking() const;
   void setBlocks(bool blocks);
 
-  bool transparent() const;
+  bool isTransparent() const;
   void setTransparent(bool transparent);
 
   cocos2d::Vec2 getTileCoord();
@@ -39,7 +39,7 @@ public:
   void setPosition(cocos2d::Vec2 pos, bool no_sprite_pos = false);
   cocos2d::Vec2 getPosition() const;
 
-  std::unique_ptr<cocos2d::Sprite>& sprite();
+  std::unique_ptr<cocos2d::Sprite>& getSprite();
 
   virtual bool performAction(const ActorAction& action);
   virtual void nextTurn();

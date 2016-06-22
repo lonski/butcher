@@ -67,7 +67,7 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor) const
   actor->setPosition(pos, true);
 
   cc::MoveTo* move_action = cc::MoveTo::create(0.08, pos);
-  actor->sprite()->runAction( move_action );
+  actor->getSprite()->runAction( move_action );
 
   for ( auto a : _state->getActorsAt(actor->getTileCoord()) )
     if ( a != actor )

@@ -23,7 +23,7 @@ Character::~Character()
 {
 }
 
-int Character::level() const
+int Character::getLevel() const
 {
     return _level;
 }
@@ -33,7 +33,7 @@ void Character::setLevel(int level)
     _level = level;
 }
 
-int Character::exp() const
+int Character::getExp() const
 {
     return _exp;
 }
@@ -43,7 +43,7 @@ void Character::setExp(int exp)
     _exp = exp;
 }
 
-int Character::attribute(AttributeType type)
+int Character::getAttribute(AttributeType type)
 {
     return _attributes[type];
 }
@@ -53,7 +53,7 @@ void Character::setAttribute(AttributeType type, int value)
   _attributes[type] = value;
 }
 
-int Character::hp() const
+int Character::getHp() const
 {
   return _hp;
 }
@@ -65,7 +65,7 @@ void Character::setHp(int hp)
 
 int Character::takeDamage(int damage, std::shared_ptr<Actor> attacker)
 {
-  damage -= attribute(AttributeType::DamageReduction);
+  damage -= getAttribute(AttributeType::DamageReduction);
 
   if ( damage < 0 )
     damage = 0;

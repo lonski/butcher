@@ -49,7 +49,7 @@ bool Inventory::addItem(const AmountedItem &i)
     return false;
   }
 
-  auto it = _items.find(i.item->id());
+  auto it = _items.find(i.item->getID());
 
   if ( it != _items.end() )
   {
@@ -58,7 +58,7 @@ bool Inventory::addItem(const AmountedItem &i)
   }
   else
   {
-    _items[i.item->id()] = i;
+    _items[i.item->getID()] = i;
   }
 
   return true;

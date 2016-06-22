@@ -27,7 +27,7 @@ bool DieAction::perform(std::shared_ptr<Actor> actor) const
   if ( c )
     _killer->onKill(c);
 
-  cc::Sprite* s = actor->sprite().release();
+  cc::Sprite* s = actor->getSprite().release();
   s->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );
   if ( !BUTCHER.getCurrentDungeon()->removeActor(actor, false) )
     cc::log("%s Failed to remove actor!", __PRETTY_FUNCTION__);
