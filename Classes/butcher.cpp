@@ -66,6 +66,8 @@ void Butcher::goToLevel(unsigned level)
 
   cc::Scene* new_scene = cocos2d::Scene::create();
   new_scene->addChild(layer);
+
+  _hud->init();
   new_scene->addChild(_hud);
 
   cc::Director::getInstance()->replaceScene( new_scene );
@@ -114,6 +116,14 @@ void Butcher::nextTurn()
   DungeonState* d = getCurrentDungeon();
   if ( d )
     d->nextTurn();
+}
+
+void Butcher::print(const std::string &str, cocos2d::Color4B color)
+{
+  if ( !_hud )
+    return;
+
+  _hud->print(str, color);
 }
 
 }

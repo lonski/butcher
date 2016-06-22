@@ -26,6 +26,9 @@ public:
     void goToLevel(unsigned level);
     void nextTurn();
 
+    void print(const std::string& str,
+             cocos2d::Color4B color = cocos2d::Color4B(177, 0, 177, 255));
+
     std::shared_ptr<Player> getPlayer();
     ActorDatabase& actorsDatabase();
 

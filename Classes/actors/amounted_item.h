@@ -13,6 +13,12 @@ struct AmountedItem
   {
   }
 
+  AmountedItem(std::shared_ptr<Item> i, int a)
+    : item(i)
+    , amount(a)
+  {
+  }
+
   AmountedItem(const AmountedItem& i)
   {
     *this = i;

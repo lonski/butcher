@@ -24,11 +24,13 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/character.cpp \
 ../../Classes/actors/player.cpp \
 ../../Classes/actors/monster.cpp \
+../../Classes/actors/inventory.cpp \
 ../../Classes/actors/instances/stairs_down.cpp \
 ../../Classes/actors/instances/stairs_up.cpp \
 ../../Classes/actors/actions/move_action.cpp \
 ../../Classes/actors/actions/attack_action.cpp \
 ../../Classes/actors/actions/die_action.cpp \
+../../Classes/actors/actions/pickup_action.cpp \
 ../../Classes/actors/ai/ai.cpp \
 ../../Classes/actors/ai/fsm/fsm.cpp \
 ../../Classes/actors/ai/fsm/states/fsm_state.cpp \

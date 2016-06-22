@@ -20,8 +20,7 @@ std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
   if ( p == nullptr )
     p = new Player(nullptr);
 
-  for ( auto& kv : _inventory )
-    p->_inventory[kv.first] = kv.second;
+  p->_inventory = _inventory;
 
   return std::move( Character::clone(std::move(std::unique_ptr<Actor>{p})) );
 }
@@ -33,6 +32,11 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
   {
     performAction( AttackAction(Target(mob)) );
   }
+}
+
+Inventory& Player::getInventory()
+{
+  return _inventory;
 }
 
 }

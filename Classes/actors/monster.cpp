@@ -1,6 +1,7 @@
 #include "monster.h"
 #include <butcher.h>
-#include <butcher.h>
+#include <actors/amounted_item.h>
+#include <actors/actions/pickup_action.h>
 
 namespace cc = cocos2d;
 
@@ -42,10 +43,10 @@ void Monster::onDestroy(std::shared_ptr<Actor> destroyer)
   {
     if ( cc::RandomHelper::random_int(0, 100) <= drop.chance )
     {
-      int amount = cc::RandomHelper::random_int(drop.amountMin, drop.amountMax);
-      std::shared_ptr<Actor> item( BUTCHER.actorsDatabase().createActor<Actor>(drop.itemId) );
+      AmountedItem item( std::shared_ptr<Item>( BUTCHER.actorsDatabase().createActor<Item>(drop.itemId) ),
+                    cc::RandomHelper::random_int(drop.amountMin, drop.amountMax) );
 
-      //TODO pickup action by destroyer
+      destroyer->performAction( PickUpAction(item) );
     }
   }
 }

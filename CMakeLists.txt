@@ -137,12 +137,14 @@ set(GAME_SRC
   Classes/actors/character.cpp
   Classes/actors/player.cpp
   Classes/actors/monster.cpp
+  Classes/actors/inventory.cpp
   Classes/actors/instances/stairs_down.cpp
   Classes/actors/instances/stairs_up.cpp
 
   Classes/actors/actions/move_action.cpp
   Classes/actors/actions/attack_action.cpp
   Classes/actors/actions/die_action.cpp
+  Classes/actors/actions/pickup_action.cpp
 
   Classes/actors/ai/ai.cpp
   Classes/actors/ai/fsm/fsm.cpp
@@ -189,6 +191,7 @@ set(GAME_HEADERS
   Classes/actors/monster.h
   Classes/actors/item.h
   Classes/actors/drop_rule.h
+  Classes/actors/inventory.h
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h
@@ -197,6 +200,7 @@ set(GAME_HEADERS
   Classes/actors/actions/move_action.h
   Classes/actors/actions/attack_action.h
   Classes/actors/actions/die_action.h
+  Classes/actors/actions/pickup_action.h
 
   Classes/actors/ai/ai.h
   Classes/actors/ai/fsm/fsm.h

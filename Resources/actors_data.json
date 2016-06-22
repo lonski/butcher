@@ -31,13 +31,13 @@
       drop_rules: [
         {
           item_id: 5,
-          chance: 5,
+          chance: 25,
           amount_min: 1,
           amount_max: 2
         },
         {
           item_id: 6,
-          chance: 5,
+          chance: 40,
           amount_min: 1,
           amount_max: 2
         }

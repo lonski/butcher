@@ -3,6 +3,7 @@
 
 #include <actors/character.h>
 #include <actors/amounted_item.h>
+#include <actors/inventory.h>
 
 namespace butcher {
 
@@ -16,11 +17,10 @@ public:
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
   virtual void onCollide(std::shared_ptr<Actor> obstacle);
 
+  Inventory& getInventory();
+
 private:
-  typedef std::map<ActorID, AmountedItem> Inventory;
-
   Inventory _inventory;
-
 
 };
 
