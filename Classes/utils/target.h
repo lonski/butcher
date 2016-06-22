@@ -13,8 +13,8 @@ struct Target
   Target();
   Target(std::shared_ptr<Actor> actor);
 
-  std::shared_ptr<Actor> first();
-  bool isEmpty();
+  std::shared_ptr<Actor> first() const;
+  bool isEmpty() const;
 
   std::vector<std::shared_ptr<Actor>> actors;
   int x;

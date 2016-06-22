@@ -13,13 +13,13 @@ class MoveAction : public ActorAction
 {
 public:
   MoveAction(Direction::Symbol direction);
-  virtual bool perform(std::shared_ptr<Actor> actor);
+  virtual bool perform(std::shared_ptr<Actor> actor) const;
 
 private:
   DungeonState* _state;
   Direction::Symbol _direction;
 
-  bool validatePosition(cocos2d::Vec2 pos);
+  bool validatePosition(cocos2d::Vec2 pos) const;
 };
 
 }

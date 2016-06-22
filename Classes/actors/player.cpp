@@ -31,7 +31,7 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
   std::shared_ptr<Monster> mob = std::dynamic_pointer_cast<Monster>(obstacle);
   if ( mob )
   {
-    performAction( new AttackAction(Target(mob)) );
+    performAction( AttackAction(Target(mob)) );
   }
 }
 

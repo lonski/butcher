@@ -40,7 +40,7 @@ public:
 
   std::unique_ptr<cocos2d::Sprite>& sprite();
 
-  virtual bool performAction(ActorAction* action);
+  virtual bool performAction(const ActorAction& action);
   virtual void nextTurn();
 
   /**

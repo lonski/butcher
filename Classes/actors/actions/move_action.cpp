@@ -16,7 +16,7 @@ MoveAction::MoveAction(Direction::Symbol direction)
 
 }
 
-bool MoveAction::perform(std::shared_ptr<Actor> actor)
+bool MoveAction::perform(std::shared_ptr<Actor> actor) const
 {
   if ( _direction == Direction::None )
     return false;
@@ -76,7 +76,7 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
   return true;
 }
 
-bool MoveAction::validatePosition(cc::Vec2 pos)
+bool MoveAction::validatePosition(cc::Vec2 pos) const
 {
   cc::TMXTiledMap* map = _state->map();
 

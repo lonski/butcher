@@ -9,7 +9,7 @@ class DieAction : public ActorAction
 {
 public:
   DieAction(std::shared_ptr<Actor> killer);
-  virtual bool perform(std::shared_ptr<Actor> actor);
+  virtual bool perform(std::shared_ptr<Actor> actor) const;
 
 private:
  std::shared_ptr<Actor> _killer;

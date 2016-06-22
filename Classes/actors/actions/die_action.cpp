@@ -12,7 +12,7 @@ DieAction::DieAction(std::shared_ptr<Actor> killer)
 {
 }
 
-bool DieAction::perform(std::shared_ptr<Actor> actor)
+bool DieAction::perform(std::shared_ptr<Actor> actor) const
 {
   if ( !actor )
   {

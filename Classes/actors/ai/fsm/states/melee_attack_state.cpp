@@ -20,7 +20,7 @@ void MeleeAttack::update()
 {
   if ( validatePreconditions() )
   {
-    _ai->getActor()->performAction( new AttackAction(_ai->getTarget()) );
+    _ai->getActor()->performAction( AttackAction(_ai->getTarget()) );
   }
 }
 

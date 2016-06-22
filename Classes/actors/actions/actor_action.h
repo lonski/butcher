@@ -10,7 +10,7 @@ class Actor;
 class ActorAction
 {
 public:
-    virtual bool perform(std::shared_ptr<Actor> actor) = 0;
+    virtual bool perform(std::shared_ptr<Actor> actor) const = 0;
 
 };
 

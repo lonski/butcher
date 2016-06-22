@@ -42,11 +42,11 @@ void MoveToTarget::update()
     {
       if ( stepDx != 0 && !dungeon->isBlocked( cocos2d::Vec2(myPos.x+stepDx, myPos.y) ) )
       {
-        me->performAction( new MoveAction( stepDx > 0 ? Direction::East : Direction::West ) );
+        me->performAction( MoveAction(stepDx > 0 ? Direction::East : Direction::West) );
       }
       else if ( stepDy != 0 && !dungeon->isBlocked( cocos2d::Vec2(myPos.x, myPos.y + stepDy) ) )
       {
-        me->performAction( new MoveAction( stepDy > 0 ? Direction::North : Direction::South ) );
+        me->performAction( MoveAction(stepDy > 0 ? Direction::North : Direction::South) );
       }
 
     }

@@ -24,7 +24,7 @@ Target::Target(std::shared_ptr<Actor> actor)
   }
 }
 
-std::shared_ptr<Actor> Target::first()
+std::shared_ptr<Actor> Target::first() const
 {
   if ( actors.empty() )
     return nullptr;
@@ -32,7 +32,7 @@ std::shared_ptr<Actor> Target::first()
   return actors.front();
 }
 
-bool Target::isEmpty()
+bool Target::isEmpty() const
 {
   return actors.empty() && x == 0 && y == 0;
 }

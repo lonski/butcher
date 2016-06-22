@@ -130,10 +130,9 @@ std::unique_ptr<cocos2d::Sprite>& Actor::sprite()
   return _sprite;
 }
 
-bool Actor::performAction(ActorAction* action)
+bool Actor::performAction(const ActorAction& action)
 {
-  std::unique_ptr<ActorAction> a(action);
-  return a->perform( shared_from_this() );
+  return action.perform( shared_from_this() );
 }
 
 void Actor::onCollide(std::shared_ptr<Actor>)

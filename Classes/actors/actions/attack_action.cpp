@@ -10,7 +10,7 @@ AttackAction::AttackAction(Target target)
 {
 }
 
-bool AttackAction::perform(std::shared_ptr<Actor> performer)
+bool AttackAction::perform(std::shared_ptr<Actor> performer) const
 {
   if ( !performer )
   {
