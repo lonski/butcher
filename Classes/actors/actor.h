@@ -11,7 +11,7 @@ namespace butcher {
 struct ActorData;
 class ActorAction;
 
-class Actor
+class Actor : public std::enable_shared_from_this<Actor>
 {
 public:
   Actor(const ActorData *data);
@@ -47,15 +47,15 @@ public:
    * @brief Function is launched when actor tries to enter tile occubied by another actor
    * @param actor - an actor who is preveinting to enter tile
    */
-  virtual void onCollide(Actor* obstacle);
+  virtual void onCollide(std::shared_ptr<Actor> obstacle);
 
   /**
    * @brief Function is launched when actor enters a tile with another actors
    * @param actor - an actor who is entering the tile
    */
-  virtual void onInterract(Actor* actor);
+  virtual void onInterract(std::shared_ptr<Actor> actor);
 
-  virtual void onDestroy(Actor* destroyer);
+  virtual void onDestroy(std::shared_ptr<Actor> destroyer);
 
   void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
 

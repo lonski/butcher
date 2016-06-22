@@ -17,10 +17,10 @@ public:
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
 
   virtual void nextTurn();
-  virtual void onDestroy(Actor* destroyer);
+  virtual void onDestroy(std::shared_ptr<Actor> destroyer);
 
 private:
-  Ai _ai;
+  std::unique_ptr<Ai> _ai;
   std::vector<DropRule> _dropRules;
 
 };

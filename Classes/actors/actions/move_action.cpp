@@ -16,7 +16,7 @@ MoveAction::MoveAction(Direction::Symbol direction)
 
 }
 
-bool MoveAction::perform(Actor *actor)
+bool MoveAction::perform(std::shared_ptr<Actor> actor)
 {
   if ( _direction == Direction::None )
     return false;
@@ -55,7 +55,7 @@ bool MoveAction::perform(Actor *actor)
     return false;
   }
 
-  Actor* blocking_actor = nullptr;
+  std::shared_ptr<Actor> blocking_actor;
   if ( _state->isBlocked(positionToTileCoord(map,pos), &blocking_actor) )
   {
     if ( blocking_actor != nullptr )
@@ -70,7 +70,7 @@ bool MoveAction::perform(Actor *actor)
   actor->sprite()->runAction( move_action );
 
   for ( auto a : _state->getActorsAt(actor->getTileCoord()) )
-    if ( a.get() != actor )
+    if ( a != actor )
       a->onInterract(actor);
 
   return true;

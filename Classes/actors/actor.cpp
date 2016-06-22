@@ -133,14 +133,14 @@ std::unique_ptr<cocos2d::Sprite>& Actor::sprite()
 bool Actor::performAction(ActorAction* action)
 {
   std::unique_ptr<ActorAction> a(action);
-  return a->perform(this);
+  return a->perform( shared_from_this() );
 }
 
-void Actor::onCollide(Actor*)
+void Actor::onCollide(std::shared_ptr<Actor>)
 {
 }
 
-void Actor::onInterract(Actor*)
+void Actor::onInterract(std::shared_ptr<Actor>)
 {
   cocos2d::log("%s Not implemented.", __PRETTY_FUNCTION__);
 }
@@ -183,7 +183,7 @@ void Actor::nextTurn()
 {
 }
 
-void Actor::onDestroy(Actor*)
+void Actor::onDestroy(std::shared_ptr<Actor>)
 {
 }
 

@@ -19,9 +19,9 @@ std::unique_ptr<Actor> StairsDown::clone(std::unique_ptr<Actor> allocated)
   return std::move(Object::clone(std::unique_ptr<Actor>{o}));
 }
 
-void StairsDown::onInterract(Actor *actor)
+void StairsDown::onInterract(std::shared_ptr<Actor> actor)
 {
-  if ( dynamic_cast<Player*>(actor) )
+  if ( std::dynamic_pointer_cast<Player>(actor) )
   {
     BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
   }

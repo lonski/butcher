@@ -1,6 +1,8 @@
 #ifndef ACTOR_ACTION_H
 #define ACTOR_ACTION_H
 
+#include <memory>
+
 namespace butcher {
 
 class Actor;
@@ -8,7 +10,7 @@ class Actor;
 class ActorAction
 {
 public:
-    virtual bool perform(Actor* actor) = 0;
+    virtual bool perform(std::shared_ptr<Actor> actor) = 0;
 
 };
 

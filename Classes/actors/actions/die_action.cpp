@@ -7,12 +7,12 @@ namespace cc = cocos2d;
 
 namespace butcher {
 
-DieAction::DieAction(Actor *killer)
+DieAction::DieAction(std::shared_ptr<Actor> killer)
   : _killer(killer)
 {
 }
 
-bool DieAction::perform(Actor *actor)
+bool DieAction::perform(std::shared_ptr<Actor> actor)
 {
   if ( !actor )
   {

@@ -25,7 +25,7 @@ void MoveToTarget::update()
   if ( validatePreconditions() )
   {
     Target target = _ai->getTarget();
-    Actor* me = _ai->getActor();
+    std::shared_ptr<Actor> me = _ai->getActor();
     cocos2d::Vec2 myPos = me->getTileCoord();
     DungeonState* dungeon = BUTCHER.getCurrentDungeon();
 

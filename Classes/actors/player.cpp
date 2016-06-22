@@ -26,9 +26,9 @@ std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
   return std::move( Character::clone(std::move(std::unique_ptr<Actor>{p})) );
 }
 
-void Player::onCollide(Actor *obstacle)
+void Player::onCollide(std::shared_ptr<Actor> obstacle)
 {
-  Monster* mob = dynamic_cast<Monster*>(obstacle);
+  std::shared_ptr<Monster> mob = std::dynamic_pointer_cast<Monster>(obstacle);
   if ( mob )
   {
     performAction( new AttackAction(Target(mob)) );

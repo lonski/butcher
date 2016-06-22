@@ -31,11 +31,11 @@ public:
   void onEnter(DungeonLayer* view);
   void onExit();
 
-  bool removeActor(Actor* actor, bool remove_node_child = true);
+  bool removeActor(std::shared_ptr<Actor> actor, bool remove_node_child = true);
 
   void nextTurn();
 
-  bool isBlocked(cocos2d::Vec2 tileCoord, Actor** blocking_actor = nullptr);
+  bool isBlocked(cocos2d::Vec2 tileCoord, std::shared_ptr<Actor>* blocking_actor = nullptr);
   bool isOpaque(cocos2d::Vec2 tileCoord);
   bool isOpaque(int x, int y);
 

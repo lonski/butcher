@@ -1,6 +1,7 @@
 #ifndef TARGET_H
 #define TARGET_H
 
+#include <memory>
 #include <vector>
 
 namespace butcher {
@@ -10,12 +11,12 @@ class Actor;
 struct Target
 {
   Target();
-  Target(Actor* actor);
+  Target(std::shared_ptr<Actor> actor);
 
-  Actor* first();
+  std::shared_ptr<Actor> first();
   bool isEmpty();
 
-  std::vector<Actor*> actors;
+  std::vector<std::shared_ptr<Actor>> actors;
   int x;
   int y;
 };

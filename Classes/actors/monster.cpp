@@ -7,8 +7,7 @@ namespace cc = cocos2d;
 namespace butcher {
 
 Monster::Monster(const ActorData* data)
-  : _ai(this)
-  , Character(data)
+  : Character(data)
 {
   if ( data )
   {
@@ -31,10 +30,13 @@ std::unique_ptr<Actor> Monster::clone(std::unique_ptr<Actor> allocated)
 
 void Monster::nextTurn()
 {
-  _ai.update();
+  if ( !_ai )
+    _ai.reset( new Ai(shared_from_this()) );
+
+  _ai->update();
 }
 
-void Monster::onDestroy(Actor *destroyer)
+void Monster::onDestroy(std::shared_ptr<Actor> destroyer)
 {
   for(DropRule& drop : _dropRules)
   {

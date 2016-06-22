@@ -10,7 +10,7 @@ Target::Target()
 {
 }
 
-Target::Target(Actor *actor)
+Target::Target(std::shared_ptr<Actor> actor)
   : x(0)
   , y(0)
 {
@@ -24,7 +24,7 @@ Target::Target(Actor *actor)
   }
 }
 
-Actor *Target::first()
+std::shared_ptr<Actor> Target::first()
 {
   if ( actors.empty() )
     return nullptr;

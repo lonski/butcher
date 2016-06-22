@@ -10,7 +10,7 @@ AttackAction::AttackAction(Target target)
 {
 }
 
-bool AttackAction::perform(Actor *performer)
+bool AttackAction::perform(std::shared_ptr<Actor> performer)
 {
   if ( !performer )
   {
@@ -18,7 +18,7 @@ bool AttackAction::perform(Actor *performer)
     return false;
   }
 
-  Character* a = dynamic_cast<Character*>(performer);
+  std::shared_ptr<Character> a = std::dynamic_pointer_cast<Character>(performer);
 
   if ( !a )
   {
@@ -26,7 +26,7 @@ bool AttackAction::perform(Actor *performer)
     return false;
   }
 
-  Character* t = dynamic_cast<Character*>(_target.first());
+  std::shared_ptr<Character> t = std::dynamic_pointer_cast<Character>(_target.first());
 
   if ( !t )
   {

@@ -28,7 +28,7 @@ public:
     int hp() const;
     void setHp(int hp);
 
-    int takeDamage(int damage, Actor* attacker);
+    int takeDamage(int damage, std::shared_ptr<Actor> attacker);
 
 private:
     int _level;

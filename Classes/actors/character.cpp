@@ -63,7 +63,7 @@ void Character::setHp(int hp)
   _hp = hp;
 }
 
-int Character::takeDamage(int damage, Actor* attacker)
+int Character::takeDamage(int damage, std::shared_ptr<Actor> attacker)
 {
   damage -= attribute(AttributeType::DamageReduction);
 

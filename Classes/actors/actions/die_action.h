@@ -8,11 +8,11 @@ namespace butcher {
 class DieAction : public ActorAction
 {
 public:
-  DieAction(Actor* killer);
-  virtual bool perform(Actor* actor);
+  DieAction(std::shared_ptr<Actor> killer);
+  virtual bool perform(std::shared_ptr<Actor> actor);
 
 private:
- Actor* _killer;
+ std::shared_ptr<Actor> _killer;
 };
 
 }

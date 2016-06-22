@@ -14,7 +14,7 @@ public:
   Player(const ActorData* data);
 
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
-  virtual void onCollide(Actor* obstacle);
+  virtual void onCollide(std::shared_ptr<Actor> obstacle);
 
 private:
   typedef std::map<ActorID, AmountedItem> Inventory;

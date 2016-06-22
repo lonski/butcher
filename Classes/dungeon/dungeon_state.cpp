@@ -108,7 +108,7 @@ void DungeonState::onEnter(DungeonLayer *view)
 
 void DungeonState::onExit()
 {
-  removeActor( BUTCHER.getPlayer().get() );
+  removeActor( BUTCHER.getPlayer() );
 }
 
 void DungeonState::spawnActors()
@@ -125,10 +125,10 @@ void DungeonState::spawnActors()
 
 }
 
-bool DungeonState::removeActor(Actor *actor, bool remove_node_child)
+bool DungeonState::removeActor(std::shared_ptr<Actor> actor, bool remove_node_child)
 {
   auto it = std::find_if(_actors.begin(), _actors.end(), [actor](std::shared_ptr<Actor> a){
-     return a.get() == actor;
+     return a.get() == actor.get();
   });
 
   if ( it != _actors.end() )
@@ -200,7 +200,7 @@ void DungeonState::nextTurn()
 
 }
 
-bool DungeonState::isBlocked(cc::Vec2 tileCoord, Actor** blocking_actor)
+bool DungeonState::isBlocked(cc::Vec2 tileCoord, std::shared_ptr<Actor>* blocking_actor)
 {
   bool blocked = false;
 
@@ -232,8 +232,8 @@ bool DungeonState::isBlocked(cc::Vec2 tileCoord, Actor** blocking_actor)
       if ( tc == tileCoord && a->blocks() )
       {
         blocked = true;
-        if ( blocking_actor != nullptr )
-          *blocking_actor = a.get();
+        if (blocking_actor)
+          *blocking_actor = a;
         break;
       }
     }
@@ -244,7 +244,7 @@ bool DungeonState::isBlocked(cc::Vec2 tileCoord, Actor** blocking_actor)
 
 bool DungeonState::isOpaque(cc::Vec2 tileCoord)
 {
-  Actor* blocking_actor = nullptr;
+  std::shared_ptr<Actor> blocking_actor;
   bool blocked = isBlocked(tileCoord, &blocking_actor);
 
   return blocking_actor ? !blocking_actor->transparent() : blocked;

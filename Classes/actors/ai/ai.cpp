@@ -4,10 +4,11 @@
 #include <butcher.h>
 #include <utils/utils.h>
 #include <dungeon/dungeon_state.h>
+#include <actors/player.h>
 
 namespace butcher {
 
-Ai::Ai(Actor *actor)
+Ai::Ai(std::shared_ptr<Actor> actor)
   : _actor(actor)
   , _fsm(this)
 {
@@ -28,7 +29,7 @@ void Ai::update()
   _fsm.update();
 }
 
-Actor* Ai::getActor()
+std::shared_ptr<Actor> Ai::getActor()
 {
   return _actor;
 }
@@ -36,7 +37,7 @@ Actor* Ai::getActor()
 Target Ai::getTarget()
 {
   if ( BUTCHER.getCurrentDungeon()->isInFov( getActor()->getTileCoord()) )
-    return Target((Actor*)BUTCHER.getPlayer().get());
+    return Target( std::dynamic_pointer_cast<Actor>(BUTCHER.getPlayer()) );
 
   return Target();
 }
