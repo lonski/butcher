@@ -37,6 +37,7 @@ void Butcher::init()
 
   _currentScene = cocos2d::Scene::create();
   _hud = HudLayer::create();
+  getPlayer()->addObserver( _hud );
 
   BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
 }

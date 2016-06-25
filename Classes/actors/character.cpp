@@ -6,16 +6,18 @@ namespace butcher {
 
 Character::Character(const ActorData* data)
   : Actor(data)
-  , _level(0)
+  , _level(1)
   , _exp(0)
 {
   if ( data )
   {
-    _hp = data->hp();
+    _maxHp = data->hp();
+    _hp = _maxHp;
     setAttribute(AttributeType::Attack, data->attack());
     setAttribute(AttributeType::Defense, data->defense());
-    setAttribute(AttributeType::Damage, data->damage());
     setAttribute(AttributeType::DamageReduction, data->damage_reduction());
+    _damage.parse(data->damage()->c_str());
+    _exp = data->exp();
   }
 }
 
@@ -41,6 +43,7 @@ int Character::getExp() const
 void Character::setExp(int exp)
 {
     _exp = exp;
+    notify();
 }
 
 int Character::getAttribute(AttributeType type)
@@ -61,23 +64,44 @@ int Character::getHp() const
 void Character::setHp(int hp)
 {
   _hp = hp;
+  notify();
 }
 
-int Character::takeDamage(int damage, std::shared_ptr<Actor> attacker)
+int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
 {
-  damage -= getAttribute(AttributeType::DamageReduction);
+  int dmg = damage.roll() - getAttribute(AttributeType::DamageReduction);
 
-  if ( damage < 0 )
-    damage = 0;
+  if ( dmg < 0 )
+    dmg = 0;
 
-  _hp -= damage;
+  setHp( getHp() - dmg );
 
-  fadeText( "-" + cocos2d::Value(damage).asString(), cocos2d::Color4B::RED );
+  fadeText( "-" + cocos2d::Value(dmg).asString(), cocos2d::Color4B::RED );
 
-  if ( _hp <= 0 )
+  if ( getHp() <= 0 )
     performAction( DieAction(attacker) );
 
-  return damage;
+  return dmg;
+}
+
+Damage Character::getDamage() const
+{
+  return _damage;
+}
+
+void Character::setDamage(const Damage &damage)
+{
+  _damage = damage;
+}
+
+int Character::getMaxHp() const
+{
+  return _maxHp;
+}
+
+void Character::setMaxHp(int maxHp)
+{
+  _maxHp = maxHp;
 }
 
 std::unique_ptr<Actor> Character::clone(std::unique_ptr<Actor> allocated)
@@ -89,6 +113,8 @@ std::unique_ptr<Actor> Character::clone(std::unique_ptr<Actor> allocated)
     c->_level = _level;
     c->_exp = _exp;
     c->_hp = _hp;
+    c->_maxHp = _maxHp;
+    c->_damage = _damage;
   }
 
   return std::move(Actor::clone(std::unique_ptr<Actor>{c}));

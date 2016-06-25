@@ -21,6 +21,9 @@ public:
 
   Inventory& getInventory();
 
+  virtual void setExp(int exp);
+  int getExpForNextLevel() const;
+
 private:
   Inventory _inventory;
 

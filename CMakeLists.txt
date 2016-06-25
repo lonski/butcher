@@ -168,6 +168,9 @@ set(GAME_SRC
   Classes/utils/target.cpp
   Classes/utils/profiler.cpp
   Classes/utils/directions.cpp
+  Classes/utils/observer.cpp
+  Classes/utils/damage.cpp
+  Classes/utils/dices.cpp
 
   Classes/lib/permissive-fov.cc
 
@@ -230,6 +233,9 @@ set(GAME_HEADERS
   Classes/utils/target.h
   Classes/utils/grid.h
   Classes/utils/profiler.h
+  Classes/utils/observer.h
+  Classes/utils/damage.h
+  Classes/utils/dices.h
 
   Classes/lib/permissive-fov.h
   Classes/lib/permissive-fov-cpp.h

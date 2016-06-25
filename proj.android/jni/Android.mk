@@ -47,9 +47,12 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/dungeon/room.cpp \
 ../../Classes/dungeon/spawn_builder.cpp \
 ../../Classes/utils/utils.cpp \
+../../Classes/utils/observer.cpp \
 ../../Classes/utils/target.cpp \
 ../../Classes/utils/profiler.cpp \
 ../../Classes/utils/directions.cpp \
+../../Classes/utils/dices.cpp \
+../../Classes/utils/damage.cpp \
 ../../Classes/lib/permissive-fov.cc
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \

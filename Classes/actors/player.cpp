@@ -3,6 +3,7 @@
 #include <actors/actions/attack_action.h>
 #include <actors/object.h>
 #include <butcher.h>
+#include <cmath>
 #include "cocos2d.h"
 
 namespace cc = cocos2d;
@@ -42,6 +43,21 @@ void Player::onKill(std::shared_ptr<Character> killed)
 Inventory& Player::getInventory()
 {
   return _inventory;
+}
+
+void Player::setExp(int exp)
+{
+  Character::setExp(exp);
+  if ( getExp() >= getExpForNextLevel() )
+  {
+    setExp(getExpForNextLevel() - getExp());
+    setLevel( getLevel() + 1 );
+  }
+}
+
+int Player::getExpForNextLevel() const
+{
+  return std::pow(2, getLevel() - 1) * 100;
 }
 
 }

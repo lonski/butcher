@@ -11,6 +11,23 @@ cocos2d::Vec2 tileCoordToPosition(cocos2d::TMXTiledMap* map, cocos2d::Vec2 coord
 std::vector<std::string> explode(const std::string& str, char ch);
 float calculateDistance(cocos2d::Vec2 a, cocos2d::Vec2 b);
 
+template<typename T>
+static T fromStr(const std::string& s)
+{
+  std::istringstream is(s);
+  T t;
+  is >> t;
+  return t;
+}
+
+template<typename T>
+static std::string toStr(const T& t)
+{
+  std::ostringstream os;
+  os << t;
+  return os.str();
+}
+
 }
 
 #endif // UTILS_H

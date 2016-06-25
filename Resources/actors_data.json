@@ -8,10 +8,10 @@
       transparent: 1,
       sprite_file: "images/player.png",
 
-      hp: 100,
-      attack : 7,
-      defense : 5,
-      damage : 5,
+      hp: 10,
+      attack : 10,
+      defense : 10,
+      damage : "1d4+1",
       damage_reduction : 0
     },
     {
@@ -22,11 +22,12 @@
       transparent: 1,
       sprite_file: "images/cow.png",
 
-      hp: 10,
-      attack : 4,
-      defense : 4,
-      damage : 2,
+      hp: 8,
+      attack : 10,
+      defense : 6,
+      damage : "1d2",
       damage_reduction : 0,
+      exp: 15,
 
       drop_rules: [
         {

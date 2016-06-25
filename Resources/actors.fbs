@@ -33,8 +33,9 @@ table ActorData {
 	hp:uint;
 	attack:ushort;
 	defense:ushort;
-	damage:ushort;
+	damage:string;
 	damage_reduction:ushort;
+	exp:int;
 
 	//Monster
 	drop_rules:[DropRuleData];

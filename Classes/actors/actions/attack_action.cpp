@@ -3,6 +3,8 @@
 #include <actors/actor.h>
 #include <actors/character.h>
 
+namespace cc = cocos2d;
+
 namespace butcher {
 
 AttackAction::AttackAction(Target target)
@@ -34,15 +36,15 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer) const
     return false;
   }
 
-  int dice_size = (a->getAttribute(AttributeType::Attack) + t->getAttribute(AttributeType::Defense)) / 2;
+  float atk = a->getAttribute(AttributeType::Attack);
+  float def = t->getAttribute(AttributeType::Defense);
 
-  int attacker_score = ( a->getAttribute(AttributeType::Attack)  + cocos2d::RandomHelper::random_int(0, dice_size) );
-  int target_score =   ( t->getAttribute(AttributeType::Defense) + cocos2d::RandomHelper::random_int(0, dice_size) );
+  float score = std::min( (atk/def/2) + 0.05, 0.95);
 
-  if ( attacker_score > target_score )
-    t->takeDamage( a->getAttribute(AttributeType::Damage), performer );
+  if ( score >= cc::RandomHelper::random_real<float>(0,1.f) )
+    t->takeDamage( a->getDamage(), performer );
   else
-    a->fadeText("miss", cocos2d::Color4B(32,32,32,255));
+    t->fadeText("miss", cocos2d::Color4B(32,32,32,255));
 
   return true;
 }

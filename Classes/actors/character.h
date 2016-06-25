@@ -4,6 +4,7 @@
 #include <map>
 #include <actors/actor.h>
 #include <actors/attribute_type.h>
+#include <utils/damage.h>
 
 namespace butcher {
 
@@ -16,24 +17,32 @@ public:
     virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
     virtual int getZ() const;
 
-    int getLevel() const;
-    void setLevel(int level);
+    virtual int getLevel() const;
+    virtual void setLevel(int level);
 
-    int getExp() const;
-    void setExp(int exp);
+    virtual int getExp() const;
+    virtual void setExp(int exp);
 
-    int getAttribute(AttributeType type);
-    void setAttribute(AttributeType type, int value);
+    virtual int getAttribute(AttributeType type);
+    virtual void setAttribute(AttributeType type, int value);
 
-    int getHp() const;
-    void setHp(int hp);
+    virtual int getHp() const;
+    virtual void setHp(int hp);
 
-    int takeDamage(int damage, std::shared_ptr<Actor> attacker);
+    int getMaxHp() const;
+    void setMaxHp(int maxHp);
+
+    virtual int takeDamage(Damage damage, std::shared_ptr<Actor> attacker);
+
+    Damage getDamage() const;
+    void setDamage(const Damage &damage);
 
 private:
     int _level;
     int _exp;
     int _hp;
+    int _maxHp;
+    Damage _damage;
     std::map<AttributeType, int> _attributes;
 };
 

@@ -8,7 +8,6 @@ enum class AttributeType
     None,
     Attack,
     Defense,
-    Damage,
     DamageReduction
 };
 

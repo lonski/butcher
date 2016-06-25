@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <actors/actor_id.h>
+#include <utils/observer.h>
 #include "cocos2d.h"
 
 namespace butcher {
@@ -13,6 +14,7 @@ class ActorAction;
 class Character;
 
 class Actor : public std::enable_shared_from_this<Actor>
+            , public Subject
 {
 public:
   Actor(const ActorData *data);
