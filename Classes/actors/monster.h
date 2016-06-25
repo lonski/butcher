@@ -4,6 +4,7 @@
 #include <actors/character.h>
 #include <actors/ai/ai.h>
 #include <actors/drop_rule.h>
+#include "ui/UILoadingBar.h"
 
 namespace butcher {
 
@@ -18,6 +19,7 @@ public:
 
   virtual void nextTurn();
   virtual void onDestroy(std::shared_ptr<Actor> destroyer);
+  virtual void setHp(int hp);
 
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);
@@ -25,6 +27,8 @@ protected:
 private:
   std::unique_ptr<Ai> _ai;
   std::vector<DropRule> _dropRules;
+
+  cocos2d::ui::LoadingBar* _hpBar;
 
 };
 

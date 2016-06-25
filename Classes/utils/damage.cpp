@@ -29,13 +29,13 @@ int Damage::roll() const
   return std::max( dices::roll(dice, diceCount) + bonus, 1 );
 }
 
-std::string Damage::toStr() const
+std::string Damage::toString() const
 {
-  std::string s =  std::to_string(diceCount) +              // 1
-                   "d" +                                    // d
-                   std::to_string(static_cast<int>(dice)) + // 4
-                   "+" +                                    // +
-                   std::to_string(bonus);                   // 5
+  std::string s =  toStr(diceCount) +              // 1
+                   "d" +                           // d
+                   toStr(static_cast<int>(dice)) + // 4
+                   "+" +                           // +
+                   toStr(bonus);                   // 5
 
   return s;
 }

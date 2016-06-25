@@ -16,7 +16,7 @@ struct Damage
 
   Damage(const std::string& str);
 
-  std::string toStr() const;
+  std::string toString() const;
   int toInt() const;
   void parse(const std::string& str);
 
