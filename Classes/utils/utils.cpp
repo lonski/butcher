@@ -65,4 +65,14 @@ float calculateDistance(cc::Vec2 a, cc::Vec2 b)
   return sqrtf(dx*dx + dy*dy);
 }
 
+cocos2d::Label* make_label(const std::string &text, cocos2d::Color4B color, int size, cocos2d::Vec2 anchor)
+{
+  cocos2d::Label* label = cc::Label::createWithTTF( text, "fonts/Marker Felt.ttf", size);
+  label->setTextColor(color);
+  label->enableOutline( cc::Color4B::BLACK, 1 );
+  label->setAnchorPoint(anchor);
+
+  return label;
+}
+
 }

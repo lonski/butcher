@@ -1,5 +1,6 @@
 #include "loading_scene.h"
 #include <butcher.h>
+#include <utils/utils.h>
 
 namespace cc = cocos2d;
 
@@ -19,8 +20,7 @@ bool LoadingScreen::init(const std::string& msg)
   cc::Vec2 origin = cc::Director::getInstance()->getVisibleOrigin();
   auto visibleSize = cc::Director::getInstance()->getVisibleSize();
 
-  auto loading = cc::Label::createWithTTF(msg, "fonts/Marker Felt.ttf", 24);
-  loading->setTextColor(cc::Color4B::ORANGE);
+  auto loading = make_label(msg, cc::Color4B::ORANGE, 24);
   loading->setPosition(cc::Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
   addChild(loading, 1);

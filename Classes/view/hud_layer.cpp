@@ -135,12 +135,14 @@ void HudLayer::initDungeonLevelCounter()
   stairs_glyph->setLocalZOrder(1);
   addChild(stairs_glyph);
 
-  _dungeonLevelLabel = cc::Label::createWithTTF( cc::Value(BUTCHER.getDungeonLevel()).asString(), "fonts/Marker Felt.ttf", 24);
-  _dungeonLevelLabel->setAnchorPoint(cc::Vec2(1.1,1.1));
-  _dungeonLevelLabel->setTextColor(cc::Color4B(65,140,150,255));
+  _dungeonLevelLabel = make_label( toStr(BUTCHER.getDungeonLevel()),
+                                   cc::Color4B(65,140,150,255),
+                                   24,
+                                   cc::Vec2(1.1,1.1) );
+
   _dungeonLevelLabel->setPosition(cc::Vec2(stairs_glyph->getPositionX() - stairs_glyph->getBoundingBox().size.width*1.2,
                                            stairs_glyph->getPositionY()));
-  _dungeonLevelLabel->enableOutline( cc::Color4B::BLACK, 1 );
+
   addChild(_dungeonLevelLabel, 1);
 }
 

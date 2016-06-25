@@ -79,8 +79,8 @@ void Damage::parse(const std::string &str)
     dice = static_cast<dices::Dice>( fromStr<int>(dDice[1]) );
   }
 
-  cc::log("%s: Parsed damage '%s' - diceCount=%d, dice=%d, bonus=%d",
-          __PRETTY_FUNCTION__, str.c_str(), diceCount, (int)dice, bonus);
+  //cc::log("%s: Parsed damage '%s' - diceCount=%d, dice=%d, bonus=%d",
+  //        __PRETTY_FUNCTION__, str.c_str(), diceCount, (int)dice, bonus);
 }
 
 }

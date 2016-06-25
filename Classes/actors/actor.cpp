@@ -194,12 +194,11 @@ void Actor::fadeText(const std::string &text, cocos2d::Color4B color)
 {
   if ( !getSprite() )
   {
-    cocos2d::log("Actor::fadeText Sprite is null!");
+    //cocos2d::log("Actor::fadeText Sprite is null!");
     return;
   }
 
-  cocos2d::Label* label = cocos2d::Label::createWithTTF(text, "fonts/Marker Felt.ttf", 22);
-  label->setTextColor(color);
+  cocos2d::Label* label = make_label(text, color, 22);
 
   cocos2d::Size size = getSprite()->getBoundingBox().size;
   label->setPosition( size.width / 2, size.height );
