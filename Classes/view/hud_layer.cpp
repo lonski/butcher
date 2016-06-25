@@ -16,6 +16,8 @@ HudLayer::HudLayer()
   : _log(nullptr)
   , _expBar(nullptr)
   , _hpBar(nullptr)
+  , _hpValue(nullptr)
+  , _lvValue(nullptr)
   , _dungeonLevelLabel(nullptr)
 {
 }
@@ -87,6 +89,12 @@ void HudLayer::initExpBar()
   barBg->setPosition(_expBar->getPosition());
   barBg->setLocalZOrder(1);
   addChild(barBg);
+
+  _lvValue = make_label("", cc::Color4B::WHITE, 14);
+  _lvValue->setPosition( barBg->getPositionX() - barBg->getBoundingBox().size.width / 2,
+                      barBg->getPositionY() - barBg->getBoundingBox().size.height / 2);
+
+  addChild(_lvValue, 3);
 }
 
 void HudLayer::initHpBar()
@@ -109,15 +117,19 @@ void HudLayer::initHpBar()
   _hpBar->setAnchorPoint(cc::Vec2(1,1));
   _hpBar->setPosition(cc::Vec2(hp_glyph->getPositionX() - hp_glyph->getBoundingBox().size.width*1.2,
                                 hp_glyph->getPositionY()));
-  _hpBar->setLocalZOrder(2);
-  addChild(_hpBar);
+  addChild(_hpBar, 2);
 
   cc::Sprite* barBg = cc::Sprite::create();
   barBg->initWithFile("images/progress_bar_bg.png");
   barBg->setAnchorPoint(cc::Vec2(1,1));
   barBg->setPosition(_hpBar->getPosition());
-  barBg->setLocalZOrder(1);
-  addChild(barBg);
+  addChild(barBg,1 );
+
+  _hpValue = make_label("", cc::Color4B::WHITE, 14);
+  _hpValue->setPosition( barBg->getPositionX() - barBg->getBoundingBox().size.width / 2,
+                      barBg->getPositionY() - barBg->getBoundingBox().size.height / 2);
+
+  addChild(_hpValue, 3);
 }
 
 void HudLayer::initDungeonLevelCounter()
@@ -165,12 +177,14 @@ void HudLayer::onNotify(Subject *subject)
     if ( _expBar )
     {
       _expBar->setPercent((float)player->getExp() / (float)player->getExpForNextLevel() * 100);
+      _lvValue->setString( "Level " + toStr(player->getLevel()) );
       //cc::log("%d %d", player->getExp(), player->getExpForNextLevel());
     }
 
     if ( _hpBar )
     {
       _hpBar->setPercent((float)player->getHp() / (float)player->getMaxHp() * 100);
+      _hpValue->setString( toStr(player->getHp()) + "/" + toStr(player->getMaxHp()));
       //cc::log("hpBar%d %d", player->getHp(), player->getMaxHp());
     }
   }

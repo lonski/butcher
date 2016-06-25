@@ -30,6 +30,8 @@ private:
   HudLog* _log;
   cocos2d::ui::LoadingBar* _expBar;
   cocos2d::ui::LoadingBar* _hpBar;
+  cocos2d::Label* _hpValue;
+  cocos2d::Label* _lvValue;
   cocos2d::Label* _dungeonLevelLabel;
 
   void showMenu(cocos2d::Ref*);
