@@ -13,7 +13,6 @@ LoadingScreen::LoadingScreen()
 
 bool LoadingScreen::init(const std::string& msg)
 {
-
   if ( !Layer::init() )
     return false;
 

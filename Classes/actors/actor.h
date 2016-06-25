@@ -72,6 +72,9 @@ public:
 
   void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
 
+protected:
+  virtual void setSprite(cocos2d::Sprite* sprite);
+
 private:
   unsigned _id;
   std::string _name;

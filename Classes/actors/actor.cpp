@@ -12,13 +12,14 @@
 #include <actors/instances/stairs_down.h>
 #include <actors/instances/stairs_up.h>
 
+namespace cc = cocos2d;
+
 namespace butcher {
 
 Actor::Actor(const ActorData* data)
     : _id(0)
     , _blocks(false)
     , _transparent(false)
-    , _sprite(nullptr)
 {
   if ( data )
   {
@@ -26,8 +27,8 @@ Actor::Actor(const ActorData* data)
     setBlocks( data->blocks() );
     setTransparent( data->transparent() );
     setName( data->name()->c_str() );
-    _sprite.reset(new cocos2d::Sprite());
-    _sprite->initWithFile( data->sprite_file()->c_str() );
+    setSprite(new cc::Sprite());
+    getSprite()->initWithFile( data->sprite_file()->c_str() );
   }
 }
 
@@ -39,7 +40,7 @@ std::unique_ptr<Actor> Actor::create(const ActorData *data)
 {
   if ( data == nullptr )
   {
-    cocos2d::log("Actor::create: ActorData is null!");
+    cc::log("Actor::create: ActorData is null!");
   }
 
   std::unique_ptr<Actor> actor;
@@ -65,7 +66,7 @@ std::unique_ptr<Actor> Actor::create(const ActorData *data)
       actor.reset(new Item(data));
       break;
     default:
-      cocos2d::log("Actor::create: incorrect actor type (%d)!", data->type());
+      cc::log("Actor::create: incorrect actor type (%d)!", data->type());
     break;
   }
 
@@ -81,10 +82,10 @@ std::unique_ptr<Actor> Actor::clone(std::unique_ptr<Actor> allocated)
     allocated->setName(getName());
     allocated->_id = _id;
 
-    if ( allocated->_sprite == nullptr )
-      allocated->_sprite.reset(new cocos2d::Sprite());
+    if ( allocated->getSprite() == nullptr )
+      allocated->setSprite(new cc::Sprite());
 
-    allocated->_sprite->initWithFile( _sprite->getResourceName() );
+    allocated->getSprite()->initWithFile( getSprite()->getResourceName() );
   }
 
   return std::move(allocated);
@@ -125,7 +126,7 @@ ActorID Actor::getID() const
   return static_cast<ActorID>(_id);
 }
 
-std::unique_ptr<cocos2d::Sprite>& Actor::getSprite()
+std::unique_ptr<cc::Sprite>& Actor::getSprite()
 {
   return _sprite;
 }
@@ -141,18 +142,18 @@ void Actor::onCollide(std::shared_ptr<Actor>)
 
 void Actor::onInterract(std::shared_ptr<Actor>)
 {
-  cocos2d::log("%s Not implemented.", __PRETTY_FUNCTION__);
+  cc::log("%s Not implemented.", __PRETTY_FUNCTION__);
 }
 
-cocos2d::Vec2 Actor::getTileCoord()
+cc::Vec2 Actor::getTileCoord()
 {
   if ( BUTCHER.getCurrentDungeon() == nullptr )
-    return cocos2d::Vec2::ZERO;
+    return cc::Vec2::ZERO;
 
   return positionToTileCoord(BUTCHER.getCurrentDungeon()->map(), getPosition());
 }
 
-void Actor::setTileCoord(cocos2d::Vec2 coord)
+void Actor::setTileCoord(cc::Vec2 coord)
 {
   if ( BUTCHER.getCurrentDungeon() == nullptr )
     return;
@@ -162,10 +163,10 @@ void Actor::setTileCoord(cocos2d::Vec2 coord)
 
 void Actor::setPosition(int x, int y, bool no_sprite_pos)
 {
-  setPosition(cocos2d::Vec2(x,y), no_sprite_pos);
+  setPosition(cc::Vec2(x,y), no_sprite_pos);
 }
 
-void Actor::setPosition(cocos2d::Vec2 pos, bool no_sprite_pos)
+void Actor::setPosition(cc::Vec2 pos, bool no_sprite_pos)
 {
 
   _position = pos;
@@ -173,7 +174,7 @@ void Actor::setPosition(cocos2d::Vec2 pos, bool no_sprite_pos)
     _sprite->setPosition(pos);
 }
 
-cocos2d::Vec2 Actor::getPosition() const
+cc::Vec2 Actor::getPosition() const
 {
   return _position;
 }
@@ -190,23 +191,27 @@ void Actor::onKill(std::shared_ptr<Character>)
 {
 }
 
-void Actor::fadeText(const std::string &text, cocos2d::Color4B color)
+void Actor::fadeText(const std::string &text, cc::Color4B color)
 {
   if ( !getSprite() )
   {
-    //cocos2d::log("Actor::fadeText Sprite is null!");
+    //cc::log("Actor::fadeText Sprite is null!");
     return;
   }
 
-  cocos2d::Label* label = make_label(text, color, 22);
+  cc::Label* label = make_label(text, color, 22, cc::Vec2(0.5, 0.5));
 
-  cocos2d::Size size = getSprite()->getBoundingBox().size;
+  cc::Size size = getSprite()->getBoundingBox().size;
   label->setPosition( size.width / 2, size.height );
-
   getSprite()->addChild(label, 1);
 
-  label->runAction( cocos2d::MoveBy::create(0.5, cocos2d::Vec2(0, size.height / 3)) );
-  label->runAction( cocos2d::FadeOut::create(0.5) );
+  label->runAction( cc::MoveBy::create(0.5, cc::Vec2(0, size.height / 3)) );
+  label->runAction( cc::FadeOut::create(0.5) );
+}
+
+void Actor::setSprite(cc::Sprite *sprite)
+{
+  _sprite.reset(sprite);
 }
 
 }

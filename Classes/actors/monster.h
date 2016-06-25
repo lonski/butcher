@@ -19,6 +19,9 @@ public:
   virtual void nextTurn();
   virtual void onDestroy(std::shared_ptr<Actor> destroyer);
 
+protected:
+  virtual void setSprite(cocos2d::Sprite* sprite);
+
 private:
   std::unique_ptr<Ai> _ai;
   std::vector<DropRule> _dropRules;

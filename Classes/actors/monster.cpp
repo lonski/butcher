@@ -53,4 +53,17 @@ void Monster::onDestroy(std::shared_ptr<Actor> destroyer)
   Character::onDestroy(destroyer);
 }
 
+void Monster::setSprite(cocos2d::Sprite *sprite)
+{
+  Actor::setSprite(sprite);
+
+  if ( getSprite() )
+  {
+    cocos2d::Label* label = make_label(getName(), cc::Color4B::WHITE, 14, cc::Vec2(0.5,0));
+    label->setPosition( 32, 64 ); //Damn, why on create sprite size is 0? TODO - remove this hardcode.
+
+    getSprite()->addChild(label, 1);
+  }
+}
+
 }
