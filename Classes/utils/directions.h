@@ -38,6 +38,8 @@ namespace Direction
   std::vector<Symbol> getPerpendicular(Symbol dir);
   Symbol getOpposite(Symbol dir);
 
+  Symbol getRandomCardinal();
+
 }
 
 }

@@ -7,7 +7,7 @@ namespace butcher {
 
 class LevelData;
 struct DungeonDescription;
-struct Room;
+struct Rect;
 
 class SpawnBuilder
 {
@@ -23,9 +23,9 @@ private:
   void addStairs();
   void addMobs();
 
-  void addActorSpawn(int id, int y, int x);
-  void addActorSpawn(int id, cocos2d::Vec2 pos);
-  std::shared_ptr<Room> getRandomRoom() const;
+  bool addActorSpawn(int id, int y, int x);
+  bool addActorSpawn(int id, cocos2d::Vec2 pos);
+  std::shared_ptr<Rect> getRandomRoom() const;
   void debugMapPrint();
 
 };

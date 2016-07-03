@@ -17,6 +17,8 @@ struct Tiles
   static const char FoV = 'v';
   static const char FoG = 'f';
   static const char DOOR = '+';
+  static const char DOOR_OPEN = '/';
+  static const char CORRIDOR = ',';
 };
 
 struct Grid
@@ -35,6 +37,12 @@ struct Grid
 
   void set(int x,int y, char c)
   {
+    if ( !isValid(x,y))
+    {
+      cocos2d::log("Grid::set Coords are not valid! x=%d,y=%d", x,y);
+      return;
+    }
+
     tiles[y*width + x] = c;
   }
 
@@ -91,6 +99,29 @@ struct Grid
         }
       }
     }
+  }
+
+  Grid cut(int x1, int x2, int y1, int y2)
+  {
+    Grid g(x2 - x1, y2 - y1);
+
+    for(int y = y1; y < y2; ++y)
+      for(int x = x1; x < x2; ++x )
+        g.set(x-x1,y-y1, get(x,y));
+
+    return g;
+  }
+
+  int getCardinalExitsCount(cocos2d::Vec2 pos)
+  {
+    int exits = 0;
+
+    for( auto dir : Direction::Symbol() )
+      if ( Direction::isCardinal(dir) )
+        if ( get(Direction::getNeighbour(pos, dir)) != Tiles::WALL)
+          ++exits;
+
+    return exits;
   }
 
   std::string toStr() const

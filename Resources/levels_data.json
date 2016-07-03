@@ -1,28 +1,45 @@
 {
   levels: [
      {
-      depth: [1,4],
+      depth: [1,2],
       map_template: "dungeons/empty_cave.tmx",
+      generator: 0,
+
 	  width: 50,
 	  height: 50,
-	  min_room_size: 10,
-	  max_room_size: 20,
-	  max_rooms: 100,
-      rect_room_chance: 0,
-	  polygon_room_chance: 100,
-	  windy_chance: 0
+
+	  wall_percent: 40,
+	  room_split_percent: 20,
+	  generation_params: [
+	  	{
+	  		reps: 4,
+			r1_cutoff: 5,
+			r2_cutoff: 2
+	  	},
+	  	{
+	  		reps: 3,
+			r1_cutoff: 5,
+			r2_cutoff: -1
+	  	},
+	  	{
+	  		reps: 3,
+			r1_cutoff: 5,
+			r2_cutoff: 1
+	  	}
+	  ]
     },
     {
-      depth: [5,10],
+      depth: [3,100],
       map_template: "dungeons/empty_cave.tmx",
+      generator: 1,
 	  width: 50,
 	  height: 50,
 	  min_room_size: 4,
-	  max_room_size: 15,
-	  max_rooms: 100,
-      rect_room_chance: 80,
-	  polygon_room_chance: 20,
-	  windy_chance: 70
+	  max_room_size: 8,
+	  max_features: 100,
+	  min_corridor_length: 2,
+	  max_corridor_length: 5,
+	  room_chance: 50
     }
   ]
 }

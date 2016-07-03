@@ -203,6 +203,7 @@ void Actor::fadeText(const std::string &text, cc::Color4B color)
 
   cc::Size size = getSprite()->getBoundingBox().size;
   label->setPosition( size.width / 2, size.height );
+  label->setGlobalZOrder( getSprite()->getGlobalZOrder() + 3 );
   getSprite()->addChild(label, 1);
 
   label->runAction( cc::MoveBy::create(0.5, cc::Vec2(0, size.height / 3)) );

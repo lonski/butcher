@@ -36,23 +36,44 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
 
 void SpawnBuilder::addStairs()
 {
-  addActorSpawn(4, _dungeon->rooms.front()->getRandomTile(Tiles::FLOOR));
-  addActorSpawn(3, _dungeon->rooms.back()->getRandomTile(Tiles::FLOOR));
+  enum {
+    TRY_COUNT = 100
+  };
+
+  for(int i = 0; i < TRY_COUNT; ++i)
+    if ( addActorSpawn(4, _dungeon->rooms.front()->getRandomCoord() ) )
+      break;
+
+  for(int i = 0; i < TRY_COUNT; ++i)
+    if ( addActorSpawn(3, _dungeon->rooms.back()->getRandomCoord() ) )
+      break;
 }
 
 void SpawnBuilder::addMobs()
 {
-  for ( std::shared_ptr<Room> room : _dungeon->rooms )
+  int mobCount(0);
+
+  for ( std::shared_ptr<Rect> room : _dungeon->rooms )
   {
-    int maxMobsInRoom = room->getTiles(Tiles::FLOOR).size() / 10;
+    int maxMobsInRoom = std::min( room->getAreaSize() / 10, 2 );
     while ( maxMobsInRoom-- )
+    {
       if ( cc::RandomHelper::random_int(0,1) == 1 )
-        addActorSpawn(2, room->getRandomTile(Tiles::FLOOR));
+      {
+        if ( addActorSpawn(2, room->getRandomCoord() ) )
+          ++mobCount;
+      }
+    }
   }
+
+  cc::log("Spawned %d mobs in %u rooms.", mobCount, (unsigned)_dungeon->rooms.size());
 }
 
-void SpawnBuilder::addActorSpawn(int id, int y, int x)
+bool SpawnBuilder::addActorSpawn(int id, int y, int x)
 {
+  if ( _dungeon->grid.get(cc::Vec2(x,y)) != Tiles::FLOOR )
+    return false;
+
   cc::ValueMap spawn;
   spawn["name"] = cc::Value("actor_spawn");
   spawn["id"] = cc::Value(id);
@@ -60,14 +81,16 @@ void SpawnBuilder::addActorSpawn(int id, int y, int x)
   spawn["y"] = cc::Value(y);
 
   _objects.push_back(cc::Value(spawn));
+
+  return true;
 }
 
-void SpawnBuilder::addActorSpawn(int id, cocos2d::Vec2 pos)
+bool SpawnBuilder::addActorSpawn(int id, cocos2d::Vec2 pos)
 {
-  addActorSpawn(id, pos.y, pos.x);
+  return addActorSpawn(id, pos.y, pos.x);
 }
 
-std::shared_ptr<Room> SpawnBuilder::getRandomRoom() const
+std::shared_ptr<Rect> SpawnBuilder::getRandomRoom() const
 {
   return _dungeon->rooms[ cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1) ];
 }
@@ -75,7 +98,7 @@ std::shared_ptr<Room> SpawnBuilder::getRandomRoom() const
 void SpawnBuilder::debugMapPrint()
 {
   Grid tmp = _dungeon->grid;
-  tmp.floodfill(getRandomRoom()->getRandomTile(Tiles::FLOOR), '+');
+  tmp.floodfill(getRandomRoom()->getRandomCoord(), '+');
   cc::log("%s", tmp.toStr().c_str());
 }
 

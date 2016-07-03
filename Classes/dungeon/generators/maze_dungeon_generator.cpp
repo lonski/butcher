@@ -1,4 +1,4 @@
-#include "dungeon_generator.h"
+#include "maze_dungeon_generator.h"
 #include <data/levels_generated.h>
 #include <utils/profiler.h>
 
@@ -6,7 +6,7 @@ namespace cc = cocos2d;
 
 namespace butcher {
 
-bool DungeonGenerator::generate(DungeonDescription& description)
+bool MazeDungeonGenerator::generate(DungeonDescription& description)
 {
   if ( description.settings == nullptr )
   {
@@ -39,7 +39,7 @@ bool DungeonGenerator::generate(DungeonDescription& description)
   return true;
 }
 
-void DungeonGenerator::putRooms()
+void MazeDungeonGenerator::putRooms()
 {
   int minRoomSize = _data->settings->min_room_size();
   int maxRoomSize = _data->settings->max_room_size();
@@ -70,7 +70,7 @@ void DungeonGenerator::putRooms()
   }
 }
 
-void DungeonGenerator::growMaze(cc::Vec2 pos)
+void MazeDungeonGenerator::growMaze(cc::Vec2 pos)
 {
   std::vector<cc::Vec2> cells;
   cells.push_back( pos );
@@ -109,7 +109,7 @@ void DungeonGenerator::growMaze(cc::Vec2 pos)
   }
 }
 
-bool DungeonGenerator::canCarve(cocos2d::Vec2 pos, Direction::Symbol dir)
+bool MazeDungeonGenerator::canCarve(cocos2d::Vec2 pos, Direction::Symbol dir)
 {
   cc::Vec2 toCarve = Direction::getNeighbour(pos, dir);
 
@@ -150,7 +150,7 @@ bool DungeonGenerator::canCarve(cocos2d::Vec2 pos, Direction::Symbol dir)
   return _data->grid.checkPattern(toCarve, pattern);
 }
 
-void DungeonGenerator::removeDeadEnds()
+void MazeDungeonGenerator::removeDeadEnds()
 {
   bool done = false;
   while(!done)
@@ -175,7 +175,7 @@ void DungeonGenerator::removeDeadEnds()
   }
 }
 
-bool DungeonGenerator::connectRoomAt(cc::Vec2 pos)
+bool MazeDungeonGenerator::connectRoomAt(cc::Vec2 pos)
 {
   if ( _data->grid.checkPattern(pos, " . "
                                "#X#"
@@ -191,7 +191,7 @@ bool DungeonGenerator::connectRoomAt(cc::Vec2 pos)
   return false;
 }
 
-int DungeonGenerator::exitCount(cocos2d::Vec2 pos)
+int MazeDungeonGenerator::exitCount(cocos2d::Vec2 pos)
 {
   int exits = 0;
 
@@ -203,7 +203,7 @@ int DungeonGenerator::exitCount(cocos2d::Vec2 pos)
   return exits;
 }
 
-void DungeonGenerator::connectRooms()
+void MazeDungeonGenerator::connectRooms()
 {
   for (auto room : _data->rooms)
   {

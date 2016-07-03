@@ -160,9 +160,12 @@ set(GAME_SRC
   Classes/dungeon/dungeon_state.cpp
   Classes/dungeon/level_manager.cpp
   Classes/dungeon/tmx_builder.cpp
-  Classes/dungeon/dungeon_generator.cpp
   Classes/dungeon/room.cpp
   Classes/dungeon/spawn_builder.cpp
+  #Classes/dungeon/generators/maze_dungeon_generator.cpp
+  #Classes/dungeon/generators/bsp_dungeon_generator.cpp
+  Classes/dungeon/generators/celular_automata_generator.cpp
+  Classes/dungeon/generators/minimum_corridor_generator.cpp
 
   Classes/utils/utils.cpp
   Classes/utils/target.cpp
@@ -223,10 +226,14 @@ set(GAME_HEADERS
   Classes/dungeon/tile_gid.h
   Classes/dungeon/level_manager.h
   Classes/dungeon/tmx_builder.h
-  Classes/dungeon/dungeon_generator.h
   Classes/dungeon/room.h
   Classes/dungeon/dungeon_description.h
   Classes/dungeon/spawn_builder.h
+  Classes/dungeon/generators/dungeon_generator.h
+  #Classes/dungeon/generators/maze_dungeon_generator.h
+  #Classes/dungeon/generators/bsp_dungeon_generator.h
+  Classes/dungeon/generators/celular_automata_generator.h
+  Classes/dungeon/generators/minimum_corridor_generator.h
 
   Classes/utils/directions.h
   Classes/utils/utils.h

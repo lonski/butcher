@@ -1,6 +1,6 @@
 // automatically generated, do not modify
-#ifndef dupa_cycki
-#define dupa_cycki
+#ifndef cycki_h
+#define cycki_h
 #include "flatbuffers/flatbuffers.h"
 
 namespace butcher {

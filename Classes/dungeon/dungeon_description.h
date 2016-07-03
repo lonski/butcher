@@ -7,7 +7,7 @@
 namespace butcher {
 
 struct LevelData;
-struct Room;
+struct Rect;
 
 /**
  * @brief Helper struct used for generating dungeon
@@ -20,7 +20,7 @@ struct DungeonDescription
   {}
 
   DungeonDescription(const Grid& g,
-                     std::vector<std::shared_ptr<Room>> r,
+                     std::vector<std::shared_ptr<Rect>> r,
                      const LevelData* s = nullptr,
                      cocos2d::TMXTiledMap* m = nullptr)
     : grid(g)
@@ -30,7 +30,7 @@ struct DungeonDescription
   {}
 
   Grid grid;
-  std::vector<std::shared_ptr<Room>> rooms;
+  std::vector<std::shared_ptr<Rect>> rooms;
   const LevelData* settings;
   cocos2d::TMXTiledMap* tmx;
 };

@@ -4,22 +4,39 @@ table LevelsData {
 	levels:[LevelData]; 
 }
 
+enum GeneratorType:byte { 
+	CelularAutomanataGenerator = 0,
+	MinimumCorridorGenerator = 1
+}
+
+table CAGenerationParams {
+	reps:int;
+	r1_cutoff:int;
+	r2_cutoff:int;
+}
+
 table LevelData {
 	depth:[int];
 	
 	map_template:string;
+	generator:GeneratorType;
 	
 	width:int;
 	height:int;
 
+	//Minimum corridor generator specific params
 	min_room_size:int;
 	max_room_size:int;
-	max_rooms:int;
+	max_features:int;
+	min_corridor_length:int;
+	max_corridor_length:int;
+	room_chance:int;
 
-	rect_room_chance:int;
-	polygon_room_chance:int;
+	//Celular Automata specific params
+	wall_percent:int;
+	room_split_percent:int;
+	generation_params:[CAGenerationParams];
 
-	windy_chance:int;
 }
 
 root_type LevelsData;

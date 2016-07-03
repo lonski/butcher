@@ -1,4 +1,7 @@
 #include "directions.h"
+#include "cocos2d.h"
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -122,6 +125,24 @@ Symbol getOpposite(Symbol dir)
     default:
       return None;
   }
+}
+
+Symbol getRandomCardinal()
+{
+  switch(cc::RandomHelper::random_int(0,3))
+  {
+    case 0:
+      return North;
+    case 1:
+      return South;
+    case 2:
+      return West;
+    case 3:
+      return East;
+    default:;
+  }
+
+  return None;
 }
 
 

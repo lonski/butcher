@@ -5,7 +5,7 @@
 #include <utils/utils.h>
 #include <dungeon/dungeon_state.h>
 #include <view/loading_scene.h>
-#include <dungeon/dungeon_generator.h>
+#include <dungeon/generators/maze_dungeon_generator.h>
 #include <view/hud_log.h>
 
 namespace cc = cocos2d;
@@ -36,9 +36,8 @@ bool HudLayer::init()
     auto visibleSize = cc::Director::getInstance()->getVisibleSize();
     int margin = 10;
 
-    auto menuBtn = cc::MenuItemImage::create("button/menu.png",
-                                             "button/menu_click.png",
-                                             CC_CALLBACK_1(HudLayer::showMenu, this));
+    auto menuBtn = cc::MenuItemFont::create("Test",  CC_CALLBACK_1(HudLayer::showMenu, this));
+    menuBtn->setFontName("fonts/Marker Felt.ttf");
     menuBtn->setAnchorPoint(cc::Vec2(0,0));
     menuBtn->setPosition(cc::Vec2(origin.x + visibleSize.width - menuBtn->getBoundingBox().size.width - margin, origin.y + margin));
 

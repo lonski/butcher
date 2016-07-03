@@ -68,26 +68,31 @@ void Monster::setSprite(cocos2d::Sprite *sprite)
 
   if ( getSprite() )
   {
+    auto order = getSprite()->getGlobalZOrder();
+    //Monster name
+    cocos2d::Label* label = make_label(getName(), cc::Color4B::WHITE, 12, cc::Vec2(0.5,0));
+    label->setPosition( 32, 64 );
+
+    label->setGlobalZOrder(order+1);
+    getSprite()->addChild(label, 1);
+
     //Monster HP
+    cc::Sprite* barBg = cc::Sprite::create();
+    barBg->initWithFile("images/progress_bar_bg_4.png");
+    barBg->setAnchorPoint(cc::Vec2(0.5,0));
+    barBg->setPosition( cc::Vec2(label->getPositionX(),
+                                  label->getPositionY() + label->getBoundingBox().size.height) ); //Damn, why on create sprite size is 0? TODO - remove this hardcode.
+    barBg->setGlobalZOrder(order+1);
+    getSprite()->addChild(barBg);
+
     _hpBar = cc::ui::LoadingBar::create();
     _hpBar->loadTexture("images/progress_bar_red_4.png");
     _hpBar->setPercent(100);
-    _hpBar->setAnchorPoint(cc::Vec2(0.5,1));
-    _hpBar->setPosition( cc::Vec2(32, 64) ); //Damn, why on create sprite size is 0? TODO - remove this hardcode.
-    getSprite()->addChild(_hpBar,2);
+    _hpBar->setAnchorPoint(cc::Vec2(0.5,0));
+    _hpBar->setGlobalZOrder(order+2);
+    _hpBar->setPosition(barBg->getPosition());
+    getSprite()->addChild(_hpBar);
 
-    cc::Sprite* barBg = cc::Sprite::create();
-    barBg->initWithFile("images/progress_bar_bg_4.png");
-    barBg->setAnchorPoint(cc::Vec2(0.5,1));
-    barBg->setPosition(_hpBar->getPosition());
-    getSprite()->addChild(barBg,1);
-
-    //Monster name
-    cocos2d::Label* label = make_label(getName(), cc::Color4B::WHITE, 12, cc::Vec2(0.5,1));
-    label->setPosition( cc::Vec2(_hpBar->getPositionX(),
-                                 _hpBar->getPositionY() - _hpBar->getBoundingBox().size.height) );
-
-    getSprite()->addChild(label, 1);
   }
 }
 

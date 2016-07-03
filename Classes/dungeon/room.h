@@ -6,39 +6,19 @@
 
 namespace butcher {
 
-struct Room
+struct Rect
 {
-  Room(int w, int h);
+  Rect(int w = 0, int h = 0, cocos2d::Vec2 c = cocos2d::Vec2::ZERO);
 
-  virtual void put_into(Grid& grid, cocos2d::Vec2 pos);
-  virtual cocos2d::Vec2 getRandomTile(char c) const;
-  virtual std::vector<cocos2d::Vec2> getTiles(char c) const;
-  virtual bool overlaps(const Grid& grid, cocos2d::Vec2 pos);
+  cocos2d::Vec2 getCenter() const;
+  cocos2d::Vec2 getRandomCoord(int margin = 1) const;
+  int getAreaSize() const;
 
-protected:
-  int width, height;
-  cocos2d::Vec2 _pos;
-  Grid _shape;
-};
+  bool place(Grid& grid, char c);
 
-struct RectRoom : Room
-{
-  RectRoom(int w, int h);
-};
-
-struct CircleRoom : Room
-{
-  CircleRoom(int w);
-};
-
-struct PolygonRoom : Room
-{
-  PolygonRoom(int w, int h);
-
-protected:
-  std::vector<cocos2d::Vec2> generateShape();
-  bool validateShape();
-  void strip();
+  int width;
+  int height;
+  cocos2d::Vec2 coord;
 };
 
 }

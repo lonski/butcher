@@ -1,6 +1,9 @@
 #include "level_manager.h"
 #include <dungeon/dungeon_state.h>
 #include <data/levels_generated.h>
+#include <dungeon/generators/minimum_corridor_generator.h>
+#include <dungeon/generators/celular_automata_generator.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
@@ -28,6 +31,8 @@ DungeonState *LevelManager::getLevel(int level)
 
 cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
 {
+  Profiler profiler;
+
   const LevelData* levelData = _levels.getLevelData(level);
 
   if ( !levelData )
@@ -39,14 +44,40 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
   DungeonDescription description;
   description.settings = levelData;
 
-  if ( !_dungeonGenerator.generate(description) )
+  std::unique_ptr<DungeonGenerator> generator;
+
+  switch(description.settings->generator())
+  {
+    case   GeneratorType_MinimumCorridorGenerator:
+      generator.reset(new MinimumCorridorGenerator);
+      break;
+    case GeneratorType_CelularAutomanataGenerator:
+      generator.reset(new CelularAutomataGenerator);
+      break;
+    default:
+      cc::log("%s: Incorrect dungeon generator type (%d)",
+              __PRETTY_FUNCTION__, description.settings->generator());
+      return nullptr;
+      break;
+  }
+
+  profiler.count();
+
+  if ( !generator->generate(description) )
     return nullptr;
+
+  profiler.log("Dungeon generation", Profiler::LAST_READ);
 
   _mapBuilder.setMapTemplate( levelData->map_template()->c_str() );
   description.tmx = _mapBuilder.build( description.grid );
 
+  profiler.log("Tmx building", Profiler::LAST_READ);
+
   if ( !_spawnBuilder.generateSpawns(description) )
     return nullptr;
+
+  profiler.log("Spawn generation", Profiler::LAST_READ);
+  profiler.log("Whole level generation", Profiler::START);
 
   return description.tmx;
 }

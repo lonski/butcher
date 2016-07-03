@@ -1,16 +1,17 @@
-#ifndef DUNGEON_GENERATOR_H
-#define DUNGEON_GENERATOR_H
+#ifndef MAZE_DUNGEON_GENERATOR_H
+#define MAZE_DUNGEON_GENERATOR_H
 
 #include <string>
-#include <dungeon/room.h>
-#include <dungeon/dungeon_description.h>
 #include "cocos2d.h"
+#include <dungeon/room.h>
+#include <dungeon/generators/dungeon_generator.h>
+#include <dungeon/dungeon_description.h>
 
 namespace butcher {
 
 struct LevelData;
 
-class DungeonGenerator
+class MazeDungeonGenerator : public DungeonGenerator
 {
 public:
   bool generate(DungeonDescription& description);

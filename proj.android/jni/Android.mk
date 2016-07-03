@@ -43,16 +43,17 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/dungeon/dungeon_state.cpp \
 ../../Classes/dungeon/level_manager.cpp \
 ../../Classes/dungeon/tmx_builder.cpp \
-../../Classes/dungeon/dungeon_generator.cpp \
 ../../Classes/dungeon/room.cpp \
 ../../Classes/dungeon/spawn_builder.cpp \
+../../Classes/dungeon/generators/celular_automata_generator.cpp \
+../../Classes/dungeon/generators/minimum_corridor_generator.cpp \
 ../../Classes/utils/utils.cpp \
-../../Classes/utils/observer.cpp \
 ../../Classes/utils/target.cpp \
 ../../Classes/utils/profiler.cpp \
 ../../Classes/utils/directions.cpp \
-../../Classes/utils/dices.cpp \
+../../Classes/utils/observer.cpp \
 ../../Classes/utils/damage.cpp \
+../../Classes/utils/dices.cpp \
 ../../Classes/lib/permissive-fov.cc
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
