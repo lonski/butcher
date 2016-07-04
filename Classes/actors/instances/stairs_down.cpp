@@ -1,6 +1,7 @@
 #include "stairs_down.h"
 #include <actors/player.h>
 #include <butcher.h>
+#include <view/loading_scene.h>
 
 namespace butcher {
 
@@ -23,7 +24,9 @@ void StairsDown::onInterract(std::shared_ptr<Actor> actor)
 {
   if ( std::dynamic_pointer_cast<Player>(actor) )
   {
-    BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
+    LoadingScreen::run([&](){
+      BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
+    }, "Going down..");
   }
 }
 
