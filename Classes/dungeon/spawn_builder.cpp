@@ -35,6 +35,14 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   return true;
 }
 
+void SpawnBuilder::setMobIntroduction(const std::vector<std::pair<ActorID, int> > &mobIntroduction)
+{
+  _mobIntroduction = mobIntroduction;
+  std::sort(_mobIntroduction.begin(), _mobIntroduction.end(), [](const std::pair<ActorID, int>& r, const std::pair<ActorID, int>& l){
+    return r.second > l.second;
+  });
+}
+
 void SpawnBuilder::addPredefinedSpawns()
 {
   for ( auto& kv : _dungeon->spawns )
@@ -69,7 +77,7 @@ void SpawnBuilder::addMobs()
     {
       if ( cc::RandomHelper::random_int(0,1) == 1 )
       {
-        if ( addActorSpawn(2, room->getRandomCoord() ) )
+        if ( addActorSpawn( (int)getRandomMobID(), room->getRandomCoord() ) )
           ++mobCount;
       }
     }
@@ -109,6 +117,29 @@ void SpawnBuilder::debugMapPrint()
   Grid tmp = _dungeon->grid;
   tmp.floodfill(getRandomRoom()->getRandomCoord(), '+');
   cc::log("%s", tmp.toStr().c_str());
+}
+
+ActorID SpawnBuilder::getRandomMobID()
+{
+  int tries = 100;
+
+  while( tries-- )
+  {
+    for( auto kv : _mobIntroduction)
+    {
+      if ( kv.second <= _dungeon->level )
+      {
+        float chance = (float)kv.second / (float)_dungeon->level * 0.5;
+        //cc::log("Roll for Mob[%d] from level [%d] chance [%f]", (int)kv.first, kv.second, chance);
+        if ( cc::RandomHelper::random_real<float>(0, 1) < chance )
+        {
+          return kv.first;
+        }
+      }
+    }
+  }
+
+  return ActorID::COW;
 }
 
 }

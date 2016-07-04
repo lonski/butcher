@@ -20,21 +20,25 @@ inline const char *EnumNameGeneratorType(int e) { return EnumNamesGeneratorType(
 struct LevelsData;
 struct CAGenerationParams;
 struct LevelData;
+struct MobIntroductionData;
 
 struct LevelsData : private flatbuffers::Table {
   const flatbuffers::Vector<flatbuffers::Offset<LevelData>> *levels() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<LevelData>> *>(4); }
+  const flatbuffers::Vector<flatbuffers::Offset<MobIntroductionData>> *mobs_introduction() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<MobIntroductionData>> *>(6); }
 };
 
 struct LevelsDataBuilder {
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_levels(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<LevelData>>> levels) { fbb_.AddOffset(4, levels); }
+  void add_mobs_introduction(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<MobIntroductionData>>> mobs_introduction) { fbb_.AddOffset(6, mobs_introduction); }
   LevelsDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<LevelsData> Finish() { return flatbuffers::Offset<LevelsData>(fbb_.EndTable(start_, 1)); }
+  flatbuffers::Offset<LevelsData> Finish() { return flatbuffers::Offset<LevelsData>(fbb_.EndTable(start_, 2)); }
 };
 
-inline flatbuffers::Offset<LevelsData> CreateLevelsData(flatbuffers::FlatBufferBuilder &_fbb, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<LevelData>>> levels) {
+inline flatbuffers::Offset<LevelsData> CreateLevelsData(flatbuffers::FlatBufferBuilder &_fbb, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<LevelData>>> levels, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<MobIntroductionData>>> mobs_introduction) {
   LevelsDataBuilder builder_(_fbb);
+  builder_.add_mobs_introduction(mobs_introduction);
   builder_.add_levels(levels);
   return builder_.Finish();
 }
@@ -117,6 +121,27 @@ inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBui
   builder_.add_map_template(map_template);
   builder_.add_depth(depth);
   builder_.add_generator(generator);
+  return builder_.Finish();
+}
+
+struct MobIntroductionData : private flatbuffers::Table {
+  int32_t mob_id() const { return GetField<int32_t>(4, 0); }
+  int32_t introduced_at() const { return GetField<int32_t>(6, 0); }
+};
+
+struct MobIntroductionDataBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_mob_id(int32_t mob_id) { fbb_.AddElement<int32_t>(4, mob_id, 0); }
+  void add_introduced_at(int32_t introduced_at) { fbb_.AddElement<int32_t>(6, introduced_at, 0); }
+  MobIntroductionDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
+  flatbuffers::Offset<MobIntroductionData> Finish() { return flatbuffers::Offset<MobIntroductionData>(fbb_.EndTable(start_, 2)); }
+};
+
+inline flatbuffers::Offset<MobIntroductionData> CreateMobIntroductionData(flatbuffers::FlatBufferBuilder &_fbb, int32_t mob_id, int32_t introduced_at) {
+  MobIntroductionDataBuilder builder_(_fbb);
+  builder_.add_introduced_at(introduced_at);
+  builder_.add_mob_id(mob_id);
   return builder_.Finish();
 }
 

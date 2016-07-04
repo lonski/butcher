@@ -12,6 +12,8 @@ namespace butcher {
 LevelManager::LevelManager()
 {
   _levels.load("levels_data_wire.bin");
+  _spawnBuilder.setMobIntroduction(_levels.getMobIntroduction());
+
 }
 
 DungeonState *LevelManager::getLevel(int level)
@@ -43,6 +45,7 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
 
   DungeonDescription description;
   description.settings = levelData;
+  description.level = level;
 
   std::unique_ptr<DungeonGenerator> generator;
 

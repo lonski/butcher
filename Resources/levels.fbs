@@ -2,6 +2,7 @@ namespace butcher;
 
 table LevelsData { 
 	levels:[LevelData]; 
+	mobs_introduction:[MobIntroductionData];
 }
 
 enum GeneratorType:byte { 
@@ -37,6 +38,11 @@ table LevelData {
 	room_split_percent:int;
 	generation_params:[CAGenerationParams];
 
+}
+
+table MobIntroductionData {
+	mob_id:int;
+	introduced_at:int;
 }
 
 root_type LevelsData;

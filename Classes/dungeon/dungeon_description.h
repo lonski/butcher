@@ -23,11 +23,13 @@ struct DungeonDescription
   DungeonDescription(const Grid& g,
                      std::vector<std::shared_ptr<Rect>> r,
                      const LevelData* s = nullptr,
-                     cocos2d::TMXTiledMap* m = nullptr)
+                     cocos2d::TMXTiledMap* m = nullptr,
+                     int level = 1)
     : grid(g)
     , rooms(r)
     , settings(s)
     , tmx(m)
+    , level(level)
   {}
 
   Grid grid;
@@ -35,6 +37,7 @@ struct DungeonDescription
   const LevelData* settings;
   cocos2d::TMXTiledMap* tmx;
   std::map< cocos2d::Vec2, ActorID > spawns;
+  int level;
 };
 
 }

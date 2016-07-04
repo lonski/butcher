@@ -28,6 +28,14 @@ bool LevelDatabase::load(const std::string &fn)
   }
 
   _levels = levelsData->levels();
+  _mobIntroduction.clear();
+
+  for(int i = 0; i < levelsData->mobs_introduction()->size(); ++i)
+  {
+    const MobIntroductionData* mi = levelsData->mobs_introduction()->Get(i);
+    _mobIntroduction.push_back(
+          std::make_pair((ActorID)mi->mob_id(), mi->introduced_at()) );
+  }
 
   cc::log("LevelsData: loaded %u levels.", _levels->Length());
 
@@ -43,6 +51,11 @@ const LevelData *LevelDatabase::getLevelData(unsigned depth)
       return d;
   }
   return nullptr;
+}
+
+std::vector<std::pair<ActorID, int> > LevelDatabase::getMobIntroduction() const
+{
+  return _mobIntroduction;
 }
 
 }

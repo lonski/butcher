@@ -1,4 +1,11 @@
 {
+  mobs_introduction: [
+  	{
+  		mob_id: 2,
+  		introduced_at: 1
+  	}
+  ],
+
   levels: [
      {
       depth: [1,2],
