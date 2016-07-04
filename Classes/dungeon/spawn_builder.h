@@ -20,6 +20,7 @@ private:
   cocos2d::TMXObjectGroup* _objectsLayer;
   cocos2d::ValueVector _objects;
 
+  void addPredefinedSpawns();
   void addStairs();
   void addMobs();
 

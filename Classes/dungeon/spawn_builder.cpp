@@ -24,6 +24,7 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
       return false;
   }
 
+  addPredefinedSpawns();
   addStairs();
   addMobs();
 
@@ -32,6 +33,14 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   _objectsLayer->setObjects(_objects);
 
   return true;
+}
+
+void SpawnBuilder::addPredefinedSpawns()
+{
+  for ( auto& kv : _dungeon->spawns )
+  {
+    addActorSpawn((int)kv.second, kv.first);
+  }
 }
 
 void SpawnBuilder::addStairs()

@@ -2,6 +2,7 @@
 #define DUNGEON_DESCRIPTION_H
 
 #include <utils/grid.h>
+#include <actors/actor_id.h>
 #include "cocos2d.h"
 
 namespace butcher {
@@ -33,6 +34,7 @@ struct DungeonDescription
   std::vector<std::shared_ptr<Rect>> rooms;
   const LevelData* settings;
   cocos2d::TMXTiledMap* tmx;
+  std::map< cocos2d::Vec2, ActorID > spawns;
 };
 
 }

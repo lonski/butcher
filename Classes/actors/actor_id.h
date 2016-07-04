@@ -11,7 +11,8 @@ enum class ActorID
   STAIRS_DOWN,
   STAIRS_UP,
   MEAT,
-  BONE
+  BONE,
+  DOOR
 };
 
 }

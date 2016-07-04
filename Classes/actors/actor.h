@@ -42,6 +42,7 @@ public:
   cocos2d::Vec2 getPosition() const;
 
   std::unique_ptr<cocos2d::Sprite>& getSprite();
+  void setSpriteTexture(const std::string& fn);
 
   virtual bool performAction(const ActorAction& action);
   virtual void nextTurn();

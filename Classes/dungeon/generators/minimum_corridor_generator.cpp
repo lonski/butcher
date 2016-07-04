@@ -3,6 +3,7 @@
 #include <dungeon/dungeon_description.h>
 #include <data/levels_generated.h>
 #include "cocos2d.h"
+#include <actors/actor_id.h>
 
 namespace cc = cocos2d;
 
@@ -48,8 +49,8 @@ bool MinimumCorridorGenerator::generate(DungeonDescription &dsc)
       tile = Tiles::WALL;
     else if (tile == Tiles::CORRIDOR)
       tile = Tiles::FLOOR;
-    else if (tile == Tiles::DOOR)
-      tile = Tiles::FLOOR;
+//    else if (tile == Tiles::DOOR)
+//      tile = Tiles::FLOOR;
   }
 
   //cc::log("%s", _data->grid.toStr().c_str());
@@ -176,7 +177,8 @@ bool MinimumCorridorGenerator::createFeature(int x, int y, Direction::Symbol dir
   {
     if (makeRoom(x, y, dir))
     {
-      _data->grid.set(x, y, Tiles::DOOR);
+      _data->grid.set(x, y, Tiles::FLOOR);
+      _data->spawns[ cc::Vec2(x,y) ] = ActorID::DOOR;
       return true;
     }
   }
@@ -185,9 +187,14 @@ bool MinimumCorridorGenerator::createFeature(int x, int y, Direction::Symbol dir
     if (makeCorridor(x, y, dir))
     {
       if (_data->grid.get(x + dx, y + dy) == Tiles::FLOOR)
-        _data->grid.set(x, y, Tiles::DOOR);
+      {
+        _data->grid.set(x, y, Tiles::FLOOR);
+        _data->spawns[ cc::Vec2(x,y) ] = ActorID::DOOR;
+      }
       else // don't place a door between corridors
+      {
         _data->grid.set(x, y, Tiles::CORRIDOR);
+      }
 
       return true;
     }

@@ -2,6 +2,7 @@
 #include <actors/monster.h>
 #include <actors/actions/attack_action.h>
 #include <actors/object.h>
+#include <actors/instances/door.h>
 #include <butcher.h>
 #include <cmath>
 #include "cocos2d.h"
@@ -32,6 +33,12 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
   if ( mob )
   {
     performAction( AttackAction(Target(mob)) );
+  }
+
+  std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(obstacle);
+  if ( door )
+  {
+    door->open();
   }
 }
 

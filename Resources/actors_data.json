@@ -75,6 +75,16 @@
       blocks: 0,
       transparent: 1,
       sprite_file: ""
+    },
+    {
+      id: 7,
+      name: "Door",
+      type: 6,
+      blocks: 1,
+      transparent: 0,
+      is_closed: 1,
+      sprite_file: "images/door_closed.png",
+      opened_sprite_file: "images/door_open.png"
     }
   ]
 }

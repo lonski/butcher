@@ -11,6 +11,7 @@
 #include <dungeon/dungeon_state.h>
 #include <actors/instances/stairs_down.h>
 #include <actors/instances/stairs_up.h>
+#include <actors/instances/door.h>
 
 namespace cc = cocos2d;
 
@@ -64,6 +65,9 @@ std::unique_ptr<Actor> Actor::create(const ActorData *data)
       break;
     case ActorType_Item:
       actor.reset(new Item(data));
+      break;
+    case ActorType_Door:
+      actor.reset(new Door(data));
       break;
     default:
       cc::log("Actor::create: incorrect actor type (%d)!", data->type());
@@ -129,6 +133,11 @@ ActorID Actor::getID() const
 std::unique_ptr<cc::Sprite>& Actor::getSprite()
 {
   return _sprite;
+}
+
+void Actor::setSpriteTexture(const std::string &fn)
+{
+  _sprite->setTexture(fn);
 }
 
 bool Actor::performAction(const ActorAction& action)
