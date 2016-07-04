@@ -64,7 +64,7 @@ void SpawnBuilder::addMobs()
 
   for ( std::shared_ptr<Rect> room : _dungeon->rooms )
   {
-    int maxMobsInRoom = std::min( room->getAreaSize() / 10, 2 );
+    int maxMobsInRoom = std::min( room->getAreaSize() / 10, 6 );
     while ( maxMobsInRoom-- )
     {
       if ( cc::RandomHelper::random_int(0,1) == 1 )

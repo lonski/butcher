@@ -28,8 +28,7 @@ enum class TileGID {
   BottomDeadEnd,
   RightDeadEnd,
   LeftDeadEnd,
-  StairsDown,
-  StairsUp
+  Wall
 };
 
 }

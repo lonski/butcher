@@ -178,7 +178,7 @@ bool MinimumCorridorGenerator::createFeature(int x, int y, Direction::Symbol dir
     if (makeRoom(x, y, dir))
     {
       _data->grid.set(x, y, Tiles::FLOOR);
-      _data->spawns[ cc::Vec2(x,y) ] = ActorID::DOOR;
+      _data->spawns[ cc::Vec2(x,y) ] = ActorID::DUNGEON_DOOR;
       return true;
     }
   }
@@ -189,7 +189,7 @@ bool MinimumCorridorGenerator::createFeature(int x, int y, Direction::Symbol dir
       if (_data->grid.get(x + dx, y + dy) == Tiles::FLOOR)
       {
         _data->grid.set(x, y, Tiles::FLOOR);
-        _data->spawns[ cc::Vec2(x,y) ] = ActorID::DOOR;
+        _data->spawns[ cc::Vec2(x,y) ] = ActorID::DUNGEON_DOOR;
       }
       else // don't place a door between corridors
       {

@@ -151,7 +151,6 @@ void Actor::onCollide(std::shared_ptr<Actor>)
 
 void Actor::onInterract(std::shared_ptr<Actor>)
 {
-  cc::log("%s Not implemented.", __PRETTY_FUNCTION__);
 }
 
 cc::Vec2 Actor::getTileCoord()

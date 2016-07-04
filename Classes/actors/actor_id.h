@@ -12,7 +12,7 @@ enum class ActorID
   STAIRS_UP,
   MEAT,
   BONE,
-  DOOR
+  DUNGEON_DOOR
 };
 
 }

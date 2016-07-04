@@ -83,8 +83,8 @@
       blocks: 1,
       transparent: 0,
       is_closed: 1,
-      sprite_file: "images/door_closed.png",
-      opened_sprite_file: "images/door_open.png"
+      sprite_file: "images/dungeon_door_closed.png",
+      opened_sprite_file: "images/dungeon_door_open.png"
     }
   ]
 }

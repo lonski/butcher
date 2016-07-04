@@ -49,6 +49,7 @@ cocos2d::TMXTiledMap* TMXBuilder::build(const Grid &grid)
       if ( tile == Tiles::WALL )
       {
         _meta->setTileGID((int)MetaTileGID::Collidable, cc::Vec2(x,y));
+        _tiles->setTileGID((int)TileGID::Wall, cc::Vec2(x,y));
       }
       else if ( tile == Tiles::FLOOR )
       {

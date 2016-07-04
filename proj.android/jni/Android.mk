@@ -27,6 +27,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/inventory.cpp \
 ../../Classes/actors/instances/stairs_down.cpp \
 ../../Classes/actors/instances/stairs_up.cpp \
+../../Classes/actors/instances/door.cpp \
 ../../Classes/actors/actions/move_action.cpp \
 ../../Classes/actors/actions/attack_action.cpp \
 ../../Classes/actors/actions/die_action.cpp \

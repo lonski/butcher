@@ -30,7 +30,7 @@
     },
     {
       depth: [3,100],
-      map_template: "dungeons/empty_cave.tmx",
+      map_template: "dungeons/empty_dungeon.tmx",
       generator: 1,
 	  width: 50,
 	  height: 50,
