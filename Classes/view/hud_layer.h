@@ -35,6 +35,7 @@ private:
   cocos2d::Label* _dungeonLevelLabel;
 
   void showMenu(cocos2d::Ref*);
+  void showInventory(cocos2d::Ref*);
 
   void initExpBar();
   void initHpBar();

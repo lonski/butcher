@@ -19,6 +19,9 @@ public:
 
     void init();
 
+    void startNewGame();
+    void showGameMenu();
+
     cocos2d::Scene* getCurrentScene() const;
     DungeonState* getCurrentDungeon();
     unsigned getDungeonLevel() const;

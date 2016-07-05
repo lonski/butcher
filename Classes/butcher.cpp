@@ -6,6 +6,7 @@
 #include <dungeon/dungeon_state.h>
 #include <utils/profiler.h>
 #include <memory>
+#include <view/game_menu.h>
 
 namespace cc = cocos2d;
 
@@ -35,11 +36,24 @@ void Butcher::init()
 {
   _actors.load("actors_data_wire.bin");
 
-  _currentScene = cocos2d::Scene::create();
-  _hud = HudLayer::create();
+  _hud = new HudLayer();
+  _currentScene = GameMenu::createScene(false);
+}
+
+void Butcher::startNewGame()
+{
+  _player = nullptr;
   getPlayer()->addObserver( _hud );
 
-  BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
+  LoadingScreen::run([](){
+    BUTCHER.goToLevel(1);
+  }, "Preparing new game..");
+
+}
+
+void Butcher::showGameMenu()
+{
+  cc::Director::getInstance()->pushScene( GameMenu::createScene(true) );
 }
 
 cocos2d::Scene* Butcher::getCurrentScene() const

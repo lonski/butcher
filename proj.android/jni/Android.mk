@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/view/dungeon_layer.cpp \
 ../../Classes/view/loading_scene.cpp \
 ../../Classes/view/hud_log.cpp \
+../../Classes/view/game_menu.cpp \
 ../../Classes/actors/actor.cpp \
 ../../Classes/actors/object.cpp \
 ../../Classes/actors/item.cpp \

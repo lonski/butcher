@@ -36,12 +36,19 @@ bool HudLayer::init()
     auto visibleSize = cc::Director::getInstance()->getVisibleSize();
     int margin = 10;
 
-    auto menuBtn = cc::MenuItemFont::create("Test",  CC_CALLBACK_1(HudLayer::showMenu, this));
-    menuBtn->setFontName("fonts/Marker Felt.ttf");
+    auto menuBtn = cc::MenuItemImage::create("images/btn_menu.png",
+                                             "images/btn_menu_click.png",
+                                             CC_CALLBACK_1(HudLayer::showMenu, this));
     menuBtn->setAnchorPoint(cc::Vec2(0,0));
     menuBtn->setPosition(cc::Vec2(origin.x + visibleSize.width - menuBtn->getBoundingBox().size.width - margin, origin.y + margin));
 
-    auto menu = cc::Menu::create(menuBtn, NULL);
+    auto invBtn = cc::MenuItemImage::create("images/btn_inv.png",
+                                             "images/btn_inv_click.png",
+                                             CC_CALLBACK_1(HudLayer::showInventory, this));
+    invBtn->setAnchorPoint(cc::Vec2(0,0));
+    invBtn->setPosition(cc::Vec2(menuBtn->getPositionX() - menuBtn->getBoundingBox().size.width*1.1,menuBtn->getPositionY()));
+
+    auto menu = cc::Menu::create(menuBtn, invBtn, NULL);
     menu->setPosition(cc::Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -191,9 +198,14 @@ void HudLayer::onNotify(Subject *subject)
 
 void HudLayer::showMenu(Ref *)
 {
-  LoadingScreen::run([&](){
-    BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
-  }, "Generating level..");
+  BUTCHER.showGameMenu();
+}
+
+void HudLayer::showInventory(cocos2d::Ref *)
+{
+    LoadingScreen::run([&](){
+      BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
+    }, "Going down..");
 }
 
 }
