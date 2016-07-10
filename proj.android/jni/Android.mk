@@ -56,6 +56,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/utils/observer.cpp \
 ../../Classes/utils/damage.cpp \
 ../../Classes/utils/dices.cpp \
+../../Classes/utils/path.cpp \
 ../../Classes/lib/permissive-fov.cc
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \

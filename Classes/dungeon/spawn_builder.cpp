@@ -1,6 +1,7 @@
 #include "spawn_builder.h"
 #include <dungeon/dungeon_description.h>
 #include <dungeon/room.h>
+#include <utils/path.h>
 
 namespace cc = cocos2d;
 
@@ -57,13 +58,55 @@ void SpawnBuilder::addStairs()
     TRY_COUNT = 100
   };
 
-  for(int i = 0; i < TRY_COUNT; ++i)
-    if ( addActorSpawn(4, _dungeon->rooms.front()->getRandomCoord() ) )
-      break;
+  cc::Vec2 upStairs;
+  cc::Vec2 downStairs;
 
   for(int i = 0; i < TRY_COUNT; ++i)
-    if ( addActorSpawn(3, _dungeon->rooms.back()->getRandomCoord() ) )
+  {
+    upStairs = _dungeon->rooms.front()->getRandomCoord();
+
+    if ( addActorSpawn(4, upStairs ) )
       break;
+
+    upStairs = cc::Vec2::ZERO;
+  }
+
+  for(int i = 0; i < TRY_COUNT; ++i)
+  {
+    downStairs = _dungeon->rooms.back()->getRandomCoord();
+
+    if ( addActorSpawn(3,  downStairs ) )
+      break;
+
+    downStairs = cc::Vec2::ZERO;
+  }
+
+//  Path p;
+
+//  bool calculated =  p.calculate(upStairs, downStairs,
+//                                  [=](cc::Vec2 p)
+//                                  {
+//                                    return _dungeon->grid.get(p) != Tiles::FLOOR;
+//                                  },
+//                                  [=](cc::Vec2 from, cc::Vec2 to)
+//                                  {
+//                                    return Direction::isDiagonal(from, to) ? 1.5 : 1;
+//                                  });
+
+//  if ( !calculated )
+//  {
+//    cc::log("failed to calc path!");
+//    cc::log("%s", _dungeon->grid.toStr().c_str());
+//    return;
+//  }
+
+//  Grid g = _dungeon->grid;
+//  while (!p.empty())
+//  {
+//    g.set(p.walk(), '@');
+//  }
+
+//  cc::log("%s", g.toStr().c_str());
 }
 
 void SpawnBuilder::addMobs()

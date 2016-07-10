@@ -145,6 +145,12 @@ Symbol getRandomCardinal()
   return None;
 }
 
+bool isDiagonal(cocos2d::Vec2 from, cocos2d::Vec2 to)
+{
+  cc::Vec2 diff = to - from;
+  return diff.x !=0 && diff.y != 0;
+}
+
 
 }
 

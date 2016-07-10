@@ -176,6 +176,7 @@ set(GAME_SRC
   Classes/utils/observer.cpp
   Classes/utils/damage.cpp
   Classes/utils/dices.cpp
+  Classes/utils/path.cpp
 
   Classes/lib/permissive-fov.cc
 
@@ -247,6 +248,7 @@ set(GAME_HEADERS
   Classes/utils/observer.h
   Classes/utils/damage.h
   Classes/utils/dices.h
+  Classes/utils/path.h
 
   Classes/lib/permissive-fov.h
   Classes/lib/permissive-fov-cpp.h
