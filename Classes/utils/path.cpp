@@ -55,7 +55,6 @@ bool Path::calculate(cocos2d::Vec2 start, cocos2d::Vec2 goal,
   while(!frontier.empty())
   {
     cc::Vec2 current = frontier.get();
-    cc::log("visiting %f %f", current.x, current.y);
     if ( current == goal )
     {
       found = true;

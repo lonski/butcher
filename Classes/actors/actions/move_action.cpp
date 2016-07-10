@@ -28,22 +28,22 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor) const
   {
     case Direction::East: pos.x += map->getTileSize().width; break;
     case Direction::West: pos.x -= map->getTileSize().width; break;
-    case Direction::North: pos.y -= map->getTileSize().height; break;
-    case Direction::South: pos.y += map->getTileSize().height; break;
+    case Direction::North: pos.y += map->getTileSize().height; break;
+    case Direction::South: pos.y -= map->getTileSize().height; break;
     case Direction::SouthWest: {
-      pos.y += map->getTileSize().height;
+      pos.y -= map->getTileSize().height;
       pos.x -= map->getTileSize().width;
     }break;
     case Direction::SouthEast: {
-      pos.y += map->getTileSize().height;
+      pos.y -= map->getTileSize().height;
       pos.x += map->getTileSize().width;
     }break;
     case Direction::NorthEast: {
-      pos.y -= map->getTileSize().height;
+      pos.y += map->getTileSize().height;
       pos.x += map->getTileSize().width;
     }break;
     case Direction::NorthWest: {
-      pos.y -= map->getTileSize().height;
+      pos.y += map->getTileSize().height;
       pos.x -= map->getTileSize().width;
     }break;
     default:;

@@ -151,6 +151,35 @@ bool isDiagonal(cocos2d::Vec2 from, cocos2d::Vec2 to)
   return diff.x !=0 && diff.y != 0;
 }
 
+Symbol fromPosition(cocos2d::Vec2 pos)
+{
+  if ( pos.x > 0 && pos.y == 0 )
+    return East;
+
+  if ( pos.x < 0 && pos.y == 0 )
+    return West;
+
+  if ( pos.x == 0 && pos.y > 0 )
+    return South;
+
+  if ( pos.x == 0 && pos.y < 0 )
+    return North;
+
+  if ( pos.x > 0 && pos.y > 0 )
+    return SouthEast;
+
+  if ( pos.x < 0 && pos.y > 0 )
+    return SouthWest;
+
+  if ( pos.x > 0 && pos.y < 0 )
+    return NorthEast;
+
+  if ( pos.x < 0 && pos.y < 0 )
+    return NorthWest;
+
+  return Middle;
+}
+
 
 }
 

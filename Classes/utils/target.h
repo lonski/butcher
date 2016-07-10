@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include "cocos2d.h"
 
 namespace butcher {
 
@@ -17,8 +18,7 @@ struct Target
   bool isEmpty() const;
 
   std::vector<std::shared_ptr<Actor>> actors;
-  int x;
-  int y;
+  cocos2d::Vec2 pos;
 };
 
 }

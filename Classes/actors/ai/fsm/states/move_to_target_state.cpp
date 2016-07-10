@@ -6,6 +6,9 @@
 #include <butcher.h>
 #include <actors/actions/move_action.h>
 #include <utils/directions.h>
+#include <utils/path.h>
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -26,31 +29,25 @@ void MoveToTarget::update()
   {
     Target target = _ai->getTarget();
     std::shared_ptr<Actor> me = _ai->getActor();
-    cocos2d::Vec2 myPos = me->getTileCoord();
     DungeonState* dungeon = BUTCHER.getCurrentDungeon();
 
-    int dx = target.x - myPos.x;
-    int dy = target.y - myPos.y;
-    int stepDx = (dx > 0 ? 1:-1);
-    if ( dx == 0 ) stepDx = 0;
-    int stepDy = (dy > 0 ? 1:-1);
-    if ( dy == 0 ) stepDy = 0;
+    cocos2d::Vec2 myPos = me->getTileCoord();
 
-    float distance = sqrtf(dx*dx + dy*dy);
+    Path path;
+    bool calculated = path.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
+                        return dungeon->isBlocked(pos) && pos != target.pos;
+                      });
 
-    if ( distance > 0 )
+    if ( calculated )
     {
-      if ( stepDx != 0 && !dungeon->isBlocked( cocos2d::Vec2(myPos.x+stepDx, myPos.y) ) )
-      {
-        me->performAction( MoveAction(stepDx > 0 ? Direction::East : Direction::West) );
-      }
-      else if ( stepDy != 0 && !dungeon->isBlocked( cocos2d::Vec2(myPos.x, myPos.y + stepDy) ) )
-      {
-        me->performAction( MoveAction(stepDy > 0 ? Direction::North : Direction::South) );
-      }
-
+      path.walk();
+      Direction::Symbol d = Direction::fromPosition(path.walk() - myPos);
+      me->performAction( MoveAction(d) );
     }
-
+    else
+    {
+      cc::log("MoveAction: Failed to calculate path");
+    }
   }
 
 }

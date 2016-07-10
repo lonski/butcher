@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <functional>
+#include <utils/directions.h>
 
 namespace butcher {
 
@@ -13,7 +14,10 @@ public:
   bool calculate(cocos2d::Vec2 start,
                  cocos2d::Vec2 goal,
                  std::function<bool(cocos2d::Vec2)> is_blocked_fun,
-                 std::function<double(cocos2d::Vec2, cocos2d::Vec2)> moveCostFun);
+                 std::function<double(cocos2d::Vec2, cocos2d::Vec2)> moveCostFun = [](cocos2d::Vec2 from, cocos2d::Vec2 to)
+                                                                                   {
+                                                                                     return Direction::isDiagonal(from, to) ? 1.5 : 1;
+                                                                                   });
 
   cocos2d::Vec2 walk();
   bool empty() const;

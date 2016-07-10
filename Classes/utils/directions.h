@@ -41,6 +41,7 @@ namespace Direction
   Symbol getRandomCardinal();
 
   bool isDiagonal(cocos2d::Vec2 from, cocos2d::Vec2 to);
+  Symbol fromPosition(cocos2d::Vec2 pos);
 
 }
 
