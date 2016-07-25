@@ -37,6 +37,7 @@ table ActorData {
 	damage:string;
 	damage_reduction:ushort;
 	exp:int;
+	level:int;
 
 	//Monster
 	drop_rules:[DropRuleData];

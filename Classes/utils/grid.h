@@ -141,6 +141,16 @@ struct Grid
     return str;
   }
 
+  cocos2d::Vec2 findFirst(char tile)
+  {
+    for(int y=0; y<height; ++y)
+      for(int x=0; x<width; ++x)
+        if (get(x,y) == tile)
+          return cocos2d::Vec2(x,y);
+
+    return cocos2d::Vec2::ZERO;
+  }
+
   std::string tiles;
   int width;
   int height;

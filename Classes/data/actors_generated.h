@@ -84,9 +84,10 @@ struct ActorData : private flatbuffers::Table {
   const flatbuffers::String *damage() const { return GetPointer<const flatbuffers::String *>(22); }
   uint16_t damage_reduction() const { return GetField<uint16_t>(24, 0); }
   int32_t exp() const { return GetField<int32_t>(26, 0); }
-  const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *drop_rules() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *>(28); }
-  uint8_t is_closed() const { return GetField<uint8_t>(30, 0); }
-  const flatbuffers::String *opened_sprite_file() const { return GetPointer<const flatbuffers::String *>(32); }
+  int32_t level() const { return GetField<int32_t>(28, 0); }
+  const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *drop_rules() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *>(30); }
+  uint8_t is_closed() const { return GetField<uint8_t>(32, 0); }
+  const flatbuffers::String *opened_sprite_file() const { return GetPointer<const flatbuffers::String *>(34); }
 };
 
 struct ActorDataBuilder {
@@ -104,17 +105,19 @@ struct ActorDataBuilder {
   void add_damage(flatbuffers::Offset<flatbuffers::String> damage) { fbb_.AddOffset(22, damage); }
   void add_damage_reduction(uint16_t damage_reduction) { fbb_.AddElement<uint16_t>(24, damage_reduction, 0); }
   void add_exp(int32_t exp) { fbb_.AddElement<int32_t>(26, exp, 0); }
-  void add_drop_rules(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules) { fbb_.AddOffset(28, drop_rules); }
-  void add_is_closed(uint8_t is_closed) { fbb_.AddElement<uint8_t>(30, is_closed, 0); }
-  void add_opened_sprite_file(flatbuffers::Offset<flatbuffers::String> opened_sprite_file) { fbb_.AddOffset(32, opened_sprite_file); }
+  void add_level(int32_t level) { fbb_.AddElement<int32_t>(28, level, 0); }
+  void add_drop_rules(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules) { fbb_.AddOffset(30, drop_rules); }
+  void add_is_closed(uint8_t is_closed) { fbb_.AddElement<uint8_t>(32, is_closed, 0); }
+  void add_opened_sprite_file(flatbuffers::Offset<flatbuffers::String> opened_sprite_file) { fbb_.AddOffset(34, opened_sprite_file); }
   ActorDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 15)); }
+  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 16)); }
 };
 
-inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, flatbuffers::Offset<flatbuffers::String> damage, uint16_t damage_reduction, int32_t exp, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules, uint8_t is_closed, flatbuffers::Offset<flatbuffers::String> opened_sprite_file) {
+inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, flatbuffers::Offset<flatbuffers::String> damage, uint16_t damage_reduction, int32_t exp, int32_t level, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules, uint8_t is_closed, flatbuffers::Offset<flatbuffers::String> opened_sprite_file) {
   ActorDataBuilder builder_(_fbb);
   builder_.add_opened_sprite_file(opened_sprite_file);
   builder_.add_drop_rules(drop_rules);
+  builder_.add_level(level);
   builder_.add_exp(exp);
   builder_.add_damage(damage);
   builder_.add_hp(hp);

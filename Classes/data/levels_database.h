@@ -8,18 +8,20 @@
 
 namespace butcher {
 
+typedef std::multimap< int, ActorID > MobIntroductionMap;
+
 class LevelDatabase
 {
 public:
   LevelDatabase();
   bool load(const std::string& fn);
   const LevelData* getLevelData(unsigned depth);
-  std::vector< std::pair<ActorID, int> > getMobIntroduction() const;
+  MobIntroductionMap getMobIntroduction() const;
 
 private:
   cocos2d::Data _fileData;
   const flatbuffers::Vector<flatbuffers::Offset<LevelData>> * _levels;
-  std::vector< std::pair<ActorID, int> > _mobIntroduction;
+  MobIntroductionMap _mobIntroduction;
 
 };
 

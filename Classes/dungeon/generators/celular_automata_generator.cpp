@@ -16,14 +16,31 @@ bool CelularAutomataGenerator::generate(DungeonDescription &dsc)
 {
   _dsc = &dsc;
 
-  initializeGrid();
-
-  for(unsigned i = 0; i < _dsc->settings->generation_params()->size(); ++i)
+  bool done = false;
+  int i(0);
+  do
   {
-    const CAGenerationParams* params = _dsc->settings->generation_params()->Get(i);
-    for (int r=0; r < params->reps(); ++r)
-      generation(params);
+    cc::log("generating %d", ++i);
+    initializeGrid();
+
+    for(unsigned i = 0; i < _dsc->settings->generation_params()->size(); ++i)
+    {
+      const CAGenerationParams* params = _dsc->settings->generation_params()->Get(i);
+      for (int r=0; r < params->reps(); ++r)
+        generation(params);
+    }
+
+    cc::log("x");
+
+    Grid g = _dsc->grid;
+    auto p = g.findFirst(Tiles::FLOOR);
+    g.floodfill( p, '+' );
+    done = g.findFirst(Tiles::FLOOR) == cc::Vec2::ZERO;
+
+    if ( !done )
+      cc::log("%s regenerating map..", __PRETTY_FUNCTION__);
   }
+  while(!done);
 
   roomSplit();
 

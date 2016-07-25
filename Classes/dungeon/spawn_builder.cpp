@@ -36,12 +36,12 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   return true;
 }
 
-void SpawnBuilder::setMobIntroduction(const std::vector<std::pair<ActorID, int> > &mobIntroduction)
+void SpawnBuilder::setMobIntroduction(const std::multimap<int, ActorID> &mobIntroduction)
 {
   _mobIntroduction = mobIntroduction;
-  std::sort(_mobIntroduction.begin(), _mobIntroduction.end(), [](const std::pair<ActorID, int>& r, const std::pair<ActorID, int>& l){
-    return r.second > l.second;
-  });
+//  std::sort(_mobIntroduction.begin(), _mobIntroduction.end(), [](const std::pair<ActorID, int>& r, const std::pair<ActorID, int>& l){
+//    return r.second > l.second;
+//  });
 }
 
 void SpawnBuilder::addPredefinedSpawns()
@@ -168,15 +168,29 @@ ActorID SpawnBuilder::getRandomMobID()
 
   while( tries-- )
   {
+    int lastLevel = 0;
     for( auto kv : _mobIntroduction)
     {
-      if ( kv.second <= _dungeon->level )
+      if ( kv.first != lastLevel )
       {
-        float chance = (float)kv.second / (float)_dungeon->level * 0.5;
-        //cc::log("Roll for Mob[%d] from level [%d] chance [%f]", (int)kv.first, kv.second, chance);
-        if ( cc::RandomHelper::random_real<float>(0, 1) < chance )
+        lastLevel = kv.first;
+
+        if ( lastLevel <= _dungeon->level )
         {
-          return kv.first;
+          float chance = (float)lastLevel / (float)_dungeon->level * 0.5;
+          if ( cc::RandomHelper::random_real<float>(0, 1) < chance )
+          {
+            //Get all mobs that can spawn on this level
+            std::pair<MobIntroductionMap::iterator, MobIntroductionMap::iterator> levelGroup =
+                _mobIntroduction.equal_range(kv.first);
+
+            std::vector<ActorID> mobsOnThisLevel;
+            for(auto i = levelGroup.first; i != levelGroup.second; ++i)
+              mobsOnThisLevel.push_back(i->second);
+
+            if ( !mobsOnThisLevel.empty() )
+              return mobsOnThisLevel[ cc::RandomHelper::random_int(0, (int)mobsOnThisLevel.size() - 1) ];
+          }
         }
       }
     }
