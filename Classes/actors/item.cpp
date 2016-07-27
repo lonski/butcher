@@ -21,4 +21,14 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
 
+bool Item::isUsable() const
+{
+  return false;
+}
+
+ItemSlotType Item::getItemSlotType() const
+{
+  return ItemSlotType::NONE;
+}
+
 }

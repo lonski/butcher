@@ -21,6 +21,7 @@ public:
 
     void startNewGame();
     void showGameMenu();
+    void showInventory();
 
     cocos2d::Scene* getCurrentScene() const;
     DungeonState* getCurrentDungeon();

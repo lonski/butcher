@@ -64,6 +64,33 @@ bool Inventory::addItem(const AmountedItem &i)
   return true;
 }
 
+bool Inventory::removeItem(const AmountedItem &i)
+{
+  if ( !i.item )
+  {
+    cc::log("%s item is null.", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  if ( i.amount == 0 )
+  {
+    return false;
+  }
+
+  auto it = _items.find(i.item->getID());
+
+  if ( it == _items.end() )
+    return false;
+
+  AmountedItem& my_item = it->second;
+  if ( my_item.amount > i.amount )
+    my_item.amount -= i.amount;
+  else
+    _items.erase(it);
+
+  return true;
+}
+
 AmountedItem Inventory::getItem(ActorID id)
 {
   auto it = _items.find(id);

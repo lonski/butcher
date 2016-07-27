@@ -20,7 +20,6 @@ bool CelularAutomataGenerator::generate(DungeonDescription &dsc)
   int i(0);
   do
   {
-    cc::log("generating %d", ++i);
     initializeGrid();
 
     for(unsigned i = 0; i < _dsc->settings->generation_params()->size(); ++i)
@@ -29,8 +28,6 @@ bool CelularAutomataGenerator::generate(DungeonDescription &dsc)
       for (int r=0; r < params->reps(); ++r)
         generation(params);
     }
-
-    cc::log("x");
 
     Grid g = _dsc->grid;
     auto p = g.findFirst(Tiles::FLOOR);

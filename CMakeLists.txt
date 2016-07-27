@@ -131,6 +131,7 @@ set(GAME_SRC
   Classes/view/loading_scene.cpp
   Classes/view/hud_log.cpp
   Classes/view/game_menu.cpp
+  Classes/view/inventory_view.cpp
 
   Classes/actors/actor.cpp
   Classes/actors/object.cpp
@@ -192,6 +193,7 @@ set(GAME_HEADERS
   Classes/view/loading_scene.h
   Classes/view/hud_log.h
   Classes/view/game_menu.h
+  Classes/view/inventory_view.h
 
   Classes/actors/actor.h
   Classes/actors/actor_id.h

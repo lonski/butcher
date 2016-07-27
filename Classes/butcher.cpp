@@ -7,6 +7,7 @@
 #include <utils/profiler.h>
 #include <memory>
 #include <view/game_menu.h>
+#include <view/inventory_view.h>
 
 namespace cc = cocos2d;
 
@@ -48,12 +49,16 @@ void Butcher::startNewGame()
   LoadingScreen::run([](){
     BUTCHER.goToLevel(1);
   }, "Preparing new game..");
-
 }
 
 void Butcher::showGameMenu()
 {
   cc::Director::getInstance()->pushScene( GameMenu::createScene(true) );
+}
+
+void Butcher::showInventory()
+{
+  cc::Director::getInstance()->pushScene( InventoryView::createScene(getPlayer()) );
 }
 
 cocos2d::Scene* Butcher::getCurrentScene() const

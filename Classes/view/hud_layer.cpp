@@ -203,9 +203,7 @@ void HudLayer::showMenu(Ref *)
 
 void HudLayer::showInventory(cocos2d::Ref *)
 {
-    LoadingScreen::run([&](){
-      BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
-    }, "Going down..");
+  BUTCHER.showInventory();
 }
 
 }

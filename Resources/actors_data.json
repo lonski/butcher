@@ -67,7 +67,7 @@
       type: 2,
       blocks: 0,
       transparent: 1,
-      sprite_file: ""
+      sprite_file: "images/meat.png"
     },
     {
       id: 6,
@@ -75,7 +75,7 @@
       type: 2,
       blocks: 0,
       transparent: 1,
-      sprite_file: ""
+      sprite_file: "images/bone.png"
     },
     {
       id: 7,

@@ -21,6 +21,7 @@ public:
 
   bool addItem(std::shared_ptr<Item> item, int amount = 1);
   bool addItem(const AmountedItem& i);
+  bool removeItem(const AmountedItem& i);
 
   AmountedItem getItem(ActorID id);
   ItemContainer getItems() const;
