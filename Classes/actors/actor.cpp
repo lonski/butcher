@@ -199,6 +199,10 @@ void Actor::onKill(std::shared_ptr<Character>)
 {
 }
 
+void Actor::onHit(std::shared_ptr<Character>)
+{
+}
+
 void Actor::fadeText(const std::string &text, cc::Color4B color)
 {
   if ( !getSprite() )

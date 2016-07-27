@@ -85,7 +85,7 @@ struct ActorData : private flatbuffers::Table {
   uint16_t damage_reduction() const { return GetField<uint16_t>(24, 0); }
   int32_t exp() const { return GetField<int32_t>(26, 0); }
   int32_t level() const { return GetField<int32_t>(28, 0); }
-  float break_chance() const { return GetField<float>(30, 0); }
+  int32_t break_chance() const { return GetField<int32_t>(30, 0); }
   int32_t body_slot() const { return GetField<int32_t>(32, 0); }
   const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *drop_rules() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *>(34); }
   uint8_t is_closed() const { return GetField<uint8_t>(36, 0); }
@@ -108,7 +108,7 @@ struct ActorDataBuilder {
   void add_damage_reduction(uint16_t damage_reduction) { fbb_.AddElement<uint16_t>(24, damage_reduction, 0); }
   void add_exp(int32_t exp) { fbb_.AddElement<int32_t>(26, exp, 0); }
   void add_level(int32_t level) { fbb_.AddElement<int32_t>(28, level, 0); }
-  void add_break_chance(float break_chance) { fbb_.AddElement<float>(30, break_chance, 0); }
+  void add_break_chance(int32_t break_chance) { fbb_.AddElement<int32_t>(30, break_chance, 0); }
   void add_body_slot(int32_t body_slot) { fbb_.AddElement<int32_t>(32, body_slot, 0); }
   void add_drop_rules(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules) { fbb_.AddOffset(34, drop_rules); }
   void add_is_closed(uint8_t is_closed) { fbb_.AddElement<uint8_t>(36, is_closed, 0); }
@@ -117,7 +117,7 @@ struct ActorDataBuilder {
   flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 18)); }
 };
 
-inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, flatbuffers::Offset<flatbuffers::String> damage, uint16_t damage_reduction, int32_t exp, int32_t level, float break_chance, int32_t body_slot, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules, uint8_t is_closed, flatbuffers::Offset<flatbuffers::String> opened_sprite_file) {
+inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, flatbuffers::Offset<flatbuffers::String> damage, uint16_t damage_reduction, int32_t exp, int32_t level, int32_t break_chance, int32_t body_slot, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules, uint8_t is_closed, flatbuffers::Offset<flatbuffers::String> opened_sprite_file) {
   ActorDataBuilder builder_(_fbb);
   builder_.add_opened_sprite_file(opened_sprite_file);
   builder_.add_drop_rules(drop_rules);

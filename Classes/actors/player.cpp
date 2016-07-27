@@ -47,6 +47,16 @@ void Player::onKill(std::shared_ptr<Character> killed)
   setExp( getExp() + killed->getExp() );
 }
 
+void Player::onHit(std::shared_ptr<Character>)
+{
+  AmountedItem wpn = getInventory().equipped(ItemSlotType::WEAPON);
+  if ( wpn.item && wpn.item->rollBreak() )
+  {
+    getInventory().unequip(ItemSlotType::WEAPON);
+    fadeText("Weapon cracked!", cc::Color4B::RED);
+  }
+}
+
 Inventory& Player::getInventory()
 {
   return _inventory;
@@ -76,6 +86,24 @@ int Player::getAttribute(AttributeType type)
   }
 
   return atr;
+}
+
+int Player::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
+{
+  Character::takeDamage(damage, attacker);
+
+  for ( auto s : ItemSlotType() )
+  {
+    if ( s != ItemSlotType::WEAPON )
+    {
+      AmountedItem i = getInventory().equipped(s);
+      if ( i.item && i.item->rollBreak() )
+      {
+        getInventory().unequip(s);
+        fadeText(ItemSlotType2Str(s) + " destroyed!", cc::Color4B::RED);
+      }
+    }
+  }
 }
 
 void Player::setExp(int exp)

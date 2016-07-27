@@ -1,6 +1,8 @@
 #ifndef ITEM_SLOT_TYPE_H
 #define ITEM_SLOT_TYPE_H
 
+#include <string>
+
 namespace butcher {
 
 enum class ItemSlotType{
@@ -12,6 +14,23 @@ enum class ItemSlotType{
 
   END
 };
+
+static inline std::string ItemSlotType2Str(ItemSlotType t)
+{
+  switch(t)
+  {
+    case ItemSlotType::WEAPON:
+      return "Weapon";
+    case ItemSlotType::ARMOR:
+      return "Armor";
+    case ItemSlotType::GLOVES:
+      return "Gloves";
+    case ItemSlotType::BOOTS:
+      return "Boots";
+    default:;
+  }
+  return "";
+}
 
 inline ItemSlotType operator++(ItemSlotType& x) { return x = (ItemSlotType)(std::underlying_type<ItemSlotType>::type(x) + 1); }
 inline ItemSlotType operator*(ItemSlotType c) {return c;}

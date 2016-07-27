@@ -18,11 +18,13 @@ public:
 
   virtual void onCollide(std::shared_ptr<Actor> obstacle);
   virtual void onKill(std::shared_ptr<Character> killed);
+  virtual void onHit(std::shared_ptr<Character> hit);
 
   Inventory& getInventory();
 
   virtual Damage getDamage();
   virtual int getAttribute(AttributeType type);
+  virtual int takeDamage(Damage damage, std::shared_ptr<Actor> attacker);
 
   virtual void setExp(int exp);
   int getExpForNextLevel() const;

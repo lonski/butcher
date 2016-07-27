@@ -45,9 +45,14 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer) const
   float score = std::min( (atk/def/2) + 0.05, 0.95);
 
   if ( score >= cc::RandomHelper::random_real<float>(0,1.f) )
+  {
     t->takeDamage( a->getDamage(), performer );
+    a->onHit(t);
+  }
   else
+  {
     t->fadeText("miss", cocos2d::Color4B(128,128,128,255));
+  }
 
   return true;
 }

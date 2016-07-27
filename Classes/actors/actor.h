@@ -71,6 +71,12 @@ public:
    */
   virtual void onKill(std::shared_ptr<Character> killed);
 
+  /**
+   * @brief Function is launched when actor successfully hit another
+   * @param hit - a character who has been hit
+   */
+  virtual void onHit(std::shared_ptr<Character> hit);
+
   void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
 
 protected:

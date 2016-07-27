@@ -1,12 +1,15 @@
 #include "item.h"
 #include <data/actors_generated.h>
+#include "cocos2d.h"
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
 Item::Item(const ActorData* data)
   : Actor(data)
   , _slot(ItemSlotType::NONE)
-  , _breakChance(0.0f)
+  , _breakChance(0)
 {
   if ( data )
   {
@@ -42,6 +45,7 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   o->_slot = _slot;
   o->_attributes = _attributes;
   o->_damage = _damage;
+  o->_breakChance = _breakChance;
 
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
@@ -69,6 +73,13 @@ int Item::getAttribute(AttributeType type)
 void Item::setAttribute(AttributeType type, int value)
 {
   _attributes[type] = value;
+}
+
+bool Item::rollBreak() const
+{
+  int roll = cc::RandomHelper::random_int(1,1000000);
+  cc::log("chance %d, roll %d", _breakChance, roll);
+  return  roll <= _breakChance;
 }
 
 }

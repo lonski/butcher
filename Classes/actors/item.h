@@ -25,11 +25,13 @@ public:
   virtual int getAttribute(AttributeType type);
   virtual void setAttribute(AttributeType type, int value);
 
+  bool rollBreak() const;
+
 private:
   ItemSlotType _slot;
   Damage _damage;
   std::map<AttributeType, int> _attributes;
-  float _breakChance;
+  int _breakChance;
 
 };
 
