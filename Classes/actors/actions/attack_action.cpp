@@ -2,6 +2,9 @@
 #include "cocos2d.h"
 #include <actors/actor.h>
 #include <actors/character.h>
+#include <actors/player.h>
+#include <actors/inventory.h>
+#include <actors/item.h>
 
 namespace cc = cocos2d;
 

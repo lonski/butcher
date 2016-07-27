@@ -12,6 +12,7 @@ class Inventory
 {
 public:
   typedef std::map<ActorID, AmountedItem> ItemContainer;
+  typedef std::map<ItemSlotType, AmountedItem> Body;
 
   Inventory();
 
@@ -26,8 +27,13 @@ public:
   AmountedItem getItem(ActorID id);
   ItemContainer getItems() const;
 
+  bool equip(const AmountedItem& i);
+  AmountedItem equipped(ItemSlotType slot);
+  AmountedItem unequip(ItemSlotType slot);
+
 private:
   ItemContainer _items;
+  Body _body;
 
 };
 

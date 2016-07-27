@@ -409,7 +409,7 @@
       damage_reduction : 0,
       exp: 0,
       level: 1,
-      durability: 200,
+      break_chance: 0.0002,
       body_slot: 1
     },
     {
@@ -424,7 +424,7 @@
       damage_reduction : 0,
       exp: 0,
       level: 1,
-      durability: 150,
+      break_chance: 0.00025,
       body_slot: 1
     }
   ]

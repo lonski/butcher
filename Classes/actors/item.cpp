@@ -6,10 +6,25 @@ namespace butcher {
 Item::Item(const ActorData* data)
   : Actor(data)
   , _slot(ItemSlotType::NONE)
+  , _breakChance(0.0f)
 {
   if ( data )
   {
     _slot = static_cast<ItemSlotType>(data->body_slot());
+
+    if ( data->attack() )
+      setAttribute(AttributeType::Attack, data->attack());
+
+    if ( data->defense() )
+      setAttribute(AttributeType::Defense, data->defense());
+
+    if ( data->damage_reduction() )
+      setAttribute(AttributeType::DamageReduction, data->damage_reduction());
+
+    if ( data->damage() )
+      _damage.parse(data->damage()->c_str());
+
+    _breakChance = data->break_chance();
   }
 }
 
@@ -25,6 +40,8 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
     o = new Item(nullptr);
 
   o->_slot = _slot;
+  o->_attributes = _attributes;
+  o->_damage = _damage;
 
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
@@ -37,6 +54,21 @@ bool Item::isUsable() const
 ItemSlotType Item::getItemSlotType() const
 {
   return _slot;
+}
+
+Damage Item::getDamage() const
+{
+  return _damage;
+}
+
+int Item::getAttribute(AttributeType type)
+{
+  return _attributes[type];
+}
+
+void Item::setAttribute(AttributeType type, int value)
+{
+  _attributes[type] = value;
 }
 
 }

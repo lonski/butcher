@@ -3,6 +3,8 @@
 
 #include <actors/actor.h>
 #include <actors/item_slot_type.h>
+#include <utils/damage.h>
+#include <actors/attribute_type.h>
 
 namespace butcher {
 
@@ -19,8 +21,15 @@ public:
   bool isUsable() const;
   ItemSlotType getItemSlotType() const;
 
+  Damage getDamage() const;
+  virtual int getAttribute(AttributeType type);
+  virtual void setAttribute(AttributeType type, int value);
+
 private:
   ItemSlotType _slot;
+  Damage _damage;
+  std::map<AttributeType, int> _attributes;
+  float _breakChance;
 
 };
 

@@ -52,6 +52,32 @@ Inventory& Player::getInventory()
   return _inventory;
 }
 
+Damage Player::getDamage()
+{
+  AmountedItem i = getInventory().equipped(ItemSlotType::WEAPON);
+  if ( i.item )
+  {
+    return i.item->getDamage();
+  }
+
+  return Character::getDamage();
+}
+
+int Player::getAttribute(AttributeType type)
+{
+  int atr = Character::getAttribute(type);
+  for ( auto s : ItemSlotType() )
+  {
+    AmountedItem i = getInventory().equipped(s);
+    if ( i.item != nullptr )
+    {
+      atr += i.item->getAttribute(type);
+    }
+  }
+
+  return atr;
+}
+
 void Player::setExp(int exp)
 {
   Character::setExp(exp);

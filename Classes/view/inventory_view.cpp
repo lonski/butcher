@@ -15,10 +15,6 @@ InventoryView::InventoryView(std::shared_ptr<Player> player)
   , _topRightPanel(nullptr)
   , _bottomPanel(nullptr)
   , _itemList(nullptr)
-  , _wpnSlot(nullptr)
-  , _armorSlot(nullptr)
-  , _glovesSlot(nullptr)
-  , _bootsSlot(nullptr)
 {
   _origin = cc::Director::getInstance()->getVisibleOrigin();
   _visibleSize = cc::Director::getInstance()->getVisibleSize();
@@ -232,48 +228,54 @@ void InventoryView::fillInventoryItems()
 
 void InventoryView::createBodySlots()
 {
+  _topLeftPanel->removeAllChildren();
+
   cc::ui::Layout* l = cc::ui::Layout::create();
 
   cc::Size lSize;
   lSize.height = 0;
   lSize.width = 0;
 
-  _wpnSlot = cc::ui::Button::create();
-  _wpnSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_wpn_disabled.png");
-  _wpnSlot->setAnchorPoint(cc::Vec2(0,-1));
+  cocos2d::ui::Button* wpnSlot = cc::ui::Button::create();
+  wpnSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_wpn_disabled.png");
+  wpnSlot->setAnchorPoint(cc::Vec2(0,-1));
   //wpnSlot->setPosition(cc::Vec2(_margin*2, _topLeftPanel->getContentSize().height - _margin*2));
-  _wpnSlot->setPosition(cc::Vec2(0, _margin));
-  _wpnSlot->setEnabled(false);
+  wpnSlot->setPosition(cc::Vec2(0, _margin));
+  wpnSlot->setEnabled(false);
   //_topLeftPanel->addChild(wpnSlot);
-  lSize.height += _wpnSlot->getBoundingBox().size.height;
-  lSize.width += _wpnSlot->getBoundingBox().size.width;
-  l->addChild(_wpnSlot);
+  lSize.height += wpnSlot->getBoundingBox().size.height;
+  lSize.width += wpnSlot->getBoundingBox().size.width;
+  l->addChild(wpnSlot);
+  _slots[ItemSlotType::WEAPON] = wpnSlot;
 
-  _armorSlot = cc::ui::Button::create();
-  _armorSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_armor_disabled.png");
-  _armorSlot->setAnchorPoint(cc::Vec2(0,-1));
-  _armorSlot->setPosition(cc::Vec2(_wpnSlot->getPositionX() + _wpnSlot->getBoundingBox().size.width + _margin,
-                                  _wpnSlot->getPositionY()));
-  _armorSlot->setEnabled(false);
-  lSize.width += _armorSlot->getBoundingBox().size.width + _margin;
-  l->addChild(_armorSlot);
+  cocos2d::ui::Button* armorSlot = cc::ui::Button::create();
+  armorSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_armor_disabled.png");
+  armorSlot->setAnchorPoint(cc::Vec2(0,-1));
+  armorSlot->setPosition(cc::Vec2(wpnSlot->getPositionX() + wpnSlot->getBoundingBox().size.width + _margin,
+                                  wpnSlot->getPositionY()));
+  armorSlot->setEnabled(false);
+  lSize.width += armorSlot->getBoundingBox().size.width + _margin;
+  l->addChild(armorSlot);
+  _slots[ItemSlotType::ARMOR] = armorSlot;
 
-  _glovesSlot = cc::ui::Button::create();
-  _glovesSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_glv_disabled.png");
-  _glovesSlot->setAnchorPoint(cc::Vec2(0,-1));
-  _glovesSlot->setPosition(cc::Vec2(_wpnSlot->getPositionX(),
-                                   _wpnSlot->getPositionY() - _wpnSlot->getBoundingBox().size.height - _margin));
-  _glovesSlot->setEnabled(false);
-  lSize.height += _glovesSlot->getBoundingBox().size.height + _margin;
-  l->addChild(_glovesSlot);
+  cocos2d::ui::Button* glovesSlot = cc::ui::Button::create();
+  glovesSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_glv_disabled.png");
+  glovesSlot->setAnchorPoint(cc::Vec2(0,-1));
+  glovesSlot->setPosition(cc::Vec2(wpnSlot->getPositionX(),
+                                   wpnSlot->getPositionY() - wpnSlot->getBoundingBox().size.height - _margin));
+  glovesSlot->setEnabled(false);
+  lSize.height += glovesSlot->getBoundingBox().size.height + _margin;
+  l->addChild(glovesSlot);
+  _slots[ItemSlotType::GLOVES] = glovesSlot;
 
-  _bootsSlot = cc::ui::Button::create();
-  _bootsSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_boots_disabled.png");
-  _bootsSlot->setAnchorPoint(cc::Vec2(0,-1));
-  _bootsSlot->setPosition(cc::Vec2(_glovesSlot->getPositionX() + _glovesSlot->getBoundingBox().size.width + _margin,
-                                  _glovesSlot->getPositionY()));
-  _bootsSlot->setEnabled(false);
-  l->addChild(_bootsSlot);
+  cocos2d::ui::Button* bootsSlot = cc::ui::Button::create();
+  bootsSlot->loadTextures("images/inv_body_slot.png", "images/inv_body_slot_click.png", "images/inv_body_slot_boots_disabled.png");
+  bootsSlot->setAnchorPoint(cc::Vec2(0,-1));
+  bootsSlot->setPosition(cc::Vec2(glovesSlot->getPositionX() + glovesSlot->getBoundingBox().size.width + _margin,
+                                  glovesSlot->getPositionY()));
+  bootsSlot->setEnabled(false);
+  l->addChild(bootsSlot);
+  _slots[ItemSlotType::BOOTS] = bootsSlot;
 
   l->setContentSize(lSize);
   l->setAnchorPoint(cc::Vec2(0.5, 0.5));
@@ -281,6 +283,45 @@ void InventoryView::createBodySlots()
 //  l->setBackGroundColor(cc::Color3B::WHITE);
 //  l->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
   _topLeftPanel->addChild(l);
+}
+
+void InventoryView::fillBodySlots()
+{
+  Inventory& inv = _player->getInventory();
+
+  for ( auto s : ItemSlotType() )
+  {
+    AmountedItem i = inv.equipped(s);
+    auto it = _slots.find(s);
+    if ( i.item && it != _slots.end() )
+    {
+      cc::ui::Button* btn = it->second;
+      btn->setEnabled(true);
+      it->second->removeAllChildren();
+      if ( i.item->getSprite() )
+      {
+        cc::Sprite* sprite = cc::Sprite::create();
+        sprite->initWithFile(i.item->getSprite()->getResourceName());
+        sprite->setPosition(btn->getBoundingBox().size.width / 2, btn->getBoundingBox().size.height / 2);
+        btn->addChild(sprite);
+        btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+          if ( type == cc::ui::Widget::TouchEventType::ENDED )
+          {
+            _player->getInventory().addItem( _player->getInventory().unequip(s) );
+            fillInventoryItems();
+            fillBodySlots();
+            fillCharacterInfo();
+          }
+        });
+      }
+    }
+    else if ( it != _slots.end() )
+    {
+      it->second->removeAllChildren();
+      it->second->setEnabled(false);
+    }
+  }
+
 }
 
 void InventoryView::chooseItemAction(const AmountedItem &item)
@@ -341,6 +382,19 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
     eqBtn->setTitleFontSize(22);
     eqBtn->setAnchorPoint(cc::Vec2(0,0));
     eqBtn->setPosition(cc::Vec2(_margin*2, posY));
+    eqBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+      if ( type == cc::ui::Widget::TouchEventType::ENDED )
+      {
+        AmountedItem i = item;
+        i.amount = 1;
+        _player->getInventory().removeItem(i);
+        _player->getInventory().equip(i);
+        _bottomPanel->removeChild(layout);
+        fillInventoryItems();
+        fillBodySlots();
+        fillCharacterInfo();
+      }
+    });
     size.height += eqBtn->getBoundingBox().size.height + _margin;
     layout->addChild(eqBtn);
   }
@@ -390,6 +444,7 @@ void InventoryView::addComponents()
   fillCharacterInfo();
   fillInventoryItems();
   createBodySlots();
+  fillBodySlots();
 
   createCloseButton();
 

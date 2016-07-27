@@ -36,7 +36,7 @@ table ActorData {
 	damage_reduction:ushort;
 	exp:int;
 	level:int;
-	durability:int;
+	break_chance:float;
 	body_slot:int;
 
 	drop_rules:[DropRuleData];

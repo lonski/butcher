@@ -41,10 +41,7 @@ private:
   cocos2d::ui::Layout* _bottomPanel;
   cocos2d::ui::ListView* _itemList;
 
-  cocos2d::ui::Button* _wpnSlot;
-  cocos2d::ui::Button* _armorSlot;
-  cocos2d::ui::Button* _glovesSlot;
-  cocos2d::ui::Button* _bootsSlot;
+  std::map<ItemSlotType, cocos2d::ui::Button*> _slots;
 
   void addComponents();
 
@@ -58,6 +55,7 @@ private:
   cocos2d::ui::Button * makeListItem(const std::string &title, const std::string &sprite_fn);
   void fillInventoryItems();
   void createBodySlots();
+  void fillBodySlots();
   void createCloseButton();
 
   void chooseItemAction(const AmountedItem& item);

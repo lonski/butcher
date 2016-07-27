@@ -21,6 +21,9 @@ public:
 
   Inventory& getInventory();
 
+  virtual Damage getDamage();
+  virtual int getAttribute(AttributeType type);
+
   virtual void setExp(int exp);
   int getExpForNextLevel() const;
 

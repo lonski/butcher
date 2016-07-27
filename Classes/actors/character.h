@@ -29,13 +29,13 @@ public:
     virtual int getHp() const;
     virtual void setHp(int hp);
 
-    int getMaxHp() const;
-    void setMaxHp(int maxHp);
+    virtual int getMaxHp() const;
+    virtual void setMaxHp(int maxHp);
 
     virtual int takeDamage(Damage damage, std::shared_ptr<Actor> attacker);
 
-    Damage getDamage() const;
-    void setDamage(const Damage &damage);
+    virtual Damage getDamage();
+    virtual void setDamage(const Damage &damage);
 
 private:
     int _level;

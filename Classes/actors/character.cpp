@@ -84,8 +84,8 @@ int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
   return dmg;
 }
 
-Damage Character::getDamage() const
-{
+Damage Character::getDamage()
+{  
   return _damage;
 }
 

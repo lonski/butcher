@@ -102,4 +102,49 @@ Inventory::ItemContainer Inventory::getItems() const
   return _items;
 }
 
+bool Inventory::equip(const AmountedItem &i)
+{
+  if ( i.item == nullptr )
+  {
+    cc::log("%s: Item is null.", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  if ( i.item->getItemSlotType() == ItemSlotType::NONE )
+  {
+    cc::log("%s: Item '%s'' is not equippable.",
+            __PRETTY_FUNCTION__, i.item->getName().c_str());
+    return false;
+  }
+
+  AmountedItem unequipped = unequip(i.item->getItemSlotType());
+  if ( unequipped.item != nullptr )
+    addItem(unequipped);
+
+  _body[i.item->getItemSlotType()] = i;
+
+  return true;
+}
+
+AmountedItem Inventory::equipped(ItemSlotType slot)
+{
+  auto it = _body.find(slot);
+  return it != _body.end() ? it->second : AmountedItem();
+}
+
+AmountedItem Inventory::unequip(ItemSlotType slot)
+{
+  AmountedItem i;
+
+  auto it = _body.find(slot);
+
+  if ( it == _body.end() )
+    return i;
+
+  i = it->second;
+  _body.erase(it);
+
+  return i;
+}
+
 }
