@@ -408,7 +408,7 @@
       damage : "1d4",
       damage_reduction : 0,
       exp: 0,
-      level: 1,
+      level: 2,
       break_chance: 900,
       body_slot: 1
     },

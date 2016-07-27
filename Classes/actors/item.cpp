@@ -28,6 +28,7 @@ Item::Item(const ActorData* data)
       _damage.parse(data->damage()->c_str());
 
     _breakChance = data->break_chance();
+    _level = data->level();
   }
 }
 
@@ -46,6 +47,7 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   o->_attributes = _attributes;
   o->_damage = _damage;
   o->_breakChance = _breakChance;
+  o->_level = _level;
 
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
@@ -78,8 +80,12 @@ void Item::setAttribute(AttributeType type, int value)
 bool Item::rollBreak() const
 {
   int roll = cc::RandomHelper::random_int(1,1000000);
-  cc::log("chance %d, roll %d", _breakChance, roll);
   return  roll <= _breakChance;
+}
+
+int Item::getLevel() const
+{
+  return _level;
 }
 
 }

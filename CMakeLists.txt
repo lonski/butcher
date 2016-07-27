@@ -148,6 +148,7 @@ set(GAME_SRC
   Classes/actors/actions/attack_action.cpp
   Classes/actors/actions/die_action.cpp
   Classes/actors/actions/pickup_action.cpp
+  Classes/actors/actions/equip_action.cpp
 
   Classes/actors/ai/ai.cpp
   Classes/actors/ai/fsm/fsm.cpp
@@ -214,6 +215,7 @@ set(GAME_HEADERS
   Classes/actors/actions/attack_action.h
   Classes/actors/actions/die_action.h
   Classes/actors/actions/pickup_action.h
+  Classes/actors/actions/equip_action.h
 
   Classes/actors/ai/ai.h
   Classes/actors/ai/fsm/fsm.h

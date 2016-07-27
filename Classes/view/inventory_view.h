@@ -59,6 +59,7 @@ private:
   void createCloseButton();
 
   void chooseItemAction(const AmountedItem& item);
+  void showMessage(const std::string& msg, cocos2d::Color4B color);
 };
 
 }
