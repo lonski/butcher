@@ -22,7 +22,6 @@ table DropRuleData {
 }
 
 table ActorData {
-	//Actor
 	id:uint;
 	type:ActorType;
 	name:string;
@@ -30,7 +29,6 @@ table ActorData {
 	transparent:bool;
 	sprite_file:string;
 
-	//Character
 	hp:uint;
 	attack:ushort;
 	defense:ushort;
@@ -38,11 +36,11 @@ table ActorData {
 	damage_reduction:ushort;
 	exp:int;
 	level:int;
+	durability:int;
+	body_slot:int;
 
-	//Monster
 	drop_rules:[DropRuleData];
 
-	//Door
 	is_closed:bool;
 	opened_sprite_file:string;
 }

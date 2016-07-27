@@ -11,7 +11,7 @@
       hp: 100,
       attack : 10,
       defense : 10,
-      damage : "1d4+1",
+      damage : "1d2",
       damage_reduction : 0
     },
     {
@@ -32,14 +32,14 @@
 
       drop_rules: [
         {
-          item_id: 5,
-          chance: 25,
+          item_id: 18,
+          chance: 99,
           amount_min: 1,
           amount_max: 2
         },
         {
-          item_id: 6,
-          chance: 40,
+          item_id: 19,
+          chance: 99,
           amount_min: 1,
           amount_max: 2
         }
@@ -396,6 +396,36 @@
           amount_max: 2
         }
       ]
+    },
+    {
+      id: 18,
+      name: "Bone dagger",
+      type: 2,
+      sprite_file: "images/bone_dagger.png",
+
+      attack : 1,
+      defense : 0,
+      damage : "1d4",
+      damage_reduction : 0,
+      exp: 0,
+      level: 1,
+      durability: 200,
+      body_slot: 1
+    },
+    {
+      id: 19,
+      name: "Bone club",
+      type: 2,
+      sprite_file: "images/bone_club.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d4",
+      damage_reduction : 0,
+      exp: 0,
+      level: 1,
+      durability: 150,
+      body_slot: 1
     }
   ]
 }

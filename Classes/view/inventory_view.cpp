@@ -136,6 +136,12 @@ void InventoryView::createBottomPanel()
 
 void InventoryView::fillCharacterInfo()
 {
+  cc::ui::Layout* l = cc::ui::Layout::create();
+
+  cc::Size lSize;
+  lSize.height = 0;
+  lSize.width = 0;
+
   _topRightPanel->removeAllChildren();
 
   cc::ui::LinearLayoutParameter* lp1 = cc::ui::LinearLayoutParameter::create();
@@ -143,28 +149,35 @@ void InventoryView::fillCharacterInfo()
   lp1->setMargin(cc::ui::Margin(_margin, _margin, _margin, _margin));
 
   cc::Label* levelLabel = make_label("Level: " + toStr(_player->getLevel()), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
-  levelLabel->setPosition(_margin * 2, _topRightPanel->getContentSize().height - levelLabel->getBoundingBox().size.height);
-  _topRightPanel->addChild(levelLabel);
+  lSize.height = levelLabel->getBoundingBox().size.height * 1.2 * 6;
+  lSize.width = levelLabel->getBoundingBox().size.width * 3;
+  levelLabel->setPosition(0, lSize.height - levelLabel->getBoundingBox().size.height*(1.2/2));
+  l->addChild(levelLabel);
 
   cc::Label* hpLabel = make_label("HP: " + toStr(_player->getHp()) + "/" + toStr(_player->getMaxHp()), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
-  hpLabel->setPosition(_margin * 2, levelLabel->getPositionY() - levelLabel->getBoundingBox().size.height * 1.2);
-  _topRightPanel->addChild(hpLabel);
+  hpLabel->setPosition(0, levelLabel->getPositionY() - levelLabel->getBoundingBox().size.height * 1.2);
+  l->addChild(hpLabel);
 
-  cc::Label* attackLabel = make_label("Attack: " + toStr(_player->getAttribute(AttributeType::Attack)), cc::Color4B::WHITE, 18, cc::Vec2(0,1));
-  attackLabel->setPosition(_margin * 2, hpLabel->getPositionY() - hpLabel->getBoundingBox().size.height * 1.2);
-  _topRightPanel->addChild(attackLabel);
+  cc::Label* attackLabel = make_label("Attack: " + toStr(_player->getAttribute(AttributeType::Attack)), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
+  attackLabel->setPosition(0, hpLabel->getPositionY() - hpLabel->getBoundingBox().size.height * 1.2);
+  l->addChild(attackLabel);
 
-  cc::Label* defLabel = make_label("Defense: " + toStr(_player->getAttribute(AttributeType::Defense)), cc::Color4B::WHITE, 18, cc::Vec2(0,1));
-  defLabel->setPosition(_margin * 2, attackLabel->getPositionY() - attackLabel->getBoundingBox().size.height * 1.2);
-  _topRightPanel->addChild(defLabel);
+  cc::Label* defLabel = make_label("Defense: " + toStr(_player->getAttribute(AttributeType::Defense)), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
+  defLabel->setPosition(0, attackLabel->getPositionY() - attackLabel->getBoundingBox().size.height * 1.2);
+  l->addChild(defLabel);
 
-  cc::Label* drLabel = make_label("DR: " + toStr(_player->getAttribute(AttributeType::DamageReduction)), cc::Color4B::WHITE, 18, cc::Vec2(0,1));
-  drLabel->setPosition(_margin * 2, defLabel->getPositionY() - defLabel->getBoundingBox().size.height * 1.2);
-  _topRightPanel->addChild(drLabel);
+  cc::Label* drLabel = make_label("DR: " + toStr(_player->getAttribute(AttributeType::DamageReduction)), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
+  drLabel->setPosition(0, defLabel->getPositionY() - defLabel->getBoundingBox().size.height * 1.2);
+  l->addChild(drLabel);
 
-  cc::Label* dmgLabel = make_label("Damage: " + _player->getDamage().toString(), cc::Color4B::WHITE, 18, cc::Vec2(0,1));
-  dmgLabel->setPosition(_margin * 2, drLabel->getPositionY() - drLabel->getBoundingBox().size.height * 1.2);
-  _topRightPanel->addChild(dmgLabel);
+  cc::Label* dmgLabel = make_label("Damage: " + _player->getDamage().toString(), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
+  dmgLabel->setPosition(0, drLabel->getPositionY() - drLabel->getBoundingBox().size.height * 1.2);
+  l->addChild(dmgLabel);
+
+  l->setContentSize(lSize);
+  l->setAnchorPoint(cc::Vec2(0, 0.5));
+  l->setPosition(cc::Vec2(_margin * 2, _topRightPanel->getContentSize().height / 2));
+  _topRightPanel->addChild(l);
 }
 
 cocos2d::ui::Button * InventoryView::makeListItem(const std::string& title, const std::string& sprite_fn)

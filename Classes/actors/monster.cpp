@@ -14,8 +14,11 @@ Monster::Monster(const ActorData* data)
   if ( data )
   {
     auto dropRules = data->drop_rules();
-    for (unsigned i = 0; i < dropRules->Length(); ++i)
-      _dropRules.push_back( DropRule(dropRules->Get(i)) );
+    if ( dropRules )
+      for (unsigned i = 0; i < dropRules->Length(); ++i)
+        _dropRules.push_back( DropRule(dropRules->Get(i)) );
+    else
+      cc::log("no drop rules for %s", data->name()->c_str());
   }
 }
 

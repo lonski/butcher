@@ -1,10 +1,16 @@
 #include "item.h"
+#include <data/actors_generated.h>
 
 namespace butcher {
 
 Item::Item(const ActorData* data)
   : Actor(data)
+  , _slot(ItemSlotType::NONE)
 {
+  if ( data )
+  {
+    _slot = static_cast<ItemSlotType>(data->body_slot());
+  }
 }
 
 int Item::getZ() const
@@ -18,6 +24,8 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   if ( o == nullptr )
     o = new Item(nullptr);
 
+  o->_slot = _slot;
+
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
 
@@ -28,7 +36,7 @@ bool Item::isUsable() const
 
 ItemSlotType Item::getItemSlotType() const
 {
-  return ItemSlotType::NONE;
+  return _slot;
 }
 
 }

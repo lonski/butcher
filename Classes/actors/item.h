@@ -19,6 +19,9 @@ public:
   bool isUsable() const;
   ItemSlotType getItemSlotType() const;
 
+private:
+  ItemSlotType _slot;
+
 };
 
 }
