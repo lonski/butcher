@@ -90,7 +90,7 @@ int Player::getAttribute(AttributeType type)
 
 int Player::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
 {
-  Character::takeDamage(damage, attacker);
+  int dmg = Character::takeDamage(damage, attacker);
 
   for ( auto s : ItemSlotType() )
   {
@@ -104,6 +104,8 @@ int Player::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
       }
     }
   }
+
+  return dmg;
 }
 
 void Player::setExp(int exp)

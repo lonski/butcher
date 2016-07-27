@@ -1,0 +1,23 @@
+namespace butcher;
+
+table RecipesData { 
+	recipes:[RecipeData]; 
+}
+
+table IngridientData {
+	item_id:uint;
+	amount:int;
+}
+
+table RecipeData {
+	id:int;
+	type:int;
+	level:int;
+	cost:int;
+	success_chance:int;
+	product_id:int;
+	product_amount:int;
+	ingridients:[IngridientData];
+}
+
+root_type RecipesData;

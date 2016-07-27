@@ -1,0 +1,23 @@
+{
+  recipes: [
+    {
+    	id: 1,
+    	type: 1,
+    	level: 1,
+    	cost: 1,
+    	success_chance: 90,
+    	product_id: 18,
+    	product_amount: 1,
+    	ingridients: [
+    		{
+    			item_id: 6,
+    			amount: 4
+    		},
+    		{
+    			item_id: 5,
+    			amount: 2
+    		}
+    	]
+    }
+  ]
+}

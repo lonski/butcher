@@ -140,6 +140,7 @@ set(GAME_SRC
   Classes/actors/player.cpp
   Classes/actors/monster.cpp
   Classes/actors/inventory.cpp
+  Classes/actors/recipe.cpp
   Classes/actors/instances/stairs_down.cpp
   Classes/actors/instances/stairs_up.cpp
   Classes/actors/instances/door.cpp
@@ -160,6 +161,7 @@ set(GAME_SRC
 
   Classes/data/actors_database.cpp
   Classes/data/levels_database.cpp
+  Classes/data/recipes_database.cpp
 
   Classes/dungeon/dungeon_state.cpp
   Classes/dungeon/level_manager.cpp
@@ -205,6 +207,8 @@ set(GAME_HEADERS
   Classes/actors/item.h
   Classes/actors/drop_rule.h
   Classes/actors/inventory.h
+  Classes/actors/recipe.h
+  Classes/actors/recipe_id.h
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h
@@ -230,6 +234,8 @@ set(GAME_HEADERS
   Classes/data/levels_database.h  
   Classes/data/levels_generated.h
   Classes/data/actors_generated.h
+  Classes/data/recipes_generated.h
+  Classes/data/recipes_database.h
 
   Classes/dungeon/dungeon_state.h
   Classes/dungeon/tile_gid.h

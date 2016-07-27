@@ -36,6 +36,7 @@ Butcher &Butcher::getInstance()
 void Butcher::init()
 {
   _actors.load("actors_data_wire.bin");
+  _recipes.load("recipes_data_wire.bin");
 
   _hud = new HudLayer();
   _currentScene = GameMenu::createScene(false);
@@ -124,6 +125,11 @@ std::shared_ptr<Player> Butcher::getPlayer()
 ActorDatabase& Butcher::actorsDatabase()
 {
   return _actors;
+}
+
+RecipeDatabase &Butcher::recipesDatabase()
+{
+  return _recipes;
 }
 
 DungeonState *Butcher::getCurrentDungeon()

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include <data/actors_database.h>
 #include <dungeon/level_manager.h>
+#include <data/recipes_database.h>
 
 namespace butcher {
 
@@ -35,6 +36,7 @@ public:
 
     std::shared_ptr<Player> getPlayer();
     ActorDatabase& actorsDatabase();
+    RecipeDatabase& recipesDatabase();
 
 private:
     Butcher();
@@ -46,6 +48,7 @@ private:
     std::shared_ptr<Player> _player;
 
     ActorDatabase _actors;
+    RecipeDatabase _recipes;
     LevelManager _dungeons;
 
     unsigned _dungeonLevel;
