@@ -5,7 +5,8 @@ namespace butcher {
 
 enum class RecipeID {
   NONE,
-  BONE_DAGGER
+  BONE_DAGGER,
+  BONE_CLUB
 };
 
 }

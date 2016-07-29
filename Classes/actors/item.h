@@ -28,6 +28,8 @@ public:
   bool rollBreak() const;
   int getLevel() const;
 
+  std::vector<std::string> getItemInfo();
+
 private:
   ItemSlotType _slot;
   Damage _damage;

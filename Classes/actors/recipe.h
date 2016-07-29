@@ -30,6 +30,8 @@ public:
 
   RecipeID getId() const;
 
+  AmountedItem getProduct() const;
+
 private:
   Recipe(const Recipe&) = delete;
   Recipe& operator=(const Recipe&) = delete;

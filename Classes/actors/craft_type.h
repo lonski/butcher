@@ -9,7 +9,7 @@ enum class CraftType {
   NONE,
   SMITHING,
   TANNING,
-  ALCHEMY,
+  COOKING,
   ENGINEERING
 };
 
@@ -33,8 +33,8 @@ static std::vector<CraftTypeLevelTreshold> craftLevelTresholds = {
   CraftTypeLevelTreshold(CraftType::TANNING, 1, 3),
   CraftTypeLevelTreshold(CraftType::TANNING, 2, 9),
 
-  CraftTypeLevelTreshold(CraftType::ALCHEMY, 1, 3),
-  CraftTypeLevelTreshold(CraftType::ALCHEMY, 2, 9),
+  CraftTypeLevelTreshold(CraftType::COOKING, 1, 3),
+  CraftTypeLevelTreshold(CraftType::COOKING, 2, 9),
 
   CraftTypeLevelTreshold(CraftType::ENGINEERING, 1, 3),
   CraftTypeLevelTreshold(CraftType::ENGINEERING, 2, 9)

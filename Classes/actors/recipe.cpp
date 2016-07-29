@@ -153,4 +153,9 @@ RecipeID Recipe::getId() const
   return _id;
 }
 
+AmountedItem Recipe::getProduct() const
+{
+  return _product;
+}
+
 }

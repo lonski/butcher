@@ -23,6 +23,7 @@ std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
     p = new Player(nullptr);
 
   p->_inventory = _inventory;
+  p->_craftbook = _craftbook;
 
   return std::move( Character::clone(std::move(std::unique_ptr<Actor>{p})) );
 }

@@ -7,6 +7,7 @@
 #include <view/loading_scene.h>
 #include <dungeon/generators/maze_dungeon_generator.h>
 #include <view/hud_log.h>
+#include <actors/craftbook.h>
 
 namespace cc = cocos2d;
 
@@ -214,6 +215,9 @@ void HudLayer::showInventory(cocos2d::Ref *)
 
 void HudLayer::showCraftbook(cocos2d::Ref *)
 {
+  BUTCHER.getPlayer()->getCraftbook().addRecipe( BUTCHER.recipesDatabase().createRecipe(RecipeID::BONE_DAGGER));
+  BUTCHER.getPlayer()->getCraftbook().addRecipe( BUTCHER.recipesDatabase().createRecipe(RecipeID::BONE_CLUB));
+
   BUTCHER.showCraft();
 //  std::unique_ptr<Recipe> recipe = BUTCHER.recipesDatabase().createRecipe(RecipeID::BONE_DAGGER);
 //  recipe->setInventory(&BUTCHER.getPlayer()->getInventory());

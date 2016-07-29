@@ -219,8 +219,8 @@ void InventoryView::fillInventoryItems()
   _itemList->setItemsMargin(_margin);
 
   _itemList->setGravity(cc::ui::ListView::Gravity::CENTER_HORIZONTAL);
-  _itemList->setSize(cc::Size(_bottomPanel->getContentSize().width - 4*_margin,
-                             _bottomPanel->getContentSize().height - 6*_margin));
+  _itemList->setContentSize(cc::Size(_bottomPanel->getContentSize().width - 4*_margin,
+                                     _bottomPanel->getContentSize().height - 6*_margin));
   _itemList->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
   _itemList->setPosition(cc::Vec2(_margin*2, _margin*3));
 

@@ -1,13 +1,23 @@
 #include "craftbook.h"
+#include "cocos2d.h"
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
 CraftBook::CraftBook()
+  : _freePoints(0)
 {
 }
 
 bool CraftBook::addRecipe(std::shared_ptr<Recipe> recipe)
 {
+  if ( !recipe )
+  {
+    cc::log("%s: recipe is null", __PRETTY_FUNCTION__);
+    return false;
+  }
+
   auto it = _recipes.find(recipe->getId());
 
   if ( it == _recipes.end() )
@@ -15,7 +25,7 @@ bool CraftBook::addRecipe(std::shared_ptr<Recipe> recipe)
     _recipes[ recipe->getId() ] = recipe;
 
     //check if increase craft level
-    int points = calculatePoints(recipe->getType());
+    int points = getSpentPoints(recipe->getType());
     int currentLevel = getCraftLevel(recipe->getType());
     if ( getCraftLevelPointsNeeded(recipe->getType(), currentLevel + 1) <= points )
       _craftLevels[ recipe->getType() ] = currentLevel + 1;
@@ -54,7 +64,7 @@ int CraftBook::getCraftLevel(CraftType type)
   return _craftLevels[ type ];
 }
 
-int CraftBook::calculatePoints(CraftType ct)
+int CraftBook::getSpentPoints(CraftType ct)
 {
   int sum = 0;
   for ( auto& kv : _recipes )
@@ -64,6 +74,16 @@ int CraftBook::calculatePoints(CraftType ct)
       sum += r->getCost();
   }
   return sum;
+}
+
+int CraftBook::getFreePoints() const
+{
+  return _freePoints;
+}
+
+void CraftBook::setFreePoints(int freePoints)
+{
+  _freePoints = freePoints;
 }
 
 }

@@ -61,6 +61,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/actions/equip_action.cpp \
 ../../Classes/actors/recipe.cpp \
 ../../Classes/data/recipes_database.cpp \
+../../Classes/actors/craftbook.cpp \
+../../Classes/view/craft_view.cpp \
 ../../Classes/lib/permissive-fov.cc
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \

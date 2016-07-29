@@ -1,6 +1,7 @@
 #include "item.h"
 #include <data/actors_generated.h>
 #include "cocos2d.h"
+#include <utils/utils.h>
 
 namespace cc = cocos2d;
 
@@ -86,6 +87,26 @@ bool Item::rollBreak() const
 int Item::getLevel() const
 {
   return _level;
+}
+
+std::vector<std::string> Item::getItemInfo()
+{
+  std::vector<std::string> info;
+
+  if ( _level > 0 )
+    info.push_back("Level: " + toStr(_level));
+
+  if ( _damage.toInt() != 0 )
+    info.push_back("Damage: " + _damage.toString());
+
+  for ( auto a : AttributeType() )
+  {
+    int val = getAttribute(a);
+    if ( val != 0 )
+      info.push_back(AttributeType2Str(a) + ": " + (val > 0 ? "+" : "") + toStr(val));
+  }
+
+  return info;
 }
 
 }

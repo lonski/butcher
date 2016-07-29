@@ -16,11 +16,15 @@ public:
 
   std::vector<std::shared_ptr<Recipe>> getRecipes() const;
   int getCraftLevel(CraftType type);
+  int getSpentPoints(CraftType ct);
+
+  int getFreePoints() const;
+  void setFreePoints(int freePoints);
 
 private:
   std::map<RecipeID, std::shared_ptr<Recipe> > _recipes;
   std::map<CraftType, int> _craftLevels;
-  int calculatePoints(CraftType ct);
+  int _freePoints;
 
 };
 
