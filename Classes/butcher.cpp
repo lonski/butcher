@@ -8,6 +8,7 @@
 #include <memory>
 #include <view/game_menu.h>
 #include <view/inventory_view.h>
+#include <view/craft_view.h>
 
 namespace cc = cocos2d;
 
@@ -60,6 +61,11 @@ void Butcher::showGameMenu()
 void Butcher::showInventory()
 {
   cc::Director::getInstance()->pushScene( InventoryView::createScene(getPlayer()) );
+}
+
+void Butcher::showCraft()
+{
+  cc::Director::getInstance()->pushScene( CraftView::createScene(getPlayer()) );
 }
 
 cocos2d::Scene* Butcher::getCurrentScene() const

@@ -28,6 +28,8 @@ public:
   int getCost() const;
   void setInventory(Inventory* inv);
 
+  RecipeID getId() const;
+
 private:
   Recipe(const Recipe&) = delete;
   Recipe& operator=(const Recipe&) = delete;

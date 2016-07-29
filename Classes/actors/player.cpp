@@ -123,4 +123,9 @@ int Player::getExpForNextLevel() const
   return std::pow(2, getLevel() - 1) * 100;
 }
 
+CraftBook& Player::getCraftbook()
+{
+  return _craftbook;
+}
+
 }

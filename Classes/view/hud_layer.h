@@ -36,6 +36,7 @@ private:
 
   void showMenu(cocos2d::Ref*);
   void showInventory(cocos2d::Ref*);
+  void showCraftbook(cocos2d::Ref*);
 
   void initExpBar();
   void initHpBar();

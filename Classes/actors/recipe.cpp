@@ -148,4 +148,9 @@ void Recipe::setInventory(Inventory *inv)
   _inventory = inv;
 }
 
+RecipeID Recipe::getId() const
+{
+  return _id;
+}
+
 }

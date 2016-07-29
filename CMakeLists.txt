@@ -132,6 +132,7 @@ set(GAME_SRC
   Classes/view/hud_log.cpp
   Classes/view/game_menu.cpp
   Classes/view/inventory_view.cpp
+  Classes/view/craft_view.cpp
 
   Classes/actors/actor.cpp
   Classes/actors/object.cpp
@@ -141,6 +142,7 @@ set(GAME_SRC
   Classes/actors/monster.cpp
   Classes/actors/inventory.cpp
   Classes/actors/recipe.cpp
+  Classes/actors/craftbook.cpp
   Classes/actors/instances/stairs_down.cpp
   Classes/actors/instances/stairs_up.cpp
   Classes/actors/instances/door.cpp

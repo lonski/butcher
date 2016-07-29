@@ -23,6 +23,7 @@ public:
     void startNewGame();
     void showGameMenu();
     void showInventory();
+    void showCraft();
 
     cocos2d::Scene* getCurrentScene() const;
     DungeonState* getCurrentDungeon();

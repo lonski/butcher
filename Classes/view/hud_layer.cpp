@@ -48,7 +48,13 @@ bool HudLayer::init()
     invBtn->setAnchorPoint(cc::Vec2(0,0));
     invBtn->setPosition(cc::Vec2(menuBtn->getPositionX() - menuBtn->getBoundingBox().size.width*1.1,menuBtn->getPositionY()));
 
-    auto menu = cc::Menu::create(menuBtn, invBtn, NULL);
+    auto craftBtn = cc::MenuItemImage::create("images/btn_craft.png",
+                                             "images/btn_craft_click.png",
+                                             CC_CALLBACK_1(HudLayer::showCraftbook, this));
+    craftBtn->setAnchorPoint(cc::Vec2(0,0));
+    craftBtn->setPosition(cc::Vec2(invBtn->getPositionX() - invBtn->getBoundingBox().size.width*1.1,invBtn->getPositionY()));
+
+    auto menu = cc::Menu::create(menuBtn, invBtn, craftBtn, NULL);
     menu->setPosition(cc::Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -204,6 +210,15 @@ void HudLayer::showMenu(Ref *)
 void HudLayer::showInventory(cocos2d::Ref *)
 {
   BUTCHER.showInventory();
+}
+
+void HudLayer::showCraftbook(cocos2d::Ref *)
+{
+  BUTCHER.showCraft();
+//  std::unique_ptr<Recipe> recipe = BUTCHER.recipesDatabase().createRecipe(RecipeID::BONE_DAGGER);
+//  recipe->setInventory(&BUTCHER.getPlayer()->getInventory());
+
+//  recipe->produce();
 }
 
 }

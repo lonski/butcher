@@ -4,6 +4,7 @@
 #include <actors/character.h>
 #include <actors/amounted_item.h>
 #include <actors/inventory.h>
+#include <actors/craftbook.h>
 
 namespace butcher {
 
@@ -21,6 +22,7 @@ public:
   virtual void onHit(std::shared_ptr<Character> hit);
 
   Inventory& getInventory();
+  CraftBook& getCraftbook();
 
   virtual Damage getDamage();
   virtual int getAttribute(AttributeType type);
@@ -31,6 +33,7 @@ public:
 
 private:
   Inventory _inventory;
+  CraftBook _craftbook;
 
 };
 
