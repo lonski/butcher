@@ -43,7 +43,7 @@ int Character::getExp() const
 void Character::setExp(int exp)
 {
     _exp = exp;
-    notify();
+    notify(EventType::Modified);
 }
 
 int Character::getAttribute(AttributeType type)
@@ -64,7 +64,7 @@ int Character::getHp() const
 void Character::setHp(int hp)
 {
   _hp = hp;
-  notify();
+  notify(EventType::Modified);
 }
 
 int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)

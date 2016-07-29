@@ -73,7 +73,6 @@ private:
   cocos2d::ui::Button* makeListItem(const std::string& title, const std::string& sprite_fn);
   cocos2d::ui::Button* makeIngridientListItem(const std::string& title, const std::string& sprite_fn,
                                               cocos2d::Color4B color = cocos2d::Color4B::WHITE);
-  void showMessage(const std::string &msg, cocos2d::Color4B color);
 };
 
 }

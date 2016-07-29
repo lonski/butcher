@@ -2,6 +2,7 @@
 #define OBSERVER_H
 
 #include <set>
+#include <utils/event_type.h>
 
 namespace butcher {
 
@@ -11,7 +12,7 @@ class Observer
 {
 public:
   virtual ~Observer() {}
-  virtual void onNotify(Subject* subject) = 0;
+  virtual void onNotify(Subject* subject, EventType event) = 0;
 };
 
 class Subject
@@ -21,7 +22,7 @@ public:
   virtual ~Subject();
   virtual void addObserver(Observer* observer);
   virtual void removeObserver(Observer* observer);
-  virtual void notify();
+  virtual void notify(EventType event);
 
 private:
   std::set<Observer*> _observers;

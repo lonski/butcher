@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <utils/directions.h>
+#include <functional>
 
 namespace butcher {
 
@@ -14,6 +15,11 @@ cocos2d::Label* make_label(const std::string& text,
                            cocos2d::Color4B color = cocos2d::Color4B::WHITE,
                            int size = 18,
                            cocos2d::Vec2 anchor = cocos2d::Vec2(0.5,0.5));
+void showMessage(const std::string &msg, cocos2d::Color4B color, cocos2d::Node *parent);
+
+void ask(const std::string &msg, cocos2d::Node *parent,
+         std::function<void()> yesFunction,
+         std::function<void()> noFunction);
 
 template<typename T>
 static T fromStr(const std::string& s)

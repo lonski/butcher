@@ -1,4 +1,7 @@
 #include "utils.h"
+#include "ui/UILayout.h"
+#include "ui/UIButton.h"
+#include "ui/UIText.h"
 
 namespace cc = cocos2d;
 
@@ -73,6 +76,137 @@ cocos2d::Label* make_label(const std::string &text, cocos2d::Color4B color, int 
   label->setAnchorPoint(anchor);
 
   return label;
+}
+
+void showMessage(const std::string &msg, cocos2d::Color4B color, cocos2d::Node* parent)
+{
+  int margin = 10;
+  auto origin = cc::Director::getInstance()->getVisibleOrigin();
+  auto visibleSize = cc::Director::getInstance()->getVisibleSize();
+
+  cc::ui::Layout* layout = cc::ui::Layout::create();
+  layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
+  layout->setBackGroundImageScale9Enabled(true);
+  layout->setBackGroundImage("images/inv_border_fill.png");
+  cc::Size size;
+  size.width = margin * 4;
+  size.height = margin * 4;
+
+  auto label= make_label(msg,color, 16);
+  size.width += label->getBoundingBox().size.width;
+  size.height += label->getBoundingBox().size.height;
+  label->setPosition(size.width / 2, size.height / 2);
+
+  layout->addChild(label);
+
+  cc::ui::Button* closeBtn = cc::ui::Button::create();
+  closeBtn->loadTextures("images/x_btn.png", "images/x_btn_click.png", "");
+  closeBtn->setAnchorPoint(cc::Vec2(0.5,0.5));
+  closeBtn->setPosition(cc::Vec2(size.width, size.height));
+  closeBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      parent->removeChild(layout);
+    }
+  });
+  layout->addChild(closeBtn);
+
+  layout->setContentSize(size);
+  layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
+  layout->setPosition(cc::Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+
+  parent->addChild(layout);
+}
+
+void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> yesFunction, std::function<void ()> noFunction)
+{
+  int margin = 10;
+  auto origin = cc::Director::getInstance()->getVisibleOrigin();
+  auto visibleSize = cc::Director::getInstance()->getVisibleSize();
+
+  cc::ui::Layout* layout = cc::ui::Layout::create();
+  layout->setLayoutType(cc::ui::Layout::Type::VERTICAL);
+  layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
+  layout->setBackGroundImageScale9Enabled(true);
+  layout->setBackGroundImage("images/inv_border_fill.png");
+
+  cc::ui::LinearLayoutParameter* lpTr = cc::ui::LinearLayoutParameter::create();
+  lpTr->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
+  layout->setLayoutParameter(lpTr);
+
+  cc::Size size;
+  size.width = margin * 2;
+  size.height = margin * 4;
+
+  cc::ui::Text* label= cc::ui::Text::create(msg,"fonts/Marker Felt.ttf", 18);
+  size.width += label->getBoundingBox().size.width;
+  size.height += label->getBoundingBox().size.height;
+  cc::ui::LinearLayoutParameter* lpT = cc::ui::LinearLayoutParameter::create();
+  lpT->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
+  lpT->setMargin(cc::ui::Margin(margin, margin, margin, margin));
+  label->setLayoutParameter(lpT);
+
+  layout->addChild(label);
+
+  cc::ui::Button* yesBtn = cc::ui::Button::create();
+  yesBtn->setTitleText("Yes");
+  yesBtn->setTitleFontSize(18);
+  yesBtn->setContentSize(cc::Size(64,32));
+  yesBtn->setScale9Enabled(true);
+  yesBtn->setTitleFontName("fonts/Marker Felt.ttf");
+  yesBtn->loadTextures("images/button_orange.png", "images/button_orange_click.png", "");
+  yesBtn->setAnchorPoint(cc::Vec2(0.5,0));
+  yesBtn->setPosition(cc::Vec2(size.width / 2 - yesBtn->getBoundingBox().size.width * 1.2, margin));
+  yesBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      parent->removeChild(layout);
+      yesFunction();
+    }
+  });
+
+  cc::ui::Button* noBtn = cc::ui::Button::create();
+  noBtn->setTitleText("No");
+  noBtn->setTitleFontSize(18);
+  noBtn->setContentSize(cc::Size(64,32));
+  noBtn->setScale9Enabled(true);
+  noBtn->setTitleFontName("fonts/Marker Felt.ttf");
+  noBtn->loadTextures("images/button_green.png", "images/button_green_click.png", "");
+  noBtn->setAnchorPoint(cc::Vec2(0.5,0));
+  noBtn->setPosition(cc::Vec2(yesBtn->getPositionX() + yesBtn->getBoundingBox().size.width * 1.2, margin));
+  noBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      parent->removeChild(layout);
+      noFunction();
+    }
+  });
+
+  cc::ui::Layout* btnLayout = cc::ui::Layout::create();
+  btnLayout->setLayoutType(cc::ui::Layout::Type::HORIZONTAL);
+  btnLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
+  btnLayout->addChild(yesBtn);
+  btnLayout->addChild(noBtn);
+  cc::ui::LinearLayoutParameter* lpT2 = cc::ui::LinearLayoutParameter::create();
+  lpT2->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
+  lpT2->setMargin(cc::ui::Margin(margin/2, margin, margin, margin/2));
+  btnLayout->setLayoutParameter(lpT2);
+  btnLayout->setContentSize(cc::Size(yesBtn->getBoundingBox().size.width * 1.2 + noBtn->getBoundingBox().size.width,
+                                     yesBtn->getBoundingBox().size.height));
+//  btnLayout->setBackGroundColor(cc::Color3B::GREEN);
+//  btnLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
+
+
+  size.height += noBtn->getBoundingBox().size.height;
+  layout->addChild(btnLayout);
+  layout->setContentSize(size);
+  layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
+  layout->setPosition(cc::Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+
+//  layout->setBackGroundColor(cc::Color3B::BLUE);
+//  layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
+
+  parent->addChild(layout);
 }
 
 }

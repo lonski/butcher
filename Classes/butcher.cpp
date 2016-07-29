@@ -46,6 +46,7 @@ void Butcher::init()
 void Butcher::startNewGame()
 {
   _player = nullptr;
+  getPlayer()->giveLevelUpBonuses();
   getPlayer()->addObserver( _hud );
 
   LoadingScreen::run([](){

@@ -66,7 +66,7 @@ bool HudLayer::init()
     initExpBar();
     initDungeonLevelCounter();
 
-    onNotify(BUTCHER.getPlayer().get());
+    onNotify(BUTCHER.getPlayer().get(), EventType::Modified);
   }
 
   return true;
@@ -182,23 +182,40 @@ void HudLayer::print(const std::string &str, cc::Color4B color)
   _log->setPosition( origin.x + 16, origin.y + visibleSize.height - 16 );
 }
 
-void HudLayer::onNotify(Subject *subject)
+void HudLayer::updateExpBar(Player* player)
+{
+  if ( _expBar )
+  {
+    _expBar->setPercent((float)player->getExp() / (float)player->getExpForNextLevel() * 100);
+    _lvValue->setString( "Level " + toStr(player->getLevel()) );
+    //cc::log("%d %d", player->getExp(), player->getExpForNextLevel());
+  }
+}
+
+void HudLayer::updateHpBar(Player* player)
+{
+  if ( _hpBar )
+  {
+    _hpBar->setPercent((float)player->getHp() / (float)player->getMaxHp() * 100);
+    _hpValue->setString( toStr(player->getHp()) + "/" + toStr(player->getMaxHp()));
+    //cc::log("hpBar%d %d", player->getHp(), player->getMaxHp());
+  }
+}
+
+void HudLayer::onNotify(Subject *subject, EventType event)
 {
   Player* player = dynamic_cast<Player*>(subject);
   if ( player )
   {
-    if ( _expBar )
+    if ( event == EventType::LevelUP)
     {
-      _expBar->setPercent((float)player->getExp() / (float)player->getExpForNextLevel() * 100);
-      _lvValue->setString( "Level " + toStr(player->getLevel()) );
-      //cc::log("%d %d", player->getExp(), player->getExpForNextLevel());
+      updateExpBar(player);
+      showMessage("Congratulations! You advanced to level " + toStr(player->getLevel()) + ".", cc::Color4B::WHITE, this);
     }
-
-    if ( _hpBar )
+    else if ( event == EventType::Modified )
     {
-      _hpBar->setPercent((float)player->getHp() / (float)player->getMaxHp() * 100);
-      _hpValue->setString( toStr(player->getHp()) + "/" + toStr(player->getMaxHp()));
-      //cc::log("hpBar%d %d", player->getHp(), player->getMaxHp());
+      updateExpBar(player);
+      updateHpBar(player);
     }
   }
 }

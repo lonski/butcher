@@ -8,6 +8,7 @@
 namespace butcher {
 
 class HudLog;
+class Player;
 
 class HudLayer : public cocos2d::Layer
                , public Observer
@@ -21,7 +22,7 @@ public:
   void print(const std::string& str,
            cocos2d::Color4B color = cocos2d::Color4B(177, 0, 177, 255));
 
-  virtual void onNotify(Subject* subject);
+  virtual void onNotify(Subject* subject, EventType event);
 
   CREATE_FUNC(HudLayer);
 
@@ -41,6 +42,8 @@ private:
   void initExpBar();
   void initHpBar();
   void initDungeonLevelCounter();
+  void updateExpBar(Player* player);
+  void updateHpBar(Player* player);
 };
 
 }

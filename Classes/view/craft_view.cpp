@@ -79,6 +79,8 @@ void CraftView::addComponents()
 
   fillRecipeList();
   fillCraftInfoPanel();
+
+  craftChooseSmithing(nullptr);
 }
 
 void CraftView::createRootLayout()
@@ -287,7 +289,7 @@ void CraftView::fillWorkbenchItem()
     itemIcon->setContentSize(cc::Size(itemInfoList->getBoundingBox().size.width - 2*_margin,
                                       sprite->getBoundingBox().size.height));
 
-    cc::Label* label = make_label(/*_selectedRecipe->getProduct().item->getName()*/ "Dumbhoof short rages",cc::Color4B::WHITE, 22,cc::Vec2(0,0.5));
+    cc::Label* label = make_label(_selectedRecipe->getProduct().item->getName(),cc::Color4B::WHITE, 22,cc::Vec2(0,0.5));
     label->setPosition(sprite->getPositionX() + sprite->getBoundingBox().size.width*1.2,
                        itemIcon->getContentSize().height / 2);
     label->setAlignment(cc::TextHAlignment::LEFT);
@@ -324,9 +326,9 @@ void CraftView::fillWorkbenchItem()
       if ( type == cc::ui::Widget::TouchEventType::ENDED )
       {
         if ( !_selectedRecipe->produce() )
-          showMessage("Failed to create item!", cc::Color4B::RED);
+          showMessage("Failed to create item!", cc::Color4B::RED, this);
         else
-          showMessage("Item created successfully!", cc::Color4B::GREEN);
+          showMessage("Item created successfully!", cc::Color4B::GREEN, this);
 
         fillWorkbench();
       }
@@ -534,8 +536,9 @@ void CraftView::fillCraftInfoPanel()
   _craftLevelLabel->setString("Level: " + toStr(craftLevel));
 
   //craft level bar
-  int pts = _player->getCraftbook().getSpentPoints(_selectedCraft);
-  int needed = getCraftLevelPointsNeeded(_selectedCraft, craftLevel + 1);
+  int previousLevelPtsNeeded = getCraftLevelPointsNeeded(_selectedCraft, craftLevel);
+  int pts = _player->getCraftbook().getSpentPoints(_selectedCraft) - previousLevelPtsNeeded;
+  int needed = getCraftLevelPointsNeeded(_selectedCraft, craftLevel + 1) - previousLevelPtsNeeded;
   int percent = (float)((float)pts / (float)needed) * 100.f;
   _craftLevelBar->setPercent(percent);
 
@@ -602,42 +605,6 @@ void CraftView::craftChooseEngineering(cocos2d::Ref *)
   _engineeringBtn->setEnabled(false);
 
   chooseCraftCommon();
-}
-
-void CraftView::showMessage(const std::string &msg, cocos2d::Color4B color)
-{
-  cc::ui::Layout* layout = cc::ui::Layout::create();
-  layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
-  layout->setBackGroundImageScale9Enabled(true);
-  layout->setBackGroundImage("images/inv_border_fill.png");
-  cc::Size size;
-  size.width = _margin * 4;
-  size.height = _margin * 4;
-
-  auto label= make_label(msg,color, 16);
-  size.width += label->getBoundingBox().size.width;
-  size.height += label->getBoundingBox().size.height;
-  label->setPosition(size.width / 2, size.height / 2);
-
-  layout->addChild(label);
-
-  cc::ui::Button* closeBtn = cc::ui::Button::create();
-  closeBtn->loadTextures("images/x_btn.png", "images/x_btn_click.png", "");
-  closeBtn->setAnchorPoint(cc::Vec2(0.5,0.5));
-  closeBtn->setPosition(cc::Vec2(size.width, size.height));
-  closeBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
-    if ( type == cc::ui::Widget::TouchEventType::ENDED )
-    {
-      removeChild(layout);
-    }
-  });
-  layout->addChild(closeBtn);
-
-  layout->setContentSize(size);
-  layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
-  layout->setPosition(cc::Vec2(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height / 2));
-
-  addChild(layout);
 }
 
 }

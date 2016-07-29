@@ -346,9 +346,15 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
   destroyBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {
-      _player->getInventory().removeItem(item);
-      _bottomPanel->removeChild(layout);
-      fillInventoryItems();
+      ask("Destroy " + item.item->getName() + "(s)?",this,[=](){
+        _player->getInventory().removeItem(item);
+        _bottomPanel->removeChild(layout);
+        fillInventoryItems();
+      },
+      [=](){
+        _bottomPanel->removeChild(layout);
+        _itemList->setEnabled(true);
+      });
     }
   });
   size.width += destroyBtn->getBoundingBox().size.width;
@@ -398,7 +404,7 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
         }
         else
         {
-          showMessage("Cannot equip " + item.item->getName() + "!", cc::Color4B::RED);
+          showMessage("Cannot equip " + item.item->getName() + "!", cc::Color4B::RED, this);
           _bottomPanel->removeChild(layout);
           _itemList->setEnabled(true);
         }
@@ -427,42 +433,6 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
 
   _itemList->setEnabled(false);
   _bottomPanel->addChild(layout);
-}
-
-void InventoryView::showMessage(const std::string &msg, cocos2d::Color4B color)
-{
-  cc::ui::Layout* layout = cc::ui::Layout::create();
-  layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
-  layout->setBackGroundImageScale9Enabled(true);
-  layout->setBackGroundImage("images/inv_border_fill.png");
-  cc::Size size;
-  size.width = _margin * 4;
-  size.height = _margin * 4;
-
-  auto label= make_label(msg,color, 16);
-  size.width += label->getBoundingBox().size.width;
-  size.height += label->getBoundingBox().size.height;
-  label->setPosition(size.width / 2, size.height / 2);
-
-  layout->addChild(label);
-
-  cc::ui::Button* closeBtn = cc::ui::Button::create();
-  closeBtn->loadTextures("images/x_btn.png", "images/x_btn_click.png", "");
-  closeBtn->setAnchorPoint(cc::Vec2(0.5,0.5));
-  closeBtn->setPosition(cc::Vec2(size.width, size.height));
-  closeBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
-    if ( type == cc::ui::Widget::TouchEventType::ENDED )
-    {
-      removeChild(layout);
-    }
-  });
-  layout->addChild(closeBtn);
-
-  layout->setContentSize(size);
-  layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
-  layout->setPosition(cc::Vec2(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height / 2));
-
-  addChild(layout);
 }
 
 void InventoryView::createCloseButton()

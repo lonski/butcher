@@ -31,6 +31,8 @@ public:
   virtual void setExp(int exp);
   int getExpForNextLevel() const;
 
+  void giveLevelUpBonuses();
+
 private:
   Inventory _inventory;
   CraftBook _craftbook;

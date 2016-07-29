@@ -61,6 +61,10 @@ std::vector<std::shared_ptr<Recipe> > CraftBook::getRecipes() const
 
 int CraftBook::getCraftLevel(CraftType type)
 {
+  auto it = _craftLevels.find(type);
+  if ( it == _craftLevels.end() )
+    _craftLevels[ type ] = 1;
+
   return _craftLevels[ type ];
 }
 

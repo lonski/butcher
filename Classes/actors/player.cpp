@@ -116,12 +116,20 @@ void Player::setExp(int exp)
   {
     setExp(getExpForNextLevel() - getExp());
     setLevel( getLevel() + 1 );
+    giveLevelUpBonuses();
   }
 }
 
 int Player::getExpForNextLevel() const
 {
   return std::pow(2, getLevel() - 1) * 100;
+}
+
+void Player::giveLevelUpBonuses()
+{
+  int newCraftPoints = getCraftPointsOnLevel(getLevel());
+  getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints);
+  notify(EventType::LevelUP);
 }
 
 CraftBook& Player::getCraftbook()
