@@ -78,40 +78,73 @@ cocos2d::Label* make_label(const std::string &text, cocos2d::Color4B color, int 
   return label;
 }
 
-void showMessage(const std::string &msg, cocos2d::Color4B color, cocos2d::Node* parent)
+void showMessage(const std::vector<std::string>& msg, cocos2d::Color4B color, cocos2d::Node* parent)
 {
   int margin = 10;
   auto origin = cc::Director::getInstance()->getVisibleOrigin();
   auto visibleSize = cc::Director::getInstance()->getVisibleSize();
 
   cc::ui::Layout* layout = cc::ui::Layout::create();
+
+  layout->setLayoutType(cc::ui::Layout::Type::VERTICAL);
   layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
   layout->setBackGroundImageScale9Enabled(true);
   layout->setBackGroundImage("images/inv_border_fill.png");
   cc::Size size;
-  size.width = margin * 4;
-  size.height = margin * 4;
+  size.width = 0;
+  size.height = 0;
 
-  auto label= make_label(msg,color, 16);
-  size.width += label->getBoundingBox().size.width;
-  size.height += label->getBoundingBox().size.height;
-  label->setPosition(size.width / 2, size.height / 2);
+  int labelWidth = 200;
+  int labelsHeight = 0;
 
-  layout->addChild(label);
+  cc::ui::Layout* textLayout = cc::ui::Layout::create();
+  textLayout->setLayoutType(cc::ui::Layout::Type::VERTICAL);
+  cc::ui::LinearLayoutParameter* lpT = cc::ui::LinearLayoutParameter::create();
+  lpT->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
+  lpT->setMargin(cc::ui::Margin(margin, margin, margin, margin));
+  textLayout->setLayoutParameter(lpT);
+
+  cc::ui::LinearLayoutParameter* lpLabel = cc::ui::LinearLayoutParameter::create();
+  lpLabel->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
+
+  for ( auto s : msg )
+  {
+    cc::ui::Text* label = cc::ui::Text::create(s,"fonts/Marker Felt.ttf",16);
+    label->setTextColor(color);
+    label->setLayoutParameter(lpLabel);
+    labelWidth = std::max( labelWidth, (int)label->getBoundingBox().size.width);
+    labelsHeight += label->getBoundingBox().size.height;
+    textLayout->addChild(label);
+  }
+  size.width += labelWidth + 2*margin;
+  size.height += labelsHeight;
+  textLayout->setContentSize(size);
+//  textLayout->setBackGroundColor(cc::Color3B::GREEN);
+//  textLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
+  layout->addChild(textLayout);
 
   cc::ui::Button* closeBtn = cc::ui::Button::create();
-  closeBtn->loadTextures("images/x_btn.png", "images/x_btn_click.png", "");
-  closeBtn->setAnchorPoint(cc::Vec2(0.5,0.5));
-  closeBtn->setPosition(cc::Vec2(size.width, size.height));
+  closeBtn->loadTextures("images/button_blue.png", "images/button_blue_click.png", "");
+  closeBtn->setTitleText("Close");
+  closeBtn->setTitleFontSize(18);
+  closeBtn->setTitleFontName("fonts/Marker Felt.ttf");
+  closeBtn->setScale9Enabled(true);
+  closeBtn->setContentSize(cc::Size(96,32));
   closeBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {
       parent->removeChild(layout);
     }
   });
-  layout->addChild(closeBtn);
 
-  layout->setContentSize(size);
+  cc::ui::LinearLayoutParameter* lpBTN = cc::ui::LinearLayoutParameter::create();
+  lpBTN->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
+  closeBtn->setLayoutParameter(lpBTN);
+
+  layout->addChild(closeBtn);
+  size.height += closeBtn->getBoundingBox().size.height;
+
+  layout->setContentSize(cc::Size(size.width + 2*margin, size.height+4*margin));
   layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
   layout->setPosition(cc::Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 

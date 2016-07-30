@@ -404,7 +404,7 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
         }
         else
         {
-          showMessage("Cannot equip " + item.item->getName() + "!", cc::Color4B::RED, this);
+          showMessage({"Cannot equip " + item.item->getName() + "!"}, cc::Color4B::RED, this);
           _bottomPanel->removeChild(layout);
           _itemList->setEnabled(true);
         }
@@ -412,7 +412,34 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
     });
     size.height += eqBtn->getBoundingBox().size.height + _margin;
     layout->addChild(eqBtn);
+    posY += eqBtn->getBoundingBox().size.height + _margin;
   }
+
+  //INFO
+  cc::ui::Button* infoBtn = cc::ui::Button::create();
+  infoBtn->loadTextures("images/button_orange.png", "images/button_orange_click.png", "");
+  infoBtn->setTitleFontName("fonts/Marker Felt.ttf");
+  infoBtn->setTitleText("Info");
+  infoBtn->setTitleFontSize(22);
+  infoBtn->setAnchorPoint(cc::Vec2(0,0));
+  infoBtn->setPosition(cc::Vec2(_margin*2, posY));
+  infoBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      std::vector<std::string> info;
+      info.push_back(item.item->getName());
+      info.push_back(" ");
+
+      auto i = item.item->getItemInfo();
+      info.insert(info.end(), i.begin(), i.end());
+
+      showMessage(info, cc::Color4B::WHITE, this);
+    }
+  });
+  size.height += infoBtn->getBoundingBox().size.height + _margin;
+  layout->addChild(infoBtn);
+
+  //
 
   layout->setContentSize(size);
   layout->setAnchorPoint(cc::Vec2(0.5, 0.5));

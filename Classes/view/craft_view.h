@@ -70,7 +70,13 @@ private:
   void craftChooseEngineering(cocos2d::Ref*);
   void chooseCraftCommon();
 
+  void learnRecipe();
+
   cocos2d::ui::Button* makeListItem(const std::string& title, const std::string& sprite_fn);
+  cocos2d::ui::Button* makeLearnListItem(const std::string& title,
+                                         const std::string &level,
+                                         const std::string& cost,
+                                         const std::string& sprite_fn);
   cocos2d::ui::Button* makeIngridientListItem(const std::string& title, const std::string& sprite_fn,
                                               cocos2d::Color4B color = cocos2d::Color4B::WHITE);
 };

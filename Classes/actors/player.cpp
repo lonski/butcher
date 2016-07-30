@@ -129,6 +129,7 @@ void Player::giveLevelUpBonuses()
 {
   int newCraftPoints = getCraftPointsOnLevel(getLevel());
   getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints);
+  setHp( getMaxHp() );
   notify(EventType::LevelUP);
 }
 

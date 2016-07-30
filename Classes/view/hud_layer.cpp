@@ -210,7 +210,8 @@ void HudLayer::onNotify(Subject *subject, EventType event)
     if ( event == EventType::LevelUP)
     {
       updateExpBar(player);
-      showMessage("Congratulations! You advanced to level " + toStr(player->getLevel()) + ".", cc::Color4B::WHITE, this);
+      updateHpBar(player);
+      showMessage({"Congratulations!", "You advanced to level " + toStr(player->getLevel()) + "."}, cc::Color4B::WHITE, this);
     }
     else if ( event == EventType::Modified )
     {
@@ -232,14 +233,7 @@ void HudLayer::showInventory(cocos2d::Ref *)
 
 void HudLayer::showCraftbook(cocos2d::Ref *)
 {
-  BUTCHER.getPlayer()->getCraftbook().addRecipe( BUTCHER.recipesDatabase().createRecipe(RecipeID::BONE_DAGGER));
-  BUTCHER.getPlayer()->getCraftbook().addRecipe( BUTCHER.recipesDatabase().createRecipe(RecipeID::BONE_CLUB));
-
   BUTCHER.showCraft();
-//  std::unique_ptr<Recipe> recipe = BUTCHER.recipesDatabase().createRecipe(RecipeID::BONE_DAGGER);
-//  recipe->setInventory(&BUTCHER.getPlayer()->getInventory());
-
-//  recipe->produce();
 }
 
 }

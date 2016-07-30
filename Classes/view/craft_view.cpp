@@ -164,7 +164,7 @@ void CraftView::createRecipesPanel()
 cocos2d::ui::Button * CraftView::makeListItem(const std::string& title, const std::string& sprite_fn)
 {
   cc::ui::Button* btn = cc::ui::Button::create();
-  btn->loadTextures("images/item_btn.png", "images/item_btn_click.png", "");
+  btn->loadTextures("images/item_btn.png", "images/item_btn_click.png", "images/button_disabled.png");
 
   cc::Sprite* sprite = cc::Sprite::create();
   sprite->initWithFile(sprite_fn);
@@ -175,6 +175,32 @@ cocos2d::ui::Button * CraftView::makeListItem(const std::string& title, const st
   cc::Label* label = make_label(title, cc::Color4B::WHITE, 22, cc::Vec2(0,0.5));
   label->setPosition(sprite->getBoundingBox().size.width * 1.4, btn->getBoundingBox().size.height / 2);
   btn->addChild(label);
+
+  return btn;
+}
+
+cocos2d::ui::Button *CraftView::makeLearnListItem(const std::string &title, const std::string& level, const std::string &cost, const std::string &sprite_fn)
+{
+  cc::ui::Button* btn = cc::ui::Button::create();
+  btn->loadTextures("images/item_btn.png", "images/item_btn_click.png", "images/button_disabled.png");
+
+  cc::Sprite* sprite = cc::Sprite::create();
+  sprite->initWithFile(sprite_fn);
+  sprite->setAnchorPoint(cc::Vec2(-0.2,0.5));
+  sprite->setPosition(_margin, btn->getBoundingBox().size.height / 2);
+  btn->addChild(sprite);
+
+  cc::Label* label = make_label(title, cc::Color4B::WHITE, 22, cc::Vec2(0,-0.2));
+  label->setPosition(sprite->getPositionX() + sprite->getBoundingBox().size.width * 1.4, btn->getBoundingBox().size.height / 2);
+  btn->addChild(label);
+
+  auto levelLabel = make_label("Craft level: " + level, cc::Color4B::WHITE, 16, cc::Vec2(0,0));
+  levelLabel->setPosition(label->getPositionX(), label->getPositionY() - label->getBoundingBox().size.height*0.7);
+  btn->addChild(levelLabel);
+
+  auto costLabel = make_label("Cost: " + cost, cc::Color4B::WHITE, 16, cc::Vec2(0,0));
+  costLabel->setPosition(label->getPositionX(), levelLabel->getPositionY() - levelLabel->getBoundingBox().size.height);
+  btn->addChild(costLabel);
 
   return btn;
 }
@@ -326,9 +352,9 @@ void CraftView::fillWorkbenchItem()
       if ( type == cc::ui::Widget::TouchEventType::ENDED )
       {
         if ( !_selectedRecipe->produce() )
-          showMessage("Failed to create item!", cc::Color4B::RED, this);
+          showMessage({"Failed to create item!"}, cc::Color4B::RED, this);
         else
-          showMessage("Item created successfully!", cc::Color4B::GREEN, this);
+          showMessage({"Item created successfully!"}, cc::Color4B::GREEN, this);
 
         fillWorkbench();
       }
@@ -499,18 +525,12 @@ int CraftView::createCraftPointsInfo()
   _learnBtn->setPositionX(_craftPointsLabel->getPositionX() + _craftPointsLabel->getBoundingBox().size.width*1.2);
   _learnBtn->setPositionY(_craftPointsLabel->getBoundingBox().size.height / 2);
   totalWidth += _learnBtn->getBoundingBox().size.width;
-  //learnBtn->setEnabled(_selectedRecipe->checkIngridients());
-//  learnBtn->addTouchEventListener([this](Ref*, cc::ui::Widget::TouchEventType type){
-//    if ( type == cc::ui::Widget::TouchEventType::ENDED )
-//    {
-//      if ( !_selectedRecipe->produce() )
-//        showMessage("Failed to create item!", cc::Color4B::RED);
-//      else
-//        showMessage("Item created successfully!", cc::Color4B::GREEN);
-
-//      fillWorkbench();
-//    }
-//  });
+  _learnBtn->addTouchEventListener([this](Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      learnRecipe();
+    }
+  });
 
   //Create layout
   cc::ui::Layout* layout = cc::ui::Layout::create();
@@ -557,6 +577,96 @@ void CraftView::chooseCraftCommon()
   fillRecipeList();
   _selectedRecipe = nullptr;
   fillWorkbench();
+}
+
+void CraftView::learnRecipe()
+{
+  //layout
+  cc::ui::Layout* learnRecipeLayout = cc::ui::Layout::create();
+  learnRecipeLayout->setLayoutType(cc::ui::Layout::Type::VERTICAL);
+  learnRecipeLayout->setPosition(_origin);
+  learnRecipeLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
+  learnRecipeLayout->setContentSize(cc::Size(_visibleSize.width, _visibleSize.height));
+  learnRecipeLayout->setBackGroundImageScale9Enabled(true);
+  learnRecipeLayout->setBackGroundImage("images/inv_border_fill.png");
+
+  //close btn
+  cc::ui::Button* closeBtn = cc::ui::Button::create();
+  closeBtn->loadTextures("images/x_btn.png", "images/x_btn_click.png", "");
+  closeBtn->setAnchorPoint(cc::Vec2(1,1));
+  closeBtn->setPosition(cc::Vec2(_origin.x + _visibleSize.width, _origin.y + _visibleSize.height));
+  closeBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      removeChild(learnRecipeLayout);
+      removeChild(closeBtn);
+    }
+  });
+
+  //recipe list
+  cc::ui::ListView* recipeList = cc::ui::ListView::create();
+
+  int freePoints = _player->getCraftbook().getFreePoints();
+  int craftLevel = _player->getCraftbook().getCraftLevel(_selectedCraft);
+
+  std::vector<cc::ui::Button*> disabledRecs;
+  for ( std::shared_ptr<Recipe> rec :  BUTCHER.recipesDatabase().getAllRecipes() )
+  {
+    if ( rec->getType() == _selectedCraft && !_player->getCraftbook().hasRecipe(rec->getId()) )
+    {
+      AmountedItem i = rec->getProduct();
+
+      cc::ui::Button* btn = makeLearnListItem(i.item->getName(), toStr(rec->getLevel()), toStr(rec->getCost()),
+                                              i.item->getSprite()->getResourceName());
+      btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+        if ( type == cc::ui::Widget::TouchEventType::ENDED )
+        {
+          ask("Learn " + rec->getProduct().item->getName() + " recipe?",
+              this, [=](){
+            _player->getCraftbook().setFreePoints( freePoints - rec->getCost());
+            _player->getCraftbook().addRecipe(rec);
+            removeChild(learnRecipeLayout);
+            removeChild(closeBtn);
+            fillRecipeList();
+            fillWorkbench();
+            fillCraftInfoPanel();
+          },
+          [](){});
+        }
+      });
+
+      if ( freePoints < rec->getCost() || craftLevel < rec->getLevel() )
+      {
+        btn->setEnabled(false);
+        disabledRecs.push_back(btn);
+      }
+      else
+      {
+        recipeList->pushBackCustomItem( btn );
+      }
+    }
+  }
+
+  for ( auto r : disabledRecs )
+    recipeList->pushBackCustomItem( r );
+
+  recipeList->setItemsMargin(_margin);
+
+  recipeList->setGravity(cc::ui::ListView::Gravity::CENTER_HORIZONTAL);
+  recipeList->setContentSize(cc::Size(learnRecipeLayout->getContentSize().width - 4*_margin,
+                                       learnRecipeLayout->getContentSize().height - 4*_margin));
+  recipeList->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
+
+  cc::ui::LinearLayoutParameter* lpT = cc::ui::LinearLayoutParameter::create();
+  recipeList->setLayoutParameter(lpT);
+  lpT->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
+  lpT->setMargin(cc::ui::Margin(_margin*2, _margin*2, _margin*2, _margin*2));
+
+  learnRecipeLayout->addChild(recipeList);
+
+  addChild(learnRecipeLayout);
+  addChild(closeBtn);
+
 }
 
 void CraftView::craftChooseSmithing(cocos2d::Ref *)

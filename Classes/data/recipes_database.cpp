@@ -54,4 +54,14 @@ std::unique_ptr<Recipe> RecipeDatabase::createRecipe(RecipeID id)
   return nullptr;
 }
 
+std::vector<std::shared_ptr<Recipe>> RecipeDatabase::getAllRecipes()
+{
+  std::vector<std::shared_ptr<Recipe>> recs;
+
+  for ( auto& kv : _recipeTemplates )
+    recs.push_back(kv.second->clone());
+
+  return recs;
+}
+
 }

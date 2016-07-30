@@ -15,6 +15,7 @@ public:
   bool load(const std::string& fn);
 
   std::unique_ptr<Recipe> createRecipe(RecipeID id);
+  std::vector<std::shared_ptr<Recipe> > getAllRecipes();
 
 private:
   std::map<RecipeID, std::unique_ptr<Recipe>> _recipeTemplates;

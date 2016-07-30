@@ -1,0 +1,38 @@
+namespace butcher;
+
+table InventoryData {
+	item_id:int;
+	amount:int;
+	equipped:int;
+}
+
+table RecipeData {
+	recipe_id:int;
+}
+
+table CraftbookData {
+	free_points:int;
+	recipes:[RecipeData];
+}
+
+table SaveData { 
+	id:uint;
+	type:int;
+	name:string;
+	blocks:bool;
+	transparent:bool;
+	sprite_file:string;
+
+	hp:uint;
+	attack:ushort;
+	defense:ushort;
+	damage:string;
+	damage_reduction:ushort;
+	exp:int;
+	level:int;
+
+	inventory:InventoryData;
+	craftbook:CraftbookData;
+}
+
+root_type SaveData;

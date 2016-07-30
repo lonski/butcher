@@ -90,4 +90,9 @@ void CraftBook::setFreePoints(int freePoints)
   _freePoints = freePoints;
 }
 
+bool CraftBook::hasRecipe(RecipeID r) const
+{
+  return _recipes.find(r) != _recipes.end();
+}
+
 }
