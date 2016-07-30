@@ -11,6 +11,7 @@ Item::Item(const ActorData* data)
   : Actor(data)
   , _slot(ItemSlotType::NONE)
   , _breakChance(0)
+  , _category(ItemCategory::None)
 {
   if ( data )
   {
@@ -30,6 +31,7 @@ Item::Item(const ActorData* data)
 
     _breakChance = data->break_chance();
     _level = data->level();
+    _category = static_cast<ItemCategory>(data->category());
   }
 }
 
@@ -49,6 +51,7 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   o->_damage = _damage;
   o->_breakChance = _breakChance;
   o->_level = _level;
+  o->_category = _category;
 
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
@@ -93,6 +96,9 @@ std::vector<std::string> Item::getItemInfo()
 {
   std::vector<std::string> info;
 
+  if ( _category != ItemCategory::None )
+    info.push_back("Category: " + ItemCategory2Str(_category));
+
   if ( _level > 0 )
     info.push_back("Level: " + toStr(_level));
 
@@ -107,6 +113,11 @@ std::vector<std::string> Item::getItemInfo()
   }
 
   return info;
+}
+
+ItemCategory Item::getCategory() const
+{
+  return _category;
 }
 
 }

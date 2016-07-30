@@ -109,7 +109,7 @@ void showMessage(const std::vector<std::string>& msg, cocos2d::Color4B color, co
 
   for ( auto s : msg )
   {
-    cc::ui::Text* label = cc::ui::Text::create(s,"fonts/Marker Felt.ttf",16);
+    cc::ui::Text* label = cc::ui::Text::create(s,"fonts/Marker Felt.ttf",18);
     label->setTextColor(color);
     label->setLayoutParameter(lpLabel);
     labelWidth = std::max( labelWidth, (int)label->getBoundingBox().size.width);

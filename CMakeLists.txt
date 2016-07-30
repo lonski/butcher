@@ -211,6 +211,7 @@ set(GAME_HEADERS
   Classes/actors/inventory.h
   Classes/actors/recipe.h
   Classes/actors/recipe_id.h
+  Classes/actors/item_category.h
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h

@@ -5,6 +5,7 @@
 #include <actors/item_slot_type.h>
 #include <utils/damage.h>
 #include <actors/attribute_type.h>
+#include <actors/item_category.h>
 
 namespace butcher {
 
@@ -30,12 +31,15 @@ public:
 
   std::vector<std::string> getItemInfo();
 
+  ItemCategory getCategory() const;
+
 private:
   ItemSlotType _slot;
   Damage _damage;
   std::map<AttributeType, int> _attributes;
   int _breakChance;
   int _level;
+  ItemCategory _category;
 
 };
 

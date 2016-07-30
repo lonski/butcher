@@ -67,7 +67,8 @@
       type: 2,
       blocks: 0,
       transparent: 1,
-      sprite_file: "images/meat.png"
+      sprite_file: "images/meat.png",
+      category: 1
     },
     {
       id: 6,
@@ -75,7 +76,8 @@
       type: 2,
       blocks: 0,
       transparent: 1,
-      sprite_file: "images/bone.png"
+      sprite_file: "images/bone.png",
+      category: 1
     },
     {
       id: 7,
@@ -410,7 +412,8 @@
       exp: 0,
       level: 2,
       break_chance: 900,
-      body_slot: 1
+      body_slot: 1,
+      category: 2
     },
     {
       id: 19,
@@ -425,7 +428,8 @@
       exp: 0,
       level: 1,
       break_chance: 1000,
-      body_slot: 1
+      body_slot: 1,
+      category: 2
     }
   ]
 }

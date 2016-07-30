@@ -38,6 +38,7 @@ table ActorData {
 	level:int;
 	break_chance:int;
 	body_slot:int;
+	category:int;
 
 	drop_rules:[DropRuleData];
 
