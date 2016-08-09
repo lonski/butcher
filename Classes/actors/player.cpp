@@ -28,6 +28,43 @@ std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
   return std::move( Character::clone(std::move(std::unique_ptr<Actor>{p})) );
 }
 
+void Player::load(const SaveData *data)
+{
+  if ( data )
+  {
+    _exp = data->exp();
+    _level = data->level();
+
+    _inventory = Inventory();
+    auto inv = data->inventory();
+    for ( unsigned i = 0; i < inv->Length(); ++i)
+    {
+      const InventoryData* item_data = inv->Get(i);
+
+      cc::log("%d %d %d", item_data->amount(), item_data->item_id(), item_data->equipped());
+      AmountedItem item;
+      item.amount = item_data->amount();
+      item.item = BUTCHER.actorsDatabase().createActor<Item>( (ActorID)item_data->item_id() );
+
+      if ( item_data->equipped() )
+        _inventory.equip(item);
+      else
+        _inventory.addItem(item);
+    }
+
+    auto cb = data->craftbook();
+
+    _craftbook = CraftBook();
+    _craftbook.setFreePoints( cb->free_points());
+
+    auto recs = cb->recipes();
+    for (unsigned i = 0; i < recs->Length(); ++i )
+    {
+      _craftbook.addRecipe( BUTCHER.recipesDatabase().createRecipe( (RecipeID)recs->Get(i) ) );
+    }
+  }
+}
+
 void Player::onCollide(std::shared_ptr<Actor> obstacle)
 {
   std::shared_ptr<Monster> mob = std::dynamic_pointer_cast<Monster>(obstacle);

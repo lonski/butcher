@@ -13,6 +13,8 @@ public:
   void newGame(Ref *);
   void quitGame(Ref *);
   void backToGame(Ref *);
+  void saveGame(Ref *);
+  void loadGame(Ref *);
 
   static cocos2d::Scene* createScene(bool gameRunning = false);
   CREATE_FUNC(GameMenu);

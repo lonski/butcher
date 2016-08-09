@@ -37,7 +37,7 @@ public:
     virtual Damage getDamage();
     virtual void setDamage(const Damage &damage);
 
-private:
+protected:
     int _level;
     int _exp;
     int _hp;

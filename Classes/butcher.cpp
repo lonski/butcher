@@ -9,10 +9,13 @@
 #include <view/game_menu.h>
 #include <view/inventory_view.h>
 #include <view/craft_view.h>
+#include <data/save_generated.h>
 
 namespace cc = cocos2d;
 
 namespace butcher {
+
+std::string Butcher::saveGameFn = "save.dat";
 
 Butcher::Butcher()
   : _currentScene(nullptr)
@@ -67,6 +70,102 @@ void Butcher::showInventory()
 void Butcher::showCraft()
 {
   cc::Director::getInstance()->pushScene( CraftView::createScene(getPlayer()) );
+}
+
+void Butcher::saveGame()
+{
+  flatbuffers::FlatBufferBuilder builder;
+
+  //create inventory
+  std::vector<flatbuffers::Offset<InventoryData>> inventory_vector;
+
+  for ( auto& pair : getPlayer()->getInventory().getItems() )
+  {
+    InventoryDataBuilder item(builder);
+    AmountedItem i = pair.second;
+    item.add_item_id( (int)i.item->getID() );
+    item.add_amount( i.amount );
+    item.add_equipped( false );
+    inventory_vector.push_back(item.Finish());
+  }
+
+  for ( auto& pair : getPlayer()->getInventory().getEquippedItems() )
+  {
+    InventoryDataBuilder item(builder);
+    AmountedItem i = pair.second;
+    item.add_item_id( (int)i.item->getID() );
+    item.add_amount( i.amount );
+    item.add_equipped( true );
+    inventory_vector.push_back(item.Finish());
+  }
+
+  auto inventory = builder.CreateVector(inventory_vector);
+
+  //create craft book
+  std::vector<int> recipes_vector;
+  for ( std::shared_ptr<Recipe> r : getPlayer()->getCraftbook().getRecipes() )
+  {
+    recipes_vector.push_back( (int)r->getId() );
+  }
+
+  auto recipes = builder.CreateVector(recipes_vector);
+  auto craftbook = CreateCraftbookData(builder,
+                                       getPlayer()->getCraftbook().getFreePoints(),
+                                       recipes);
+
+
+  //create save data
+  SaveDataBuilder save(builder);
+
+  save.add_exp( getPlayer()->getExp() );
+  save.add_level( getPlayer()->getLevel() );
+  save.add_inventory( inventory );
+  save.add_craftbook( craftbook );
+  save.add_dungeon_level(_dungeonLevel);
+
+  builder.Finish( save.Finish() );
+
+  cc::Data data;
+  data.copy(builder.GetBufferPointer(), builder.GetSize());
+
+  cc::FileUtils::getInstance()->writeDataToFile(data,
+                                                cc::FileUtils::getInstance()->getWritablePath() + Butcher::saveGameFn);
+
+  cc::Director::getInstance()->end();
+}
+
+void Butcher::loadGame()
+{
+  cc::Data file_data = cc::FileUtils::getInstance()->getDataFromFile(
+        cc::FileUtils::getInstance()->getWritablePath() + Butcher::saveGameFn);
+
+  if ( file_data.getSize() == 0 )
+  {
+    cc::log("loadGame: failed to load file '%s'.", Butcher::saveGameFn.c_str());
+    return;
+  }
+
+  const SaveData* data = GetSaveData( file_data.getBytes() );
+
+  if ( data == nullptr )
+  {
+    cc::log("loadGame: failed to load save game.");
+    return;
+  }
+
+  _player = nullptr;
+  _dungeons = LevelManager();
+  _dungeonLevel = data->dungeon_level();
+
+  getPlayer()->load(data);
+  getPlayer()->addObserver( _hud );
+
+  _hud->onNotify(getPlayer().get(), EventType::Modified);
+
+  LoadingScreen::run([this](){
+    goToLevel(_dungeonLevel);
+  }, "Loading game..");
+
 }
 
 cocos2d::Scene* Butcher::getCurrentScene() const

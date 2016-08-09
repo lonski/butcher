@@ -16,6 +16,7 @@ class Player;
 class Butcher
 {
 public:
+    static std::string saveGameFn;
     static Butcher& getInstance();
 
     void init();
@@ -24,6 +25,8 @@ public:
     void showGameMenu();
     void showInventory();
     void showCraft();
+    void saveGame();
+    void loadGame();
 
     cocos2d::Scene* getCurrentScene() const;
     DungeonState* getCurrentDungeon();

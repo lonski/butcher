@@ -102,6 +102,20 @@ Inventory::ItemContainer Inventory::getItems() const
   return _items;
 }
 
+Inventory::ItemContainer Inventory::getEquippedItems() const
+{
+  ItemContainer items;
+
+  for ( auto& pair : _body )
+  {
+    AmountedItem i = pair.second;
+    if ( i.item )
+      items[i.item->getID()] = i;
+  }
+
+  return items;
+}
+
 bool Inventory::equip(const AmountedItem &i)
 {
   if ( i.item == nullptr )

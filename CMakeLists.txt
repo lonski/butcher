@@ -239,6 +239,7 @@ set(GAME_HEADERS
   Classes/data/actors_generated.h
   Classes/data/recipes_generated.h
   Classes/data/recipes_database.h
+  Classes/data/save_generated.h
 
   Classes/dungeon/dungeon_state.h
   Classes/dungeon/tile_gid.h

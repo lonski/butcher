@@ -3,35 +3,20 @@ namespace butcher;
 table InventoryData {
 	item_id:int;
 	amount:int;
-	equipped:int;
-}
-
-table RecipeData {
-	recipe_id:int;
+	equipped:bool;
 }
 
 table CraftbookData {
 	free_points:int;
-	recipes:[RecipeData];
+	recipes:[int];
 }
 
 table SaveData { 
-	id:uint;
-	type:int;
-	name:string;
-	blocks:bool;
-	transparent:bool;
-	sprite_file:string;
-
-	hp:uint;
-	attack:ushort;
-	defense:ushort;
-	damage:string;
-	damage_reduction:ushort;
 	exp:int;
 	level:int;
+	dungeon_level:int;
 
-	inventory:InventoryData;
+	inventory:[InventoryData];
 	craftbook:CraftbookData;
 }
 

@@ -5,6 +5,7 @@
 #include <actors/amounted_item.h>
 #include <actors/inventory.h>
 #include <actors/craftbook.h>
+#include <data/save_generated.h>
 
 namespace butcher {
 
@@ -16,6 +17,7 @@ public:
   Player(const ActorData* data);
 
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
+  void load(const SaveData* data);
 
   virtual void onCollide(std::shared_ptr<Actor> obstacle);
   virtual void onKill(std::shared_ptr<Character> killed);

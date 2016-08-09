@@ -26,10 +26,12 @@ public:
 
   AmountedItem getItem(ActorID id);
   ItemContainer getItems() const;
+  ItemContainer getEquippedItems() const;
 
   bool equip(const AmountedItem& i);
   AmountedItem equipped(ItemSlotType slot);
   AmountedItem unequip(ItemSlotType slot);
+
 
 private:
   ItemContainer _items;
