@@ -131,7 +131,6 @@ void Butcher::saveGame()
   cc::FileUtils::getInstance()->writeDataToFile(data,
                                                 cc::FileUtils::getInstance()->getWritablePath() + Butcher::saveGameFn);
 
-  cc::Director::getInstance()->end();
 }
 
 void Butcher::loadGame()

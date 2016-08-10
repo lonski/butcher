@@ -26,7 +26,27 @@ void GameMenu::backToGame(cocos2d::Ref *)
 
 void GameMenu::saveGame(cocos2d::Ref *)
 {
-  BUTCHER.saveGame();
+  auto saveFn = [](){
+    BUTCHER.saveGame();
+    cc::Director::getInstance()->end();
+  };
+
+  ask("Are you sure you want to save and quit the game?", this,
+      [saveFn, this](){
+        if ( cc::FileUtils::getInstance()->isFileExist(
+               cc::FileUtils::getInstance()->getWritablePath() + Butcher::saveGameFn) )
+        {
+          ask("Another game is already saved. Overwrite?", this,
+              [saveFn](){
+                saveFn();
+              }, [](){});
+        }
+        else
+        {
+          saveFn();
+        }
+      },
+      [](){});
 }
 
 void GameMenu::loadGame(cocos2d::Ref *)
@@ -91,7 +111,9 @@ void GameMenu::addComponents(bool gameRunning)
                                         CC_CALLBACK_1(GameMenu::loadGame, this));
     loadBtn->setPosition(0, playBtn->getPositionY() - playBtn->getBoundingBox().size.height*1.2);
     loadBtn->setAnchorPoint( cc::Vec2(0.5, 0.5) );
-    loadBtn->setEnabled(false);
+
+    loadBtn->setEnabled(cc::FileUtils::getInstance()->isFileExist(
+                          cc::FileUtils::getInstance()->getWritablePath() + Butcher::saveGameFn));
   }
 
   auto quitBtn = cc::MenuItemImage::create("images/btn_quit.png",

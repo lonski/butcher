@@ -184,7 +184,7 @@ void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> y
   cc::ui::Button* yesBtn = cc::ui::Button::create();
   yesBtn->setTitleText("Yes");
   yesBtn->setTitleFontSize(18);
-  yesBtn->setContentSize(cc::Size(64,32));
+  yesBtn->setContentSize(cc::Size(128,64));
   yesBtn->setScale9Enabled(true);
   yesBtn->setTitleFontName("fonts/Marker Felt.ttf");
   yesBtn->loadTextures("images/button_orange.png", "images/button_orange_click.png", "");
@@ -201,7 +201,7 @@ void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> y
   cc::ui::Button* noBtn = cc::ui::Button::create();
   noBtn->setTitleText("No");
   noBtn->setTitleFontSize(18);
-  noBtn->setContentSize(cc::Size(64,32));
+  noBtn->setContentSize(cc::Size(128,64));
   noBtn->setScale9Enabled(true);
   noBtn->setTitleFontName("fonts/Marker Felt.ttf");
   noBtn->loadTextures("images/button_green.png", "images/button_green_click.png", "");
@@ -230,7 +230,8 @@ void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> y
 //  btnLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
 
 
-  size.height += noBtn->getBoundingBox().size.height;
+  size.height += noBtn->getContentSize().height;
+  size.width = std::max( size.width,  noBtn->getContentSize().width*2 + 5*margin);
   layout->addChild(btnLayout);
   layout->setContentSize(size);
   layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
@@ -239,7 +240,7 @@ void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> y
 //  layout->setBackGroundColor(cc::Color3B::BLUE);
 //  layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
 
-  parent->addChild(layout);
+  parent->addChild(layout, 666);
 }
 
 }
