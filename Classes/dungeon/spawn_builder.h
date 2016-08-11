@@ -26,7 +26,7 @@ private:
   std::multimap< int, ActorID > _mobIntroduction;
 
   void addPredefinedSpawns();
-  void addStairs();
+  bool addStairs();
   void addMobs();
 
   bool addActorSpawn(int id, int y, int x);
@@ -34,6 +34,7 @@ private:
   std::shared_ptr<Rect> getRandomRoom() const;
   void debugMapPrint();
   ActorID getRandomMobID();
+  bool canInsertObject(cocos2d::ValueMap obj);
 
 };
 

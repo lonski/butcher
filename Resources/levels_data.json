@@ -44,7 +44,7 @@
 
   levels: [
      {
-      depth: [1,2],
+      depth: [1,50],
       map_template: "dungeons/empty_cave.tmx",
       generator: 0,
 

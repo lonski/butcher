@@ -16,28 +16,24 @@ bool CelularAutomataGenerator::generate(DungeonDescription &dsc)
 {
   _dsc = &dsc;
 
-  bool done = false;
-  int i(0);
-  do
+  initializeGrid();
+
+  for(unsigned i = 0; i < _dsc->settings->generation_params()->size(); ++i)
   {
-    initializeGrid();
-
-    for(unsigned i = 0; i < _dsc->settings->generation_params()->size(); ++i)
-    {
-      const CAGenerationParams* params = _dsc->settings->generation_params()->Get(i);
-      for (int r=0; r < params->reps(); ++r)
-        generation(params);
-    }
-
-    Grid g = _dsc->grid;
-    auto p = g.findFirst(Tiles::FLOOR);
-    g.floodfill( p, '+' );
-    done = g.findFirst(Tiles::FLOOR) == cc::Vec2::ZERO;
-
-    if ( !done )
-      cc::log("%s regenerating map..", __PRETTY_FUNCTION__);
+    const CAGenerationParams* params = _dsc->settings->generation_params()->Get(i);
+    for (int r=0; r < params->reps(); ++r)
+      generation(params);
   }
-  while(!done);
+
+//  Grid g = _dsc->grid;
+//  auto p = g.findFirst(Tiles::FLOOR);
+//  g.floodfill( p, '+' );
+
+//  if ( g.findFirst(Tiles::FLOOR) != cc::Vec2::ZERO )
+//  {
+//    cc::log("%s UNCONNECTED PLACES!", __PRETTY_FUNCTION__);
+//    cc::log("%s", g.toStr().c_str());
+//  }
 
   roomSplit();
 

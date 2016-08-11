@@ -24,7 +24,7 @@ void StairsUp::onInterract(std::shared_ptr<Actor> actor)
   if ( std::dynamic_pointer_cast<Player>(actor) )
   {
     LoadingScreen::run([&](){
-      BUTCHER.goToLevel(BUTCHER.getDungeonLevel() + 1);
+      BUTCHER.goToLevel(BUTCHER.getDungeonLevel() - 1);
     }, "Going up..");
   }
 }

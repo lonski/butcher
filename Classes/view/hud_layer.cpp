@@ -55,7 +55,13 @@ bool HudLayer::init()
     craftBtn->setAnchorPoint(cc::Vec2(0,0));
     craftBtn->setPosition(cc::Vec2(invBtn->getPositionX() - invBtn->getBoundingBox().size.width*1.1,invBtn->getPositionY()));
 
-    auto menu = cc::Menu::create(menuBtn, invBtn, craftBtn, NULL);
+    auto minimapBtn = cc::MenuItemImage::create("images/btn_minimap.png",
+                                             "images/btn_minimap_click.png",
+                                             CC_CALLBACK_1(HudLayer::showMinimap, this));
+    minimapBtn->setAnchorPoint(cc::Vec2(0,0));
+    minimapBtn->setPosition(cc::Vec2(craftBtn->getPositionX() - craftBtn->getBoundingBox().size.width*1.1,craftBtn->getPositionY()));
+
+    auto menu = cc::Menu::create(menuBtn, invBtn, craftBtn, minimapBtn, NULL);
     menu->setPosition(cc::Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -234,6 +240,13 @@ void HudLayer::showInventory(cocos2d::Ref *)
 void HudLayer::showCraftbook(cocos2d::Ref *)
 {
   BUTCHER.showCraft();
+}
+
+void HudLayer::showMinimap(cocos2d::Ref *)
+{
+  LoadingScreen::run([this](){
+    BUTCHER.goToLevel( BUTCHER.getDungeonLevel() + 1 );
+  }, "Going down..");
 }
 
 }

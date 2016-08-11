@@ -4,6 +4,7 @@
 #include <dungeon/generators/minimum_corridor_generator.h>
 #include <dungeon/generators/celular_automata_generator.h>
 #include <utils/profiler.h>
+#include <utils/path.h>
 
 namespace cc = cocos2d;
 
@@ -24,7 +25,15 @@ DungeonState *LevelManager::getLevel(int level)
   if ( dungeonState == nullptr )
   {
     dungeonState = new DungeonState();
-    dungeonState->setMap( generateMap(level) );
+
+    auto map = generateMap(level);
+    while (!map)
+    {
+      cc::log("%s: regenerating map..", __PRETTY_FUNCTION__);
+      map = generateMap(level);
+    }
+
+    dungeonState->setMap( map );
     _dungeons[level] = dungeonState;
   }
 
@@ -79,10 +88,45 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
   if ( !_spawnBuilder.generateSpawns(description) )
     return nullptr;
 
+  if ( !validateConnection(description) )
+  {
+    cc::log("%s validate connection failed!", __PRETTY_FUNCTION__);
+    return nullptr;
+  }
+
   profiler.log("Spawn generation", Profiler::LAST_READ);
   profiler.log("Whole level generation", Profiler::START);
 
   return description.tmx;
+}
+
+bool LevelManager::validateConnection(const DungeonDescription& dsc)
+{
+  cc::Vec2 start = getSpawn(ActorID::STAIRS_UP, dsc);
+  cc::Vec2 finish = getSpawn(ActorID::STAIRS_DOWN, dsc);
+
+  if ( start == cc::Vec2::ZERO || finish == cc::Vec2::ZERO )
+  {
+    cc::log("%s failed to find stairs!", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  auto isBlockedFn = [dsc](cocos2d::Vec2 pos){
+    return dsc.grid.get(pos) != Tiles::FLOOR;
+  };
+
+  Path path;
+
+  return path.calculate(start, finish, isBlockedFn);
+}
+
+cocos2d::Vec2 LevelManager::getSpawn(ActorID actor, const DungeonDescription &dsc)
+{
+  for ( auto& pair : dsc.spawns )
+    if ( pair.second == actor )
+      return pair.first;
+
+  return cc::Vec2::ZERO;
 }
 
 }

@@ -9,6 +9,8 @@ namespace butcher {
 
 bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
 {
+  bool result = true;
+
   _objects.clear();
   _dungeon = &dungeon;
 
@@ -26,14 +28,14 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   }
 
   addPredefinedSpawns();
-  addStairs();
+  result &= addStairs();
   addMobs();
 
   //debugMapPrint();
 
   _objectsLayer->setObjects(_objects);
 
-  return true;
+  return result;
 }
 
 void SpawnBuilder::setMobIntroduction(const std::multimap<int, ActorID> &mobIntroduction)
@@ -52,8 +54,10 @@ void SpawnBuilder::addPredefinedSpawns()
   }
 }
 
-void SpawnBuilder::addStairs()
+bool SpawnBuilder::addStairs()
 {
+  bool added = false;
+
   enum {
     TRY_COUNT = 100
   };
@@ -66,47 +70,34 @@ void SpawnBuilder::addStairs()
     upStairs = _dungeon->rooms.front()->getRandomCoord();
 
     if ( addActorSpawn(4, upStairs ) )
+    {
+      added = true;
+      _dungeon->spawns[upStairs] = ActorID::STAIRS_UP;
       break;
+    }
 
     upStairs = cc::Vec2::ZERO;
   }
 
-  for(int i = 0; i < TRY_COUNT; ++i)
+  if  ( added )
   {
-    downStairs = _dungeon->rooms.back()->getRandomCoord();
+    added = false;
+    for(int i = 0; i < TRY_COUNT; ++i)
+    {
+      downStairs = _dungeon->rooms.back()->getRandomCoord();
 
-    if ( addActorSpawn(3,  downStairs ) )
-      break;
+      if ( addActorSpawn(3,  downStairs ) )
+      {
+        _dungeon->spawns[downStairs] = ActorID::STAIRS_DOWN;
+        added = true;
+        break;
+      }
 
-    downStairs = cc::Vec2::ZERO;
+      downStairs = cc::Vec2::ZERO;
+    }
   }
 
-//  Path p;
-
-//  bool calculated =  p.calculate(upStairs, downStairs,
-//                                  [=](cc::Vec2 p)
-//                                  {
-//                                    return _dungeon->grid.get(p) != Tiles::FLOOR;
-//                                  },
-//                                  [=](cc::Vec2 from, cc::Vec2 to)
-//                                  {
-//                                    return Direction::isDiagonal(from, to) ? 1.5 : 1;
-//                                  });
-
-//  if ( !calculated )
-//  {
-//    cc::log("failed to calc path!");
-//    cc::log("%s", _dungeon->grid.toStr().c_str());
-//    return;
-//  }
-
-//  Grid g = _dungeon->grid;
-//  while (!p.empty())
-//  {
-//    g.set(p.walk(), '@');
-//  }
-
-//  cc::log("%s", g.toStr().c_str());
+  return added;
 }
 
 void SpawnBuilder::addMobs()
@@ -139,6 +130,9 @@ bool SpawnBuilder::addActorSpawn(int id, int y, int x)
   spawn["id"] = cc::Value(id);
   spawn["x"] = cc::Value(x);
   spawn["y"] = cc::Value(y);
+
+  if ( !canInsertObject(spawn) )
+    return false;
 
   _objects.push_back(cc::Value(spawn));
 
@@ -197,6 +191,17 @@ ActorID SpawnBuilder::getRandomMobID()
   }
 
   return ActorID::COW;
+}
+
+bool SpawnBuilder::canInsertObject(cocos2d::ValueMap obj)
+{
+  for ( cc::Value& v : _objects )
+  {
+    cc::ValueMap vm = v.asValueMap();
+    if ( vm["x"] == obj["x"] && vm["y"] == obj["y"] )
+      return false;
+  }
+  return true;
 }
 
 }
