@@ -6,7 +6,8 @@ namespace butcher {
 enum class EventType {
   None,
   Modified,
-  LevelUP
+  LevelUP,
+  Moved
 };
 
 }

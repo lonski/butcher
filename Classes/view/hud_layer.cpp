@@ -8,6 +8,7 @@
 #include <dungeon/generators/maze_dungeon_generator.h>
 #include <view/hud_log.h>
 #include <actors/craftbook.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
@@ -20,6 +21,7 @@ HudLayer::HudLayer()
   , _hpValue(nullptr)
   , _lvValue(nullptr)
   , _dungeonLevelLabel(nullptr)
+  , _minimapSprite(nullptr)
 {
 }
 
@@ -71,6 +73,7 @@ bool HudLayer::init()
     initHpBar();
     initExpBar();
     initDungeonLevelCounter();
+    initMinimap();
 
     onNotify(BUTCHER.getPlayer().get(), EventType::Modified);
   }
@@ -208,6 +211,24 @@ void HudLayer::updateHpBar(Player* player)
   }
 }
 
+void HudLayer::initMinimap()
+{
+  if ( _minimapSprite )
+    removeChild(_minimapSprite, false);
+
+  _minimap.init();
+
+  int margin = 10;
+  cc::Vec2 origin = cc::Director::getInstance()->getVisibleOrigin();
+  auto visibleSize = cc::Director::getInstance()->getVisibleSize();
+
+  _minimapSprite = _minimap.generate();
+  _minimapSprite->setPosition(origin.x + (visibleSize.width - margin) / 2,
+                       origin.y + (visibleSize.height - margin) / 2);
+
+  _minimapSprite = nullptr;
+}
+
 void HudLayer::onNotify(Subject *subject, EventType event)
 {
   Player* player = dynamic_cast<Player*>(subject);
@@ -224,7 +245,21 @@ void HudLayer::onNotify(Subject *subject, EventType event)
       updateExpBar(player);
       updateHpBar(player);
     }
+    else if ( event == EventType::Moved )
+    {
+      if ( _minimapSprite )
+        updateMinimap();
+    }
   }
+}
+
+void HudLayer::updateMinimap()
+{
+  Profiler p;
+
+  _minimapSprite = _minimap.update();
+
+  p.log("updateMinimap");
 }
 
 void HudLayer::showMenu(Ref *)
@@ -244,9 +279,16 @@ void HudLayer::showCraftbook(cocos2d::Ref *)
 
 void HudLayer::showMinimap(cocos2d::Ref *)
 {
-  LoadingScreen::run([this](){
-    BUTCHER.goToLevel( BUTCHER.getDungeonLevel() + 1 );
-  }, "Going down..");
+  if ( _minimapSprite )
+  {
+    removeChild(_minimapSprite, false);
+    _minimapSprite = nullptr;
+  }
+  else
+  {
+    updateMinimap();
+    addChild(_minimapSprite);
+  }
 }
 
 }

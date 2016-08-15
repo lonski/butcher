@@ -26,21 +26,22 @@ DungeonState *LevelManager::getLevel(int level)
   {
     dungeonState = new DungeonState();
 
-    auto map = generateMap(level);
-    while (!map)
+    DungeonDescription dsc = generateMap(level);
+    while (!dsc.tmx)
     {
       cc::log("%s: regenerating map..", __PRETTY_FUNCTION__);
-      map = generateMap(level);
+      dsc = generateMap(level);
     }
 
-    dungeonState->setMap( map );
+    dungeonState->setMap( dsc.tmx );
+    dungeonState->setMapUsableSize( dsc.grid.width, dsc.grid.height );
     _dungeons[level] = dungeonState;
   }
 
   return dungeonState;
 }
 
-cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
+DungeonDescription LevelManager::generateMap(unsigned level)
 {
   Profiler profiler;
 
@@ -49,7 +50,7 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
   if ( !levelData )
   {
     cc::log("LevelManager::generateMap level id=%u not found!", level);
-    return nullptr;
+    return DungeonDescription();
   }
 
   DungeonDescription description;
@@ -69,14 +70,14 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
     default:
       cc::log("%s: Incorrect dungeon generator type (%d)",
               __PRETTY_FUNCTION__, description.settings->generator());
-      return nullptr;
+      return DungeonDescription();
       break;
   }
 
   profiler.count();
 
   if ( !generator->generate(description) )
-    return nullptr;
+    return DungeonDescription();
 
   profiler.log("Dungeon generation", Profiler::LAST_READ);
 
@@ -86,18 +87,18 @@ cc::TMXTiledMap* LevelManager::generateMap(unsigned level)
   profiler.log("Tmx building", Profiler::LAST_READ);
 
   if ( !_spawnBuilder.generateSpawns(description) )
-    return nullptr;
+    return DungeonDescription();
 
   if ( !validateConnection(description) )
   {
     cc::log("%s validate connection failed!", __PRETTY_FUNCTION__);
-    return nullptr;
+    return DungeonDescription();
   }
 
   profiler.log("Spawn generation", Profiler::LAST_READ);
   profiler.log("Whole level generation", Profiler::START);
 
-  return description.tmx;
+  return description;
 }
 
 bool LevelManager::validateConnection(const DungeonDescription& dsc)

@@ -91,7 +91,10 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   if ( direction != Direction::None )
   {
     if ( BUTCHER.getPlayer()->performAction(MoveAction(direction)) )
+    {
       this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
+      BUTCHER.getPlayer()->notify(EventType::Moved);
+    }
 
     BUTCHER.nextTurn();
   }

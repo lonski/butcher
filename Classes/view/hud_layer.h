@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include <utils/observer.h>
 #include "ui/UILoadingBar.h"
+#include <view/minimap.h>
 
 namespace butcher {
 
@@ -23,6 +24,7 @@ public:
            cocos2d::Color4B color = cocos2d::Color4B(177, 0, 177, 255));
 
   virtual void onNotify(Subject* subject, EventType event);
+  void updateMinimap();
 
   CREATE_FUNC(HudLayer);
 
@@ -34,6 +36,8 @@ private:
   cocos2d::Label* _hpValue;
   cocos2d::Label* _lvValue;
   cocos2d::Label* _dungeonLevelLabel;
+  Minimap _minimap;
+  cocos2d::Node* _minimapSprite;
 
   void showMenu(cocos2d::Ref*);
   void showInventory(cocos2d::Ref*);
@@ -45,6 +49,7 @@ private:
   void initDungeonLevelCounter();
   void updateExpBar(Player* player);
   void updateHpBar(Player* player);
+  void initMinimap();
 };
 
 }

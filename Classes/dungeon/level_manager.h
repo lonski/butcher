@@ -30,7 +30,7 @@ private:
   TMXBuilder _mapBuilder;
   SpawnBuilder _spawnBuilder;
 
-  cocos2d::TMXTiledMap* generateMap(unsigned level);
+  DungeonDescription generateMap(unsigned level);
   bool validateConnection(const DungeonDescription& dsc);
   cocos2d::Vec2 getSpawn(ActorID actor, const DungeonDescription& dsc);
 

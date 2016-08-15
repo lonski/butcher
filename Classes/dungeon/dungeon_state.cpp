@@ -99,6 +99,17 @@ bool DungeonState::setMap(const std::string& fn)
   return setMap(map);
 }
 
+void DungeonState::setMapUsableSize(int width, int height)
+{
+  _usableMapSize.width = width;
+  _usableMapSize.height = height;
+}
+
+cocos2d::Size DungeonState::getMapUsableSize() const
+{
+  return _usableMapSize;
+}
+
 void DungeonState::onEnter(DungeonLayer *view)
 {
   _currentView = view;
@@ -201,26 +212,7 @@ void DungeonState::nextTurn()
 
 bool DungeonState::isBlocked(cc::Vec2 tileCoord, std::shared_ptr<Actor>* blocking_actor)
 {
-  bool blocked = false;
-
-  if ( tileCoord.x >= _map->getMapSize().width || tileCoord.y >= _map->getMapSize().height
-       || tileCoord.x < 0 || tileCoord.y < 0 )
-  {
-    cc::log("%s out of range: x=%f y=%f", __PRETTY_FUNCTION__, tileCoord.x, tileCoord.y);
-    return true;
-  }
-
-  //Check if tile is enterable
-  unsigned gid = _meta->getTileGIDAt(tileCoord);
-  if ( gid )
-  {
-    auto properties = _map->getPropertiesForGID(gid).asValueMap();
-    if (!properties.empty())
-    {
-      auto collision = properties["Collidable"].asString();
-      blocked = ("True" == collision);
-    }
-  }
+  bool blocked = isBlockedByWall(tileCoord.x, tileCoord.y);
 
   //Check for blocking actor
   if (!blocked)
@@ -241,6 +233,32 @@ bool DungeonState::isBlocked(cc::Vec2 tileCoord, std::shared_ptr<Actor>* blockin
   return blocked;
 }
 
+bool DungeonState::isBlockedByWall(int x, int y)
+{
+  bool blocked = false;
+
+  if ( x >= _map->getMapSize().width || y >= _map->getMapSize().height
+       || x < 0 || y < 0 )
+  {
+    cc::log("%s out of range: x=%x y=%y", __PRETTY_FUNCTION__, x, y);
+    return true;
+  }
+
+  //Check if tile is enterable
+  unsigned gid = _meta->getTileGIDAt( cc::Vec2(x,y) );
+  if ( gid )
+  {
+    auto properties = _map->getPropertiesForGID(gid).asValueMap();
+    if (!properties.empty())
+    {
+      auto collision = properties["Collidable"].asString();
+      blocked = ("True" == collision);
+    }
+  }
+
+  return blocked;
+}
+
 bool DungeonState::isOpaque(cc::Vec2 tileCoord)
 {
   std::shared_ptr<Actor> blocking_actor;
@@ -252,6 +270,12 @@ bool DungeonState::isOpaque(cc::Vec2 tileCoord)
 bool DungeonState::isOpaque(int x, int y)
 {
   return isOpaque(cc::Vec2(x,y));
+}
+
+bool DungeonState::isVisited(int x, int y)
+{
+  char tile = _exploredMask.get(x,y);
+  return tile == Tiles::FoG || tile == Tiles::FoV;
 }
 
 void DungeonState::visit(int x, int y)
@@ -276,8 +300,7 @@ void DungeonState::visit(int x, int y)
 
 bool DungeonState::isInFov(cocos2d::Vec2 tileCoord)
 {
-  cc::Sprite* s = _tiles->getTileAt(tileCoord);
-  return s && s->isVisible() && s->getOpacity() == 255;
+  return _exploredMask.get(tileCoord) == Tiles::FoV;
 }
 
 void DungeonState::computeFov(int x, int y)

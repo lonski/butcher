@@ -21,12 +21,15 @@ class DungeonLayer;
 class DungeonState
 {
 public:
+
   DungeonState();
 
   cocos2d::TMXTiledMap* map() const;
 
   bool setMap(cocos2d::TMXTiledMap* map);
   bool setMap(const std::string& fn);
+  void setMapUsableSize(int width, int height);
+  cocos2d::Size getMapUsableSize() const;
 
   void onEnter(DungeonLayer* view);
   void onExit();
@@ -36,8 +39,10 @@ public:
   void nextTurn();
 
   bool isBlocked(cocos2d::Vec2 tileCoord, std::shared_ptr<Actor>* blocking_actor = nullptr);
+  bool isBlockedByWall(int x, int y);
   bool isOpaque(cocos2d::Vec2 tileCoord);
   bool isOpaque(int x, int y);
+  bool isVisited(int x, int y);
 
   void visit(int x, int y);
   bool isInFov(cocos2d::Vec2 tileCoord);
@@ -54,6 +59,8 @@ private:
 
   Grid _exploredMask;
   std::set< std::shared_ptr<Actor> > _actors;
+
+  cocos2d::Size _usableMapSize;
 
   void addPlayer();
   void addActor(ActorID id, cocos2d::Vec2 coord);
