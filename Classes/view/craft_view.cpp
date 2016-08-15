@@ -27,6 +27,8 @@ CraftView::CraftView(std::shared_ptr<Player> player)
   , _craftLevelLabel(nullptr)
   , _craftPointsLabel(nullptr)
   , _learnBtn(nullptr)
+  , _freePoints(0)
+  , _craftLevel(0)
 {
   _origin = cc::Director::getInstance()->getVisibleOrigin();
   _visibleSize = cc::Director::getInstance()->getVisibleSize();
@@ -179,7 +181,7 @@ cocos2d::ui::Button * CraftView::makeListItem(const std::string& title, const st
   return btn;
 }
 
-cocos2d::ui::Button *CraftView::makeLearnListItem(const std::string &title, const std::string& level, const std::string &cost, const std::string &sprite_fn)
+cocos2d::ui::Button *CraftView::makeLearnListItem(const std::string &title, int level, int cost, const std::string &sprite_fn)
 {
   cc::ui::Button* btn = cc::ui::Button::create();
   btn->loadTextures("images/item_btn.png", "images/item_btn_click.png", "images/button_disabled.png");
@@ -194,11 +196,11 @@ cocos2d::ui::Button *CraftView::makeLearnListItem(const std::string &title, cons
   label->setPosition(sprite->getPositionX() + sprite->getBoundingBox().size.width * 1.4, btn->getBoundingBox().size.height / 2);
   btn->addChild(label);
 
-  auto levelLabel = make_label("Craft level: " + level, cc::Color4B::WHITE, 16, cc::Vec2(0,0));
+  auto levelLabel = make_label("Craft level: " + toStr(level), _craftLevel >= level ? cc::Color4B::WHITE : cc::Color4B::RED, 16, cc::Vec2(0,0));
   levelLabel->setPosition(label->getPositionX(), label->getPositionY() - label->getBoundingBox().size.height*0.7);
   btn->addChild(levelLabel);
 
-  auto costLabel = make_label("Cost: " + cost, cc::Color4B::WHITE, 16, cc::Vec2(0,0));
+  auto costLabel = make_label("Cost: " + toStr(cost), _freePoints >= cost ? cc::Color4B::WHITE : cc::Color4B::RED, 16, cc::Vec2(0,0));
   costLabel->setPosition(label->getPositionX(), levelLabel->getPositionY() - levelLabel->getBoundingBox().size.height);
   btn->addChild(costLabel);
 
@@ -606,8 +608,8 @@ void CraftView::learnRecipe()
   //recipe list
   cc::ui::ListView* recipeList = cc::ui::ListView::create();
 
-  int freePoints = _player->getCraftbook().getFreePoints();
-  int craftLevel = _player->getCraftbook().getCraftLevel(_selectedCraft);
+  _freePoints = _player->getCraftbook().getFreePoints();
+  _craftLevel = _player->getCraftbook().getCraftLevel(_selectedCraft);
 
   std::vector<cc::ui::Button*> disabledRecs;
   for ( std::shared_ptr<Recipe> rec :  BUTCHER.recipesDatabase().getAllRecipes() )
@@ -615,29 +617,36 @@ void CraftView::learnRecipe()
     if ( rec->getType() == _selectedCraft && !_player->getCraftbook().hasRecipe(rec->getId()) )
     {
       AmountedItem i = rec->getProduct();
+      bool canLearn = _freePoints >= rec->getCost() && _craftLevel >= rec->getLevel();
 
-      cc::ui::Button* btn = makeLearnListItem(i.item->getName(), toStr(rec->getLevel()), toStr(rec->getCost()),
+      std::vector<std::string> info;
+      info.push_back( rec->getProduct().item->getName());
+      info.push_back(" ");
+      info.push_back("Craft level: " + toStr(rec->getLevel()));
+      info.push_back("Craft points: " + toStr(rec->getCost()));
+      info.push_back(" ");
+      auto item_info = rec->getProduct().item->getItemInfo();
+      info.insert(info.end(), item_info.begin(), item_info.end());
+
+      cc::ui::Button* btn = makeLearnListItem(i.item->getName(), rec->getLevel(), rec->getCost(),
                                               i.item->getSprite()->getResourceName());
       btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
         if ( type == cc::ui::Widget::TouchEventType::ENDED )
         {
-          ask("Learn " + rec->getProduct().item->getName() + " recipe?",
-              this, [=](){
-            _player->getCraftbook().setFreePoints( freePoints - rec->getCost());
+          learnRecipeItemInfo(info, canLearn, [=](){
+            _player->getCraftbook().setFreePoints( _freePoints - rec->getCost());
             _player->getCraftbook().addRecipe(rec);
             removeChild(learnRecipeLayout);
             removeChild(closeBtn);
             fillRecipeList();
             fillWorkbench();
             fillCraftInfoPanel();
-          },
-          [](){});
+          }, recipeList);
         }
       });
 
-      if ( freePoints < rec->getCost() || craftLevel < rec->getLevel() )
+      if ( !canLearn )
       {
-        btn->setEnabled(false);
         disabledRecs.push_back(btn);
       }
       else
@@ -715,6 +724,105 @@ void CraftView::craftChooseEngineering(cocos2d::Ref *)
   _engineeringBtn->setEnabled(false);
 
   chooseCraftCommon();
+}
+
+void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled, std::function<void ()> learnFn, cocos2d::ui::ListView *recipeList)
+{
+  recipeList->setEnabled(false);
+
+  int margin = 10;
+  auto origin = cc::Director::getInstance()->getVisibleOrigin();
+  auto visibleSize = cc::Director::getInstance()->getVisibleSize();
+
+  cc::ui::Layout* layout = cc::ui::Layout::create();
+
+  layout->setLayoutType(cc::ui::Layout::Type::VERTICAL);
+  layout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::NONE);
+  layout->setBackGroundImageScale9Enabled(true);
+  layout->setBackGroundImage("images/inv_border_fill.png");
+  cc::Size size;
+  size.width = 0;
+  size.height = 0;
+
+  int labelWidth = 200;
+  int labelsHeight = 0;
+
+  cc::ui::Layout* textLayout = cc::ui::Layout::create();
+  textLayout->setLayoutType(cc::ui::Layout::Type::VERTICAL);
+  cc::ui::LinearLayoutParameter* lpT = cc::ui::LinearLayoutParameter::create();
+  lpT->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
+  lpT->setMargin(cc::ui::Margin(margin, margin, margin, margin));
+  textLayout->setLayoutParameter(lpT);
+
+  cc::ui::LinearLayoutParameter* lpLabel = cc::ui::LinearLayoutParameter::create();
+  lpLabel->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
+
+  for ( auto s : info )
+  {
+    cc::ui::Text* label = cc::ui::Text::create(s,"fonts/Marker Felt.ttf",18);
+    label->setTextColor(cc::Color4B::WHITE);
+    label->setLayoutParameter(lpLabel);
+    labelWidth = std::max( labelWidth, (int)label->getBoundingBox().size.width);
+    labelsHeight += label->getBoundingBox().size.height;
+    textLayout->addChild(label);
+  }
+  size.width += labelWidth + 2*margin;
+  size.height += labelsHeight;
+  textLayout->setContentSize(size);
+//  textLayout->setBackGroundColor(cc::Color3B::GREEN);
+//  textLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
+  layout->addChild(textLayout);
+
+  cc::ui::Button* learnBtn = cc::ui::Button::create();
+  learnBtn->loadTextures("images/button_green.png", "images/button_green_click.png", "");
+  learnBtn->setTitleText("Learn");
+  learnBtn->setTitleFontSize(18);
+  learnBtn->setTitleFontName("fonts/Marker Felt.ttf");
+  learnBtn->setScale9Enabled(true);
+  learnBtn->setContentSize(cc::Size(128,64));
+  learnBtn->setPosition(cc::Vec2(size.width / 2 - learnBtn->getBoundingBox().size.width * 1.2, margin));
+  learnBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      recipeList->setEnabled(true);
+      learnFn();
+      this->removeChild(layout);
+    }
+  });
+
+  learnBtn->setEnabled(enabled);
+
+  cc::ui::Button* closeBtn = cc::ui::Button::create();
+  closeBtn->loadTextures("images/button_orange.png", "images/button_orange_click.png", "");
+  closeBtn->setTitleText("Close");
+  closeBtn->setTitleFontSize(18);
+  closeBtn->setTitleFontName("fonts/Marker Felt.ttf");
+  closeBtn->setScale9Enabled(true);
+  closeBtn->setContentSize(cc::Size(128,64));
+  closeBtn->setPosition(cc::Vec2(learnBtn->getPositionX() + learnBtn->getBoundingBox().size.width * 1.2, margin));
+  closeBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      recipeList->setEnabled(true);
+      this->removeChild(layout);
+    }
+  });
+
+  cc::ui::LinearLayoutParameter* lpBTN = cc::ui::LinearLayoutParameter::create();
+  lpBTN->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
+  learnBtn->setLayoutParameter(lpBTN);
+  closeBtn->setLayoutParameter(lpBTN);
+
+  layout->addChild(learnBtn);
+  layout->addChild(closeBtn);
+  size.height += learnBtn->getBoundingBox().size.height*2;
+
+  layout->setContentSize(cc::Size(size.width + 2*margin, size.height+4*margin));
+  layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
+  layout->setPosition(cc::Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+
+
+  this->addChild(layout);
 }
 
 }

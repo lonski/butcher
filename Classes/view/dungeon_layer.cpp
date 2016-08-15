@@ -111,7 +111,7 @@ void DungeonLayer::setViewPointCenter(cc::Vec2 position)
   cc::Vec2 centerOfView(winSize.width/2, winSize.height/2);
   _viewPoint = centerOfView - pos;
 
-  runAction( cc::MoveTo::create(0.08,_viewPoint));
+  runAction( cc::MoveTo::create(0.15,_viewPoint));
 }
 
 }

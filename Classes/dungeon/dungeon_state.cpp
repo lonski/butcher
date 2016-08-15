@@ -240,7 +240,7 @@ bool DungeonState::isBlockedByWall(int x, int y)
   if ( x >= _map->getMapSize().width || y >= _map->getMapSize().height
        || x < 0 || y < 0 )
   {
-    cc::log("%s out of range: x=%x y=%y", __PRETTY_FUNCTION__, x, y);
+    cc::log("%s out of range: x=%d y=%d", __PRETTY_FUNCTION__, x, y);
     return true;
   }
 

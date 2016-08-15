@@ -12,6 +12,7 @@ namespace butcher {
 
 class Player;
 class Recipe;
+class Item;
 
 class CraftView : public cocos2d::Layer
 {
@@ -48,6 +49,9 @@ private:
   cocos2d::Label* _craftPointsLabel;
   cocos2d::ui::Button* _learnBtn;
 
+  int _freePoints;
+  int _craftLevel;
+
   void addComponents();
   void createRootLayout();
   void createCloseButton();
@@ -71,11 +75,12 @@ private:
   void chooseCraftCommon();
 
   void learnRecipe();
+  void learnRecipeItemInfo(std::vector<std::string> info, bool enabled, std::function<void ()> learnFn, cocos2d::ui::ListView* recipeList);
 
   cocos2d::ui::Button* makeListItem(const std::string& title, const std::string& sprite_fn);
   cocos2d::ui::Button* makeLearnListItem(const std::string& title,
-                                         const std::string &level,
-                                         const std::string& cost,
+                                         int level,
+                                         int cost,
                                          const std::string& sprite_fn);
   cocos2d::ui::Button* makeIngridientListItem(const std::string& title, const std::string& sprite_fn,
                                               cocos2d::Color4B color = cocos2d::Color4B::WHITE);

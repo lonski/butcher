@@ -2,6 +2,7 @@
 #include <dungeon/dungeon_description.h>
 #include <dungeon/room.h>
 #include <utils/path.h>
+#include <data/levels_generated.h>
 
 namespace cc = cocos2d;
 
@@ -102,22 +103,29 @@ bool SpawnBuilder::addStairs()
 
 void SpawnBuilder::addMobs()
 {
+  //Grid g = _dungeon->grid;
+
   int mobCount(0);
 
   for ( std::shared_ptr<Rect> room : _dungeon->rooms )
   {
-    int maxMobsInRoom = std::min( room->getAreaSize() / 10, 6 );
+    int maxMobsInRoom = room->getFloorSize(_dungeon->grid) / _dungeon->settings->max_mob_density();
     while ( maxMobsInRoom-- )
     {
-      if ( cc::RandomHelper::random_int(0,1) == 1 )
+      if ( cc::RandomHelper::random_int(0, 100) <= _dungeon->settings->mob_spawn_chance() )
       {
-        if ( addActorSpawn( (int)getRandomMobID(), room->getRandomCoord() ) )
+        cc::Vec2 coord = room->getRandomFloorCoord(_dungeon->grid);
+        if ( addActorSpawn( (int)getRandomMobID(), coord ) )
+        {
+          //g.set(coord, 'M');
           ++mobCount;
+        }
       }
     }
   }
 
   cc::log("Spawned %d mobs in %u rooms.", mobCount, (unsigned)_dungeon->rooms.size());
+  //cc::log("%s", g.toStr().c_str());
 }
 
 bool SpawnBuilder::addActorSpawn(int id, int y, int x)

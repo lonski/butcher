@@ -38,6 +38,9 @@ table LevelData {
 	room_split_percent:int;
 	generation_params:[CAGenerationParams];
 
+	//Spawn settings
+	max_mob_density:int; //max mob in room = floor_count / max_mob_density
+	mob_spawn_chance:int;
 }
 
 table MobIntroductionData {

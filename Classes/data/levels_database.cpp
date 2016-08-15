@@ -30,7 +30,7 @@ bool LevelDatabase::load(const std::string &fn)
   _levels = levelsData->levels();
   _mobIntroduction.clear();
 
-  for(int i = 0; i < levelsData->mobs_introduction()->size(); ++i)
+  for(unsigned i = 0; i < levelsData->mobs_introduction()->size(); ++i)
   {
     const MobIntroductionData* mi = levelsData->mobs_introduction()->Get(i);
     _mobIntroduction.insert(

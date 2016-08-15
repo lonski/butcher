@@ -22,6 +22,33 @@ int Rect::getAreaSize() const
   return width * height;
 }
 
+int Rect::getFloorSize(const Grid& gridPlacedOn) const
+{
+  int floors = 0;
+
+  for (int y = coord.y - 1; y < coord.y + height + 1; ++y)
+    for (int x = coord.x - 1; x < coord.x + width + 1; ++x)
+      if ( gridPlacedOn.get(x,y) == Tiles::FLOOR )
+        ++floors;
+
+  return floors;
+}
+
+cocos2d::Vec2 Rect::getRandomFloorCoord(const Grid &gridPlacedOn) const
+{
+  cc::Vec2 coord = cc::Vec2::ZERO;
+
+  int tries = 50;
+  while ( coord == cc::Vec2::ZERO && tries-- )
+  {
+    cc::Vec2 randomCoord = getRandomCoord();
+    if ( gridPlacedOn.get(randomCoord) == Tiles::FLOOR )
+      coord = randomCoord;
+  }
+
+  return coord;
+}
+
 bool Rect::place(Grid &grid, char c)
 {
   if (coord.x < 1 || coord.y < 1 || coord.x + width > grid.width - 1 || coord.y + height > grid.height - 1)

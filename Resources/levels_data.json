@@ -51,6 +51,9 @@
 	  width: 50,
 	  height: 50,
 
+	  max_mob_density: 10,
+	  mob_spawn_chance: 50,
+
 	  wall_percent: 40,
 	  room_split_percent: 20,
 	  generation_params: [
@@ -75,8 +78,13 @@
       depth: [3,100],
       map_template: "dungeons/empty_dungeon.tmx",
       generator: 1,
+
 	  width: 50,
 	  height: 50,
+
+	  max_mob_density: 10,
+	  mob_spawn_chance: 50,
+
 	  min_room_size: 4,
 	  max_room_size: 8,
 	  max_features: 100,

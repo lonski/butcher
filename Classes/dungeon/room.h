@@ -13,6 +13,8 @@ struct Rect
   cocos2d::Vec2 getCenter() const;
   cocos2d::Vec2 getRandomCoord(int margin = 1) const;
   int getAreaSize() const;
+  int getFloorSize(const Grid& gridPlacedOn) const;
+  cocos2d::Vec2 getRandomFloorCoord(const Grid& gridPlacedOn) const;
 
   bool place(Grid& grid, char c);
 

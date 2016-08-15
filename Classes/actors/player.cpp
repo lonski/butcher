@@ -41,7 +41,7 @@ void Player::load(const SaveData *data)
     {
       const InventoryData* item_data = inv->Get(i);
 
-      cc::log("%d %d %d", item_data->amount(), item_data->item_id(), item_data->equipped());
+      //cc::log("%d %d %d", item_data->amount(), item_data->item_id(), item_data->equipped());
       AmountedItem item;
       item.amount = item_data->amount();
       item.item = BUTCHER.actorsDatabase().createActor<Item>( (ActorID)item_data->item_id() );
@@ -165,7 +165,7 @@ int Player::getExpForNextLevel() const
 void Player::giveLevelUpBonuses()
 {
   int newCraftPoints = getCraftPointsOnLevel(getLevel());
-  getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints);
+  getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints + 20);
   setHp( getMaxHp() );
   notify(EventType::LevelUP);
 }

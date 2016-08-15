@@ -32,13 +32,31 @@
 
       drop_rules: [
         {
-          item_id: 18,
+          item_id: 20,
           chance: 99,
           amount_min: 1,
           amount_max: 2
         },
         {
-          item_id: 19,
+          item_id: 21,
+          chance: 99,
+          amount_min: 1,
+          amount_max: 2
+        },
+        {
+          item_id: 22,
+          chance: 99,
+          amount_min: 1,
+          amount_max: 2
+        },
+        {
+          item_id: 23,
+          chance: 99,
+          amount_min: 1,
+          amount_max: 2
+        },
+        {
+          item_id: 24,
           chance: 99,
           amount_min: 1,
           amount_max: 2
@@ -423,10 +441,199 @@
 
       attack : 0,
       defense : 0,
-      damage : "1d4",
+      damage : "1d4+1",
       damage_reduction : 0,
       exp: 0,
       level: 1,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 20,
+      name: "Scapula",
+      type: 2,
+      blocks: 0,
+      transparent: 1,
+      sprite_file: "images/scapula.png",
+      category: 1
+    },
+    {
+      id: 21,
+      name: "Hoof",
+      type: 2,
+      blocks: 0,
+      transparent: 1,
+      sprite_file: "images/hoof.png",
+      category: 1
+    },
+    {
+      id: 22,
+      name: "Tendon",
+      type: 2,
+      blocks: 0,
+      transparent: 1,
+      sprite_file: "images/tendon.png",
+      category: 1
+    },
+    {
+      id: 23,
+      name: "Rib",
+      type: 2,
+      blocks: 0,
+      transparent: 1,
+      sprite_file: "images/rib.png",
+      category: 1
+    },
+    {
+      id: 24,
+      name: "Skin",
+      type: 2,
+      blocks: 0,
+      transparent: 1,
+      sprite_file: "images/skin.png",
+      category: 1
+    },
+    {
+      id: 25,
+      name: "Bone Knife",
+      type: 2,
+      sprite_file: "images/knife.png",
+
+      attack : 1,
+      defense : 0,
+      damage : "1d3",
+      damage_reduction : 0,
+      exp: 0,
+      level: 1,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 26,
+      name: "Bone Staff",
+      type: 2,
+      sprite_file: "images/staff.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d6+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 4,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 27,
+      name: "Rib Ripper",
+      type: 2,
+      sprite_file: "images/rib_ripper.png",
+
+      attack : 1,
+      defense : 0,
+      damage : "1d4+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 4,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 28,
+      name: "Bone Spear",
+      type: 2,
+      sprite_file: "images/spear.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d8+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 8,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 29,
+      name: "Bone Nunchaku",
+      type: 2,
+      sprite_file: "images/nunchaku.png",
+
+      attack : 2,
+      defense : 0,
+      damage : "1d6",
+      damage_reduction : 0,
+      exp: 0,
+      level: 8,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 30,
+      name: "Bone Scythe",
+      type: 2,
+      sprite_file: "images/scythe.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d10+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 12,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 31,
+      name: "Bone Flail",
+      type: 2,
+      sprite_file: "images/flail.png",
+
+      attack : 1,
+      defense : 0,
+      damage : "1d8+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 12,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 32,
+      name: "Bone Battle Axe",
+      type: 2,
+      sprite_file: "images/battle_axe.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d12+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 16,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2
+    },
+    {
+      id: 33,
+      name: "Scapula Axe",
+      type: 2,
+      sprite_file: "images/scapula_axe.png",
+
+      attack : 2,
+      defense : 0,
+      damage : "1d8+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 16,
       break_chance: 1000,
       body_slot: 1,
       category: 2

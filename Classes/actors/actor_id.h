@@ -6,12 +6,12 @@ namespace butcher {
 enum class ActorID
 {
   INVALID = 0,
-  PLAYER,
-  COW,
-  STAIRS_DOWN,
-  STAIRS_UP,
-  MEAT,
-  BONE,
+  PLAYER  = 1,
+  COW     = 2,
+  STAIRS_DOWN = 3,
+  STAIRS_UP   = 4,
+  MEAT = 5,
+  BONE = 6,
   DUNGEON_DOOR,
   COW_SQUIRE,
   COW_COOK,
@@ -24,7 +24,21 @@ enum class ActorID
   CALF,
   COW_WORKER,
   BONE_DAGGER,
-  BONE_CLUB
+  BONE_CLUB = 19,
+  SCAPULA = 20,
+  HOOF    = 21,
+  TENDON  = 22,
+  RIB     = 23,
+  SKIN    = 24,
+  BONE_KNIFE = 25,
+  BONE_STAFF = 26,
+  RIB_RIPPER = 27,
+  SPEAR      = 28,
+  NUNCHAKU   = 29,
+  SCYTHE     = 30,
+  FLAIL      = 31,
+  BATTLE_AXE = 32,
+  SCAPULA_AXE = 33
 };
 
 }
