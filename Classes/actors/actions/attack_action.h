@@ -10,7 +10,7 @@ class AttackAction : public ActorAction
 {
 public:
   AttackAction(Target target);
-  virtual bool perform(std::shared_ptr<Actor> performer) const;
+  virtual bool perform(std::shared_ptr<Actor> performer);
 
 private:
   Target _target;

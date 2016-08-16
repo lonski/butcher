@@ -39,6 +39,8 @@ table ActorData {
 	break_chance:int;
 	body_slot:int;
 	category:int;
+	range:int;
+	ammo_id:int;
 
 	drop_rules:[DropRuleData];
 

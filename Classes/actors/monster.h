@@ -21,12 +21,15 @@ public:
   virtual void onDestroy(std::shared_ptr<Actor> destroyer);
   virtual void setHp(int hp);
 
+  virtual bool canShootAt(cocos2d::Vec2 coord);
+
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);
 
 private:
   std::unique_ptr<Ai> _ai;
   std::vector<DropRule> _dropRules;
+  int _range;
 
   cocos2d::ui::LoadingBar* _hpBar;
 

@@ -637,6 +637,24 @@
       break_chance: 1000,
       body_slot: 1,
       category: 2
+    },
+    {
+      id: 34,
+      name: "Bone Sling",
+      type: 2,
+      sprite_file: "images/bone_dagger.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d3",
+      damage_reduction : 0,
+      exp: 0,
+      level: 1,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2,
+      range: 3,
+      ammo_id: 21
     }
   ]
 }

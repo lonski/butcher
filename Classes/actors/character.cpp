@@ -79,7 +79,7 @@ int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
   fadeText( "-" + cocos2d::Value(dmg).asString(), cocos2d::Color4B::RED );
 
   if ( getHp() <= 0 )
-    performAction( DieAction(attacker) );
+    performAction( new DieAction(attacker) );
 
   return dmg;
 }
@@ -92,6 +92,11 @@ Damage Character::getDamage()
 void Character::setDamage(const Damage &damage)
 {
   _damage = damage;
+}
+
+bool Character::canShootAt(cocos2d::Vec2)
+{
+  return false;
 }
 
 int Character::getMaxHp() const

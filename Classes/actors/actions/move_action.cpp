@@ -16,7 +16,7 @@ MoveAction::MoveAction(Direction::Symbol direction)
 
 }
 
-bool MoveAction::perform(std::shared_ptr<Actor> actor) const
+bool MoveAction::perform(std::shared_ptr<Actor> actor)
 {
   if ( _direction == Direction::None )
     return false;

@@ -394,7 +394,7 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
       {
         AmountedItem i = item;
         i.amount = 1;
-        if ( _player->performAction( EquipAction(i) ) )
+        if ( _player->performAction( new EquipAction(i) ) )
         {
           _player->getInventory().removeItem(i);
           _bottomPanel->removeChild(layout);

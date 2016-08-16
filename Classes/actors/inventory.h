@@ -23,6 +23,7 @@ public:
   bool addItem(std::shared_ptr<Item> item, int amount = 1);
   bool addItem(const AmountedItem& i);
   bool removeItem(const AmountedItem& i);
+  bool removeItem(ActorID id, int amount);
 
   AmountedItem getItem(ActorID id);
   ItemContainer getItems() const;
@@ -31,7 +32,6 @@ public:
   bool equip(const AmountedItem& i);
   AmountedItem equipped(ItemSlotType slot);
   AmountedItem unequip(ItemSlotType slot);
-
 
 private:
   ItemContainer _items;

@@ -140,9 +140,21 @@ void Actor::setSpriteTexture(const std::string &fn)
   _sprite->setTexture(fn);
 }
 
-bool Actor::performAction(const ActorAction& action)
+bool Actor::performAction(std::shared_ptr<ActorAction> action)
 {
-  return action.perform( shared_from_this() );
+  if ( !action )
+    return false;
+
+  return action->perform( shared_from_this() );
+}
+
+bool Actor::performAction(ActorAction *action)
+{
+  if ( !action )
+    return false;
+
+  std::unique_ptr<ActorAction> a_ptr(action);
+  return action->perform( shared_from_this() );
 }
 
 void Actor::onCollide(std::shared_ptr<Actor>)

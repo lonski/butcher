@@ -15,7 +15,7 @@ public:
   EquipAction(std::shared_ptr<Item> item);
   EquipAction(const AmountedItem& amountedItem);
 
-  virtual bool perform(std::shared_ptr<Actor> equipper) const;
+  virtual bool perform(std::shared_ptr<Actor> equipper);
 
 private:
  AmountedItem _item;

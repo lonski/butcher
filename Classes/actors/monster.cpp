@@ -10,6 +10,7 @@ namespace butcher {
 Monster::Monster(const ActorData* data)
   : Character(data)
   , _hpBar(nullptr)
+  , _range(0)
 {
   if ( data )
   {
@@ -19,6 +20,8 @@ Monster::Monster(const ActorData* data)
         _dropRules.push_back( DropRule(dropRules->Get(i)) );
     else
       cc::log("no drop rules for %s", data->name()->c_str());
+
+    _range = data->range();
   }
 }
 
@@ -29,6 +32,7 @@ std::unique_ptr<Actor> Monster::clone(std::unique_ptr<Actor> allocated)
     p = new Monster(nullptr);
 
   p->_dropRules = _dropRules;
+  p->_range = _range;
 
   return std::move( Character::clone(std::unique_ptr<Actor>{p}) );
 }
@@ -50,7 +54,7 @@ void Monster::onDestroy(std::shared_ptr<Actor> destroyer)
       AmountedItem item( std::shared_ptr<Item>( BUTCHER.actorsDatabase().createActor<Item>(drop.itemId) ),
                     cc::RandomHelper::random_int(drop.amountMin, drop.amountMax) );
 
-      destroyer->performAction( PickUpAction(item) );
+      destroyer->performAction( new PickUpAction(item) );
     }
   }
 
@@ -63,6 +67,19 @@ void Monster::setHp(int hp)
 
   if ( _hpBar )
     _hpBar->setPercent((float)getHp() / (float)getMaxHp() * 100);
+}
+
+bool Monster::canShootAt(cocos2d::Vec2 coord)
+{
+  if ( _range <= 0 )
+    return false;
+
+  //Is in range?
+  float distance = calculateDistance(getTileCoord(), coord);
+  if ( distance > static_cast<float>(_range) )
+    return false;
+
+  return true;
 }
 
 void Monster::setSprite(cocos2d::Sprite *sprite)

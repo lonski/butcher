@@ -19,6 +19,11 @@ Target::Target(std::shared_ptr<Actor> actor)
   }
 }
 
+Target::Target(cocos2d::Vec2 coord)
+  : pos(coord)
+{
+}
+
 std::shared_ptr<Actor> Target::first() const
 {
   if ( actors.empty() )

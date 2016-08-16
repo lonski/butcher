@@ -32,6 +32,8 @@ public:
   std::vector<std::string> getItemInfo();
 
   ItemCategory getCategory() const;
+  int getRange() const;
+  ActorID getAmmoId() const;
 
 private:
   ItemSlotType _slot;
@@ -40,6 +42,8 @@ private:
   int _breakChance;
   int _level;
   ItemCategory _category;
+  int _range;
+  ActorID _ammoId;
 
 };
 

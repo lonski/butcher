@@ -38,7 +38,8 @@ enum class ActorID
   SCYTHE     = 30,
   FLAIL      = 31,
   BATTLE_AXE = 32,
-  SCAPULA_AXE = 33
+  SCAPULA_AXE = 33,
+  BONE_SLING  = 34
 };
 
 }

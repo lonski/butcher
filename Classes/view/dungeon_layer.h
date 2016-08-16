@@ -2,6 +2,8 @@
 #define DUNGEONSCENE_H
 
 #include "cocos2d.h"
+#include <utils/directions.h>
+#include <utils/target.h>
 #include <memory>
 
 namespace butcher {
@@ -35,7 +37,9 @@ private:
     cocos2d::Vec2 _viewPoint;
 
     void setViewPointCenter(cocos2d::Vec2 position);
-
+    cocos2d::Vec2 getTouchCoord(cocos2d::Touch* touch);
+    Direction::Symbol getTouchDirection(cocos2d::Vec2 touchCoord);
+    Target getTouchTarget(cocos2d::Vec2 touchCoord);
 };
 
 }

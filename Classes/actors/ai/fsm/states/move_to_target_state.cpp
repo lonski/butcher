@@ -42,7 +42,7 @@ void MoveToTarget::update()
     {
       path.walk();
       Direction::Symbol d = Direction::fromPosition(path.walk() - myPos);
-      me->performAction( MoveAction(d) );
+      me->performAction( new MoveAction(d) );
     }
     else
     {

@@ -13,6 +13,7 @@ struct Target
 {
   Target();
   Target(std::shared_ptr<Actor> actor);
+  Target(cocos2d::Vec2 coord);
 
   std::shared_ptr<Actor> first() const;
   bool isEmpty() const;

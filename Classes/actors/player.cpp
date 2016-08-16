@@ -1,11 +1,13 @@
 #include "player.h"
 #include <actors/monster.h>
 #include <actors/actions/attack_action.h>
+#include <actors/actions/shot_action.h>
 #include <actors/object.h>
 #include <actors/instances/door.h>
 #include <butcher.h>
 #include <cmath>
 #include "cocos2d.h"
+#include <utils/utils.h>
 
 namespace cc = cocos2d;
 
@@ -70,7 +72,10 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
   std::shared_ptr<Monster> mob = std::dynamic_pointer_cast<Monster>(obstacle);
   if ( mob )
   {
-    performAction( AttackAction(Target(mob)) );
+    if ( isUsingRangedWeapon() )
+      performAction( new ShotAction(Target(mob)) );
+    else
+      performAction( new AttackAction(Target(mob)) );
   }
 
   std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(obstacle);
@@ -92,6 +97,7 @@ void Player::onHit(std::shared_ptr<Character>)
   {
     getInventory().unequip(ItemSlotType::WEAPON);
     fadeText("Weapon cracked!", cc::Color4B::RED);
+    notify(EventType::WeaponCracked);
   }
 }
 
@@ -165,9 +171,46 @@ int Player::getExpForNextLevel() const
 void Player::giveLevelUpBonuses()
 {
   int newCraftPoints = getCraftPointsOnLevel(getLevel());
-  getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints + 20);
+  getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints);
   setHp( getMaxHp() );
   notify(EventType::LevelUP);
+}
+
+bool Player::canShootAt(cocos2d::Vec2 coord)
+{
+  AmountedItem i = getInventory().equipped(ItemSlotType::WEAPON);
+
+  if ( !isUsingRangedWeapon() )
+    return false;
+
+  //Is in range?
+  int weaponRange = i.item->getRange();
+  float distance = calculateDistance(getTileCoord(), coord);
+  if ( distance > static_cast<float>(weaponRange + 1) )
+    return false;
+
+  //Has ammo?
+  ActorID ammoId = i.item->getAmmoId();
+  int ammoAmount = getInventory().getItem(ammoId).amount;
+  if ( ammoAmount <= 0 )
+    return false;
+
+  return true;
+}
+
+bool Player::isUsingRangedWeapon()
+{
+  AmountedItem i = getInventory().equipped(ItemSlotType::WEAPON);
+
+  //Valid item?
+  if ( !i.item || i.amount <= 0 )
+    return false;
+
+  //Is ranged?
+  if ( i.item->getRange() <= 0 )
+    return false;
+
+  return true;
 }
 
 CraftBook& Player::getCraftbook()

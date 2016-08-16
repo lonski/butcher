@@ -72,19 +72,22 @@ bool Inventory::removeItem(const AmountedItem &i)
     return false;
   }
 
-  if ( i.amount == 0 )
-  {
-    return false;
-  }
+  return removeItem(i.item->getID(), i.amount);
+}
 
-  auto it = _items.find(i.item->getID());
+bool Inventory::removeItem(ActorID id, int amount)
+{
+  if ( amount == 0 )
+    return false;
+
+  auto it = _items.find(id);
 
   if ( it == _items.end() )
     return false;
 
   AmountedItem& my_item = it->second;
-  if ( my_item.amount > i.amount )
-    my_item.amount -= i.amount;
+  if ( my_item.amount > amount )
+    my_item.amount -= amount;
   else
     _items.erase(it);
 

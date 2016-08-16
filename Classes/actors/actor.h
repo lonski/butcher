@@ -44,7 +44,8 @@ public:
   std::unique_ptr<cocos2d::Sprite>& getSprite();
   void setSpriteTexture(const std::string& fn);
 
-  virtual bool performAction(const ActorAction& action);
+  virtual bool performAction(std::shared_ptr<ActorAction> action);
+  virtual bool performAction(ActorAction* action);
   virtual void nextTurn();
 
   /**

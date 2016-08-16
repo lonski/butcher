@@ -16,7 +16,7 @@ PickUpAction::PickUpAction(const AmountedItem &amountedItem)
 {
 }
 
-bool PickUpAction::perform(std::shared_ptr<Actor> pickuper) const
+bool PickUpAction::perform(std::shared_ptr<Actor> pickuper)
 {
   //currently only player holds inventory
   std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(pickuper);

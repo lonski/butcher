@@ -13,7 +13,7 @@ class MoveAction : public ActorAction
 {
 public:
   MoveAction(Direction::Symbol direction);
-  virtual bool perform(std::shared_ptr<Actor> actor) const;
+  virtual bool perform(std::shared_ptr<Actor> actor);
 
 private:
   DungeonState* _state;

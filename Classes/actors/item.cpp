@@ -12,6 +12,7 @@ Item::Item(const ActorData* data)
   , _slot(ItemSlotType::NONE)
   , _breakChance(0)
   , _category(ItemCategory::None)
+  , _range(0)
 {
   if ( data )
   {
@@ -32,6 +33,8 @@ Item::Item(const ActorData* data)
     _breakChance = data->break_chance();
     _level = data->level();
     _category = static_cast<ItemCategory>(data->category());
+    _range = data->range();
+    _ammoId = static_cast<ActorID>(data->ammo_id());
   }
 }
 
@@ -52,6 +55,8 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   o->_breakChance = _breakChance;
   o->_level = _level;
   o->_category = _category;
+  o->_range = _range;
+  o->_ammoId = _ammoId;
 
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
@@ -105,6 +110,9 @@ std::vector<std::string> Item::getItemInfo()
   if ( _damage.toInt() != 0 )
     info.push_back("Damage: " + _damage.toString());
 
+  if ( _range > 0 )
+    info.push_back("Range: " + toStr(_range));
+
   for ( auto a : AttributeType() )
   {
     int val = getAttribute(a);
@@ -118,6 +126,16 @@ std::vector<std::string> Item::getItemInfo()
 ItemCategory Item::getCategory() const
 {
   return _category;
+}
+
+int Item::getRange() const
+{
+  return _range;
+}
+
+ActorID Item::getAmmoId() const
+{
+  return _ammoId;
 }
 
 }

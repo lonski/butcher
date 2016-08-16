@@ -14,7 +14,7 @@ EquipAction::EquipAction(const AmountedItem &amountedItem)
 {
 }
 
-bool EquipAction::perform(std::shared_ptr<Actor> equipper) const
+bool EquipAction::perform(std::shared_ptr<Actor> equipper)
 {
   std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(equipper);
 

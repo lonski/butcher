@@ -37,6 +37,8 @@ public:
     virtual Damage getDamage();
     virtual void setDamage(const Damage &damage);
 
+    virtual bool canShootAt(cocos2d::Vec2 coord);
+
 protected:
     int _level;
     int _exp;

@@ -2,8 +2,8 @@
 #include <butcher.h>
 #include <actors/player.h>
 #include <dungeon/dungeon_state.h>
-#include <utils/directions.h>
 #include <actors/actions/move_action.h>
+#include <actors/actions/shot_action.h>
 #include <utils/utils.h>
 
 namespace cc = cocos2d;
@@ -81,23 +81,55 @@ bool DungeonLayer::onTouchBegan(cc::Touch*, cc::Event*)
 
 void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 {
-  cc::Vec2 touchLocation = touch->getLocationInView();
-  touchLocation = cc::Director::getInstance()->convertToGL(touchLocation);
-  touchLocation = this->convertToNodeSpace(touchLocation);
+  auto player = BUTCHER.getPlayer();
 
-  cc::Vec2 diff = positionToTileCoord(_state->map(), touchLocation) - BUTCHER.getPlayer()->getTileCoord();
-  Direction::Symbol direction = Direction::fromPosition(diff);
+  cc::Vec2 touchCoord = getTouchCoord(touch);
+  Direction::Symbol direction = getTouchDirection(touchCoord);
+  Target target = getTouchTarget(touchCoord);
 
   if ( direction != Direction::None )
   {
-    if ( BUTCHER.getPlayer()->performAction(MoveAction(direction)) )
+    if ( target.actors.empty() || !player->performAction(new ShotAction(target)) )
     {
-      this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
-      BUTCHER.getPlayer()->notify(EventType::Moved);
+      if ( player->performAction(new MoveAction(direction)) )
+      {
+        this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
+        BUTCHER.getPlayer()->notify(EventType::Moved);
+      }
     }
 
     BUTCHER.nextTurn();
   }
+}
+
+Target DungeonLayer::getTouchTarget(cc::Vec2 touchCoord)
+{
+  auto characterOnTile = _state->getActorsAt(touchCoord, [](std::shared_ptr<Actor> a){
+    return std::dynamic_pointer_cast<Character>(a) != nullptr;
+  });
+
+  Target target(touchCoord);
+  target.actors = characterOnTile;
+
+  return target;
+}
+
+cocos2d::Vec2 DungeonLayer::getTouchCoord(cc::Touch* touch)
+{
+  cc::Vec2 touchLocation = touch->getLocationInView();
+  touchLocation = cc::Director::getInstance()->convertToGL(touchLocation);
+  touchLocation = this->convertToNodeSpace(touchLocation);
+  cc::Vec2 touchCoord = positionToTileCoord(_state->map(), touchLocation);
+
+  return touchCoord;
+}
+
+Direction::Symbol DungeonLayer::getTouchDirection(cc::Vec2 touchCoord)
+{
+  cc::Vec2 diff = touchCoord - BUTCHER.getPlayer()->getTileCoord();
+  Direction::Symbol direction = Direction::fromPosition(diff);
+
+  return direction;
 }
 
 void DungeonLayer::setViewPointCenter(cc::Vec2 position)

@@ -250,6 +250,10 @@ void HudLayer::onNotify(Subject *subject, EventType event)
       if ( _minimapSprite )
         updateMinimap();
     }
+    else if ( event == EventType::WeaponCracked )
+    {
+      showMessage({"Weapon cracked!"}, cc::Color4B::RED, this);
+    }
   }
 }
 

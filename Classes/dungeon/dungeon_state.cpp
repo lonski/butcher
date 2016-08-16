@@ -176,12 +176,12 @@ void DungeonState::addActor(ActorID id, cc::Vec2 coord)
   }
 }
 
-std::vector<std::shared_ptr<Actor> > DungeonState::getActorsAt(cocos2d::Vec2 coord)
+std::vector<std::shared_ptr<Actor> > DungeonState::getActorsAt(cocos2d::Vec2 coord, std::function<bool(std::shared_ptr<Actor>)> filterFn)
 {
   std::vector<std::shared_ptr<Actor> > actors;
 
   for ( auto a : _actors )
-    if ( a->getTileCoord() == coord )
+    if ( a->getTileCoord() == coord && filterFn(a) )
       actors.push_back(a);
 
   return actors;
