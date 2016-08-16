@@ -38,6 +38,8 @@ static std::string toStr(const T& t)
   return os.str();
 }
 
+float tangens(cocos2d::Vec2 p1, cocos2d::Vec2 p2);
+
 }
 
 #endif // UTILS_H

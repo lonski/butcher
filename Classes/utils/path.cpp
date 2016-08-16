@@ -1,5 +1,6 @@
 #include "path.h"
 #include <utils/directions.h>
+#include <utils/utils.h>
 
 namespace cc = cocos2d;
 
@@ -124,6 +125,67 @@ std::set<cocos2d::Vec2> Path::getNeighbours(cocos2d::Vec2 pos)
   }
 
   return nb;
+}
+
+DirectPath::DirectPath()
+  : _tg(0.f)
+{
+}
+
+bool DirectPath::calculate(cocos2d::Vec2 start, cocos2d::Vec2 goal, std::function<bool (cocos2d::Vec2)> is_blocked_fun, bool clearOnFail)
+{
+  bool r = true;
+
+  _blockedFun = is_blocked_fun;
+  _path.clear();
+  _tg = tangens(start, goal);
+
+  cc::Vec2 current = start;
+  _path.push_back(current);
+
+  while ( current != goal )
+  {
+    current = calculateNextPoint(current, goal);
+
+    bool blocked = _blockedFun(current);
+    if ( !blocked || current == goal )
+    {
+      _path.push_back(current);
+    }
+    else if ( blocked )
+    {
+      r = false;
+      if ( clearOnFail )
+        _path.clear();
+      break;
+    }
+  }
+
+  return r;
+}
+
+cocos2d::Vec2 DirectPath::calculateNextPoint(cc::Vec2 previous, cocos2d::Vec2 end)
+{
+  cc::Vec2 dp = end - previous;
+  cc::Vec2 next = previous;
+
+  if ( dp != cc::Vec2::ZERO && std::abs(dp.y) > std::abs(dp.x) )
+  {
+    if( dp.y != 0) dp.y > 0 ? ++next.y : --next.y;
+    next.x += ((int)(next.y / _tg) - (int)(previous.y / _tg));
+  }
+  else if ( dp != cc::Vec2::ZERO  && std::abs(dp.y) < std::abs(dp.x) )
+  {
+    if( dp.x != 0) dp.x > 0 ? ++next.x : --next.x;
+    next.y += ((int)(next.x * _tg) - (int)(previous.x * _tg));
+  }
+  else
+  {
+    if( dp.x != 0) dp.x > 0 ? ++next.x : --next.x;
+    if( dp.y != 0) dp.y > 0 ? ++next.y : --next.y;
+  }
+
+  return next;
 }
 
 

@@ -243,4 +243,10 @@ void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> y
   parent->addChild(layout, 666);
 }
 
+float tangens(cocos2d::Vec2 p1, cocos2d::Vec2 p2)
+{
+  cc::Vec2 dp = p2 - p1;
+  return dp.x != 0 ? dp.y/dp.x : 0.0f;
+}
+
 }
