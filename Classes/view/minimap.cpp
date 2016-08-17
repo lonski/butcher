@@ -48,6 +48,18 @@ void Minimap::allocateTiles()
     }
     _tiles.push_back(row);
   }
+
+  _objects.clear();
+
+  for ( int y = 0; y < _height; ++y )
+  {
+    std::vector<cc::Sprite*> row;
+    for ( int x = 0; x < _width; ++x )
+    {
+      row.push_back( nullptr );
+    }
+    _objects.push_back(row);
+  }
 }
 
 cocos2d::Sprite *Minimap::createTile(const std::string& fn)
@@ -68,6 +80,23 @@ cocos2d::Sprite *Minimap::createTile(const std::string& fn)
   return tile;
 }
 
+void Minimap::putObject(ActorID id)
+{
+  auto objVector = _dungeon->getActors([id](std::shared_ptr<Actor> a){
+     return a->getID() == id;
+  });
+  if ( !objVector.empty() )
+  {
+    auto objActor = objVector.front();
+    auto objCoord = objActor->getTileCoord();
+    auto tile = createTile(objActor->getSprite()->getResourceName());
+    tile->setPosition(objCoord.x*_tileSize, _sprite->getContentSize().height - objCoord.y*_tileSize);
+    tile->setVisible(false);
+    _sprite->addChild(tile,666);
+    _objects[objCoord.y][objCoord.x] = tile;
+  }
+}
+
 cocos2d::Node *Minimap::generate()
 {
   _sprite = new cc::Sprite();
@@ -76,6 +105,9 @@ cocos2d::Node *Minimap::generate()
 
   _playerSprite = createTile("images/minimap_player.png");
   _sprite->addChild(_playerSprite);
+
+  putObject(ActorID::STAIRS_DOWN);
+  putObject(ActorID::STAIRS_UP);
 
   for ( int y = 0; y < _height; ++y )
   {
@@ -119,6 +151,9 @@ cocos2d::Node* Minimap::update()
         if ( _dungeon->isVisited(x,y) )
         {
           tile->setVisible(true);
+          auto object = _objects[y][x];
+          if ( object )
+            object->setVisible(true);
         }
       }
     }

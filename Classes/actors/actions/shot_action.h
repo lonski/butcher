@@ -3,8 +3,11 @@
 
 #include <actors/actions/actor_action.h>
 #include <utils/target.h>
+#include <actors/actor_id.h>
 
 namespace butcher {
+
+class Character;
 
 class ShotAction : public ActorAction
 {
@@ -18,7 +21,9 @@ private:
 
   bool takeAmmo();
   bool hasAmmo();
+  ActorID getAmmoId();
 
+  void runAnimation(std::shared_ptr<Character> shotter, cocos2d::Vec2 shotTarget);
 };
 
 }

@@ -39,7 +39,9 @@ enum class ActorID
   FLAIL      = 31,
   BATTLE_AXE = 32,
   SCAPULA_AXE = 33,
-  BONE_SLING  = 34
+  BONE_SLING  = 34,
+  RIB_BOW     = 35,
+  SHORT_BONE_BOW = 36
 };
 
 }

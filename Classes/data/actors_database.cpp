@@ -8,6 +8,13 @@ ActorDatabase::ActorDatabase()
 {
 }
 
+std::string ActorDatabase::getName(ActorID id)
+{
+  auto it = _actorTemplates.find(id);
+  return it == _actorTemplates.end() ? ""
+                                     : it->second->getName();
+}
+
 bool ActorDatabase::load(const std::string &fn)
 {
   cc::Data file_data = cc::FileUtils::getInstance()->getDataFromFile(fn);

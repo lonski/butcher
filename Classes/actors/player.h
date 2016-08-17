@@ -36,12 +36,12 @@ public:
   void giveLevelUpBonuses();
 
   virtual bool canShootAt(cocos2d::Vec2 coord);
+  bool isUsingRangedWeapon();
 
 private:
   Inventory _inventory;
   CraftBook _craftbook;
 
-  bool isUsingRangedWeapon();
 
 };
 

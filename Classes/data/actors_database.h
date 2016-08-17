@@ -15,6 +15,8 @@ class ActorDatabase
 {
 public:
   ActorDatabase();
+
+  std::string getName(ActorID id);
   bool load(const std::string& fn);
 
   template<typename T>

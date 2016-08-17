@@ -5,6 +5,7 @@
 #include <actors/actions/move_action.h>
 #include <actors/actions/shot_action.h>
 #include <utils/utils.h>
+#include <utils/path.h>
 
 namespace cc = cocos2d;
 

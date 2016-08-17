@@ -614,7 +614,7 @@
 
       attack : 0,
       defense : 0,
-      damage : "1d12+1",
+      damage : "1d12+2",
       damage_reduction : 0,
       exp: 0,
       level: 16,
@@ -630,7 +630,7 @@
 
       attack : 2,
       defense : 0,
-      damage : "1d8+1",
+      damage : "1d10+1",
       damage_reduction : 0,
       exp: 0,
       level: 16,
@@ -642,7 +642,7 @@
       id: 34,
       name: "Bone Sling",
       type: 2,
-      sprite_file: "images/bone_dagger.png",
+      sprite_file: "images/sling.png",
 
       attack : 0,
       defense : 0,
@@ -653,8 +653,80 @@
       break_chance: 1000,
       body_slot: 1,
       category: 2,
-      range: 3,
+      range: 2,
       ammo_id: 21
+    },
+    {
+      id: 35,
+      name: "Rib Bow",
+      type: 2,
+      sprite_file: "images/rib_bow.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d4+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 4,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2,
+      range: 3,
+      ammo_id: 6
+    },
+    {
+      id: 36,
+      name: "Short Bone Bow",
+      type: 2,
+      sprite_file: "images/short_bone_bow.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d6+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 8,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2,
+      range: 4,
+      ammo_id: 6
+    },
+    {
+      id: 37,
+      name: "Double Rib Bow",
+      type: 2,
+      sprite_file: "images/double_rib_bow.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d8+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 12,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2,
+      range: 5,
+      ammo_id: 6
+    },
+    {
+      id: 38,
+      name: "Long Bone Bow",
+      type: 2,
+      sprite_file: "images/long_bone_bow.png",
+
+      attack : 0,
+      defense : 0,
+      damage : "1d10+1",
+      damage_reduction : 0,
+      exp: 0,
+      level: 16,
+      break_chance: 1000,
+      body_slot: 1,
+      category: 2,
+      range: 6,
+      ammo_id: 6
     }
   ]
 }

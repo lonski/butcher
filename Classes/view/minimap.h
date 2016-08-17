@@ -2,6 +2,7 @@
 #define MINIMAP_H
 
 #include "cocos2d.h"
+#include <actors/actor_id.h>
 
 namespace butcher {
 
@@ -19,6 +20,7 @@ public:
 
 private:
   std::vector< std::vector<cocos2d::Sprite*> > _tiles;
+  std::vector< std::vector<cocos2d::Sprite*> > _objects;
   int _width;
   int _height;
   int _tileSize;
@@ -31,6 +33,7 @@ private:
   void allocateTiles();
   cocos2d::Sprite* createTile(const std::string& fn);
   void fillTiles();
+  void putObject(ActorID id);
 };
 
 }

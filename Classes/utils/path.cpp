@@ -147,12 +147,10 @@ bool DirectPath::calculate(cocos2d::Vec2 start, cocos2d::Vec2 goal, std::functio
   {
     current = calculateNextPoint(current, goal);
 
+    _path.push_back(current);
+
     bool blocked = _blockedFun(current);
-    if ( !blocked || current == goal )
-    {
-      _path.push_back(current);
-    }
-    else if ( blocked )
+    if ( blocked )
     {
       r = false;
       if ( clearOnFail )
@@ -162,6 +160,22 @@ bool DirectPath::calculate(cocos2d::Vec2 start, cocos2d::Vec2 goal, std::functio
   }
 
   return r;
+}
+
+cocos2d::Vec2 DirectPath::walk()
+{
+  if (empty())
+    return cc::Vec2::ZERO;
+
+  cc::Vec2 next = _path.front();
+  _path.pop_front();
+
+  return next;
+}
+
+bool DirectPath::empty() const
+{
+  return _path.empty();
 }
 
 cocos2d::Vec2 DirectPath::calculateNextPoint(cc::Vec2 previous, cocos2d::Vec2 end)

@@ -33,6 +33,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/actions/attack_action.cpp \
 ../../Classes/actors/actions/die_action.cpp \
 ../../Classes/actors/actions/pickup_action.cpp \
+../../Classes/actors/actions/shot_action.cpp \
 ../../Classes/actors/ai/ai.cpp \
 ../../Classes/actors/ai/fsm/fsm.cpp \
 ../../Classes/actors/ai/fsm/states/fsm_state.cpp \

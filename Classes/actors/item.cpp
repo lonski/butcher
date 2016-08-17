@@ -2,6 +2,8 @@
 #include <data/actors_generated.h>
 #include "cocos2d.h"
 #include <utils/utils.h>
+#include <butcher.h>
+#include <data/actors_database.h>
 
 namespace cc = cocos2d;
 
@@ -13,6 +15,7 @@ Item::Item(const ActorData* data)
   , _breakChance(0)
   , _category(ItemCategory::None)
   , _range(0)
+  , _ammoId(ActorID::INVALID)
 {
   if ( data )
   {
@@ -112,6 +115,9 @@ std::vector<std::string> Item::getItemInfo()
 
   if ( _range > 0 )
     info.push_back("Range: " + toStr(_range));
+
+  if ( _ammoId != ActorID::INVALID )
+    info.push_back( "Ammo: " + BUTCHER.actorsDatabase().getName(_ammoId) );
 
   for ( auto a : AttributeType() )
   {

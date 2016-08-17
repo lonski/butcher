@@ -259,11 +259,11 @@ void HudLayer::onNotify(Subject *subject, EventType event)
 
 void HudLayer::updateMinimap()
 {
-  Profiler p;
+  //Profiler p;
 
   _minimapSprite = _minimap.update();
 
-  p.log("updateMinimap");
+  //p.log("updateMinimap");
 }
 
 void HudLayer::showMenu(Ref *)

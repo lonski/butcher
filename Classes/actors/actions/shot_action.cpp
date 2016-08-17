@@ -1,6 +1,10 @@
 #include "shot_action.h"
 #include <actors/player.h>
 #include <actors/actions/attack_action.h>
+#include <utils/path.h>
+#include <dungeon/dungeon_state.h>
+#include <butcher.h>
+#include <data/actors_database.h>
 
 namespace cc = cocos2d;
 
@@ -30,7 +34,8 @@ bool ShotAction::perform(std::shared_ptr<Actor> performer)
 
   if ( !shotter->canShootAt(_target.pos) )
   {
-    if ( !hasAmmo())
+    std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(shotter);
+    if ( p && p->isUsingRangedWeapon() && !hasAmmo())
       shotter->fadeText("Out of ammo!", cc::Color4B::RED);
 
     return false;
@@ -47,11 +52,64 @@ bool ShotAction::perform(std::shared_ptr<Actor> performer)
   if ( !takeAmmo() )
     return false;
 
-  //TODO:
-  //check path
-  //run animation
+  cc::Vec2 shotTarget = victim->getPosition();
+
+  DungeonState* dungeon = BUTCHER.getCurrentDungeon();
+
+  DirectPath path;
+  path.calculate(shotter->getTileCoord(), _target.pos, [dungeon](cocos2d::Vec2 pos){
+    return dungeon->isBlocked(pos);
+  }, false);
+
+  if (path.empty())
+  {
+    cocos2d::log("%s: path is empty.", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  cc::Vec2 pos = cc::Vec2::ZERO;
+  while ( !path.empty() )
+  {
+    pos = path.walk();
+  }
+
+  //obstacle on the path
+  if ( pos != victim->getTileCoord() )
+  {
+    auto characterOnTile = dungeon->getActorsAt(pos, [](std::shared_ptr<Actor> a){
+      return std::dynamic_pointer_cast<Character>(a) != nullptr;
+    });
+
+    if ( !characterOnTile.empty() )
+    {
+      _target = Target(characterOnTile.front());
+      victim = std::dynamic_pointer_cast<Character>(_target.first());
+    }
+
+    shotTarget = tileCoordToPosition(dungeon->map(), _target.pos);
+  }
+
+  runAnimation(shotter, shotTarget);
 
   return performer->performAction( new AttackAction(_target));
+}
+
+void ShotAction::runAnimation(std::shared_ptr<Character> shotter, cc::Vec2 shotTarget)
+{
+  std::shared_ptr<Actor> bullet = BUTCHER.actorsDatabase().createActor<Actor>(getAmmoId());
+  if ( bullet )
+  {
+    bullet->setPosition(_performer->getPosition());
+    auto view = shotter->getSprite()->getParent();
+    if ( view )
+    {
+      auto sprite = bullet->getSprite().release();
+      sprite->setScale(0.2);
+      view->addChild(sprite);
+      sprite->runAction(
+            cc::Sequence::create(cc::MoveTo::create(0.1f, shotTarget), cc::RemoveSelf::create(), nullptr) );
+    }
+  }
 }
 
 bool ShotAction::takeAmmo()
@@ -72,18 +130,27 @@ bool ShotAction::takeAmmo()
 bool ShotAction::hasAmmo()
 {
   std::shared_ptr<Player> shotter = std::dynamic_pointer_cast<Player>(_performer);
+  if ( !shotter )
+    return true;
+
+  auto item = shotter->getInventory().getItem(getAmmoId());
+
+  return item.amount > 0;
+}
+
+ActorID ShotAction::getAmmoId()
+{
+  std::shared_ptr<Player> shotter = std::dynamic_pointer_cast<Player>(_performer);
 
   if ( !shotter )
-    return true; //only player has to use ammo
+    return ActorID::BONE; //TODO: change to arrow
 
   AmountedItem wpn = shotter->getInventory().equipped(ItemSlotType::WEAPON);
 
   if ( !wpn.item )
-    return true;
+    return ActorID::INVALID;
 
-  auto item = shotter->getInventory().getItem(wpn.item->getAmmoId());
-
-  return item.amount > 0;
+  return wpn.item->getAmmoId();
 }
 
 }

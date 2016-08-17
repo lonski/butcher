@@ -112,6 +112,29 @@
         ]
     },
     {
+        id: 6,
+        type: 1,
+        level: 2,
+        cost: 4,
+        success_chance: 90,
+        product_id: 35,
+        product_amount: 1,
+        ingridients: [
+            {
+                item_id: 22,
+                amount: 8
+            },
+            {
+                item_id: 6,
+                amount: 10
+            },
+            {
+                item_id: 24,
+                amount: 1
+            }
+        ]
+    },
+    {
         id: 7,
         type: 1,
         level: 3,
@@ -158,6 +181,33 @@
             {
                 item_id: 24,
                 amount: 2
+            }
+        ]
+    },
+    {
+        id: 9,
+        type: 1,
+        level: 3,
+        cost: 6,
+        success_chance: 90,
+        product_id: 36,
+        product_amount: 1,
+        ingridients: [
+            {
+                item_id: 6,
+                amount: 2
+            },
+            {
+                item_id: 23,
+                amount: 6
+            },
+            {
+                item_id: 22,
+                amount: 8
+            },
+            {
+                item_id: 24,
+                amount: 1
             }
         ]
     },
@@ -216,6 +266,33 @@
         ]
     },
     {
+        id: 12,
+        type: 1,
+        level: 4,
+        cost: 8,
+        success_chance: 90,
+        product_id: 37,
+        product_amount: 1,
+        ingridients: [
+            {
+                item_id: 23,
+                amount: 8
+            },
+            {
+                item_id: 6,
+                amount: 2
+            },
+            {
+                item_id: 24,
+                amount: 1
+            },
+            {
+                item_id: 22,
+                amount: 8
+            }
+        ]
+    },
+    {
         id: 13,
         type: 1,
         level: 5,
@@ -262,6 +339,33 @@
             {
                 item_id: 22,
                 amount: 2
+            },
+            {
+                item_id: 24,
+                amount: 1
+            }
+        ]
+    },
+    {
+        id: 15,
+        type: 1,
+        level: 5,
+        cost: 10,
+        success_chance: 90,
+        product_id: 38,
+        product_amount: 1,
+        ingridients: [
+            {
+                item_id: 23,
+                amount: 4
+            },
+            {
+                item_id: 6,
+                amount: 12
+            },
+            {
+                item_id: 22,
+                amount: 10
             },
             {
                 item_id: 24,

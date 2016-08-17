@@ -44,7 +44,7 @@
 
   levels: [
      {
-      depth: [1,50],
+      depth: [1,2],
       map_template: "dungeons/empty_cave.tmx",
       generator: 0,
 
@@ -52,7 +52,7 @@
 	  height: 50,
 
 	  max_mob_density: 10,
-	  mob_spawn_chance: 50,
+	  mob_spawn_chance: 30,
 
 	  wall_percent: 40,
 	  room_split_percent: 20,
