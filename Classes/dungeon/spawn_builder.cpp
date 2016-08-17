@@ -66,9 +66,11 @@ bool SpawnBuilder::addStairs()
   cc::Vec2 upStairs;
   cc::Vec2 downStairs;
 
+
   for(int i = 0; i < TRY_COUNT; ++i)
   {
-    upStairs = _dungeon->rooms.front()->getRandomCoord();
+    int randomIdx = cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1);
+    upStairs = _dungeon->rooms[randomIdx]->getRandomFloorCoord(_dungeon->grid);
 
     if ( addActorSpawn(4, upStairs ) )
     {
@@ -85,7 +87,8 @@ bool SpawnBuilder::addStairs()
     added = false;
     for(int i = 0; i < TRY_COUNT; ++i)
     {
-      downStairs = _dungeon->rooms.back()->getRandomCoord();
+      int randomIdx = cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1);
+      downStairs = _dungeon->rooms[randomIdx]->getRandomFloorCoord(_dungeon->grid);
 
       if ( addActorSpawn(3,  downStairs ) )
       {
