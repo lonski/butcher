@@ -84,6 +84,12 @@
           amount_min: 1,
           amount_max: 3,
           chance: 99
+        },
+        {
+          item_id: 25,
+          amount_min: 1,
+          amount_max: 1,
+          chance: 99
         }
       ]
     },

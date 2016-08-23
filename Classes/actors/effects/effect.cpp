@@ -6,6 +6,7 @@ namespace butcher {
 Effect::Effect(const EffectData *data)
   : _id(EffectID::None)
   , _turns(0)
+  , _onRemoveFn([](){})
 {
   if ( data )
   {
@@ -49,6 +50,16 @@ bool Effect::tick()
     return false;
 
   return --_turns <= 0;
+}
+
+void Effect::setOnRemoveFn(std::function<void ()> fn)
+{
+  _onRemoveFn = fn;
+}
+
+void Effect::onRemove()
+{
+  _onRemoveFn();
 }
 
 int Effect::getTurns() const

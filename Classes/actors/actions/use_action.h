@@ -20,6 +20,7 @@ public:
 private:
  AmountedItem _item;
  std::shared_ptr<Character> _user;
+ Effect _effect;
 
  bool useOnSelf();
  bool useOnWeapon();

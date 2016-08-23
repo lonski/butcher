@@ -88,10 +88,12 @@ public:
    */
   virtual void onHit(std::shared_ptr<Character> hit);
 
-  void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK, float speed = 0.5);
+  void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK, float speed = 0.5, bool up = true);
 
   virtual void addEffect(const Effect& effect);
   virtual void removeEffect(EffectID id);
+  virtual void removeAllEffects();
+  virtual std::vector<Effect> getEffects();
 
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);

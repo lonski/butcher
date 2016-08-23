@@ -134,13 +134,20 @@ std::vector<std::string> Item::getItemInfo()
   if ( _usable && _useTarget != UseTarget::None )
     info.push_back( "Usable (" + UseTarget2Str(_useTarget) + ")" );
 
+  for ( auto a : AttributeType() )
+  {
+    int val = getAttribute(a);
+    if ( val != 0 )
+      info.push_back(AttributeType2Str(a) + ": " + (val > 0 ? "+" : "") + toStr(val));
+  }
+
   if ( _hp > 0 || _effect != EffectID::None)
   {
     info.push_back(" ");
-    info.push_back("Effect:");
+    info.push_back("Provides effect:");
 
     if ( _hp != 0)
-      info.push_back(std::string("Hp: ") + ( _hp > 0 ? "+" : "-" ) + toStr(_hp) );
+      info.push_back(std::string("Hp: ") + ( _hp > 0 ? "+" : "" ) + toStr(_hp) );
 
     if ( _effect != EffectID::None )
     {
@@ -150,18 +157,23 @@ std::vector<std::string> Item::getItemInfo()
       {
         if ( m.attribute != AttributeType::None && m.value != 0 )
           info.push_back(
-                AttributeType2Str(m.attribute) + ": " + ( m.value > 0 ? "+" : "-" ) + toStr(m.value) + duration );
+                AttributeType2Str(m.attribute) + ": " + ( m.value > 0 ? "+" : "" ) + toStr(m.value) + duration );
         if ( m.special != SpecialModifierType::None )
           info.push_back(SpecialModifierType2Str(m.special));
       }
     }
   }
 
-  for ( auto a : AttributeType() )
+  if ( !_effects.empty() )
   {
-    int val = getAttribute(a);
-    if ( val != 0 )
-      info.push_back(AttributeType2Str(a) + ": " + (val > 0 ? "+" : "") + toStr(val));
+    info.push_back(" ");
+    info.push_back("Effects applied:");
+
+    for ( auto& kv : _effects )
+    {
+      std::string duration = kv.second.getTurns() > 0 ? " (" + toStr(kv.second.getTurns()) + " turns)" : "";
+      info.push_back(kv.second.getName() + duration);
+    }
   }
 
   return info;

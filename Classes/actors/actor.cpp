@@ -239,7 +239,7 @@ void Actor::onHit(std::shared_ptr<Character>)
 {
 }
 
-void Actor::fadeText(const std::string &text, cc::Color4B color, float speed)
+void Actor::fadeText(const std::string &text, cc::Color4B color, float speed, bool up)
 {
   if ( !getSprite() )
   {
@@ -254,7 +254,11 @@ void Actor::fadeText(const std::string &text, cc::Color4B color, float speed)
   label->setGlobalZOrder( getSprite()->getGlobalZOrder() + 3 );
   getSprite()->addChild(label, 1);
 
-  label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, size.height / 3)) );
+  if ( up )
+    label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, size.height / 3)) );
+  else
+    label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, - (size.height / 3))) );
+
   label->runAction( cc::FadeOut::create(speed) );
 }
 
@@ -265,7 +269,6 @@ void Actor::setSprite(cc::Sprite *sprite)
 
 void Actor::addEffect(const Effect& effect)
 {
-  fadeText( effect.getName(), cc::Color4B::ORANGE, 1);
   _effects[ effect.getID() ] = effect;
 }
 
@@ -275,9 +278,24 @@ void Actor::removeEffect(EffectID id)
 
   if ( it != _effects.end() )
   {
-    fadeText( it->second.getName() + " fades", cc::Color4B::ORANGE, 1);
+    it->second.onRemove();
     _effects.erase(it);
   }
+}
+
+void Actor::removeAllEffects()
+{
+  _effects.clear();
+}
+
+std::vector<Effect> Actor::getEffects()
+{
+  std::vector<Effect> effects;
+
+  for ( auto& kv : _effects )
+    effects.push_back(kv.second);
+
+  return effects;
 }
 
 }

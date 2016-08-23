@@ -309,10 +309,31 @@ void InventoryView::fillBodySlots()
         btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
           if ( type == cc::ui::Widget::TouchEventType::ENDED )
           {
-            _player->getInventory().addItem( _player->getInventory().unequip(s) );
-            fillInventoryItems();
-            fillBodySlots();
-            fillCharacterInfo();
+            auto unequipFn = [=](){
+              _player->getInventory().addItem( _player->getInventory().unequip(s) );
+              fillInventoryItems();
+              fillBodySlots();
+              fillCharacterInfo();
+            };
+
+            auto applied_effects = i.item->getEffects();
+            if ( !applied_effects.empty() )
+            {
+              std::vector<std::string> info;
+              info.push_back("Item has currently applied effects:");
+              for ( auto e : applied_effects )
+              {
+                std::string duration = e.getTurns() > 0 ? " (" + toStr(e.getTurns()) + " turns)" : "";
+                info.push_back(e.getName() + duration);
+              }
+              info.push_back(" ");
+              info.push_back("Unequipping it will remove those effects. Proceed?");
+              ask(info, this, unequipFn, [](){} );
+            }
+            else
+            {
+              unequipFn();
+            }
           }
         });
       }
@@ -347,7 +368,7 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
   destroyBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {
-      ask("Destroy " + item.item->getName() + "(s)?",this,[=](){
+      ask({"Destroy " + item.item->getName() + "(s)?"},this,[=](){
         _player->getInventory().removeItem(item);
         _bottomPanel->removeChild(layout);
         fillInventoryItems();

@@ -26,7 +26,8 @@ struct AmountedItem
 
   AmountedItem& operator=(const AmountedItem& rhs)
   {
-    item.reset( dynamic_cast<Item*>(rhs.item->clone().release()) );
+    //item.reset( dynamic_cast<Item*>(rhs.item->clone().release()) );
+    item = rhs.item;
     amount = rhs.amount;
 
     return *this;

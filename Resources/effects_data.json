@@ -14,7 +14,7 @@
     },
     {
       id:2,
-      name: "Stew of Poison",
+      name: "Slow Poison",
       turns: 10,
       sprite_file: "",
       modifiers: [

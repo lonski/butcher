@@ -151,7 +151,7 @@ void showMessage(const std::vector<std::string>& msg, cocos2d::Color4B color, co
   parent->addChild(layout);
 }
 
-void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> yesFunction, std::function<void ()> noFunction)
+void ask(const std::vector<std::string>& msg, cocos2d::Node *parent, std::function<void ()> yesFunction, std::function<void ()> noFunction)
 {
   int margin = 10;
   auto origin = cc::Director::getInstance()->getVisibleOrigin();
@@ -169,17 +169,47 @@ void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> y
 
   cc::Size size;
   size.width = margin * 2;
-  size.height = margin * 4;
+  size.height = 0;
 
-  cc::ui::Text* label= cc::ui::Text::create(msg,"fonts/Marker Felt.ttf", 18);
-  size.width += label->getBoundingBox().size.width;
-  size.height += label->getBoundingBox().size.height;
+  int labelWidth = 200;
+  int labelsHeight = 0;
+
+  //cc::ui::Text* label= cc::ui::Text::create(msg,"fonts/Marker Felt.ttf", 18);
+
+  cc::ui::Layout* textLayout = cc::ui::Layout::create();
+  textLayout->setLayoutType(cc::ui::Layout::Type::VERTICAL);
   cc::ui::LinearLayoutParameter* lpT = cc::ui::LinearLayoutParameter::create();
   lpT->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
   lpT->setMargin(cc::ui::Margin(margin, margin, margin, margin));
-  label->setLayoutParameter(lpT);
+  textLayout->setLayoutParameter(lpT);
 
-  layout->addChild(label);
+  cc::ui::LinearLayoutParameter* lpLabel = cc::ui::LinearLayoutParameter::create();
+  lpLabel->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
+
+  for ( auto s : msg )
+  {
+    cc::ui::Text* label = cc::ui::Text::create(s,"fonts/Marker Felt.ttf",18);
+    label->setTextColor(cc::Color4B::WHITE);
+    label->setLayoutParameter(lpLabel);
+    labelWidth = std::max( labelWidth, (int)label->getBoundingBox().size.width);
+    labelsHeight += label->getBoundingBox().size.height;
+    textLayout->addChild(label);
+  }
+
+  size.width += labelWidth + 2*margin;
+  size.height += labelsHeight;
+
+  textLayout->setContentSize(size);
+//  textLayout->setBackGroundColor(cc::Color3B::GREEN);
+//  textLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
+  layout->addChild(textLayout);
+
+//  cc::ui::LinearLayoutParameter* lpT = cc::ui::LinearLayoutParameter::create();
+//  lpT->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
+//  lpT->setMargin(cc::ui::Margin(margin, margin, margin, margin));
+//  label->setLayoutParameter(lpT);
+
+//  layout->addChild(label);
 
   cc::ui::Button* yesBtn = cc::ui::Button::create();
   yesBtn->setTitleText("Yes");
@@ -230,7 +260,7 @@ void ask(const std::string &msg, cocos2d::Node *parent, std::function<void ()> y
 //  btnLayout->setBackGroundColorType(cc::ui::Layout::BackGroundColorType::SOLID);
 
 
-  size.height += noBtn->getContentSize().height;
+  size.height += noBtn->getContentSize().height + margin * 4;
   size.width = std::max( size.width,  noBtn->getContentSize().width*2 + 5*margin);
   layout->addChild(btnLayout);
   layout->setContentSize(size);

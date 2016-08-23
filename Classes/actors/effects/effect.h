@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <functional>
 #include <actors/effects/modifier.h>
 #include <actors/effects/effect_id.h>
 
@@ -19,10 +20,11 @@ public:
   std::vector<Modifier> getModifiers() const;
   std::string getSpriteFile() const;
   std::string getName() const;
+  int getTurns() const;
 
   bool tick();
-
-  int getTurns() const;
+  void setOnRemoveFn(std::function<void()> fn);
+  void onRemove();
 
 private:
   EffectID _id;
@@ -30,6 +32,7 @@ private:
   std::vector<Modifier> _modifiers;
   std::string _spriteFile;
   std::string _name;
+  std::function<void()> _onRemoveFn;
 
 };
 

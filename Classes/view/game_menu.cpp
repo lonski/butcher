@@ -31,12 +31,12 @@ void GameMenu::saveGame(cocos2d::Ref *)
     cc::Director::getInstance()->end();
   };
 
-  ask("Are you sure you want to save and quit the game?", this,
+  ask({"Are you sure you want to save and quit the game?"}, this,
       [saveFn, this](){
         if ( cc::FileUtils::getInstance()->isFileExist(
                cc::FileUtils::getInstance()->getWritablePath() + Butcher::saveGameFn) )
         {
-          ask("Another game is already saved. Overwrite?", this,
+          ask({"Another game is already saved. Overwrite?"}, this,
               [saveFn](){
                 saveFn();
               }, [](){});

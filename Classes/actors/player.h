@@ -22,6 +22,7 @@ public:
   virtual void onCollide(std::shared_ptr<Actor> obstacle);
   virtual void onKill(std::shared_ptr<Character> killed);
   virtual void onHit(std::shared_ptr<Character> hit);
+  virtual void onNextTurn();
 
   Inventory& getInventory();
   CraftBook& getCraftbook();

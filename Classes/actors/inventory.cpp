@@ -161,6 +161,8 @@ AmountedItem Inventory::unequip(ItemSlotType slot)
   i = it->second;
   _body.erase(it);
 
+  i.item->removeAllEffects();
+
   return i;
 }
 

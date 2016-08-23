@@ -26,6 +26,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/player.cpp \
 ../../Classes/actors/monster.cpp \
 ../../Classes/actors/inventory.cpp \
+../../Classes/actors/effects/effect.cpp \
 ../../Classes/actors/instances/stairs_down.cpp \
 ../../Classes/actors/instances/stairs_up.cpp \
 ../../Classes/actors/instances/door.cpp \
@@ -34,6 +35,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/actions/die_action.cpp \
 ../../Classes/actors/actions/pickup_action.cpp \
 ../../Classes/actors/actions/shot_action.cpp \
+../../Classes/actors/actions/use_action.cpp \
 ../../Classes/actors/ai/ai.cpp \
 ../../Classes/actors/ai/fsm/fsm.cpp \
 ../../Classes/actors/ai/fsm/states/fsm_state.cpp \
@@ -43,6 +45,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/ai/fsm/states/melee_attack_state.cpp \
 ../../Classes/data/actors_database.cpp \
 ../../Classes/data/levels_database.cpp \
+../../Classes/data/effects_database.cpp \
 ../../Classes/dungeon/dungeon_state.cpp \
 ../../Classes/dungeon/level_manager.cpp \
 ../../Classes/dungeon/tmx_builder.cpp \

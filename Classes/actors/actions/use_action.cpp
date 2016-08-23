@@ -2,6 +2,7 @@
 #include "cocos2d.h"
 #include <butcher.h>
 #include <actors/character.h>
+#include <actors/player.h>
 
 namespace cc = cocos2d;
 
@@ -33,6 +34,8 @@ bool UseAction::perform(std::shared_ptr<Actor> user)
     return false;
   }
 
+  _effect = BUTCHER.effectsDatabase().createEffect(_item.item->getEffectID());
+
   bool ret = false;
 
   switch (_item.item->getUseTarget())
@@ -57,9 +60,19 @@ bool UseAction::perform(std::shared_ptr<Actor> user)
 bool UseAction::useOnSelf()
 {
   //Apply effect
-  EffectID effectId = _item.item->getEffectID();
-  if ( effectId != EffectID::None )
-    _user->addEffect( BUTCHER.effectsDatabase().createEffect(effectId) );
+  if ( _effect.getID() != EffectID::None )
+  {
+    if ( _user == BUTCHER.getPlayer() )
+    {
+      std::string message = _effect.getName() + " fades";
+      _effect.setOnRemoveFn([=](){
+        BUTCHER.getPlayer()->fadeText( message, cc::Color4B::ORANGE, 1, false);
+      });
+    }
+
+    _user->addEffect( _effect );
+    _user->fadeText( _effect.getName(), cc::Color4B::ORANGE, 1, false);
+  }
 
   //Modify HP
   if ( _item.item->getHp() != 0 )
@@ -70,7 +83,36 @@ bool UseAction::useOnSelf()
 
 bool UseAction::useOnWeapon()
 {
-  return false;
+  std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(_user);
+
+  if ( !_user )
+  {
+    cc::log("%s user is not a player", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  AmountedItem wpn = player->getInventory().equipped(ItemSlotType::WEAPON);
+  if ( !wpn.item )
+  {
+    cc::log("%s weapon is not equipped", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  if ( _effect.getID() == EffectID::None )
+  {
+    cc::log("%s invalid effect", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  std::string message = "Weapon: " + _effect.getName() + " fades";
+  _effect.setOnRemoveFn([=](){
+    BUTCHER.getPlayer()->fadeText( message, cc::Color4B::ORANGE, 1, false);
+  });
+
+  wpn.item->addEffect( _effect );
+  player->fadeText( "Weapon: " + _effect.getName(), cc::Color4B::ORANGE, 1, false);
+
+  return true;
 }
 
 bool UseAction::useOnFloor()

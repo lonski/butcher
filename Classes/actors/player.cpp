@@ -101,6 +101,18 @@ void Player::onHit(std::shared_ptr<Character>)
   }
 }
 
+void Player::onNextTurn()
+{
+  Character::onNextTurn();
+
+  for ( auto& i : getInventory().getEquippedItems() )
+  {
+    AmountedItem ai = i.second;
+    if ( ai.item )
+      ai.item->onNextTurn();
+  }
+}
+
 Inventory& Player::getInventory()
 {
   return _inventory;

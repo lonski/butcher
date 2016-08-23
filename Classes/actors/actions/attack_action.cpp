@@ -47,6 +47,17 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer)
   if ( score >= cc::RandomHelper::random_real<float>(0,1.f) )
   {
     t->takeDamage( a->getDamage(), performer );
+
+    auto wpn = getWeapon(a);
+    if ( wpn )
+    {
+      for ( Effect e : wpn->getEffects() )
+      {
+        t->addEffect( e );
+        t->fadeText( e.getName(), cc::Color4B::ORANGE, 1, false);
+      }
+    }
+
     a->onHit(t);
   }
   else
@@ -55,6 +66,17 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer)
   }
 
   return true;
+}
+
+std::shared_ptr<Item> AttackAction::getWeapon(std::shared_ptr<Character> c)
+{
+  std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(c);
+
+  if ( !p )
+    return nullptr;
+
+  AmountedItem ai = p->getInventory().equipped(ItemSlotType::WEAPON);
+  return ai.item;
 }
 
 }

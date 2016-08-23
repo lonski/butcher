@@ -3,6 +3,7 @@
 
 #include <actors/actions/actor_action.h>
 #include <utils/target.h>
+#include <actors/item.h>
 
 namespace butcher {
 
@@ -14,6 +15,8 @@ public:
 
 private:
   Target _target;
+
+  std::shared_ptr<Item> getWeapon(std::shared_ptr<Character> c);
 };
 
 }
