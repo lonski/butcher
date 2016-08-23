@@ -14,6 +14,29 @@
       transparent:1
     },
     {
+      id:3,
+      name:"Stairs down",
+      type:4,
+      sprite_file:"images/stairs_down.png",
+      transparent:1
+    },
+    {
+      id:4,
+      name:"Stairs up",
+      type:5,
+      sprite_file:"images/stairs_up.png",
+      transparent:1
+    },
+    {
+      id:7,
+      name:"Door",
+      is_closed:1,
+      opened_sprite_file:"images/dungeon_door_open.png",
+      type:6,
+      sprite_file:"images/dungeon_door_closed.png",
+      blocks:1
+    },
+    {
       id:2,
       name:"Cow",
       hp:8,
@@ -43,59 +66,94 @@
           amount_min: 1,
           amount_max: 1,
           chance: 10
+        },
+        {
+          item_id: 54,
+          amount_min: 1,
+          amount_max: 3,
+          chance: 99
+        },
+        {
+          item_id: 55,
+          amount_min: 1,
+          amount_max: 3,
+          chance: 99
+        },
+        {
+          item_id: 56,
+          amount_min: 1,
+          amount_max: 3,
+          chance: 99
         }
       ]
     },
     {
-      id:3,
-      name:"Stairs down",
-      type:4,
-      sprite_file:"images/stairs_down.png",
-      transparent:1
+      id:14,
+      name:"Cow Farmer",
+      hp:8,
+      attack:10,
+      defense:6,
+      damage:"1d4",
+      exp:20,
+      level:1,
+      sprite_file:"images/cow_farmer.png",
+      blocks:1,
+      transparent:1,
+      drop_rules: [ 
+        {
+          item_id: 6,
+          amount_min: 1,
+          amount_max: 1,
+          chance: 20
+        },
+        {
+          item_id: 5,
+          amount_min: 1,
+          amount_max: 2,
+          chance: 15
+        }
+      ]
     },
     {
-      id:4,
-      name:"Stairs up",
-      type:5,
-      sprite_file:"images/stairs_up.png",
-      transparent:1
+      id:13,
+      name:"Cow Peasant",
+      hp:8,
+      attack:8,
+      defense:8,
+      damage:"1d4",
+      exp:20,
+      level:1,
+      sprite_file:"images/cow_peasant.png",
+      blocks:1,
+      transparent:1,
+      drop_rules: [
+      ]
     },
     {
-      id:5,
-      name:"Meat",
-      category:1,
-      type:2,
-      sprite_file:"images/meat.png",
-      transparent:1
-    },
-    {
-      id:6,
-      name:"Bone",
-      category:1,
-      type:2,
-      sprite_file:"images/bone.png",
-      transparent:1
-    },
-    {
-      id:7,
-      name:"Door",
-      is_closed:1,
-      opened_sprite_file:"images/dungeon_door_open.png",
-      type:6,
-      sprite_file:"images/dungeon_door_closed.png",
-      blocks:1
-    },
-    {
-      id:8,
-      name:"Cow Squire",
+      id:17,
+      name:"Cow Worker",
       hp:9,
-      attack:13,
-      defense:11,
-      damage_reduction:1,
-      damage:"1d6",
-      exp:65,
-      level:3,
-      sprite_file:"images/cow_squire.png",
+      attack:10,
+      defense:8,
+      damage:"1d4",
+      exp:25,
+      level:1,
+      sprite_file:"images/cow_worker.png",
+      blocks:1,
+      transparent:1,
+      drop_rules: [
+      ]
+    },
+    {
+      id:16,
+      name:"Calf",
+      hp:2,
+      attack:1,
+      defense:1,
+      damage:"1d1",
+      exp:2,
+      level:1,
+      sprite_file:"images/calf.png",
       blocks:1,
       transparent:1,
       drop_rules: [
@@ -132,6 +190,21 @@
       ]
     },
     {
+      id:15,
+      name:"Cow Fisherman",
+      hp:10,
+      attack:10,
+      defense:7,
+      damage:"1d2",
+      exp:35,
+      level:2,
+      sprite_file:"images/cow_fisherman.png",
+      blocks:1,
+      transparent:1,
+      drop_rules: [
+      ]
+    },
+    {
       id:11,
       name:"Cow Fighter",
       hp:10,
@@ -162,115 +235,35 @@
       ]
     },
     {
-      id:13,
-      name:"Cow Peasant",
-      hp:8,
-      attack:8,
-      defense:8,
-      damage:"1d4",
-      exp:20,
-      level:1,
-      sprite_file:"images/cow_peasant.png",
-      blocks:1,
-      transparent:1,
-      drop_rules: [
-      ]
-    },
-    {
-      id:14,
-      name:"Cow Farmer",
-      hp:8,
-      attack:10,
-      defense:6,
-      damage:"1d4",
-      exp:20,
-      level:1,
-      sprite_file:"images/cow_farmer.png",
-      blocks:1,
-      transparent:1,
-      drop_rules: [ 
-        {
-          item_id: 6,
-          amount_min: 1,
-          amount_max: 1,
-          chance: 20
-        },
-        {
-          item_id: 5,
-          amount_min: 1,
-          amount_max: 2,
-          chance: 15
-        }
-      ]
-    },
-    {
-      id:15,
-      name:"Cow Fisherman",
-      hp:10,
-      attack:10,
-      defense:7,
-      damage:"1d2",
-      exp:35,
-      level:2,
-      sprite_file:"images/cow_fisherman.png",
-      blocks:1,
-      transparent:1,
-      drop_rules: [
-      ]
-    },
-    {
-      id:16,
-      name:"Calf",
-      hp:2,
-      attack:1,
-      defense:1,
-      damage:"1d1",
-      exp:2,
-      level:1,
-      sprite_file:"images/calf.png",
-      blocks:1,
-      transparent:1,
-      drop_rules: [
-      ]
-    },
-    {
-      id:17,
-      name:"Cow Worker",
+      id:8,
+      name:"Cow Squire",
       hp:9,
-      attack:10,
-      defense:8,
-      damage:"1d4",
-      exp:25,
-      level:1,
-      sprite_file:"images/cow_worker.png",
+      attack:13,
+      defense:11,
+      damage_reduction:1,
+      damage:"1d6",
+      exp:65,
+      level:3,
+      sprite_file:"images/cow_squire.png",
       blocks:1,
       transparent:1,
       drop_rules: [
       ]
     },
     {
-      id:18,
-      name:"Bone dagger",
-      attack:1,
-      damage:"1d4",
-      level:2,
-      body_slot:1,
-      break_chance:1000,
-      category:2,
+      id:5,
+      name:"Meat",
+      category:1,
       type:2,
-      sprite_file:"images/bone_dagger.png",
+      sprite_file:"images/meat.png",
       transparent:1
     },
     {
-      id:19,
-      name:"Bone club",
-      damage:"1d4+1",
-      level:1,
-      body_slot:1,
-      break_chance:1000,
-      category:2,
+      id:6,
+      name:"Bone",
+      category:1,
       type:2,
-      sprite_file:"images/bone_club.png",
+      sprite_file:"images/bone.png",
       transparent:1
     },
     {
@@ -314,6 +307,18 @@
       transparent:1
     },
     {
+      id:19,
+      name:"Bone club",
+      damage:"1d4",
+      level:1,
+      body_slot:1,
+      break_chance:1000,
+      category:2,
+      type:2,
+      sprite_file:"images/bone_club.png",
+      transparent:1
+    },
+    {
       id:25,
       name:"Bone Knife",
       attack:1,
@@ -327,9 +332,23 @@
       transparent:1
     },
     {
+      id:34,
+      name:"Bone Sling",
+      damage:"1d3",
+      level:1,
+      body_slot:1,
+      range:2,
+      ammo_id:21,
+      break_chance:1000,
+      category:2,
+      type:2,
+      sprite_file:"images/sling.png",
+      transparent:1
+    },
+    {
       id:26,
       name:"Bone Staff",
-      damage:"1d6+1",
+      damage:"1d6",
       level:4,
       body_slot:1,
       break_chance:1000,
@@ -341,8 +360,8 @@
     {
       id:27,
       name:"Rib Ripper",
-      attack:1,
-      damage:"1d4+1",
+      attack:2,
+      damage:"1d4",
       level:4,
       body_slot:1,
       break_chance:1000,
@@ -352,9 +371,23 @@
       transparent:1
     },
     {
+      id:35,
+      name:"Rib Bow",
+      damage:"1d4",
+      level:4,
+      body_slot:1,
+      range:3,
+      ammo_id:6,
+      break_chance:1000,
+      category:2,
+      type:2,
+      sprite_file:"images/rib_bow.png",
+      transparent:1
+    },
+    {
       id:28,
       name:"Bone Spear",
-      damage:"1d8+1",
+      damage:"1d8",
       level:8,
       body_slot:1,
       break_chance:1000,
@@ -377,87 +410,9 @@
       transparent:1
     },
     {
-      id:30,
-      name:"Bone Scythe",
-      damage:"1d10+1",
-      level:12,
-      body_slot:1,
-      break_chance:1000,
-      category:2,
-      type:2,
-      sprite_file:"images/scythe.png",
-      transparent:1
-    },
-    {
-      id:31,
-      name:"Bone Flail",
-      attack:1,
-      damage:"1d8+1",
-      level:12,
-      body_slot:1,
-      break_chance:1000,
-      category:2,
-      type:2,
-      sprite_file:"images/flail.png",
-      transparent:1
-    },
-    {
-      id:32,
-      name:"Bone Battle Axe",
-      damage:"1d12+2",
-      level:16,
-      body_slot:1,
-      break_chance:1000,
-      category:2,
-      type:2,
-      sprite_file:"images/battle_axe.png",
-      transparent:1
-    },
-    {
-      id:33,
-      name:"Scapula Axe",
-      attack:2,
-      damage:"1d10+1",
-      level:16,
-      body_slot:1,
-      break_chance:1000,
-      category:2,
-      type:2,
-      sprite_file:"images/scapula_axe.png",
-      transparent:1
-    },
-    {
-      id:34,
-      name:"Bone Sling",
-      damage:"1d3",
-      level:1,
-      body_slot:1,
-      range:2,
-      ammo_id:21,
-      break_chance:1000,
-      category:2,
-      type:2,
-      sprite_file:"images/sling.png",
-      transparent:1
-    },
-    {
-      id:35,
-      name:"Rib Bow",
-      damage:"1d4+1",
-      level:4,
-      body_slot:1,
-      range:3,
-      ammo_id:6,
-      break_chance:1000,
-      category:2,
-      type:2,
-      sprite_file:"images/rib_bow.png",
-      transparent:1
-    },
-    {
       id:36,
       name:"Short Bone Bow",
-      damage:"1d6+1",
+      damage:"1d6",
       level:8,
       body_slot:1,
       range:4,
@@ -469,9 +424,34 @@
       transparent:1
     },
     {
+      id:30,
+      name:"Bone Scythe",
+      damage:"1d10",
+      level:12,
+      body_slot:1,
+      break_chance:1000,
+      category:2,
+      type:2,
+      sprite_file:"images/scythe.png",
+      transparent:1
+    },
+    {
+      id:31,
+      name:"Bone Flail",
+      attack:2,
+      damage:"1d8",
+      level:12,
+      body_slot:1,
+      break_chance:1000,
+      category:2,
+      type:2,
+      sprite_file:"images/flail.png",
+      transparent:1
+    },
+    {
       id:37,
       name:"Double Rib Bow",
-      damage:"1d8+1",
+      damage:"1d8",
       level:12,
       body_slot:1,
       range:5,
@@ -483,9 +463,34 @@
       transparent:1
     },
     {
+      id:32,
+      name:"Bone Battle Axe",
+      damage:"2d6+1",
+      level:16,
+      body_slot:1,
+      break_chance:1000,
+      category:2,
+      type:2,
+      sprite_file:"images/battle_axe.png",
+      transparent:1
+    },
+    {
+      id:33,
+      name:"Scapula Axe",
+      attack:3,
+      damage:"1d10",
+      level:16,
+      body_slot:1,
+      break_chance:1000,
+      category:2,
+      type:2,
+      sprite_file:"images/scapula_axe.png",
+      transparent:1
+    },
+    {
       id:38,
       name:"Long Bone Bow",
-      damage:"1d10+1",
+      damage:"1d10",
       level:16,
       body_slot:1,
       range:6,
@@ -495,6 +500,212 @@
       type:2,
       sprite_file:"images/long_bone_bow.png",
       transparent:1
+    },
+    {
+      id:39,
+      name:"Leather Armor",
+      damage_reduction:1,
+      level:1,
+      body_slot:2,
+      break_chance:1000,
+      category:3,
+      type:2,
+      sprite_file:"images/leather_armor.png",
+      transparent:1
+    },
+    {
+      id:40,
+      name:"Tendon Wrappings",
+      attack:1,
+      level:1,
+      body_slot:3,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:41,
+      name:"Leather Slippers",
+      defense:1,
+      level:1,
+      body_slot:4,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:42,
+      name:"Meat Rainforced Armor",
+      damage_reduction:2,
+      level:4,
+      body_slot:2,
+      break_chance:1000,
+      category:3,
+      type:2,
+      sprite_file:"images/meat_armor.png",
+      transparent:1
+    },
+    {
+      id:43,
+      name:"Leather Wrappings",
+      attack:2,
+      level:4,
+      body_slot:3,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:44,
+      name:"Leather Sandals",
+      defense:2,
+      level:4,
+      body_slot:4,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:45,
+      name:"Bone Rainforced Armor",
+      damage_reduction:3,
+      level:8,
+      body_slot:2,
+      break_chance:1000,
+      category:3,
+      type:2,
+      sprite_file:"images/bone_armor.png",
+      transparent:1
+    },
+    {
+      id:46,
+      name:"Udder Gloves",
+      attack:3,
+      level:8,
+      body_slot:3,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:47,
+      name:"Leather Boots",
+      defense:3,
+      level:8,
+      body_slot:4,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:48,
+      name:"Rib Armor",
+      damage_reduction:4,
+      level:12,
+      body_slot:2,
+      break_chance:1000,
+      category:3,
+      type:2,
+      sprite_file:"images/rib_armor.png",
+      transparent:1
+    },
+    {
+      id:49,
+      name:"Leather Gloves",
+      attack:4,
+      level:12,
+      body_slot:3,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:50,
+      name:"Leather High Boots",
+      defense:4,
+      level:12,
+      body_slot:4,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:51,
+      name:"Scapula Plate",
+      damage_reduction:5,
+      level:16,
+      body_slot:2,
+      break_chance:1000,
+      category:3,
+      type:2,
+      sprite_file:"images/scapula_plate.png",
+      transparent:1
+    },
+    {
+      id:52,
+      name:"Spiked Gloves",
+      attack:5,
+      level:16,
+      body_slot:3,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:53,
+      name:"Spiked Boots",
+      defense:5,
+      level:16,
+      body_slot:4,
+      break_chance:1000,
+      category:3,
+      type:2,
+      transparent:1
+    },
+    {
+      id:54,
+      name:"Stew of Weak Healing",
+      hp:10,
+      level:1,
+      category:4,
+      type:2,
+      sprite_file:"images/stew.png",
+      transparent:1,
+      is_usable:1,
+      use_target:1
+    },
+    {
+      id:55,
+      name:"Stew of Focus",
+      level:1,
+      category:4,
+      type:2,
+      sprite_file:"images/stew.png",
+      transparent:1,
+      is_usable:1,
+      effect_id:1,
+      use_target:1
+    },
+    {
+      id:56,
+      name:"Slow Poison",
+      level:1,
+      category:4,
+      type:2,
+      sprite_file:"images/stew.png",
+      transparent:1,
+      is_usable:1,
+      effect_id:2,
+      use_target:2
     }
   ]
 }

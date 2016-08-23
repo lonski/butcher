@@ -1,6 +1,10 @@
 #include "character.h"
 #include <data/actors_generated.h>
 #include <actors/actions/die_action.h>
+#include <butcher.h>
+#include <dungeon/dungeon_state.h>
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -48,7 +52,13 @@ void Character::setExp(int exp)
 
 int Character::getAttribute(AttributeType type)
 {
-    return _attributes[type];
+  int base = _attributes[type];
+
+  int mod = agregateModifiers([type](Modifier m){
+    return m.attribute == type ? m.value : 0;
+  });
+
+  return base + mod;
 }
 
 void Character::setAttribute(AttributeType type, int value)
@@ -64,6 +74,10 @@ int Character::getHp() const
 void Character::setHp(int hp)
 {
   _hp = hp;
+
+  if ( _hp > getMaxHp() )
+    setHp( getMaxHp() );
+
   notify(EventType::Modified);
 }
 
@@ -79,14 +93,21 @@ int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
   fadeText( "-" + cocos2d::Value(dmg).asString(), cocos2d::Color4B::RED );
 
   if ( getHp() <= 0 )
-    performAction( new DieAction(attacker) );
+    onDestroy(attacker);
 
   return dmg;
 }
 
 Damage Character::getDamage()
 {  
-  return _damage;
+  int mod = agregateModifiers([](Modifier m){
+    return m.attribute == AttributeType::Damage ? m.value : 0;
+  });
+
+  Damage dmg = _damage;
+  dmg.bonus += mod;
+
+  return dmg;
 }
 
 void Character::setDamage(const Damage &damage)
@@ -99,9 +120,51 @@ bool Character::canShootAt(cocos2d::Vec2)
   return false;
 }
 
+bool Character::isOutOfControl()
+{
+  int mod = agregateModifiers([](Modifier m){
+    return m.special == SpecialModifierType::Paralyzed;
+  });
+
+  return mod > 0;
+}
+
+void Character::onDestroy(std::shared_ptr<Actor> killer)
+{
+  std::shared_ptr<Character> thisPtr = std::dynamic_pointer_cast<Character>(shared_from_this());
+  killer->onKill( thisPtr );
+
+  cc::Sprite* s = getSprite().release();
+
+  for ( auto c : s->getChildren() )
+    c->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );
+
+  s->runAction( cc::Sequence::create(cc::FadeOut::create(0.5), cc::RemoveSelf::create(), nullptr) );
+
+  if ( !BUTCHER.getCurrentDungeon()->removeActor(shared_from_this(), false) )
+    cc::log("%s Failed to remove actor!", __PRETTY_FUNCTION__);
+}
+
+int Character::agregateModifiers(std::function<int (Modifier)> filter) const
+{
+  int sum = 0;
+
+  for ( auto& kv : _effects )
+    for ( Modifier m : kv.second.getModifiers() )
+        sum += filter(m);
+
+  return sum;
+}
+
 int Character::getMaxHp() const
 {
-  return _maxHp;
+  int base = _maxHp;
+
+  int mod = agregateModifiers([](Modifier m){
+    return m.attribute == AttributeType::Damage ? m.value : 0;
+  });
+
+  return base + mod;
 }
 
 void Character::setMaxHp(int maxHp)

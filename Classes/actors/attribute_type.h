@@ -11,7 +11,8 @@ enum class AttributeType
   Attack,
   Defense,
   DamageReduction,
-
+  Damage,
+  HP,
   END
 };
 
@@ -25,6 +26,10 @@ static inline std::string AttributeType2Str(AttributeType t)
       return "Defense";
     case AttributeType::DamageReduction:
       return "DR";
+    case AttributeType::Damage:
+      return "Damage";
+    case AttributeType::HP:
+      return "HP";
     default:;
   }
   return "";

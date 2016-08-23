@@ -150,10 +150,10 @@ set(GAME_SRC
 
   Classes/actors/actions/move_action.cpp
   Classes/actors/actions/attack_action.cpp
-  Classes/actors/actions/die_action.cpp
   Classes/actors/actions/pickup_action.cpp
   Classes/actors/actions/equip_action.cpp
   Classes/actors/actions/shot_action.cpp
+  Classes/actors/actions/use_action.cpp
 
   Classes/actors/ai/ai.cpp
   Classes/actors/ai/fsm/fsm.cpp
@@ -163,9 +163,12 @@ set(GAME_SRC
   Classes/actors/ai/fsm/states/move_to_target_state.cpp
   Classes/actors/ai/fsm/states/melee_attack_state.cpp
 
+  Classes/actors/effects/effect.cpp
+
   Classes/data/actors_database.cpp
   Classes/data/levels_database.cpp
   Classes/data/recipes_database.cpp
+  Classes/data/effects_database.cpp
 
   Classes/dungeon/dungeon_state.cpp
   Classes/dungeon/level_manager.cpp
@@ -215,6 +218,7 @@ set(GAME_HEADERS
   Classes/actors/recipe.h
   Classes/actors/recipe_id.h
   Classes/actors/item_category.h
+  Classes/actors/use_target.h
   Classes/actors/instances/stairs_down.h
   Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h
@@ -223,10 +227,10 @@ set(GAME_HEADERS
   Classes/actors/actions/actor_action.h
   Classes/actors/actions/move_action.h
   Classes/actors/actions/attack_action.h
-  Classes/actors/actions/die_action.h
   Classes/actors/actions/pickup_action.h
   Classes/actors/actions/equip_action.h
   Classes/actors/actions/shot_action.h
+  Classes/actors/actions/use_action.h
 
   Classes/actors/ai/ai.h
   Classes/actors/ai/fsm/fsm.h
@@ -237,6 +241,11 @@ set(GAME_HEADERS
   Classes/actors/ai/fsm/states/move_to_target_state.h
   Classes/actors/ai/fsm/states/melee_attack_state.h
 
+  Classes/actors/effects/effect_id.h
+  Classes/actors/effects/special_modifier_type.h
+  Classes/actors/effects/modifier.h
+  Classes/actors/effects/effect.h
+
   Classes/data/actors_database.h
   Classes/data/levels_database.h  
   Classes/data/levels_generated.h
@@ -244,6 +253,8 @@ set(GAME_HEADERS
   Classes/data/recipes_generated.h
   Classes/data/recipes_database.h
   Classes/data/save_generated.h
+  Classes/data/effects_generated.h
+  Classes/data/effects_database.h
 
   Classes/dungeon/dungeon_state.h
   Classes/dungeon/tile_gid.h

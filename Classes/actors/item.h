@@ -6,6 +6,8 @@
 #include <utils/damage.h>
 #include <actors/attribute_type.h>
 #include <actors/item_category.h>
+#include <actors/effects/effect_id.h>
+#include <actors/use_target.h>
 
 namespace butcher {
 
@@ -34,6 +36,9 @@ public:
   ItemCategory getCategory() const;
   int getRange() const;
   ActorID getAmmoId() const;
+  EffectID getEffectID() const;
+  UseTarget getUseTarget() const;
+  int getHp() const;
 
 private:
   ItemSlotType _slot;
@@ -44,6 +49,10 @@ private:
   ItemCategory _category;
   int _range;
   ActorID _ammoId;
+  bool _usable;
+  EffectID _effect;
+  UseTarget _useTarget;
+  int _hp;
 
 };
 

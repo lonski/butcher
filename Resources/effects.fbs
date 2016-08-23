@@ -1,0 +1,21 @@
+namespace butcher;
+
+table EffectsData { 
+	effects:[EffectData]; 
+}
+
+table ModifierData {
+	attribute:uint;
+	value:int;
+	special:uint;
+}
+
+table EffectData {
+	id:uint;
+	name:string;
+	turns:int;
+	sprite_file:string;
+	modifiers:[ModifierData];
+}
+
+root_type EffectsData;

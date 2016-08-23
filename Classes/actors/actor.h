@@ -5,6 +5,7 @@
 #include <memory>
 #include <actors/actor_id.h>
 #include <utils/observer.h>
+#include <actors/effects/effect.h>
 #include "cocos2d.h"
 
 namespace butcher {
@@ -46,7 +47,16 @@ public:
 
   virtual bool performAction(std::shared_ptr<ActorAction> action);
   virtual bool performAction(ActorAction* action);
-  virtual void nextTurn();
+
+  /**
+   * @brief Returns true if actor is unable to perform actions for example due to paralysis
+   */
+  virtual bool isOutOfControl();
+
+  /**
+   * @brief Function is launched in game update loop every player's turn
+   */
+  virtual void onNextTurn();
 
   /**
    * @brief Function is launched when actor tries to enter tile occubied by another actor
@@ -78,10 +88,14 @@ public:
    */
   virtual void onHit(std::shared_ptr<Character> hit);
 
-  void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK);
+  void fadeText(const std::string& text, cocos2d::Color4B color = cocos2d::Color4B::BLACK, float speed = 0.5);
+
+  virtual void addEffect(const Effect& effect);
+  virtual void removeEffect(EffectID id);
 
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);
+  std::map<EffectID, Effect> _effects;
 
 private:
   unsigned _id;
@@ -91,6 +105,7 @@ private:
   cocos2d::Vec2 _position;
 
   std::unique_ptr<cocos2d::Sprite> _sprite;
+
 
 };
 

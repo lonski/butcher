@@ -1,6 +1,5 @@
 // automatically generated, do not modify
-#ifndef cycki_h
-#define cycki_h
+
 #include "flatbuffers/flatbuffers.h"
 
 namespace butcher {
@@ -161,4 +160,3 @@ inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBui
 inline const ActorsData *GetActorsData(const void *buf) { return flatbuffers::GetRoot<ActorsData>(buf); }
 
 }; // namespace butcher
-#endif

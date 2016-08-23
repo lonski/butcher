@@ -5,6 +5,7 @@
 #include <data/actors_database.h>
 #include <dungeon/level_manager.h>
 #include <data/recipes_database.h>
+#include <data/effects_database.h>
 
 namespace butcher {
 
@@ -41,6 +42,7 @@ public:
     std::shared_ptr<Player> getPlayer();
     ActorDatabase& actorsDatabase();
     RecipeDatabase& recipesDatabase();
+    EffectDatabase& effectsDatabase();
 
 private:
     Butcher();
@@ -53,6 +55,7 @@ private:
 
     ActorDatabase _actors;
     RecipeDatabase _recipes;
+    EffectDatabase _effects;
     LevelManager _dungeons;
 
     unsigned _dungeonLevel;

@@ -39,6 +39,10 @@ public:
 
     virtual bool canShootAt(cocos2d::Vec2 coord);
 
+    virtual bool isOutOfControl();
+
+    virtual void onDestroy(std::shared_ptr<Actor> killer);
+
 protected:
     int _level;
     int _exp;
@@ -46,6 +50,8 @@ protected:
     int _maxHp;
     Damage _damage;
     std::map<AttributeType, int> _attributes;
+
+    int agregateModifiers(std::function<int(Modifier)> filter) const;
 };
 
 }

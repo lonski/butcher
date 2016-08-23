@@ -41,6 +41,9 @@ table ActorData {
 	category:int;
 	range:int;
 	ammo_id:int;
+	effect_id:int;
+	is_usable:bool; 
+	use_target:uint;
 
 	drop_rules:[DropRuleData];
 

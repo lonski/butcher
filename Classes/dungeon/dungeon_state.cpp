@@ -205,7 +205,7 @@ void DungeonState::nextTurn()
 
   for(auto a : _actors)
   {
-    a->nextTurn();
+    a->onNextTurn();
     a->getSprite()->setVisible( isInFov(a->getTileCoord()) );
   }
 }

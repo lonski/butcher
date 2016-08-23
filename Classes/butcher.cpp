@@ -41,6 +41,7 @@ void Butcher::init()
 {
   _actors.load("actors_data_wire.bin");
   _recipes.load("recipes_data_wire.bin");
+  _effects.load("effects_data_wire.bin");
 
   _hud = new HudLayer();
   _currentScene = GameMenu::createScene(false);
@@ -235,6 +236,11 @@ ActorDatabase& Butcher::actorsDatabase()
 RecipeDatabase &Butcher::recipesDatabase()
 {
   return _recipes;
+}
+
+EffectDatabase &Butcher::effectsDatabase()
+{
+  return _effects;
 }
 
 DungeonState *Butcher::getCurrentDungeon()

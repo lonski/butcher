@@ -37,12 +37,14 @@ std::unique_ptr<Actor> Monster::clone(std::unique_ptr<Actor> allocated)
   return std::move( Character::clone(std::unique_ptr<Actor>{p}) );
 }
 
-void Monster::nextTurn()
+void Monster::onNextTurn()
 {
   if ( !_ai )
     _ai.reset( new Ai(shared_from_this()) );
 
   _ai->update();
+
+  Character::onNextTurn();
 }
 
 void Monster::onDestroy(std::shared_ptr<Actor> destroyer)

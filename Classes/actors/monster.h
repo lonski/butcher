@@ -17,7 +17,7 @@ public:
 
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
 
-  virtual void nextTurn();
+  virtual void onNextTurn();
   virtual void onDestroy(std::shared_ptr<Actor> destroyer);
   virtual void setHp(int hp);
 

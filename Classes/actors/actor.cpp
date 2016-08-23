@@ -29,7 +29,8 @@ Actor::Actor(const ActorData* data)
     setTransparent( data->transparent() );
     setName( data->name()->c_str() );
     setSprite(new cc::Sprite());
-    getSprite()->initWithFile( data->sprite_file()->c_str() );
+    if ( data->sprite_file() )
+      getSprite()->initWithFile( data->sprite_file()->c_str() );
   }
 }
 
@@ -85,6 +86,7 @@ std::unique_ptr<Actor> Actor::clone(std::unique_ptr<Actor> allocated)
     allocated->setTransparent( isTransparent() );
     allocated->setName(getName());
     allocated->_id = _id;
+    allocated->_effects = _effects;
 
     if ( allocated->getSprite() == nullptr )
       allocated->setSprite(new cc::Sprite());
@@ -142,6 +144,9 @@ void Actor::setSpriteTexture(const std::string &fn)
 
 bool Actor::performAction(std::shared_ptr<ActorAction> action)
 {
+  if ( isOutOfControl() )
+    return false;
+
   if ( !action )
     return false;
 
@@ -150,11 +155,19 @@ bool Actor::performAction(std::shared_ptr<ActorAction> action)
 
 bool Actor::performAction(ActorAction *action)
 {
+  if ( isOutOfControl() )
+    return false;
+
   if ( !action )
     return false;
 
   std::unique_ptr<ActorAction> a_ptr(action);
   return action->perform( shared_from_this() );
+}
+
+bool Actor::isOutOfControl()
+{
+  return false;
 }
 
 void Actor::onCollide(std::shared_ptr<Actor>)
@@ -199,8 +212,19 @@ cc::Vec2 Actor::getPosition() const
   return _position;
 }
 
-void Actor::nextTurn()
+void Actor::onNextTurn()
 {
+  bool anyRemoved = false;
+
+  for ( auto& e : _effects )
+    if ( e.second.tick() )
+    {
+      removeEffect(e.second.getID());
+      anyRemoved = true;
+    }
+
+  if ( anyRemoved )
+    notify(EventType::Modified);
 }
 
 void Actor::onDestroy(std::shared_ptr<Actor>)
@@ -215,7 +239,7 @@ void Actor::onHit(std::shared_ptr<Character>)
 {
 }
 
-void Actor::fadeText(const std::string &text, cc::Color4B color)
+void Actor::fadeText(const std::string &text, cc::Color4B color, float speed)
 {
   if ( !getSprite() )
   {
@@ -230,13 +254,30 @@ void Actor::fadeText(const std::string &text, cc::Color4B color)
   label->setGlobalZOrder( getSprite()->getGlobalZOrder() + 3 );
   getSprite()->addChild(label, 1);
 
-  label->runAction( cc::MoveBy::create(0.5, cc::Vec2(0, size.height / 3)) );
-  label->runAction( cc::FadeOut::create(0.5) );
+  label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, size.height / 3)) );
+  label->runAction( cc::FadeOut::create(speed) );
 }
 
 void Actor::setSprite(cc::Sprite *sprite)
 {
   _sprite.reset(sprite);
+}
+
+void Actor::addEffect(const Effect& effect)
+{
+  fadeText( effect.getName(), cc::Color4B::ORANGE, 1);
+  _effects[ effect.getID() ] = effect;
+}
+
+void Actor::removeEffect(EffectID id)
+{
+  auto it = _effects.find(id);
+
+  if ( it != _effects.end() )
+  {
+    fadeText( it->second.getName() + " fades", cc::Color4B::ORANGE, 1);
+    _effects.erase(it);
+  }
 }
 
 }

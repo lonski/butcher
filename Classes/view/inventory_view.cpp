@@ -2,6 +2,7 @@
 #include <actors/player.h>
 #include <utils/utils.h>
 #include <actors/actions/equip_action.h>
+#include <actors/actions/use_action.h>
 
 namespace cc = cocos2d;
 
@@ -373,6 +374,21 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
     useBtn->setTitleFontSize(22);
     useBtn->setAnchorPoint(cc::Vec2(0,0));
     useBtn->setPosition(cc::Vec2(_margin*2, posY));
+
+    useBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+      if ( type == cc::ui::Widget::TouchEventType::ENDED )
+      {
+        if ( _player->performAction( new UseAction(item) ) )
+        {
+          _player->getInventory().removeItem(AmountedItem(item.item,1));
+          _bottomPanel->removeChild(layout);
+          fillInventoryItems();
+          fillBodySlots();
+          fillCharacterInfo();
+        }
+      }
+    });
+
     size.height += useBtn->getBoundingBox().size.height + _margin;
     layout->addChild(useBtn);
 

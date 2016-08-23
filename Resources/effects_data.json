@@ -1,0 +1,28 @@
+{
+  effects:[
+    {
+      id:1,
+      name: "Stew of Focus",
+      turns: 20,
+      sprite_file: "",
+      modifiers: [
+      	{
+      	  attribute: 1,
+      	  value: 1
+      	}
+      ]
+    },
+    {
+      id:2,
+      name: "Stew of Poison",
+      turns: 10,
+      sprite_file: "",
+      modifiers: [
+      	{
+      	  attribute: 1,
+      	  value: -1
+      	}
+      ]
+    }
+  ]
+}
