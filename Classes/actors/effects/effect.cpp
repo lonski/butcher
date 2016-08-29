@@ -12,7 +12,10 @@ Effect::Effect(const EffectData *data)
   {
     _id = static_cast<EffectID>(data->id());
     _turns = data->turns();
-    _spriteFile = data->sprite_file()->c_str();
+
+    if ( data->sprite_file() )
+      _spriteFile = data->sprite_file()->c_str();
+
     _name = data->name()->c_str();
 
     auto mods = data->modifiers();

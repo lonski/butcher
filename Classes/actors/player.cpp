@@ -87,7 +87,11 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
 
 void Player::onKill(std::shared_ptr<Character> killed)
 {
-  setExp( getExp() + killed->getExp() );
+  int levelDiff = getLevel() - killed->getLevel();
+  float multiplier = std::min(std::max(1.f-levelDiff/10.f,0.f),1.f);
+  int expBonus = static_cast<float>(killed->getExp())*multiplier;
+  fadeText("+"+toStr(expBonus),cc::Color4B(126,192,238,255), 1);
+  setExp( getExp() + expBonus );
 }
 
 void Player::onHit(std::shared_ptr<Character>)
@@ -177,14 +181,13 @@ void Player::setExp(int exp)
 
 int Player::getExpForNextLevel() const
 {
-  return std::pow(2, getLevel() - 1) * 100;
+  return std::pow(getLevel(), 3) * 100;
 }
 
 void Player::giveLevelUpBonuses()
 {
-  setLevel(5);
   int newCraftPoints = getCraftPointsOnLevel(getLevel());
-  getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints + 20);
+  getCraftbook().setFreePoints(getCraftbook().getFreePoints() + newCraftPoints);
   setHp( getMaxHp() );
   notify(EventType::LevelUP);
 }

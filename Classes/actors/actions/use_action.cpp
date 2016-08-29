@@ -66,7 +66,7 @@ bool UseAction::useOnSelf()
     {
       std::string message = _effect.getName() + " fades";
       _effect.setOnRemoveFn([=](){
-        BUTCHER.getPlayer()->fadeText( message, cc::Color4B::ORANGE, 1, false);
+        BUTCHER.getPlayer()->fadeText( message, cc::Color4B::ORANGE, 1);
       });
     }
 
@@ -106,7 +106,7 @@ bool UseAction::useOnWeapon()
 
   std::string message = "Weapon: " + _effect.getName() + " fades";
   _effect.setOnRemoveFn([=](){
-    BUTCHER.getPlayer()->fadeText( message, cc::Color4B::ORANGE, 1, false);
+    BUTCHER.getPlayer()->fadeText( message, cc::Color4B::ORANGE, 1);
   });
 
   wpn.item->addEffect( _effect );

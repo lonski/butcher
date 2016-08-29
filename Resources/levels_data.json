@@ -1,97 +1,96 @@
 {
-  mobs_introduction: [
-  	{
-  		mob_id: 2,
-  		introduced_at: 1
-  	},
-  	{
-  		mob_id: 14,
-  		introduced_at: 1
-  	},
-  	{
-  		mob_id: 17,
-  		introduced_at: 2
-  	},
-  	{
-  		mob_id: 13,
-  		introduced_at: 2
-  	},
-  	{
-  		mob_id: 9,
-  		introduced_at: 4
-  	},
-  	{
-  		mob_id: 15,
-  		introduced_at: 4
-  	},
-  	{
-  		mob_id: 10,
-  		introduced_at: 6
-  	},
-  	{
-  		mob_id: 8,
-  		introduced_at: 8
-  	},
-  	{
-  		mob_id: 11,
-  		introduced_at: 8
-  	},
-  	{
-  		mob_id: 12,
-  		introduced_at: 8
-  	}
-  ],
-
-  levels: [
-     {
-      depth: [1,2],
-      map_template: "dungeons/empty_cave.tmx",
-      generator: 0,
-
-	  width: 50,
-	  height: 50,
-
-	  max_mob_density: 10,
-	  mob_spawn_chance: 30,
-
-	  wall_percent: 40,
-	  room_split_percent: 20,
-	  generation_params: [
-	  	{
-	  		reps: 4,
-			r1_cutoff: 5,
-			r2_cutoff: 2
-	  	},
-	  	{
-	  		reps: 3,
-			r1_cutoff: 5,
-			r2_cutoff: -1
-	  	},
-	  	{
-	  		reps: 3,
-			r1_cutoff: 5,
-			r2_cutoff: 1
-	  	}
-	  ]
+  mobs_introduction:[
+    {
+      mob_id: 16,
+      introduced_at: 1
     },
     {
-      depth: [3,100],
-      map_template: "dungeons/empty_dungeon.tmx",
-      generator: 1,
-
-	  width: 50,
-	  height: 50,
-
-	  max_mob_density: 10,
-	  mob_spawn_chance: 50,
-
-	  min_room_size: 4,
-	  max_room_size: 8,
-	  max_features: 100,
-	  min_corridor_length: 2,
-	  max_corridor_length: 5,
-	  room_chance: 50
+      mob_id: 2,
+      introduced_at: 1
+    },
+    {
+      mob_id: 14,
+      introduced_at: 2
+    },
+    {
+      mob_id: 9,
+      introduced_at: 3
+    },
+    {
+      mob_id: 17,
+      introduced_at: 4
+    },
+    {
+      mob_id: 13,
+      introduced_at: 5
+    },
+    {
+      mob_id: 15,
+      introduced_at: 6
+    },
+    {
+      mob_id: 10,
+      introduced_at: 7
+    },
+    {
+      mob_id: 8,
+      introduced_at: 8
+    },
+    {
+      mob_id: 11,
+      introduced_at: 9
+    },
+    {
+      mob_id: 12,
+      introduced_at: 10
+    },
+    {
+      mob_id: -1,
+      introduced_at: 100
+    }
+  ],
+  levels:[
+    {
+      depth:[1,20],
+      map_template:"dungeons/empty_cave.tmx",
+      width:50,
+      height:50,
+      max_mob_density:12,
+      mob_spawn_chance:30,
+      wall_percent:40,
+      room_split_percent:20,
+      generation_params: [ 
+        {
+          reps: 4,
+          r1_cutoff: 5,
+          r2_cutoff: 2
+        },
+        {
+          reps: 3,
+          r1_cutoff: 5,
+          r2_cutoff: -1
+        },
+        {
+          reps: 3,
+          r1_cutoff: 5,
+          r2_cutoff: 1
+        }
+      ]
+    },
+    {
+      depth:[21,100],
+      map_template:"dungeons/empty_dungeon.tmx",
+      generator:1,
+      width:50,
+      height:50,
+      max_mob_density:10,
+      mob_spawn_chance:50,
+      min_room_size:4,
+      max_room_size:8,
+      max_features:100,
+      min_corridor_length:2,
+      max_corridor_length:5,
+      room_chance:50
     }
   ]
 }
-

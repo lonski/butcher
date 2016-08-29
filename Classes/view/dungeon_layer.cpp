@@ -28,6 +28,36 @@ bool DungeonLayer::init()
         return false;
     }
 
+    auto eventListener = cc::EventListenerKeyboard::create();
+
+    eventListener->onKeyPressed = [this](cc::EventKeyboard::KeyCode keyCode, cc::Event* event){
+
+        switch(keyCode){
+            case cc::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            case cc::EventKeyboard::KeyCode::KEY_A:
+                move(Direction::West);
+                BUTCHER.nextTurn();
+                break;
+            case cc::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            case cc::EventKeyboard::KeyCode::KEY_D:
+                  move(Direction::East);
+                  BUTCHER.nextTurn();
+                break;
+            case cc::EventKeyboard::KeyCode::KEY_UP_ARROW:
+            case cc::EventKeyboard::KeyCode::KEY_W:
+                  move(Direction::North);
+                  BUTCHER.nextTurn();
+                break;
+            case cc::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+            case cc::EventKeyboard::KeyCode::KEY_S:
+                  move(Direction::South);
+                  BUTCHER.nextTurn();
+                break;
+        }
+    };
+
+    this->_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener,this);
+
     return true;
 }
 
@@ -80,9 +110,19 @@ bool DungeonLayer::onTouchBegan(cc::Touch*, cc::Event*)
   return getPosition() == _viewPoint;
 }
 
-void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
+void DungeonLayer::move(Direction::Symbol direction)
 {
   auto player = BUTCHER.getPlayer();
+
+  if ( player->performAction(new MoveAction(direction)) )
+  {
+    this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
+    BUTCHER.getPlayer()->notify(EventType::Moved);
+  }
+}
+
+void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
+{
 
   cc::Vec2 touchCoord = getTouchCoord(touch);
   Direction::Symbol direction = getTouchDirection(touchCoord);
@@ -90,14 +130,9 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 
   if ( direction != Direction::None )
   {
+    auto player = BUTCHER.getPlayer();
     if ( target.actors.empty() || !player->performAction(new ShotAction(target)) )
-    {
-      if ( player->performAction(new MoveAction(direction)) )
-      {
-        this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
-        BUTCHER.getPlayer()->notify(EventType::Moved);
-      }
-    }
+      move(direction);
 
     BUTCHER.nextTurn();
   }

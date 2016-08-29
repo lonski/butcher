@@ -40,6 +40,7 @@ private:
     cocos2d::Vec2 getTouchCoord(cocos2d::Touch* touch);
     Direction::Symbol getTouchDirection(cocos2d::Vec2 touchCoord);
     Target getTouchTarget(cocos2d::Vec2 touchCoord);
+    void move(Direction::Symbol direction);
 };
 
 }
