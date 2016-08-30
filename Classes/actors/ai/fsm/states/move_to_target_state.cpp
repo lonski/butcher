@@ -7,6 +7,7 @@
 #include <actors/actions/move_action.h>
 #include <utils/directions.h>
 #include <utils/path.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
@@ -37,7 +38,6 @@ void MoveToTarget::update()
     bool calculated = path.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
                         return dungeon->isBlocked(pos) && pos != target.pos;
                       });
-
     if ( calculated )
     {
       path.walk();
@@ -49,7 +49,6 @@ void MoveToTarget::update()
       cc::log("MoveAction: Failed to calculate path");
     }
   }
-
 }
 
 bool MoveToTarget::canEnter()

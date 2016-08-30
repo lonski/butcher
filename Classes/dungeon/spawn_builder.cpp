@@ -3,6 +3,8 @@
 #include <dungeon/room.h>
 #include <utils/path.h>
 #include <data/levels_generated.h>
+#include <butcher.h>
+#include <data/actors_database.h>
 
 namespace cc = cocos2d;
 
@@ -12,6 +14,7 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
 {
   bool result = true;
 
+  _spawnStats.clear();
   _objects.clear();
   _dungeon = &dungeon;
 
@@ -33,6 +36,7 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   addMobs();
 
   //debugMapPrint();
+  debugSpawnStatsPrint();
 
   _objectsLayer->setObjects(_objects);
 
@@ -106,7 +110,7 @@ bool SpawnBuilder::addStairs()
 
 void SpawnBuilder::addMobs()
 {
-  Grid g = _dungeon->grid;
+  //Grid g = _dungeon->grid;
 
   int mobCount(0);
 
@@ -120,7 +124,7 @@ void SpawnBuilder::addMobs()
         cc::Vec2 coord = room->getRandomFloorCoord(_dungeon->grid);
         if ( addActorSpawn( (int)getRandomMobID(), coord ) )
         {
-          g.set(coord, 'M');
+          //g.set(coord, 'M');
           ++mobCount;
         }
       }
@@ -128,13 +132,15 @@ void SpawnBuilder::addMobs()
   }
 
   cc::log("Spawned %d mobs in %u rooms.", mobCount, (unsigned)_dungeon->rooms.size());
-  cc::log("%s", g.toStr().c_str());
+  //cc::log("%s", g.toStr().c_str());
 }
 
 bool SpawnBuilder::addActorSpawn(int id, int y, int x)
 {
   if ( _dungeon->grid.get(cc::Vec2(x,y)) != Tiles::FLOOR )
     return false;
+
+  _spawnStats[ (ActorID)id ]++;
 
   cc::ValueMap spawn;
   spawn["name"] = cc::Value("actor_spawn");
@@ -167,6 +173,16 @@ void SpawnBuilder::debugMapPrint()
   cc::log("%s", tmp.toStr().c_str());
 }
 
+void SpawnBuilder::debugSpawnStatsPrint()
+{
+  cc::log(" == SPAWN STATS == ");
+
+  for ( auto& kv : _spawnStats )
+    cc::log("  |%s [%d] -> %d", BUTCHER.actorsDatabase().getName(kv.first).c_str(), (int)kv.first, kv.second);
+
+  cc::log("  +-----");
+}
+
 ActorID SpawnBuilder::getRandomMobID()
 {
   int tries = 100;
@@ -182,7 +198,9 @@ ActorID SpawnBuilder::getRandomMobID()
 
         if ( lastLevel <= _dungeon->level )
         {
-          float chance = (float)lastLevel / (float)_dungeon->level * 0.5;
+          int levelDiff = std::max(std::abs( _dungeon->level - lastLevel), 1);
+          float chance = 0.25 * 1/(float)levelDiff;
+
           if ( cc::RandomHelper::random_real<float>(0, 1) < chance )
           {
             //Get all mobs that can spawn on this level

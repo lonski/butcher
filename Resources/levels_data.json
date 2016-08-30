@@ -2,7 +2,7 @@
   mobs_introduction:[
     {
       mob_id: 16,
-      introduced_at: 1
+      introduced_at: 100
     },
     {
       mob_id: 2,
@@ -14,35 +14,35 @@
     },
     {
       mob_id: 9,
-      introduced_at: 3
-    },
-    {
-      mob_id: 17,
       introduced_at: 4
     },
     {
-      mob_id: 13,
-      introduced_at: 5
-    },
-    {
-      mob_id: 15,
+      mob_id: 17,
       introduced_at: 6
     },
     {
-      mob_id: 10,
-      introduced_at: 7
-    },
-    {
-      mob_id: 8,
+      mob_id: 13,
       introduced_at: 8
     },
     {
+      mob_id: 15,
+      introduced_at: 10
+    },
+    {
+      mob_id: 10,
+      introduced_at: 12
+    },
+    {
+      mob_id: 8,
+      introduced_at: 14
+    },
+    {
       mob_id: 11,
-      introduced_at: 9
+      introduced_at: 16
     },
     {
       mob_id: 12,
-      introduced_at: 10
+      introduced_at: 18
     },
     {
       mob_id: -1,

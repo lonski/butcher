@@ -6,6 +6,7 @@
 #include <actors/actions/shot_action.h>
 #include <utils/utils.h>
 #include <utils/path.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
@@ -14,6 +15,7 @@ namespace butcher {
 DungeonLayer::DungeonLayer()
     : _listener(nullptr)
     , _state(nullptr)
+    , _turnDone(true)
 {
 }
 
@@ -53,6 +55,7 @@ bool DungeonLayer::init()
                   move(Direction::South);
                   BUTCHER.nextTurn();
                 break;
+            default:;
         }
     };
 
@@ -107,7 +110,7 @@ void DungeonLayer::onExit()
 
 bool DungeonLayer::onTouchBegan(cc::Touch*, cc::Event*)
 {
-  return getPosition() == _viewPoint;
+  return _turnDone && getPosition() == _viewPoint;
 }
 
 void DungeonLayer::move(Direction::Symbol direction)
@@ -116,13 +119,14 @@ void DungeonLayer::move(Direction::Symbol direction)
 
   if ( player->performAction(new MoveAction(direction)) )
   {
-    this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
     BUTCHER.getPlayer()->notify(EventType::Moved);
+    this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
   }
 }
 
 void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 {
+  _turnDone = false;
 
   cc::Vec2 touchCoord = getTouchCoord(touch);
   Direction::Symbol direction = getTouchDirection(touchCoord);
@@ -136,6 +140,8 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 
     BUTCHER.nextTurn();
   }
+
+  _turnDone = true;
 }
 
 Target DungeonLayer::getTouchTarget(cc::Vec2 touchCoord)
@@ -179,7 +185,7 @@ void DungeonLayer::setViewPointCenter(cc::Vec2 position)
   cc::Vec2 centerOfView(winSize.width/2, winSize.height/2);
   _viewPoint = centerOfView - pos;
 
-  runAction( cc::MoveTo::create(0.15,_viewPoint));
+  runAction( cc::MoveTo::create(0.1,_viewPoint));
 }
 
 }

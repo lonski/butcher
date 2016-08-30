@@ -23,7 +23,7 @@ void Ai::update()
   }
   else
   {
-    _fsm.changeState( FSMStateType::WANDERING );
+    _fsm.changeState( FSMStateType::IDLE );
   }
 
   _fsm.update();

@@ -3,6 +3,7 @@
 #include <actors/actions/die_action.h>
 #include <butcher.h>
 #include <dungeon/dungeon_state.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 

@@ -214,16 +214,16 @@ cc::Vec2 Actor::getPosition() const
 
 void Actor::onNextTurn()
 {
-  bool anyRemoved = false;
+  std::vector<EffectID> toRemove;
 
   for ( auto& e : _effects )
     if ( e.second.tick() )
-    {
-      removeEffect(e.second.getID());
-      anyRemoved = true;
-    }
+      toRemove.push_back(e.second.getID());
 
-  if ( anyRemoved )
+  for ( EffectID id : toRemove )
+    removeEffect(id);
+
+  if ( !toRemove.empty() )
     notify(EventType::Modified);
 }
 

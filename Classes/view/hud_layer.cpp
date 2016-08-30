@@ -259,11 +259,7 @@ void HudLayer::onNotify(Subject *subject, EventType event)
 
 void HudLayer::updateMinimap()
 {
-  //Profiler p;
-
   _minimapSprite = _minimap.update();
-
-  //p.log("updateMinimap");
 }
 
 void HudLayer::showMenu(Ref *)
@@ -283,16 +279,17 @@ void HudLayer::showCraftbook(cocos2d::Ref *)
 
 void HudLayer::showMinimap(cocos2d::Ref *)
 {
-  if ( _minimapSprite )
-  {
-    removeChild(_minimapSprite, false);
-    _minimapSprite = nullptr;
-  }
-  else
-  {
-    updateMinimap();
-    addChild(_minimapSprite);
-  }
+//  if ( _minimapSprite )
+//  {
+//    removeChild(_minimapSprite, false);
+//    _minimapSprite = nullptr;
+//  }
+//  else
+//  {
+//    updateMinimap();
+//    addChild(_minimapSprite);
+//  }
+  BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
 }
 
 }

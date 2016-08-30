@@ -25,7 +25,7 @@ double Profiler::log(const std::string& logInfo, Scope scope)
 {
   double diffms = count(scope);
 
-  cocos2d::log("Profiler: %s took %fms.", logInfo.c_str(), diffms);
+  cocos2d::log("Profiler: %fms -> %s", diffms, logInfo.c_str());
 
   return diffms;
 }

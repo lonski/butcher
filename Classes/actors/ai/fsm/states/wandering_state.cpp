@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include <actors/ai/ai.h>
 #include <actors/actor.h>
+#include <utils/profiler.h>
 
 namespace butcher {
 

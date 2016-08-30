@@ -5,6 +5,7 @@
 #include <actors/player.h>
 #include <actors/inventory.h>
 #include <actors/item.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
@@ -49,6 +50,7 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer)
     t->takeDamage( a->getDamage(), performer );
 
     auto wpn = getWeapon(a);
+
     if ( wpn )
     {
       for ( Effect e : wpn->getEffects() )
@@ -64,7 +66,6 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer)
   {
     t->fadeText("miss", cocos2d::Color4B(128,128,128,255));
   }
-
   return true;
 }
 

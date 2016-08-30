@@ -90,8 +90,12 @@ void Player::onKill(std::shared_ptr<Character> killed)
   int levelDiff = getLevel() - killed->getLevel();
   float multiplier = std::min(std::max(1.f-levelDiff/10.f,0.f),1.f);
   int expBonus = static_cast<float>(killed->getExp())*multiplier;
-  fadeText("+"+toStr(expBonus),cc::Color4B(126,192,238,255), 1);
-  setExp( getExp() + expBonus );
+
+  if ( expBonus > 0 )
+  {
+    fadeText("+"+toStr(expBonus)+"XP",cc::Color4B(126,192,238,255), 1);
+    setExp( getExp() + expBonus );
+  }
 }
 
 void Player::onHit(std::shared_ptr<Character>)

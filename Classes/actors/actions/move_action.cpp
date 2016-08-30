@@ -21,42 +21,43 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
   if ( _direction == Direction::None )
     return false;
 
-  cc::Vec2 pos = actor->getPosition();
+  cc::Vec2 pos = actor->getTileCoord();
   cc::TMXTiledMap* map = _state->map();
 
   switch(_direction)
   {
-    case Direction::East: pos.x += map->getTileSize().width; break;
-    case Direction::West: pos.x -= map->getTileSize().width; break;
-    case Direction::North: pos.y += map->getTileSize().height; break;
-    case Direction::South: pos.y -= map->getTileSize().height; break;
+    case Direction::East: pos.x += 1; break;
+    case Direction::West: pos.x -= 1; break;
+    case Direction::North: pos.y -= 1; break;
+    case Direction::South: pos.y += 1; break;
     case Direction::SouthWest: {
-      pos.y -= map->getTileSize().height;
-      pos.x -= map->getTileSize().width;
+      pos.y += 1;
+      pos.x -= 1;
     }break;
     case Direction::SouthEast: {
-      pos.y -= map->getTileSize().height;
-      pos.x += map->getTileSize().width;
+      pos.y += 1;
+      pos.x += 1;
     }break;
     case Direction::NorthEast: {
-      pos.y += map->getTileSize().height;
-      pos.x += map->getTileSize().width;
+      pos.y -= 1;
+      pos.x += 1;
     }break;
     case Direction::NorthWest: {
-      pos.y += map->getTileSize().height;
-      pos.x -= map->getTileSize().width;
+      pos.y -= 1;
+      pos.x -= 1;
     }break;
     default:;
   }
 
-  if ( !validatePosition(pos) )
+  auto pixelPos = tileCoordToPosition(map, pos);
+  if ( !validatePosition(pixelPos) )
   {
     cc::log("MoveAction: invalid position!");
     return false;
   }
 
   std::shared_ptr<Actor> blocking_actor;
-  if ( _state->isBlocked(positionToTileCoord(map,pos), &blocking_actor) )
+  if ( _state->isBlocked(pos, &blocking_actor) )
   {
     if ( blocking_actor != nullptr )
       actor->onCollide(blocking_actor);
@@ -64,9 +65,9 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
     return false;
   }
 
-  actor->setPosition(pos, true);
+  actor->setPosition(pixelPos, true);
 
-  cc::MoveTo* move_action = cc::MoveTo::create(0.15, pos);
+  cc::MoveTo* move_action = cc::MoveTo::create(0.1, pixelPos);
   actor->getSprite()->runAction( move_action );
 
   for ( auto a : _state->getActorsAt(actor->getTileCoord()) )

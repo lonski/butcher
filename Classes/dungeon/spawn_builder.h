@@ -32,9 +32,13 @@ private:
   bool addActorSpawn(int id, int y, int x);
   bool addActorSpawn(int id, cocos2d::Vec2 pos);
   std::shared_ptr<Rect> getRandomRoom() const;
-  void debugMapPrint();
   ActorID getRandomMobID();
   bool canInsertObject(cocos2d::ValueMap obj);
+
+  void debugMapPrint();
+  void debugSpawnStatsPrint();
+
+  std::map<ActorID, int> _spawnStats;
 
 };
 

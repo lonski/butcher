@@ -2,6 +2,7 @@
 #include <butcher.h>
 #include <actors/amounted_item.h>
 #include <actors/actions/pickup_action.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
