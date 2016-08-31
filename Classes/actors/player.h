@@ -39,6 +39,8 @@ public:
   virtual bool canShootAt(cocos2d::Vec2 coord);
   bool isUsingRangedWeapon();
 
+  void autoheal();
+
 private:
   Inventory _inventory;
   CraftBook _craftbook;

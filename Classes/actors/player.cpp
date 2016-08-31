@@ -233,6 +233,18 @@ bool Player::isUsingRangedWeapon()
   return true;
 }
 
+void Player::autoheal()
+{
+  if ( getHp() < getMaxHp() )
+  {
+    if ( cc::RandomHelper::random_int(0,100) < 20 )
+    {
+      setHp(getHp() + 1);
+      fadeText("+1HP", cc::Color4B::GREEN);
+    }
+  }
+}
+
 CraftBook& Player::getCraftbook()
 {
   return _craftbook;

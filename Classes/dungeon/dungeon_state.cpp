@@ -7,6 +7,7 @@
 #include <lib/permissive-fov-cpp.h>
 #include <utils/profiler.h>
 #include <actors/object.h>
+#include <actors/monster.h>
 
 namespace cc = cocos2d;
 
@@ -301,6 +302,17 @@ void DungeonState::visit(int x, int y)
 bool DungeonState::isInFov(cocos2d::Vec2 tileCoord)
 {
   return _exploredMask.get(tileCoord) == Tiles::FoV;
+}
+
+bool DungeonState::isAnyMobInFov()
+{
+  for( std::shared_ptr<Actor> a : _actors )
+  {
+    std::shared_ptr<Monster> mob = std::dynamic_pointer_cast<Monster>(a);
+    if ( mob && isInFov(mob->getTileCoord()) )
+      return true;
+  }
+  return false;
 }
 
 void DungeonState::computeFov(int x, int y)

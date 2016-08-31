@@ -132,9 +132,14 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   Direction::Symbol direction = getTouchDirection(touchCoord);
   Target target = getTouchTarget(touchCoord);
 
-  if ( direction != Direction::None )
+  auto player = BUTCHER.getPlayer();
+
+  if ( direction == Direction::Middle && !_state->isAnyMobInFov() )
   {
-    auto player = BUTCHER.getPlayer();
+    player->autoheal();
+  }
+  else if ( direction != Direction::None )
+  {
     if ( target.actors.empty() || !player->performAction(new ShotAction(target)) )
       move(direction);
 

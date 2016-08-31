@@ -46,6 +46,7 @@ public:
 
   void visit(int x, int y);
   bool isInFov(cocos2d::Vec2 tileCoord);
+  bool isAnyMobInFov();
 
   std::vector< std::shared_ptr<Actor> > getActorsAt(cocos2d::Vec2 coord,
                                                     std::function<bool(std::shared_ptr<Actor>)> filterFn = [](std::shared_ptr<Actor>){return true;});
