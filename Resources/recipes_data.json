@@ -11,11 +11,11 @@
       ingridients: [ 
         {
           item_id: 6,
-          amount: 12
+          amount: 8
         },
         {
           item_id: 57,
-          amount: 3
+          amount: 2
         }
       ]
     },
@@ -30,11 +30,11 @@
       ingridients: [ 
         {
           item_id: 6,
-          amount: 6
+          amount: 5
         },
         {
           item_id: 57,
-          amount: 6
+          amount: 4
         }
       ]
     },
@@ -49,15 +49,15 @@
       ingridients: [ 
         {
           item_id: 6,
-          amount: 6
+          amount: 5
         },
         {
           item_id: 24,
-          amount: 3
+          amount: 2
         },
         {
           item_id: 57,
-          amount: 3
+          amount: 2
         }
       ]
     },
@@ -72,7 +72,7 @@
       ingridients: [ 
         {
           item_id: 6,
-          amount: 30
+          amount: 20
         },
         {
           item_id: 57,
@@ -95,7 +95,7 @@
       ingridients: [ 
         {
           item_id: 6,
-          amount: 20
+          amount: 16
         },
         {
           item_id: 57,
@@ -122,7 +122,7 @@
         },
         {
           item_id: 23,
-          amount: 15
+          amount: 12
         },
         {
           item_id: 22,
@@ -370,6 +370,391 @@
         {
           item_id: 22,
           amount: 15
+        }
+      ]
+    },
+    {
+      id:16,
+      type:2,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:39,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 8
+        },
+        {
+          item_id: 57,
+          amount: 2
+        },
+        {
+          item_id: 6,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:17,
+      type:2,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:40,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 4
+        },
+        {
+          item_id: 57,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:18,
+      type:2,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:41,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 5
+        },
+        {
+          item_id: 57,
+          amount: 2
+        },
+        {
+          item_id: 6,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:19,
+      type:2,
+      level:2,
+      cost:2,
+      success_chance:90,
+      product_id:42,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 18
+        },
+        {
+          item_id: 5,
+          amount: 8
+        },
+        {
+          item_id: 57,
+          amount: 2
+        },
+        {
+          item_id: 22,
+          amount: 2
+        }
+      ]
+    },
+    {
+      id:20,
+      type:2,
+      level:2,
+      cost:2,
+      success_chance:90,
+      product_id:43,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 22,
+          amount: 16
+        },
+        {
+          item_id: 57,
+          amount: 2
+        }
+      ]
+    },
+    {
+      id:21,
+      type:2,
+      level:2,
+      cost:2,
+      success_chance:90,
+      product_id:44,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 12
+        },
+        {
+          item_id: 22,
+          amount: 4
+        },
+        {
+          item_id: 6,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:22,
+      type:2,
+      level:3,
+      cost:4,
+      success_chance:90,
+      product_id:45,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 58,
+          amount: 20
+        },
+        {
+          item_id: 6,
+          amount: 8
+        },
+        {
+          item_id: 24,
+          amount: 30
+        },
+        {
+          item_id: 22,
+          amount: 8
+        }
+      ]
+    },
+    {
+      id:23,
+      type:2,
+      level:3,
+      cost:4,
+      success_chance:90,
+      product_id:46,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 18
+        },
+        {
+          item_id: 60,
+          amount: 10
+        },
+        {
+          item_id: 22,
+          amount: 2
+        }
+      ]
+    },
+    {
+      id:24,
+      type:2,
+      level:3,
+      cost:4,
+      success_chance:90,
+      product_id:47,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 16
+        },
+        {
+          item_id: 60,
+          amount: 6
+        },
+        {
+          item_id: 22,
+          amount: 6
+        }
+      ]
+    },
+    {
+      id:25,
+      type:2,
+      level:4,
+      cost:8,
+      success_chance:90,
+      product_id:48,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 23,
+          amount: 20
+        },
+        {
+          item_id: 59,
+          amount: 12
+        },
+        {
+          item_id: 24,
+          amount: 15
+        },
+        {
+          item_id: 60,
+          amount: 20
+        },
+        {
+          item_id: 22,
+          amount: 8
+        },
+        {
+          item_id: 57,
+          amount: 10
+        }
+      ]
+    },
+    {
+      id:26,
+      type:2,
+      level:4,
+      cost:8,
+      success_chance:90,
+      product_id:49,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 18
+        },
+        {
+          item_id: 60,
+          amount: 15
+        },
+        {
+          item_id: 22,
+          amount: 2
+        },
+        {
+          item_id: 21,
+          amount: 6
+        }
+      ]
+    },
+    {
+      id:27,
+      type:2,
+      level:4,
+      cost:8,
+      success_chance:90,
+      product_id:50,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 20
+        },
+        {
+          item_id: 60,
+          amount: 12
+        },
+        {
+          item_id: 22,
+          amount: 6
+        },
+        {
+          item_id: 21,
+          amount: 6
+        }
+      ]
+    },
+    {
+      id:28,
+      type:2,
+      level:5,
+      cost:16,
+      success_chance:90,
+      product_id:51,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 20,
+          amount: 20
+        },
+        {
+          item_id: 24,
+          amount: 20
+        },
+        {
+          item_id: 60,
+          amount: 30
+        },
+        {
+          item_id: 22,
+          amount: 8
+        },
+        {
+          item_id: 57,
+          amount: 10
+        }
+      ]
+    },
+    {
+      id:29,
+      type:2,
+      level:5,
+      cost:16,
+      success_chance:90,
+      product_id:52,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 20
+        },
+        {
+          item_id: 60,
+          amount: 25
+        },
+        {
+          item_id: 22,
+          amount: 10
+        },
+        {
+          item_id: 20,
+          amount: 16
+        }
+      ]
+    },
+    {
+      id:30,
+      type:2,
+      level:5,
+      cost:16,
+      success_chance:90,
+      product_id:53,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 24,
+          amount: 20
+        },
+        {
+          item_id: 60,
+          amount: 25
+        },
+        {
+          item_id: 22,
+          amount: 10
+        },
+        {
+          item_id: 21,
+          amount: 6
+        },
+        {
+          item_id: 20,
+          amount: 8
         }
       ]
     }

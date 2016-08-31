@@ -335,6 +335,15 @@
       transparent:1
     },
     {
+      id:60,
+      name:"Thick skin",
+      level:3,
+      category:1,
+      type:2,
+      sprite_file:"images/thick_skin.png",
+      transparent:1
+    },
+    {
       id:19,
       name:"Bone Club",
       damage:"1d4",
@@ -543,13 +552,14 @@
     },
     {
       id:40,
-      name:"Tendon Wrappings",
+      name:"Leather Wrappings",
       attack:1,
       level:1,
       body_slot:3,
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/leather_wrappings.png",
       transparent:1
     },
     {
@@ -561,11 +571,12 @@
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/leather_slippers.png",
       transparent:1
     },
     {
       id:42,
-      name:"Meat Rainforced Armor",
+      name:"Meat Reinforced Armor",
       damage_reduction:2,
       level:4,
       body_slot:2,
@@ -577,13 +588,14 @@
     },
     {
       id:43,
-      name:"Leather Wrappings",
+      name:"Tendon Wrappings",
       attack:2,
       level:4,
       body_slot:3,
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/tendon_wrappings.png",
       transparent:1
     },
     {
@@ -595,11 +607,12 @@
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/leather_sandals.png",
       transparent:1
     },
     {
       id:45,
-      name:"Bone Rainforced Armor",
+      name:"Bone Reinforced Armor",
       damage_reduction:3,
       level:8,
       body_slot:2,
@@ -611,13 +624,14 @@
     },
     {
       id:46,
-      name:"Udder Gloves",
+      name:"Leather Gloves",
       attack:3,
       level:8,
       body_slot:3,
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/leather_gloves.png",
       transparent:1
     },
     {
@@ -629,6 +643,7 @@
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/leather_boots.png",
       transparent:1
     },
     {
@@ -645,24 +660,26 @@
     },
     {
       id:49,
-      name:"Leather Gloves",
+      name:"Meat Reinforced Gloves",
       attack:4,
       level:12,
       body_slot:3,
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/meat_gloves.png",
       transparent:1
     },
     {
       id:50,
-      name:"Leather High Boots",
+      name:"Meat Reinforced Boots",
       defense:4,
       level:12,
       body_slot:4,
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/meat_boots.png",
       transparent:1
     },
     {
@@ -686,6 +703,7 @@
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/spiked_gloves.png",
       transparent:1
     },
     {
@@ -697,6 +715,7 @@
       break_chance:1000,
       category:3,
       type:2,
+      sprite_file:"images/spiked_boots.png",
       transparent:1
     },
     {
