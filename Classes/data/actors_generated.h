@@ -47,8 +47,9 @@ inline flatbuffers::Offset<ActorsData> CreateActorsData(flatbuffers::FlatBufferB
 struct DropRuleData : private flatbuffers::Table {
   uint32_t item_id() const { return GetField<uint32_t>(4, 0); }
   uint16_t chance() const { return GetField<uint16_t>(6, 0); }
-  uint16_t amount_min() const { return GetField<uint16_t>(8, 0); }
-  uint16_t amount_max() const { return GetField<uint16_t>(10, 0); }
+  int32_t random_ingridient_level() const { return GetField<int32_t>(8, 0); }
+  uint16_t amount_min() const { return GetField<uint16_t>(10, 0); }
+  uint16_t amount_max() const { return GetField<uint16_t>(12, 0); }
 };
 
 struct DropRuleDataBuilder {
@@ -56,14 +57,16 @@ struct DropRuleDataBuilder {
   flatbuffers::uoffset_t start_;
   void add_item_id(uint32_t item_id) { fbb_.AddElement<uint32_t>(4, item_id, 0); }
   void add_chance(uint16_t chance) { fbb_.AddElement<uint16_t>(6, chance, 0); }
-  void add_amount_min(uint16_t amount_min) { fbb_.AddElement<uint16_t>(8, amount_min, 0); }
-  void add_amount_max(uint16_t amount_max) { fbb_.AddElement<uint16_t>(10, amount_max, 0); }
+  void add_random_ingridient_level(int32_t random_ingridient_level) { fbb_.AddElement<int32_t>(8, random_ingridient_level, 0); }
+  void add_amount_min(uint16_t amount_min) { fbb_.AddElement<uint16_t>(10, amount_min, 0); }
+  void add_amount_max(uint16_t amount_max) { fbb_.AddElement<uint16_t>(12, amount_max, 0); }
   DropRuleDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<DropRuleData> Finish() { return flatbuffers::Offset<DropRuleData>(fbb_.EndTable(start_, 4)); }
+  flatbuffers::Offset<DropRuleData> Finish() { return flatbuffers::Offset<DropRuleData>(fbb_.EndTable(start_, 5)); }
 };
 
-inline flatbuffers::Offset<DropRuleData> CreateDropRuleData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t item_id, uint16_t chance, uint16_t amount_min, uint16_t amount_max) {
+inline flatbuffers::Offset<DropRuleData> CreateDropRuleData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t item_id, uint16_t chance, int32_t random_ingridient_level, uint16_t amount_min, uint16_t amount_max) {
   DropRuleDataBuilder builder_(_fbb);
+  builder_.add_random_ingridient_level(random_ingridient_level);
   builder_.add_item_id(item_id);
   builder_.add_amount_max(amount_max);
   builder_.add_amount_min(amount_min);

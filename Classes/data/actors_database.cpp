@@ -45,4 +45,17 @@ bool ActorDatabase::load(const std::string &fn)
   return true;
 }
 
+std::vector<ActorID> ActorDatabase::getActorIDs(std::function<bool (const Actor &)> filter)
+{
+  std::vector<ActorID> ids;
+
+  for ( auto& kv : _actorTemplates )
+  {
+    if ( filter(*kv.second) )
+      ids.push_back(kv.first);
+  }
+
+  return ids;
+}
+
 }

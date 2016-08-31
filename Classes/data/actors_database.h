@@ -19,6 +19,8 @@ public:
   std::string getName(ActorID id);
   bool load(const std::string& fn);
 
+  std::vector<ActorID> getActorIDs(std::function<bool(const Actor& actor)> filter);
+
   template<typename T>
   std::unique_ptr<T> createActor(ActorID id)
   {

@@ -17,6 +17,7 @@ enum ActorType:byte {
 table DropRuleData {
 	item_id:uint;
 	chance:ushort;
+	random_ingridient_level:int;
 	amount_min:ushort;
 	amount_max:ushort;
 }

@@ -13,6 +13,7 @@ struct DropRule
     , chance(0)
     , amountMin(0)
     , amountMax(0)
+    , randomIngridientLevel(0)
   {}
 
   DropRule(const DropRuleData* d)
@@ -20,6 +21,7 @@ struct DropRule
     , chance(d->chance() )
     , amountMin(d->amount_min())
     , amountMax(d->amount_max())
+    , randomIngridientLevel(d->random_ingridient_level())
   {
   }
 
@@ -27,6 +29,7 @@ struct DropRule
   int chance;
   int amountMin;
   int amountMax;
+  int randomIngridientLevel;
 };
 
 }

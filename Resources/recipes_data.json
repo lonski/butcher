@@ -4,18 +4,18 @@
       id:1,
       type:1,
       level:1,
-      cost:2,
+      cost:1,
       success_chance:90,
       product_id:19,
       product_amount:1,
       ingridients: [ 
         {
           item_id: 6,
-          amount: 4
+          amount: 12
         },
         {
-          item_id: 22,
-          amount: 1
+          item_id: 57,
+          amount: 3
         }
       ]
     },
@@ -23,22 +23,18 @@
       id:2,
       type:1,
       level:1,
-      cost:2,
+      cost:1,
       success_chance:90,
       product_id:25,
       product_amount:1,
       ingridients: [ 
         {
           item_id: 6,
-          amount: 4
+          amount: 6
         },
         {
-          item_id: 22,
-          amount: 1
-        },
-        {
-          item_id: 23,
-          amount: 1
+          item_id: 57,
+          amount: 6
         }
       ]
     },
@@ -46,7 +42,7 @@
       id:3,
       type:1,
       level:1,
-      cost:2,
+      cost:1,
       success_chance:90,
       product_id:34,
       product_amount:1,
@@ -57,11 +53,11 @@
         },
         {
           item_id: 24,
-          amount: 1
+          amount: 3
         },
         {
-          item_id: 22,
-          amount: 4
+          item_id: 57,
+          amount: 3
         }
       ]
     },
@@ -69,18 +65,18 @@
       id:4,
       type:1,
       level:2,
-      cost:4,
+      cost:2,
       success_chance:90,
       product_id:26,
       product_amount:1,
       ingridients: [ 
         {
           item_id: 6,
-          amount: 16
+          amount: 30
         },
         {
-          item_id: 24,
-          amount: 1
+          item_id: 57,
+          amount: 8
         },
         {
           item_id: 22,
@@ -92,22 +88,22 @@
       id:5,
       type:1,
       level:2,
-      cost:4,
+      cost:2,
       success_chance:90,
       product_id:27,
       product_amount:1,
       ingridients: [ 
         {
-          item_id: 23,
-          amount: 4
-        },
-        {
           item_id: 6,
+          amount: 20
+        },
+        {
+          item_id: 57,
           amount: 4
         },
         {
-          item_id: 22,
-          amount: 2
+          item_id: 23,
+          amount: 8
         }
       ]
     },
@@ -115,7 +111,7 @@
       id:6,
       type:1,
       level:2,
-      cost:4,
+      cost:2,
       success_chance:90,
       product_id:35,
       product_amount:1,
@@ -125,12 +121,12 @@
           amount: 10
         },
         {
-          item_id: 22,
-          amount: 8
+          item_id: 23,
+          amount: 15
         },
         {
-          item_id: 24,
-          amount: 1
+          item_id: 22,
+          amount: 10
         }
       ]
     },
@@ -138,26 +134,26 @@
       id:7,
       type:1,
       level:3,
-      cost:6,
+      cost:4,
       success_chance:90,
       product_id:28,
       product_amount:1,
       ingridients: [ 
         {
-          item_id: 23,
-          amount: 1
+          item_id: 6,
+          amount: 30
         },
         {
-          item_id: 6,
-          amount: 16
+          item_id: 58,
+          amount: 10
+        },
+        {
+          item_id: 57,
+          amount: 8
         },
         {
           item_id: 22,
-          amount: 1
-        },
-        {
-          item_id: 24,
-          amount: 1
+          amount: 2
         }
       ]
     },
@@ -165,18 +161,22 @@
       id:8,
       type:1,
       level:3,
-      cost:6,
+      cost:4,
       success_chance:90,
       product_id:29,
       product_amount:1,
       ingridients: [ 
         {
           item_id: 6,
+          amount: 14
+        },
+        {
+          item_id: 58,
           amount: 6
         },
         {
-          item_id: 22,
-          amount: 4
+          item_id: 57,
+          amount: 15
         },
         {
           item_id: 24,
@@ -188,26 +188,30 @@
       id:9,
       type:1,
       level:3,
-      cost:6,
+      cost:4,
       success_chance:90,
       product_id:36,
       product_amount:1,
       ingridients: [ 
         {
-          item_id: 23,
-          amount: 6
-        },
-        {
           item_id: 6,
-          amount: 2
+          amount: 5
         },
         {
-          item_id: 22,
-          amount: 8
+          item_id: 58,
+          amount: 10
         },
         {
           item_id: 24,
-          amount: 1
+          amount: 4
+        },
+        {
+          item_id: 57,
+          amount: 4
+        },
+        {
+          item_id: 22,
+          amount: 10
         }
       ]
     },
@@ -222,15 +226,15 @@
       ingridients: [ 
         {
           item_id: 23,
+          amount: 8
+        },
+        {
+          item_id: 59,
           amount: 4
         },
         {
-          item_id: 6,
-          amount: 16
-        },
-        {
-          item_id: 22,
-          amount: 1
+          item_id: 58,
+          amount: 30
         },
         {
           item_id: 24,
@@ -248,20 +252,24 @@
       product_amount:1,
       ingridients: [ 
         {
-          item_id: 6,
+          item_id: 21,
+          amount: 8
+        },
+        {
+          item_id: 58,
+          amount: 10
+        },
+        {
+          item_id: 24,
           amount: 4
         },
         {
           item_id: 22,
-          amount: 4
+          amount: 10
         },
         {
-          item_id: 24,
-          amount: 1
-        },
-        {
-          item_id: 21,
-          amount: 3
+          item_id: 57,
+          amount: 10
         }
       ]
     },
@@ -279,16 +287,16 @@
           amount: 8
         },
         {
-          item_id: 6,
-          amount: 2
+          item_id: 59,
+          amount: 10
         },
         {
-          item_id: 24,
-          amount: 1
+          item_id: 58,
+          amount: 4
         },
         {
           item_id: 22,
-          amount: 8
+          amount: 14
         }
       ]
     },
@@ -296,26 +304,22 @@
       id:13,
       type:1,
       level:5,
-      cost:10,
+      cost:16,
       success_chance:90,
       product_id:32,
       product_amount:1,
       ingridients: [ 
         {
           item_id: 20,
-          amount: 4
+          amount: 15
         },
         {
-          item_id: 6,
-          amount: 20
+          item_id: 58,
+          amount: 40
         },
         {
           item_id: 22,
-          amount: 4
-        },
-        {
-          item_id: 24,
-          amount: 2
+          amount: 10
         }
       ]
     },
@@ -323,26 +327,22 @@
       id:14,
       type:1,
       level:5,
-      cost:10,
+      cost:16,
       success_chance:90,
       product_id:33,
       product_amount:1,
       ingridients: [ 
         {
           item_id: 20,
-          amount: 4
+          amount: 20
         },
         {
-          item_id: 6,
-          amount: 10
+          item_id: 58,
+          amount: 24
         },
         {
           item_id: 22,
-          amount: 2
-        },
-        {
-          item_id: 24,
-          amount: 1
+          amount: 10
         }
       ]
     },
@@ -350,311 +350,26 @@
       id:15,
       type:1,
       level:5,
-      cost:10,
+      cost:16,
       success_chance:90,
       product_id:38,
       product_amount:1,
       ingridients: [ 
         {
+          item_id: 59,
+          amount: 20
+        },
+        {
           item_id: 23,
-          amount: 4
+          amount: 6
         },
         {
-          item_id: 6,
-          amount: 12
-        },
-        {
-          item_id: 22,
+          item_id: 58,
           amount: 10
         },
         {
-          item_id: 24,
-          amount: 1
-        }
-      ]
-    },
-    {
-      id:16,
-      type:2,
-      level:1,
-      cost:2,
-      success_chance:90,
-      product_id:39,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
           item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:17,
-      type:2,
-      level:1,
-      cost:2,
-      success_chance:90,
-      product_id:40,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:18,
-      type:2,
-      level:1,
-      cost:2,
-      success_chance:90,
-      product_id:41,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:19,
-      type:2,
-      level:2,
-      cost:4,
-      success_chance:90,
-      product_id:42,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:20,
-      type:2,
-      level:2,
-      cost:4,
-      success_chance:90,
-      product_id:43,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:21,
-      type:2,
-      level:2,
-      cost:4,
-      success_chance:90,
-      product_id:44,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:22,
-      type:2,
-      level:3,
-      cost:6,
-      success_chance:90,
-      product_id:45,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:23,
-      type:2,
-      level:3,
-      cost:6,
-      success_chance:90,
-      product_id:46,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:24,
-      type:2,
-      level:3,
-      cost:6,
-      success_chance:90,
-      product_id:47,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:25,
-      type:2,
-      level:4,
-      cost:8,
-      success_chance:90,
-      product_id:48,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:26,
-      type:2,
-      level:4,
-      cost:8,
-      success_chance:90,
-      product_id:49,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:27,
-      type:2,
-      level:4,
-      cost:8,
-      success_chance:90,
-      product_id:50,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:28,
-      type:2,
-      level:5,
-      cost:10,
-      success_chance:90,
-      product_id:51,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:29,
-      type:2,
-      level:5,
-      cost:10,
-      success_chance:90,
-      product_id:52,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
-        }
-      ]
-    },
-    {
-      id:30,
-      type:2,
-      level:5,
-      cost:10,
-      success_chance:90,
-      product_id:53,
-      product_amount:1,
-      ingridients: [ 
-        {
-          item_id: 24,
-          amount: 12
-        },
-        {
-          item_id: 22,
-          amount: 4
+          amount: 15
         }
       ]
     }

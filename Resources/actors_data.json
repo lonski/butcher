@@ -67,44 +67,14 @@
         {
           item_id: 6,
           amount_min: 1,
-          amount_max: 1,
+          amount_max: 2,
           chance: 15
         },
         {
-          item_id: 5,
-          amount_min: 1,
-          amount_max: 1,
-          chance: 15
-        },
-        {
-          item_id: 24,
-          amount_min: 1,
-          amount_max: 1,
-          chance: 10
-        },
-        {
-          item_id: 54,
+          random_ingridient_level: 1,
           amount_min: 1,
           amount_max: 3,
-          chance: 99
-        },
-        {
-          item_id: 55,
-          amount_min: 1,
-          amount_max: 3,
-          chance: 99
-        },
-        {
-          item_id: 56,
-          amount_min: 1,
-          amount_max: 3,
-          chance: 99
-        },
-        {
-          item_id: 25,
-          amount_min: 1,
-          amount_max: 1,
-          chance: 99
+          chance: 5
         }
       ]
     },
@@ -124,14 +94,14 @@
         {
           item_id: 6,
           amount_min: 1,
-          amount_max: 1,
+          amount_max: 3,
           chance: 20
         },
         {
-          item_id: 5,
-          amount_min: 1,
-          amount_max: 2,
-          chance: 15
+          random_ingridient_level: 1,
+          amount_min: 2,
+          amount_max: 4,
+          chance: 8
         }
       ]
     },
@@ -147,7 +117,25 @@
       sprite_file:"images/cow_cook.png",
       blocks:1,
       transparent:1,
-      drop_rules: [
+      drop_rules: [ 
+        {
+          item_id: 6,
+          amount_min: 2,
+          amount_max: 4,
+          chance: 20
+        },
+        {
+          random_ingridient_level: 1,
+          amount_min: 1,
+          amount_max: 4,
+          chance: 10
+        },
+        {
+          random_ingridient_level: 2,
+          amount_min: 1,
+          amount_max: 2,
+          chance: 4
+        }
       ]
     },
     {
@@ -259,6 +247,7 @@
     {
       id:5,
       name:"Meat",
+      level:1,
       category:1,
       type:2,
       sprite_file:"images/meat.png",
@@ -267,6 +256,7 @@
     {
       id:6,
       name:"Bone",
+      level:1,
       category:1,
       type:2,
       sprite_file:"images/bone.png",
@@ -275,6 +265,7 @@
     {
       id:20,
       name:"Scapula",
+      level:5,
       category:1,
       type:2,
       sprite_file:"images/scapula.png",
@@ -283,6 +274,7 @@
     {
       id:21,
       name:"Hoof",
+      level:4,
       category:1,
       type:2,
       sprite_file:"images/hoof.png",
@@ -291,6 +283,7 @@
     {
       id:22,
       name:"Tendon",
+      level:2,
       category:1,
       type:2,
       sprite_file:"images/tendon.png",
@@ -299,6 +292,7 @@
     {
       id:23,
       name:"Rib",
+      level:2,
       category:1,
       type:2,
       sprite_file:"images/rib.png",
@@ -307,9 +301,37 @@
     {
       id:24,
       name:"Skin",
+      level:1,
       category:1,
       type:2,
       sprite_file:"images/skin.png",
+      transparent:1
+    },
+    {
+      id:57,
+      name:"Intestines",
+      level:1,
+      category:1,
+      type:2,
+      sprite_file:"images/intestines.png",
+      transparent:1
+    },
+    {
+      id:58,
+      name:"Curved bone",
+      level:3,
+      category:1,
+      type:2,
+      sprite_file:"images/curved_bone.png",
+      transparent:1
+    },
+    {
+      id:59,
+      name:"Sharp rib",
+      level:4,
+      category:1,
+      type:2,
+      sprite_file:"images/sharp_rib.png",
       transparent:1
     },
     {
@@ -344,7 +366,7 @@
       level:1,
       body_slot:1,
       range:2,
-      ammo_id:21,
+      ammo_id:6,
       break_chance:1000,
       category:2,
       type:2,

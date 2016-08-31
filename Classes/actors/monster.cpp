@@ -52,12 +52,34 @@ void Monster::onDestroy(std::shared_ptr<Actor> destroyer)
 {
   for(DropRule& drop : _dropRules)
   {
-    if ( cc::RandomHelper::random_int(0, 100) <= drop.chance )
+    if ( drop.randomIngridientLevel > 0 )
     {
-      AmountedItem item( std::shared_ptr<Item>( BUTCHER.actorsDatabase().createActor<Item>(drop.itemId) ),
-                    cc::RandomHelper::random_int(drop.amountMin, drop.amountMax) );
+      int amount = cc::RandomHelper::random_int(drop.amountMin, drop.amountMax);
+      for ( int i = 0; i < amount; i++)
+      {
+        if ( cc::RandomHelper::random_int(0, 100) <= drop.chance )
+        {
+          std::vector<ActorID> ingridients = BUTCHER.actorsDatabase().getActorIDs([drop](const Actor& actor){
+            const Item* i = dynamic_cast<const Item*>(&actor);
+            return i && i->getCategory() == ItemCategory::Ingridient && i->getLevel() <= drop.randomIngridientLevel;
+          });
 
-      destroyer->performAction( new PickUpAction(item) );
+          ActorID ingridientID = ingridients[ cc::RandomHelper::random_int(0, (int)ingridients.size() - 1) ];
+          AmountedItem item( std::shared_ptr<Item>( BUTCHER.actorsDatabase().createActor<Item>(ingridientID) ), 1);
+
+          destroyer->performAction( new PickUpAction(item) );
+        }
+      }
+    }
+    else if ( drop.itemId != ActorID::INVALID )
+    {
+      if ( cc::RandomHelper::random_int(0, 100) <= drop.chance )
+      {
+        AmountedItem item( std::shared_ptr<Item>( BUTCHER.actorsDatabase().createActor<Item>(drop.itemId) ),
+                      cc::RandomHelper::random_int(drop.amountMin, drop.amountMax) );
+
+        destroyer->performAction( new PickUpAction(item) );
+      }
     }
   }
 
