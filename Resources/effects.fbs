@@ -5,7 +5,7 @@ table EffectsData {
 }
 
 table ModifierData {
-	attribute:uint;
+	attr:uint;
 	value:int;
 	special:uint;
 }

@@ -35,6 +35,7 @@ public:
   void onExit();
 
   bool removeActor(std::shared_ptr<Actor> actor, bool remove_node_child = true);
+  void addActor(std::shared_ptr<Actor> actor);
 
   void nextTurn();
 

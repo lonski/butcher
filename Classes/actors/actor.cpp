@@ -12,6 +12,7 @@
 #include <actors/instances/stairs_down.h>
 #include <actors/instances/stairs_up.h>
 #include <actors/instances/door.h>
+#include <actors/trap.h>
 
 namespace cc = cocos2d;
 
@@ -69,6 +70,9 @@ std::unique_ptr<Actor> Actor::create(const ActorData *data)
       break;
     case ActorType_Door:
       actor.reset(new Door(data));
+      break;
+    case ActorType_Trap:
+      actor.reset(new Trap(data));
       break;
     default:
       cc::log("Actor::create: incorrect actor type (%d)!", data->type());
@@ -167,6 +171,14 @@ bool Actor::performAction(ActorAction *action)
 
 bool Actor::isOutOfControl()
 {
+  for ( auto& pair : _effects )
+  {
+    Effect& e = pair.second;
+    for ( Modifier& m : e.getModifiers() )
+      if ( m.special == SpecialModifierType::Paralyzed )
+        return true;
+  }
+
   return false;
 }
 

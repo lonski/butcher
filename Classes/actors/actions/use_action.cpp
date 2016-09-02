@@ -3,6 +3,7 @@
 #include <butcher.h>
 #include <actors/character.h>
 #include <actors/player.h>
+#include <dungeon/dungeon_state.h>
 
 namespace cc = cocos2d;
 
@@ -117,7 +118,13 @@ bool UseAction::useOnWeapon()
 
 bool UseAction::useOnFloor()
 {
-  return false;
+  std::shared_ptr<Actor> item = _item.item->clone();
+  item->setTileCoord( BUTCHER.getPlayer()->getTileCoord() );
+
+  DungeonState* dung = BUTCHER.getCurrentDungeon();
+  dung->addActor(item);
+
+  return true;
 }
 
 }

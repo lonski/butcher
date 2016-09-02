@@ -11,7 +11,8 @@ enum ActorType:byte {
 	Object = 3,
 	StairsDown = 4,
 	StairsUp = 5,
-	Door = 6
+	Door = 6,
+	Trap = 7
 }
 
 table DropRuleData {
@@ -41,6 +42,7 @@ table ActorData {
 	body_slot:int;
 	category:int;
 	range:int;
+	radius:int;
 	ammo_id:int;
 	effect_id:int;
 	is_usable:bool; 

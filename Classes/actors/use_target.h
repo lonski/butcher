@@ -9,7 +9,8 @@ enum class UseTarget {
   None = 0,
   Self = 1,
   Weapon = 2,
-  Floor  = 3
+  Floor  = 3,
+  Range  = 4
 };
 
 static inline std::string UseTarget2Str(UseTarget t)

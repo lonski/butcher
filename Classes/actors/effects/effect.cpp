@@ -24,7 +24,7 @@ Effect::Effect(const EffectData *data)
       const ModifierData* m = mods->Get(i);
 
       _modifiers.push_back(
-            Modifier(static_cast<AttributeType>(m->attribute()),
+            Modifier(static_cast<AttributeType>(m->attr()),
                      m->value(),
                      static_cast<SpecialModifierType>(m->special()) ) );
     }
@@ -52,7 +52,7 @@ bool Effect::tick()
   if ( _turns < 0 )
     return false;
 
-  return --_turns <= 0;
+  return _turns-- <= 0;
 }
 
 void Effect::setOnRemoveFn(std::function<void ()> fn)

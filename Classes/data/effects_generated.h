@@ -1,6 +1,7 @@
 // automatically generated, do not modify
-#ifndef effects_generated
-#define effects_generated
+
+#ifndef FLATBUFFERS_GENERATED_EFFECTS_BUTCHER_H_
+#define FLATBUFFERS_GENERATED_EFFECTS_BUTCHER_H_
 #include "flatbuffers/flatbuffers.h"
 
 namespace butcher {
@@ -28,7 +29,7 @@ inline flatbuffers::Offset<EffectsData> CreateEffectsData(flatbuffers::FlatBuffe
 }
 
 struct ModifierData : private flatbuffers::Table {
-  uint32_t attribute() const { return GetField<uint32_t>(4, 0); }
+  uint32_t attr() const { return GetField<uint32_t>(4, 0); }
   int32_t value() const { return GetField<int32_t>(6, 0); }
   uint32_t special() const { return GetField<uint32_t>(8, 0); }
 };
@@ -36,18 +37,18 @@ struct ModifierData : private flatbuffers::Table {
 struct ModifierDataBuilder {
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_attribute(uint32_t attribute) { fbb_.AddElement<uint32_t>(4, attribute, 0); }
+  void add_attr(uint32_t attr) { fbb_.AddElement<uint32_t>(4, attr, 0); }
   void add_value(int32_t value) { fbb_.AddElement<int32_t>(6, value, 0); }
   void add_special(uint32_t special) { fbb_.AddElement<uint32_t>(8, special, 0); }
   ModifierDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
   flatbuffers::Offset<ModifierData> Finish() { return flatbuffers::Offset<ModifierData>(fbb_.EndTable(start_, 3)); }
 };
 
-inline flatbuffers::Offset<ModifierData> CreateModifierData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t attribute, int32_t value, uint32_t special) {
+inline flatbuffers::Offset<ModifierData> CreateModifierData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t attr, int32_t value, uint32_t special) {
   ModifierDataBuilder builder_(_fbb);
   builder_.add_special(special);
   builder_.add_value(value);
-  builder_.add_attribute(attribute);
+  builder_.add_attr(attr);
   return builder_.Finish();
 }
 

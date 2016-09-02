@@ -143,6 +143,7 @@ set(GAME_SRC
   Classes/actors/monster.cpp
   Classes/actors/inventory.cpp
   Classes/actors/recipe.cpp
+  Classes/actors/trap.cpp
   Classes/actors/craftbook.cpp
   Classes/actors/instances/stairs_down.cpp
   Classes/actors/instances/stairs_up.cpp

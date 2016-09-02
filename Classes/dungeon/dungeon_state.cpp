@@ -155,6 +155,11 @@ bool DungeonState::removeActor(std::shared_ptr<Actor> actor, bool remove_node_ch
   return false;
 }
 
+void DungeonState::addActor(std::shared_ptr<Actor> actor)
+{
+  _actors.insert(actor);
+}
+
 void DungeonState::addPlayer()
 {
   std::shared_ptr<Player> player = BUTCHER.getPlayer();
@@ -169,7 +174,7 @@ void DungeonState::addActor(ActorID id, cc::Vec2 coord)
   {
     cc::Vec2 pos = tileCoordToPosition(_map, coord);
     actor->setPosition(pos);
-    _actors.insert( actor );
+    addActor( actor );
   }
   else
   {

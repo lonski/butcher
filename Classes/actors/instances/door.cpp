@@ -13,7 +13,7 @@ Door::Door(const ActorData *data)
   if (data)
   {
     _closed = data->is_closed();
-    _openedSpriteImage = data->opened_sprite_file()->c_str();
+    //_openedSpriteImage = data->opened_sprite_file()->c_str();
     _closedSpriteImage = data->sprite_file()->c_str();
   }
 }

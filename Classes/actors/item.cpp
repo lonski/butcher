@@ -20,6 +20,7 @@ Item::Item(const ActorData* data)
   , _effect(EffectID::None)
   , _useTarget(UseTarget::None)
   , _hp(0)
+  , _radius(0)
 {
   if ( data )
   {
@@ -46,6 +47,7 @@ Item::Item(const ActorData* data)
     _effect = static_cast<EffectID>(data->effect_id());
     _useTarget = static_cast<UseTarget>(data->use_target());
     _hp = data->hp();
+    _radius = data->radius();
   }
 }
 
@@ -72,6 +74,7 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   o->_effect = _effect;
   o->_useTarget = _useTarget;
   o->_hp = _hp;
+  o->_radius = _radius;
 
   return std::move(Actor::clone(std::unique_ptr<Actor>{o}));
 }
@@ -207,6 +210,11 @@ UseTarget Item::getUseTarget() const
 int Item::getHp() const
 {
   return _hp;
+}
+
+int Item::getRadius() const
+{
+  return _radius;
 }
 
 }

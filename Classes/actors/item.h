@@ -40,6 +40,8 @@ public:
   UseTarget getUseTarget() const;
   int getHp() const;
 
+  int getRadius() const;
+
 private:
   ItemSlotType _slot;
   Damage _damage;
@@ -53,6 +55,7 @@ private:
   EffectID _effect;
   UseTarget _useTarget;
   int _hp;
+  int _radius;
 
 };
 

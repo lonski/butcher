@@ -1,6 +1,7 @@
 // automatically generated, do not modify
-#ifndef cycki_h
-#define cycki_h
+#ifndef FLATBUFFERS_GENERATED_ACTORS_BUTCHER_H_
+#define FLATBUFFERS_GENERATED_ACTORS_BUTCHER_H_
+
 #include "flatbuffers/flatbuffers.h"
 
 namespace butcher {
@@ -13,10 +14,11 @@ enum {
   ActorType_StairsDown = 4,
   ActorType_StairsUp = 5,
   ActorType_Door = 6,
+  ActorType_Trap = 7,
 };
 
 inline const char **EnumNamesActorType() {
-  static const char *names[] = { "Monster", "Player", "Item", "Object", "StairsDown", "StairsUp", "Door", nullptr };
+  static const char *names[] = { "Monster", "Player", "Item", "Object", "StairsDown", "StairsUp", "Door", "Trap", nullptr };
   return names;
 }
 
@@ -92,13 +94,14 @@ struct ActorData : private flatbuffers::Table {
   int32_t body_slot() const { return GetField<int32_t>(32, 0); }
   int32_t category() const { return GetField<int32_t>(34, 0); }
   int32_t range() const { return GetField<int32_t>(36, 0); }
-  int32_t ammo_id() const { return GetField<int32_t>(38, 0); }
-  int32_t effect_id() const { return GetField<int32_t>(40, 0); }
-  uint8_t is_usable() const { return GetField<uint8_t>(42, 0); }
-  uint32_t use_target() const { return GetField<uint32_t>(44, 0); }
-  const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *drop_rules() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *>(46); }
-  uint8_t is_closed() const { return GetField<uint8_t>(48, 0); }
-  const flatbuffers::String *opened_sprite_file() const { return GetPointer<const flatbuffers::String *>(50); }
+  int32_t radius() const { return GetField<int32_t>(38, 0); }
+  int32_t ammo_id() const { return GetField<int32_t>(40, 0); }
+  int32_t effect_id() const { return GetField<int32_t>(42, 0); }
+  uint8_t is_usable() const { return GetField<uint8_t>(44, 0); }
+  uint32_t use_target() const { return GetField<uint32_t>(46, 0); }
+  const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *drop_rules() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DropRuleData>> *>(48); }
+  uint8_t is_closed() const { return GetField<uint8_t>(50, 0); }
+  const flatbuffers::String *opened_sprite_file() const { return GetPointer<const flatbuffers::String *>(52); }
 };
 
 struct ActorDataBuilder {
@@ -121,24 +124,26 @@ struct ActorDataBuilder {
   void add_body_slot(int32_t body_slot) { fbb_.AddElement<int32_t>(32, body_slot, 0); }
   void add_category(int32_t category) { fbb_.AddElement<int32_t>(34, category, 0); }
   void add_range(int32_t range) { fbb_.AddElement<int32_t>(36, range, 0); }
-  void add_ammo_id(int32_t ammo_id) { fbb_.AddElement<int32_t>(38, ammo_id, 0); }
-  void add_effect_id(int32_t effect_id) { fbb_.AddElement<int32_t>(40, effect_id, 0); }
-  void add_is_usable(uint8_t is_usable) { fbb_.AddElement<uint8_t>(42, is_usable, 0); }
-  void add_use_target(uint32_t use_target) { fbb_.AddElement<uint32_t>(44, use_target, 0); }
-  void add_drop_rules(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules) { fbb_.AddOffset(46, drop_rules); }
-  void add_is_closed(uint8_t is_closed) { fbb_.AddElement<uint8_t>(48, is_closed, 0); }
-  void add_opened_sprite_file(flatbuffers::Offset<flatbuffers::String> opened_sprite_file) { fbb_.AddOffset(50, opened_sprite_file); }
+  void add_radius(int32_t radius) { fbb_.AddElement<int32_t>(38, radius, 0); }
+  void add_ammo_id(int32_t ammo_id) { fbb_.AddElement<int32_t>(40, ammo_id, 0); }
+  void add_effect_id(int32_t effect_id) { fbb_.AddElement<int32_t>(42, effect_id, 0); }
+  void add_is_usable(uint8_t is_usable) { fbb_.AddElement<uint8_t>(44, is_usable, 0); }
+  void add_use_target(uint32_t use_target) { fbb_.AddElement<uint32_t>(46, use_target, 0); }
+  void add_drop_rules(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules) { fbb_.AddOffset(48, drop_rules); }
+  void add_is_closed(uint8_t is_closed) { fbb_.AddElement<uint8_t>(50, is_closed, 0); }
+  void add_opened_sprite_file(flatbuffers::Offset<flatbuffers::String> opened_sprite_file) { fbb_.AddOffset(52, opened_sprite_file); }
   ActorDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 24)); }
+  flatbuffers::Offset<ActorData> Finish() { return flatbuffers::Offset<ActorData>(fbb_.EndTable(start_, 25)); }
 };
 
-inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, flatbuffers::Offset<flatbuffers::String> damage, uint16_t damage_reduction, int32_t exp, int32_t level, int32_t break_chance, int32_t body_slot, int32_t category, int32_t range, int32_t ammo_id, int32_t effect_id, uint8_t is_usable, uint32_t use_target, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules, uint8_t is_closed, flatbuffers::Offset<flatbuffers::String> opened_sprite_file) {
+inline flatbuffers::Offset<ActorData> CreateActorData(flatbuffers::FlatBufferBuilder &_fbb, uint32_t id, int8_t type, flatbuffers::Offset<flatbuffers::String> name, uint8_t blocks, uint8_t transparent, flatbuffers::Offset<flatbuffers::String> sprite_file, uint32_t hp, uint16_t attack, uint16_t defense, flatbuffers::Offset<flatbuffers::String> damage, uint16_t damage_reduction, int32_t exp, int32_t level, int32_t break_chance, int32_t body_slot, int32_t category, int32_t range, int32_t radius, int32_t ammo_id, int32_t effect_id, uint8_t is_usable, uint32_t use_target, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DropRuleData>>> drop_rules, uint8_t is_closed, flatbuffers::Offset<flatbuffers::String> opened_sprite_file) {
   ActorDataBuilder builder_(_fbb);
   builder_.add_opened_sprite_file(opened_sprite_file);
   builder_.add_drop_rules(drop_rules);
   builder_.add_use_target(use_target);
   builder_.add_effect_id(effect_id);
   builder_.add_ammo_id(ammo_id);
+  builder_.add_radius(radius);
   builder_.add_range(range);
   builder_.add_category(category);
   builder_.add_body_slot(body_slot);
