@@ -5,6 +5,9 @@
 #include <utils/utils.h>
 #include <dungeon/dungeon_state.h>
 #include <actors/player.h>
+#include "cocos2d.h"
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -22,8 +25,9 @@ void Ai::update()
     _fsm.changeState( distance < 2 ? FSMStateType::MELEE_ATTACK : FSMStateType::MOVE_TO_TARGET );
   }
   else
-  {
-    _fsm.changeState( FSMStateType::IDLE );
+  {    
+    _fsm.changeState( cc::RandomHelper::random_int(0,100) < 20 ? FSMStateType::WANDERING
+                                                               : FSMStateType::IDLE );
   }
 
   _fsm.update();

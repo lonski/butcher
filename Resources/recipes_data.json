@@ -757,6 +757,124 @@
           amount: 8
         }
       ]
+    },
+    {
+      id:31,
+      type:3,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:54,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 61,
+          amount: 2
+        },
+        {
+          item_id: 5,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:32,
+      type:3,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:55,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 6,
+          amount: 2
+        },
+        {
+          item_id: 61,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:33,
+      type:3,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:56,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 57,
+          amount: 1
+        },
+        {
+          item_id: 5,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:46,
+      type:4,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:62,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 61,
+          amount: 3
+        }
+      ]
+    },
+    {
+      id:47,
+      type:4,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:63,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 6,
+          amount: 3
+        },
+        {
+          item_id: 24,
+          amount: 1
+        },
+        {
+          item_id: 57,
+          amount: 2
+        },
+        {
+          item_id: 5,
+          amount: 1
+        }
+      ]
+    },
+    {
+      id:48,
+      type:4,
+      level:1,
+      cost:1,
+      success_chance:90,
+      product_id:64,
+      product_amount:1,
+      ingridients: [ 
+        {
+          item_id: 5,
+          amount: 2
+        },
+        {
+          item_id: 57,
+          amount: 2
+        }
+      ]
     }
   ]
 }
