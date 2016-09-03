@@ -21,7 +21,7 @@ std::unique_ptr<Actor> StairsUp::clone(std::unique_ptr<Actor> allocated)
 
 void StairsUp::onInterract(std::shared_ptr<Actor> actor)
 {
-  if ( std::dynamic_pointer_cast<Player>(actor) )
+  if ( std::dynamic_pointer_cast<Player>(actor) && BUTCHER.getDungeonLevel() > 1 )
   {
     LoadingScreen::run([&](){
       BUTCHER.goToLevel(BUTCHER.getDungeonLevel() - 1);

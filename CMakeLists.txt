@@ -154,6 +154,7 @@ set(GAME_SRC
   Classes/actors/actions/pickup_action.cpp
   Classes/actors/actions/equip_action.cpp
   Classes/actors/actions/shot_action.cpp
+  Classes/actors/actions/throw_action.cpp
   Classes/actors/actions/use_action.cpp
 
   Classes/actors/ai/ai.cpp
@@ -231,6 +232,7 @@ set(GAME_HEADERS
   Classes/actors/actions/pickup_action.h
   Classes/actors/actions/equip_action.h
   Classes/actors/actions/shot_action.h
+  Classes/actors/actions/throw_action.h
   Classes/actors/actions/use_action.h
 
   Classes/actors/ai/ai.h

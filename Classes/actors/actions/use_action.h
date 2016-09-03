@@ -25,6 +25,7 @@ private:
  bool useOnSelf();
  bool useOnWeapon();
  bool useOnFloor();
+ bool useRange();
 
 };
 

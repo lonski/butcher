@@ -34,7 +34,6 @@ public:
   std::vector<std::string> getItemInfo();
 
   ItemCategory getCategory() const;
-  int getRange() const;
   ActorID getAmmoId() const;
   EffectID getEffectID() const;
   UseTarget getUseTarget() const;
@@ -49,7 +48,6 @@ private:
   int _breakChance;
   int _level;
   ItemCategory _category;
-  int _range;
   ActorID _ammoId;
   bool _usable;
   EffectID _effect;

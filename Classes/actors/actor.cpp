@@ -310,4 +310,9 @@ std::vector<Effect> Actor::getEffects()
   return effects;
 }
 
+bool Actor::isAlive() const
+{
+  return false;
+}
+
 }

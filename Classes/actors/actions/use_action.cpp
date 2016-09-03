@@ -4,6 +4,7 @@
 #include <actors/character.h>
 #include <actors/player.h>
 #include <dungeon/dungeon_state.h>
+#include <actors/actions/throw_action.h>
 
 namespace cc = cocos2d;
 
@@ -50,6 +51,9 @@ bool UseAction::perform(std::shared_ptr<Actor> user)
     case UseTarget::Floor:
       ret = useOnFloor();
     break;
+    case UseTarget::Range:
+      ret = useRange();
+    break;
     default:
       cc::log("%s invalid UseTarget: %d", __PRETTY_FUNCTION__, (int)_item.item->getUseTarget());
     break;
@@ -86,7 +90,7 @@ bool UseAction::useOnWeapon()
 {
   std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(_user);
 
-  if ( !_user )
+  if ( !player )
   {
     cc::log("%s user is not a player", __PRETTY_FUNCTION__);
     return false;
@@ -123,6 +127,24 @@ bool UseAction::useOnFloor()
 
   DungeonState* dung = BUTCHER.getCurrentDungeon();
   dung->addActor(item);
+  BUTCHER.showMainScreen();
+
+  return true;
+}
+
+bool UseAction::useRange()
+{
+  std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(_user);
+
+  if ( !player )
+  {
+    cc::log("%s user is not a player", __PRETTY_FUNCTION__);
+    return false;
+  }
+
+  std::shared_ptr<ThrowAction> action(new ThrowAction(_item.item->clone()));
+  player->scheduleAction(action);
+  BUTCHER.showMainScreen();
 
   return true;
 }

@@ -146,6 +146,11 @@ void Character::onDestroy(std::shared_ptr<Actor> killer)
     cc::log("%s Failed to remove actor!", __PRETTY_FUNCTION__);
 }
 
+bool Character::isAlive() const
+{
+  return getHp() > 0;
+}
+
 int Character::agregateModifiers(std::function<int (Modifier)> filter) const
 {
   int sum = 0;

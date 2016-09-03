@@ -6,6 +6,7 @@
 #include <actors/inventory.h>
 #include <actors/craftbook.h>
 #include <data/save_generated.h>
+#include <utils/target.h>
 
 namespace butcher {
 
@@ -40,11 +41,15 @@ public:
   bool isUsingRangedWeapon();
 
   void autoheal();
+  void scheduleAction(std::shared_ptr<ActorAction> action);
+  bool hasScheduledAction() const;
+  bool triggerScheduledAction(Target target);
 
 private:
   Inventory _inventory;
   CraftBook _craftbook;
 
+  std::shared_ptr<ActorAction> _scheduledAction;
 
 };
 

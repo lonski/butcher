@@ -43,6 +43,8 @@ public:
 
     virtual void onDestroy(std::shared_ptr<Actor> killer);
 
+    virtual bool isAlive() const;
+
 protected:
     int _level;
     int _exp;

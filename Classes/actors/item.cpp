@@ -14,7 +14,6 @@ Item::Item(const ActorData* data)
   , _slot(ItemSlotType::NONE)
   , _breakChance(0)
   , _category(ItemCategory::None)
-  , _range(0)
   , _ammoId(ActorID::INVALID)
   , _usable(false)
   , _effect(EffectID::None)
@@ -41,7 +40,6 @@ Item::Item(const ActorData* data)
     _breakChance = data->break_chance();
     _level = data->level();
     _category = static_cast<ItemCategory>(data->category());
-    _range = data->range();
     _ammoId = static_cast<ActorID>(data->ammo_id());
     _usable = data->is_usable();
     _effect = static_cast<EffectID>(data->effect_id());
@@ -68,7 +66,6 @@ std::unique_ptr<Actor> Item::clone(std::unique_ptr<Actor> allocated)
   o->_breakChance = _breakChance;
   o->_level = _level;
   o->_category = _category;
-  o->_range = _range;
   o->_ammoId = _ammoId;
   o->_usable = _usable;
   o->_effect = _effect;
@@ -128,9 +125,6 @@ std::vector<std::string> Item::getItemInfo()
   if ( _damage.toInt() != 0 )
     info.push_back("Damage: " + _damage.toString());
 
-  if ( _range > 0 )
-    info.push_back("Range: " + toStr(_range));
-
   if ( _ammoId != ActorID::INVALID )
     info.push_back( "Ammo: " + BUTCHER.actorsDatabase().getName(_ammoId) );
 
@@ -185,11 +179,6 @@ std::vector<std::string> Item::getItemInfo()
 ItemCategory Item::getCategory() const
 {
   return _category;
-}
-
-int Item::getRange() const
-{
-  return _range;
 }
 
 ActorID Item::getAmmoId() const

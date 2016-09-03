@@ -75,6 +75,30 @@
           amount_min: 1,
           amount_max: 3,
           chance: 10
+        },
+        {
+          item_id: 64,
+          amount_min: 2,
+          amount_max: 2,
+          chance: 99
+        },
+        {
+          item_id: 62,
+          amount_min: 2,
+          amount_max: 2,
+          chance: 99
+        },
+        {
+          item_id: 63,
+          amount_min: 1,
+          amount_max: 1,
+          chance: 99
+        },
+        {
+          item_id: 6,
+          amount_min: 22,
+          amount_max: 22,
+          chance: 99
         }
       ]
     },
@@ -383,7 +407,6 @@
       damage:"1d3",
       level:1,
       body_slot:1,
-      range:2,
       ammo_id:6,
       break_chance:1000,
       category:2,
@@ -422,7 +445,6 @@
       damage:"1d4",
       level:4,
       body_slot:1,
-      range:3,
       ammo_id:6,
       break_chance:1000,
       category:2,
@@ -461,7 +483,6 @@
       damage:"1d6",
       level:8,
       body_slot:1,
-      range:4,
       ammo_id:6,
       break_chance:1000,
       category:2,
@@ -500,7 +521,6 @@
       damage:"1d8",
       level:12,
       body_slot:1,
-      range:5,
       ammo_id:6,
       break_chance:1000,
       category:2,
@@ -539,7 +559,6 @@
       damage:"1d10",
       level:16,
       body_slot:1,
-      range:6,
       ammo_id:6,
       break_chance:1000,
       category:2,
@@ -554,7 +573,6 @@
       damage:"1d2",
       level:1,
       body_slot:1,
-      range:3,
       ammo_id:6,
       break_chance:1000,
       category:2,
@@ -795,8 +813,7 @@
       name:"Meat grenade",
       damage:"1d3",
       level:1,
-      range:3,
-      radius:2,
+      radius:1,
       category:5,
       type:2,
       sprite_file:"images/meat_grenade.png",

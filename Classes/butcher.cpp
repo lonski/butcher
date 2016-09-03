@@ -47,6 +47,11 @@ void Butcher::init()
   _currentScene = GameMenu::createScene(false);
 }
 
+void Butcher::showMainScreen()
+{
+  cc::Director::getInstance()->popToRootScene();
+}
+
 void Butcher::startNewGame()
 {
   _player = nullptr;

@@ -95,6 +95,8 @@ public:
   virtual void removeAllEffects();
   virtual std::vector<Effect> getEffects();
 
+  virtual bool isAlive() const;
+
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);
   std::map<EffectID, Effect> _effects;

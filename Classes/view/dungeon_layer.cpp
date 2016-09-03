@@ -4,6 +4,7 @@
 #include <dungeon/dungeon_state.h>
 #include <actors/actions/move_action.h>
 #include <actors/actions/shot_action.h>
+#include <actors/actions/throw_action.h>
 #include <utils/utils.h>
 #include <utils/path.h>
 #include <utils/profiler.h>
@@ -134,7 +135,11 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 
   auto player = BUTCHER.getPlayer();
 
-  if ( direction == Direction::Middle && !_state->isAnyMobInFov() )
+  if ( player->hasScheduledAction() )
+  {
+    player->triggerScheduledAction(target);
+  }
+  else if ( direction == Direction::Middle && !_state->isAnyMobInFov() )
   {
     player->autoheal();
   }
@@ -142,9 +147,9 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   {
     if ( target.actors.empty() || !player->performAction(new ShotAction(target)) )
       move(direction);
-
-    BUTCHER.nextTurn();
   }
+
+  BUTCHER.nextTurn();
 
   _turnDone = true;
 }

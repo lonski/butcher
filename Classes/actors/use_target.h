@@ -23,6 +23,8 @@ static inline std::string UseTarget2Str(UseTarget t)
       return "Weapon";
     case UseTarget::Floor:
       return "Ground";
+    case UseTarget::Range:
+      return "Throw";
     default:;
   }
 

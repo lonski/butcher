@@ -29,7 +29,6 @@ protected:
 private:
   std::unique_ptr<Ai> _ai;
   std::vector<DropRule> _dropRules;
-  int _range;
 
   cocos2d::ui::LoadingBar* _hpBar;
 

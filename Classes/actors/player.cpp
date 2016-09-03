@@ -203,11 +203,11 @@ bool Player::canShootAt(cocos2d::Vec2 coord)
   if ( !isUsingRangedWeapon() )
     return false;
 
-  //Is in range?
-  int weaponRange = i.item->getRange();
-  float distance = calculateDistance(getTileCoord(), coord);
-  if ( distance > static_cast<float>(weaponRange + 1) )
-    return false;
+//  //Is in range?
+//  int weaponRange = i.item->getRange();
+//  float distance = calculateDistance(getTileCoord(), coord);
+//  if ( distance > static_cast<float>(weaponRange + 1) )
+//    return false;
 
   //Has ammo?
   ActorID ammoId = i.item->getAmmoId();
@@ -227,7 +227,7 @@ bool Player::isUsingRangedWeapon()
     return false;
 
   //Is ranged?
-  if ( i.item->getRange() <= 0 )
+  if ( i.item->getAmmoId() == ActorID::INVALID )
     return false;
 
   return true;
@@ -243,6 +243,30 @@ void Player::autoheal()
       fadeText("+1HP", cc::Color4B::GREEN);
     }
   }
+}
+
+void Player::scheduleAction(std::shared_ptr<ActorAction> action)
+{
+  _scheduledAction = action;
+}
+
+bool Player::hasScheduledAction() const
+{
+  return _scheduledAction != nullptr;
+}
+
+bool Player::triggerScheduledAction(Target target)
+{
+  if ( hasScheduledAction() )
+  {
+    _scheduledAction->setTarget(target);
+    auto action = _scheduledAction;
+    _scheduledAction = nullptr;
+
+    return performAction(action);
+  }
+
+  return false;
 }
 
 CraftBook& Player::getCraftbook()

@@ -22,6 +22,8 @@ public:
 
     void init();
 
+    void showMainScreen();
+
     void startNewGame();
     void showGameMenu();
     void showInventory();
