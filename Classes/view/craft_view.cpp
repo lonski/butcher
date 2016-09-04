@@ -788,9 +788,12 @@ void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
   learnBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {
-      recipeList->setEnabled(true);
-      learnFn();
-      this->removeChild(layout);
+      ask({"Are you sure?"}, this,
+      [=](){
+        recipeList->setEnabled(true);
+        learnFn();
+        this->removeChild(layout);
+      }, [](){});
     }
   });
 
