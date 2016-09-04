@@ -51,12 +51,16 @@ bool FSM::changeState(FSMStateType newState)
       _currentState = it->second;
       _currentState->onEnter();
 
-//      cc::log("%s State changed to %s", _ai->getActor()->getName().c_str(),
-//              FSMState::getName(_currentState->getType()).c_str() );
       return true;
     }
   }
   return false;
+}
+
+bool FSM::canEnter(FSMStateType type)
+{
+  auto it = _states.find( type );
+  return it != _states.end() && it->second->canEnter();
 }
 
 }

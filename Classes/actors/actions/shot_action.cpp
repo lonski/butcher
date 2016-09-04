@@ -5,6 +5,7 @@
 #include <dungeon/dungeon_state.h>
 #include <butcher.h>
 #include <data/actors_database.h>
+#include <actors/monster.h>
 
 namespace cc = cocos2d;
 
@@ -104,10 +105,10 @@ void ShotAction::runAnimation(std::shared_ptr<Character> shotter, cc::Vec2 shotT
     if ( view )
     {
       auto sprite = bullet->getSprite().release();
-      sprite->setScale(0.2);
+      sprite->setScale(0.3);
       view->addChild(sprite);
       sprite->runAction(
-            cc::Sequence::create(cc::MoveTo::create(0.1f, shotTarget), cc::RemoveSelf::create(), nullptr) );
+            cc::Sequence::create(cc::MoveTo::create(0.2f, shotTarget), cc::RemoveSelf::create(), nullptr) );
     }
   }
 }
@@ -140,6 +141,10 @@ bool ShotAction::hasAmmo()
 
 ActorID ShotAction::getAmmoId()
 {
+  std::shared_ptr<Monster> mob = std::dynamic_pointer_cast<Monster>(_performer);
+  if ( mob )
+    return mob->getAmmoID();
+
   std::shared_ptr<Player> shotter = std::dynamic_pointer_cast<Player>(_performer);
 
   if ( !shotter )

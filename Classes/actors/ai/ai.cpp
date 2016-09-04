@@ -21,29 +21,37 @@ void Ai::update()
 {
   updateTarget();
 
+  FSMStateType state = cc::RandomHelper::random_int(0,100) < 20 ? FSMStateType::WANDERING
+                                                                : FSMStateType::IDLE;
+
   if ( getTarget().pos != cc::Vec2::ZERO )
   {
-    /** Player not in FoV.
-     *  Move to position where he was last seen.
-      */
+    //  Enemy not in FoV.
+    //  Move to position where he was last seen.
     if ( getTarget().actors.empty() )
     {
-      _fsm.changeState( FSMStateType::MOVE_TO_TARGET );
+      state = FSMStateType::MOVE_TO_TARGET;
     }
-    /** Player in FoV. Determine action.
-      */
+    // Enemy in FoV. Determine action.
     else
     {
       float distance = calculateDistance(getActor()->getTileCoord(), getTarget().pos);
-      _fsm.changeState( distance < 2 ? FSMStateType::MELEE_ATTACK : FSMStateType::MOVE_TO_TARGET );
+
+      //Enemy in neighbour tile
+      if ( distance < 2 )
+      {
+        state = FSMStateType::MELEE_ATTACK;
+      }
+      //Enemy visible in range
+      else
+      {
+        state = _fsm.canEnter(FSMStateType::RANGED_ATTACK) ? FSMStateType::RANGED_ATTACK
+                                                           : FSMStateType::MOVE_TO_TARGET;
+      }
     }
   }
-  else
-  {    
-    _fsm.changeState( cc::RandomHelper::random_int(0,100) < 20 ? FSMStateType::WANDERING
-                                                               : FSMStateType::IDLE );
-  }
 
+  _fsm.changeState(state);
   _fsm.update();
 }
 
@@ -65,7 +73,7 @@ void Ai::clearTarget()
 void Ai::updateTarget()
 {
   if ( BUTCHER.getCurrentDungeon()->isInFov( getActor()->getTileCoord()) )
-    _target = std::dynamic_pointer_cast<Actor>(BUTCHER.getPlayer());
+    _target = Target(std::dynamic_pointer_cast<Actor>(BUTCHER.getPlayer()));
   else
     _target.actors.clear();
 

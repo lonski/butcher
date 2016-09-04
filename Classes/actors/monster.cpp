@@ -11,9 +11,13 @@ namespace butcher {
 Monster::Monster(const ActorData* data)
   : Character(data)
   , _hpBar(nullptr)
+  , _range(0)
+  , _ammoId(ActorID::BONE)
 {
   if ( data )
   {
+    _ammoId = (ActorID)data->ammo_id();
+    _range = data->range();
     auto dropRules = data->drop_rules();
     if ( dropRules )
       for (unsigned i = 0; i < dropRules->Length(); ++i)
@@ -30,6 +34,8 @@ std::unique_ptr<Actor> Monster::clone(std::unique_ptr<Actor> allocated)
     p = new Monster(nullptr);
 
   p->_dropRules = _dropRules;
+  p->_range = _range;
+  p->_ammoId = _ammoId;
 
   return std::move( Character::clone(std::unique_ptr<Actor>{p}) );
 }
@@ -92,7 +98,18 @@ void Monster::setHp(int hp)
 
 bool Monster::canShootAt(cocos2d::Vec2 coord)
 {
+  if (_range > 0 )
+    return calculateDistance(getTileCoord(), coord) <= _range;
+
   return false;
+}
+
+ActorID Monster::getAmmoID() const
+{
+  if ( _ammoId == ActorID::INVALID )
+    return ActorID::BONE;
+
+  return _ammoId;
 }
 
 void Monster::setSprite(cocos2d::Sprite *sprite)

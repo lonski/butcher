@@ -288,7 +288,7 @@ void DungeonState::visit(int x, int y)
 {
   cc::Vec2 coord(x,y);
   if ( _exploredMask.get(x,y) != Tiles::FoV )
-  {    
+  {
     //Mark as in FoV
     _exploredMask.set(x,y,Tiles::FoV);
 

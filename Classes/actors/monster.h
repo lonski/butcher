@@ -22,6 +22,7 @@ public:
   virtual void setHp(int hp);
 
   virtual bool canShootAt(cocos2d::Vec2 coord);
+  virtual ActorID getAmmoID() const;
 
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);
@@ -31,7 +32,8 @@ private:
   std::vector<DropRule> _dropRules;
 
   cocos2d::ui::LoadingBar* _hpBar;
-
+  int _range;
+  ActorID _ammoId;
 };
 
 }

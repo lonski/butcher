@@ -21,6 +21,7 @@ public:
   FSMStatePtr getCurrentState() const;
   void addState(FSMStatePtr state);
   bool changeState(FSMStateType newState);
+  bool canEnter(FSMStateType type);
 
 private:
   Ai* _ai;

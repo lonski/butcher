@@ -23,7 +23,6 @@ public:
 private:
   std::shared_ptr<Actor> _actor;
   FSM _fsm;
-
   Target _target;
 
   void updateTarget();

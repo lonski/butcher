@@ -46,6 +46,7 @@ table ActorData {
 	effect_id:int;
 	is_usable:bool; 
 	use_target:uint;
+	range:int;
 
 	drop_rules:[DropRuleData];
 

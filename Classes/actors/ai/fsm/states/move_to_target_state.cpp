@@ -15,6 +15,7 @@ namespace butcher {
 namespace state{
 
 MoveToTarget::MoveToTarget()
+  : _path(nullptr)
 {
 }
 
@@ -27,36 +28,53 @@ void MoveToTarget::update()
 {
   if ( validatePreconditions() )
   {
-    Target target = _ai->getTarget();
-    std::shared_ptr<Actor> me = _ai->getActor();
-    DungeonState* dungeon = BUTCHER.getCurrentDungeon();
+    if (_ai->getTarget().pos == cc::Vec2::ZERO)
+      return;
 
-    cocos2d::Vec2 myPos = me->getTileCoord();
+    if ( _ai->getTarget().pos != _lastTarget.pos || _path->empty() )
+      calculatePath();
 
-    IPath* path = &_aPath;
-
-    bool calculated = _aPath.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
-                        return dungeon->isBlocked(pos) && pos != target.pos;
-                      });
-
-    if ( !calculated )
+    if ( !_path->empty() )
     {
-      _dPath.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
-        return dungeon->isBlocked(pos) && pos != target.pos;
-      }, false);
-      path = &_dPath;
+      _path->walk();
+      Direction::Symbol d = Direction::fromPosition(_path->walk() - _ai->getActor()->getTileCoord());
+      _ai->getActor()->performAction( new MoveAction(d) );
     }
-
-    path->walk();
-    Direction::Symbol d = Direction::fromPosition(path->walk() - myPos);
-    me->performAction( new MoveAction(d) );
-
   }
 }
 
 bool MoveToTarget::canEnter()
 {
   return true;
+}
+
+void MoveToTarget::onExit()
+{
+  _lastTarget = Target();
+}
+
+void MoveToTarget::calculatePath()
+{
+  cc::Vec2 myPos = _ai->getActor()->getTileCoord();
+  Target target = _ai->getTarget();
+
+  _path = &_aPath;
+  DungeonState* dungeon = BUTCHER.getCurrentDungeon();
+
+  bool calculated = _aPath.calculate(myPos, target.pos,
+                    [target, dungeon](cocos2d::Vec2 pos){
+                      return dungeon->isBlocked(pos) && pos != target.pos;
+                    });
+
+  if ( !calculated )
+  {
+    _dPath.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
+      return dungeon->isBlocked(pos) && pos != target.pos;
+    }, false);
+    _path = &_dPath;
+  }
+
+  _lastTarget = target;
 }
 
 }}

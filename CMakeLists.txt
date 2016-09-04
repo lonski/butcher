@@ -164,6 +164,7 @@ set(GAME_SRC
   Classes/actors/ai/fsm/states/wandering_state.cpp
   Classes/actors/ai/fsm/states/move_to_target_state.cpp
   Classes/actors/ai/fsm/states/melee_attack_state.cpp
+  Classes/actors/ai/fsm/states/ranged_attack_state.cpp
 
   Classes/actors/effects/effect.cpp
 

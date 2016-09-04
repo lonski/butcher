@@ -10,6 +10,7 @@ enum class FSMStateType
   MOVE_TO_TARGET       = 3,
   EVADING              = 4,
   IDLE                 = 5,
+  RANGED_ATTACK        = 6,
   END
 };
 

@@ -4,6 +4,7 @@
 #include <actors/ai/fsm/states/wandering_state.h>
 #include <actors/ai/fsm/states/move_to_target_state.h>
 #include <actors/ai/fsm/states/melee_attack_state.h>
+#include <actors/ai/fsm/states/ranged_attack_state.h>
 #include <actors/ai/ai.h>
 
 namespace butcher {
@@ -28,6 +29,7 @@ FSMStatePtr FSMState::create(FSMStateType type)
     case FSMStateType::MOVE_TO_TARGET: s.reset( new state::MoveToTarget ); break;
     case FSMStateType::EVADING:        s.reset( ); break;
     case FSMStateType::IDLE:           s.reset( new state::Idle ); break;
+    case FSMStateType::RANGED_ATTACK:  s.reset( new state::RangedAttack ); break;
 
     default:;
   }
@@ -44,6 +46,7 @@ std::string FSMState::getName(FSMStateType type)
     case FSMStateType::MOVE_TO_TARGET: return "MOVE_TO_TARGET";
     case FSMStateType::EVADING:        return "EVADING";
     case FSMStateType::IDLE:           return "IDLE";
+    case FSMStateType::RANGED_ATTACK:  return "RANGED_ATTACK";
 
     default:;
   }
