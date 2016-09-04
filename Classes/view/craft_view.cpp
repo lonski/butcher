@@ -641,7 +641,11 @@ void CraftView::learnRecipe()
             fillRecipeList();
             fillWorkbench();
             fillCraftInfoPanel();
-          }, recipeList);
+          },
+          [=](){
+            showRecipeIngredients(rec);
+          }
+          , recipeList);
         }
       });
 
@@ -726,7 +730,7 @@ void CraftView::craftChooseEngineering(cocos2d::Ref *)
   chooseCraftCommon();
 }
 
-void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled, std::function<void ()> learnFn, cocos2d::ui::ListView *recipeList)
+void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled, std::function<void ()> learnFn, std::function<void ()> ingredientsFn, cocos2d::ui::ListView *recipeList)
 {
   recipeList->setEnabled(false);
 
@@ -792,6 +796,21 @@ void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
 
   learnBtn->setEnabled(enabled);
 
+  cc::ui::Button* ingredientBtn = cc::ui::Button::create();
+  ingredientBtn->loadTextures("images/button_blue.png", "images/button_blue_click.png", "");
+  ingredientBtn->setTitleText("Ingredients");
+  ingredientBtn->setTitleFontSize(18);
+  ingredientBtn->setTitleFontName("fonts/Marker Felt.ttf");
+  ingredientBtn->setScale9Enabled(true);
+  ingredientBtn->setContentSize(cc::Size(128,64));
+  ingredientBtn->setPosition(cc::Vec2(learnBtn->getPositionX() + learnBtn->getBoundingBox().size.width * 1.2, margin));
+  ingredientBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
+    if ( type == cc::ui::Widget::TouchEventType::ENDED )
+    {
+      ingredientsFn();
+    }
+  });
+
   cc::ui::Button* closeBtn = cc::ui::Button::create();
   closeBtn->loadTextures("images/button_orange.png", "images/button_orange_click.png", "");
   closeBtn->setTitleText("Close");
@@ -812,10 +831,12 @@ void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
   lpBTN->setGravity(cc::ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
   learnBtn->setLayoutParameter(lpBTN);
   closeBtn->setLayoutParameter(lpBTN);
+  ingredientBtn->setLayoutParameter(lpBTN);
 
   layout->addChild(learnBtn);
+  layout->addChild(ingredientBtn);
   layout->addChild(closeBtn);
-  size.height += learnBtn->getBoundingBox().size.height*2;
+  size.height += learnBtn->getBoundingBox().size.height*3;
 
   layout->setContentSize(cc::Size(size.width + 2*margin, size.height+4*margin));
   layout->setAnchorPoint(cc::Vec2(0.5, 0.5));
@@ -823,6 +844,17 @@ void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
 
 
   this->addChild(layout);
+}
+
+void CraftView::showRecipeIngredients(std::shared_ptr<Recipe> rec)
+{
+  std::vector<std::string> msg;
+  for ( auto& pair : rec->getIngridientList() )
+  {
+    msg.push_back( BUTCHER.actorsDatabase().getName(pair.first) + " x" + toStr(pair.second));
+  }
+
+  showMessage(msg,cc::Color4B::YELLOW, this);
 }
 
 }

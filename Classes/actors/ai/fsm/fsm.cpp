@@ -1,5 +1,10 @@
 #include "fsm.h"
 #include <actors/ai/fsm/states/fsm_state.h>
+#include <actors/ai/ai.h>
+#include <actors/actor.h>
+#include "cocos2d.h"
+
+namespace cc = cocos2d;
 
 namespace butcher {
 
@@ -45,6 +50,9 @@ bool FSM::changeState(FSMStateType newState)
       _currentState->onExit();
       _currentState = it->second;
       _currentState->onEnter();
+
+//      cc::log("%s State changed to %s", _ai->getActor()->getName().c_str(),
+//              FSMState::getName(_currentState->getType()).c_str() );
       return true;
     }
   }

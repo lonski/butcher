@@ -58,7 +58,7 @@
       attack:8,
       defense:6,
       damage:"1d2",
-      exp:2,
+      exp:3,
       level:1,
       sprite_file:"images/cow.png",
       blocks:1,
@@ -72,33 +72,9 @@
         },
         {
           random_ingridient_level: 1,
-          amount_min: 1,
-          amount_max: 3,
+          amount_min: 3,
+          amount_max: 10,
           chance: 10
-        },
-        {
-          item_id: 64,
-          amount_min: 2,
-          amount_max: 2,
-          chance: 99
-        },
-        {
-          item_id: 62,
-          amount_min: 2,
-          amount_max: 2,
-          chance: 99
-        },
-        {
-          item_id: 63,
-          amount_min: 1,
-          amount_max: 1,
-          chance: 99
-        },
-        {
-          item_id: 6,
-          amount_min: 22,
-          amount_max: 22,
-          chance: 99
         }
       ]
     },
@@ -109,8 +85,8 @@
       attack:8,
       defense:6,
       damage:"1d3",
-      exp:4,
-      level:1,
+      exp:5,
+      level:2,
       sprite_file:"images/cow_farmer.png",
       blocks:1,
       transparent:1,
@@ -123,8 +99,8 @@
         },
         {
           random_ingridient_level: 1,
-          amount_min: 2,
-          amount_max: 4,
+          amount_min: 5,
+          amount_max: 10,
           chance: 15
         }
       ]
@@ -136,8 +112,8 @@
       attack:9,
       defense:6,
       damage:"1d4",
-      exp:6,
-      level:2,
+      exp:8,
+      level:3,
       sprite_file:"images/cow_cook.png",
       blocks:1,
       transparent:1,
@@ -150,14 +126,14 @@
         },
         {
           random_ingridient_level: 1,
-          amount_min: 1,
-          amount_max: 4,
+          amount_min: 3,
+          amount_max: 10,
           chance: 15
         },
         {
           random_ingridient_level: 2,
-          amount_min: 1,
-          amount_max: 2,
+          amount_min: 2,
+          amount_max: 6,
           chance: 8
         }
       ]
@@ -169,12 +145,36 @@
       attack:10,
       defense:8,
       damage:"1d4",
-      exp:8,
-      level:1,
+      exp:10,
+      level:4,
       sprite_file:"images/cow_worker.png",
       blocks:1,
       transparent:1,
-      drop_rules: [
+      drop_rules: [ 
+        {
+          item_id: 6,
+          amount_min: 1,
+          amount_max: 3,
+          chance: 20
+        },
+        {
+          random_ingridient_level: 1,
+          amount_min: 2,
+          amount_max: 12,
+          chance: 15
+        },
+        {
+          random_ingridient_level: 2,
+          amount_min: 2,
+          amount_max: 8,
+          chance: 8
+        },
+        {
+          random_ingridient_level: 3,
+          amount_min: 1,
+          amount_max: 4,
+          chance: 1
+        }
       ]
     },
     {
@@ -184,12 +184,36 @@
       attack:10,
       defense:10,
       damage:"1d4",
-      exp:12,
-      level:1,
+      exp:15,
+      level:4,
       sprite_file:"images/cow_peasant.png",
       blocks:1,
       transparent:1,
-      drop_rules: [
+      drop_rules: [ 
+        {
+          item_id: 6,
+          amount_min: 1,
+          amount_max: 3,
+          chance: 20
+        },
+        {
+          random_ingridient_level: 1,
+          amount_min: 1,
+          amount_max: 8,
+          chance: 10
+        },
+        {
+          random_ingridient_level: 2,
+          amount_min: 4,
+          amount_max: 14,
+          chance: 20
+        },
+        {
+          random_ingridient_level: 3,
+          amount_min: 1,
+          amount_max: 4,
+          chance: 2
+        }
       ]
     },
     {
@@ -199,12 +223,36 @@
       attack:10,
       defense:12,
       damage:"1d4",
-      exp:16,
-      level:2,
+      exp:20,
+      level:5,
       sprite_file:"images/cow_fisherman.png",
       blocks:1,
       transparent:1,
-      drop_rules: [
+      drop_rules: [ 
+        {
+          item_id: 6,
+          amount_min: 1,
+          amount_max: 3,
+          chance: 20
+        },
+        {
+          random_ingridient_level: 1,
+          amount_min: 1,
+          amount_max: 6,
+          chance: 5
+        },
+        {
+          random_ingridient_level: 2,
+          amount_min: 4,
+          amount_max: 10,
+          chance: 20
+        },
+        {
+          random_ingridient_level: 3,
+          amount_min: 4,
+          amount_max: 10,
+          chance: 10
+        }
       ]
     },
     {
@@ -214,8 +262,8 @@
       attack:11,
       defense:11,
       damage:"1d6",
-      exp:18,
-      level:2,
+      exp:26,
+      level:5,
       sprite_file:"images/cow_catcher.png",
       blocks:1,
       transparent:1,
@@ -230,8 +278,8 @@
       defense:12,
       damage_reduction:1,
       damage:"1d6",
-      exp:20,
-      level:3,
+      exp:34,
+      level:6,
       sprite_file:"images/cow_squire.png",
       blocks:1,
       transparent:1,
@@ -245,8 +293,8 @@
       attack:14,
       defense:10,
       damage:"1d8",
-      exp:22,
-      level:3,
+      exp:40,
+      level:6,
       sprite_file:"images/cow_fighter.png",
       blocks:1,
       transparent:1,
@@ -260,8 +308,8 @@
       attack:16,
       defense:15,
       damage:"1d6",
-      exp:24,
-      level:3,
+      exp:48,
+      level:7,
       sprite_file:"images/cow_rogue.png",
       blocks:1,
       transparent:1,

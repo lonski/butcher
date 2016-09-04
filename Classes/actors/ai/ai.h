@@ -18,11 +18,15 @@ public:
   std::shared_ptr<Actor> getActor();
 
   Target getTarget();
+  void clearTarget();
 
 private:
   std::shared_ptr<Actor> _actor;
   FSM _fsm;
 
+  Target _target;
+
+  void updateTarget();
 };
 
 }

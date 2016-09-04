@@ -147,13 +147,20 @@ void InventoryView::fillCharacterInfo()
   lp1->setMargin(cc::ui::Margin(_margin, _margin, _margin, _margin));
 
   cc::Label* levelLabel = make_label("Level: " + toStr(_player->getLevel()), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
+
   lSize.height = levelLabel->getBoundingBox().size.height * 1.2 * 6;
+  lSize.height += levelLabel->getBoundingBox().size.height * 2;
+
   lSize.width = levelLabel->getBoundingBox().size.width * 3;
   levelLabel->setPosition(0, lSize.height - levelLabel->getBoundingBox().size.height*(1.2/2));
   l->addChild(levelLabel);
 
+  cc::Label* expLabel = make_label("Exp: " + toStr(_player->getExp()) + "/" + toStr(_player->getExpForNextLevel()), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
+  expLabel->setPosition(0, levelLabel->getPositionY() - levelLabel->getBoundingBox().size.height * 1.2);
+  l->addChild(expLabel);
+
   cc::Label* hpLabel = make_label("HP: " + toStr(_player->getHp()) + "/" + toStr(_player->getMaxHp()), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));
-  hpLabel->setPosition(0, levelLabel->getPositionY() - levelLabel->getBoundingBox().size.height * 1.2);
+  hpLabel->setPosition(0, expLabel->getPositionY() - expLabel->getBoundingBox().size.height * 2);
   l->addChild(hpLabel);
 
   cc::Label* attackLabel = make_label("Attack: " + toStr(_player->getAttribute(AttributeType::Attack)), cc::Color4B::WHITE, 18, cc::Vec2(0,0.5));

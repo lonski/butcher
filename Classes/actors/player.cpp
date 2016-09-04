@@ -88,7 +88,7 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
 void Player::onKill(std::shared_ptr<Character> killed)
 {
   int levelDiff = getLevel() - killed->getLevel();
-  float multiplier = std::min(std::max(1.f-levelDiff/10.f,0.f),1.f);
+  float multiplier = std::min(std::max(1.f-(levelDiff-1)/10.f,0.f),1.f);
   int expBonus = static_cast<float>(killed->getExp())*multiplier;
 
   if ( expBonus > 0 )
@@ -185,7 +185,7 @@ void Player::setExp(int exp)
 
 int Player::getExpForNextLevel() const
 {
-  return std::pow(getLevel(), 3) * 100;
+  return std::pow(getLevel(), 3) * 60;
 }
 
 void Player::giveLevelUpBonuses()

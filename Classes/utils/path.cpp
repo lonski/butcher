@@ -31,11 +31,11 @@ inline double heuristic(cc::Vec2 a, cc::Vec2 b)
   return std::abs(x1 - x2) + std::abs(y1 - y2);
 }
 
-Path::Path()
+AStarPath::AStarPath()
 {
 }
 
-bool Path::calculate(cocos2d::Vec2 start, cocos2d::Vec2 goal,
+bool AStarPath::calculate(cocos2d::Vec2 start, cocos2d::Vec2 goal,
                      std::function<bool (cocos2d::Vec2)> is_blocked_fun,
                      std::function<double(cocos2d::Vec2, cocos2d::Vec2)> moveCostFun)
 {
@@ -92,7 +92,7 @@ bool Path::calculate(cocos2d::Vec2 start, cocos2d::Vec2 goal,
   return true;
 }
 
-cocos2d::Vec2 Path::walk()
+cocos2d::Vec2 AStarPath::walk()
 {
   if (empty())
     return cc::Vec2::ZERO;
@@ -103,12 +103,12 @@ cocos2d::Vec2 Path::walk()
   return next;
 }
 
-bool Path::empty() const
+bool AStarPath::empty() const
 {
   return _path.empty();
 }
 
-std::set<cocos2d::Vec2> Path::getNeighbours(cocos2d::Vec2 pos)
+std::set<cocos2d::Vec2> AStarPath::getNeighbours(cocos2d::Vec2 pos)
 {
   std::set<cocos2d::Vec2> nb;
 

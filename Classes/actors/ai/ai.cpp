@@ -19,10 +19,24 @@ Ai::Ai(std::shared_ptr<Actor> actor)
 
 void Ai::update()
 {
-  if ( !getTarget().actors.empty() )
+  updateTarget();
+
+  if ( getTarget().pos != cc::Vec2::ZERO )
   {
-    float distance = calculateDistance(getActor()->getTileCoord(), getTarget().first()->getTileCoord());
-    _fsm.changeState( distance < 2 ? FSMStateType::MELEE_ATTACK : FSMStateType::MOVE_TO_TARGET );
+    /** Player not in FoV.
+     *  Move to position where he was last seen.
+      */
+    if ( getTarget().actors.empty() )
+    {
+      _fsm.changeState( FSMStateType::MOVE_TO_TARGET );
+    }
+    /** Player in FoV. Determine action.
+      */
+    else
+    {
+      float distance = calculateDistance(getActor()->getTileCoord(), getTarget().pos);
+      _fsm.changeState( distance < 2 ? FSMStateType::MELEE_ATTACK : FSMStateType::MOVE_TO_TARGET );
+    }
   }
   else
   {    
@@ -40,10 +54,23 @@ std::shared_ptr<Actor> Ai::getActor()
 
 Target Ai::getTarget()
 {
-  if ( BUTCHER.getCurrentDungeon()->isInFov( getActor()->getTileCoord()) )
-    return Target( std::dynamic_pointer_cast<Actor>(BUTCHER.getPlayer()) );
+  return _target;
+}
 
-  return Target();
+void Ai::clearTarget()
+{
+  _target = Target();
+}
+
+void Ai::updateTarget()
+{
+  if ( BUTCHER.getCurrentDungeon()->isInFov( getActor()->getTileCoord()) )
+    _target = std::dynamic_pointer_cast<Actor>(BUTCHER.getPlayer());
+  else
+    _target.actors.clear();
+
+  if ( getActor()->getTileCoord() == _target.pos )
+    clearTarget();
 }
 
 }

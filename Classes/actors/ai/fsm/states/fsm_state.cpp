@@ -35,6 +35,22 @@ FSMStatePtr FSMState::create(FSMStateType type)
   return s;
 }
 
+std::string FSMState::getName(FSMStateType type)
+{
+  switch( type )
+  {
+    case FSMStateType::WANDERING:      return "WANDERING";
+    case FSMStateType::MELEE_ATTACK:   return "MELEE_ATTACK";
+    case FSMStateType::MOVE_TO_TARGET: return "MOVE_TO_TARGET";
+    case FSMStateType::EVADING:        return "EVADING";
+    case FSMStateType::IDLE:           return "IDLE";
+
+    default:;
+  }
+
+  return "";
+}
+
 void FSMState::setAi(Ai *ai)
 {
   _ai = ai;

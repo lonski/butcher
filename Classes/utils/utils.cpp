@@ -129,7 +129,7 @@ void showMessage(const std::vector<std::string>& msg, cocos2d::Color4B color, co
   closeBtn->setTitleFontSize(18);
   closeBtn->setTitleFontName("fonts/Marker Felt.ttf");
   closeBtn->setScale9Enabled(true);
-  closeBtn->setContentSize(cc::Size(96,32));
+  closeBtn->setContentSize(cc::Size(128,64));
   closeBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {

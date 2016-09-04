@@ -116,7 +116,7 @@ bool LevelManager::validateConnection(const DungeonDescription& dsc)
     return dsc.grid.get(pos) != Tiles::FLOOR;
   };
 
-  Path path;
+  AStarPath path;
 
   return path.calculate(start, finish, isBlockedFn);
 }

@@ -23,6 +23,7 @@ Character::Character(const ActorData* data)
     setAttribute(AttributeType::DamageReduction, data->damage_reduction());
     _damage.parse(data->damage()->c_str());
     _exp = data->exp();
+    _level = data->level();
   }
 }
 
@@ -91,7 +92,10 @@ int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
 
   setHp( getHp() - dmg );
 
-  fadeText( "-" + cocos2d::Value(dmg).asString(), cocos2d::Color4B::RED );
+  if ( dmg > 0 )
+    fadeText( "-" + cocos2d::Value(dmg).asString(), cocos2d::Color4B::RED );
+  else
+    fadeText( "Resisted", cocos2d::Color4B::GRAY );
 
   if ( getHp() <= 0 )
     onDestroy(attacker);

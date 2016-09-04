@@ -7,10 +7,17 @@
 
 namespace butcher {
 
-class Path
+class IPath
 {
 public:
-  Path();
+  virtual cocos2d::Vec2 walk() = 0;
+  virtual bool empty() const = 0;
+};
+
+class AStarPath : public IPath
+{
+public:
+  AStarPath();
   bool calculate(cocos2d::Vec2 start,
                  cocos2d::Vec2 goal,
                  std::function<bool(cocos2d::Vec2)> is_blocked_fun,
@@ -19,8 +26,8 @@ public:
                                                                                      return Direction::isDiagonal(from, to) ? 1.5 : 1;
                                                                                    });
 
-  cocos2d::Vec2 walk();
-  bool empty() const;
+  virtual cocos2d::Vec2 walk();
+  virtual bool empty() const;
 
 private:
   std::function<bool(cocos2d::Vec2)> _blockedFun;
@@ -29,7 +36,7 @@ private:
   std::set<cocos2d::Vec2> getNeighbours(cocos2d::Vec2 pos);
 };
 
-class DirectPath
+class DirectPath : public IPath
 {
 public:
   DirectPath();
@@ -38,8 +45,8 @@ public:
                  std::function<bool(cocos2d::Vec2)> is_blocked_fun,
                  bool clearOnFail = true);
 
-  cocos2d::Vec2 walk();
-  bool empty() const;
+  virtual cocos2d::Vec2 walk();
+  virtual bool empty() const;
 
 private:
   std::list<cocos2d::Vec2> _path;

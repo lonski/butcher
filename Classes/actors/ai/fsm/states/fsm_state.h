@@ -2,6 +2,7 @@
 #define FSM_STATE_H
 
 #include <memory>
+#include <string>
 #include <actors/ai/fsm/fsm_state_type.h>
 
 namespace butcher {
@@ -17,6 +18,7 @@ public:
   virtual ~FSMState();
 
   static FSMStatePtr create(FSMStateType type);
+  static std::string getName(FSMStateType type);
 
   virtual FSMStateType getType() const = 0;
   virtual void update() = 0;

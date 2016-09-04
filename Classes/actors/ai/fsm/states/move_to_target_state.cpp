@@ -6,7 +6,6 @@
 #include <butcher.h>
 #include <actors/actions/move_action.h>
 #include <utils/directions.h>
-#include <utils/path.h>
 #include <utils/profiler.h>
 
 namespace cc = cocos2d;
@@ -34,20 +33,24 @@ void MoveToTarget::update()
 
     cocos2d::Vec2 myPos = me->getTileCoord();
 
-    Path path;
-    bool calculated = path.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
+    IPath* path = &_aPath;
+
+    bool calculated = _aPath.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
                         return dungeon->isBlocked(pos) && pos != target.pos;
                       });
-    if ( calculated )
+
+    if ( !calculated )
     {
-      path.walk();
-      Direction::Symbol d = Direction::fromPosition(path.walk() - myPos);
-      me->performAction( new MoveAction(d) );
+      _dPath.calculate(myPos, target.pos, [target, dungeon](cocos2d::Vec2 pos){
+        return dungeon->isBlocked(pos) && pos != target.pos;
+      }, false);
+      path = &_dPath;
     }
-    else
-    {
-      cc::log("MoveAction: Failed to calculate path");
-    }
+
+    path->walk();
+    Direction::Symbol d = Direction::fromPosition(path->walk() - myPos);
+    me->performAction( new MoveAction(d) );
+
   }
 }
 
