@@ -85,6 +85,21 @@ struct Grid
 
   }
 
+  cocos2d::Vec2 findCoordWithPattern(const std::string& pattern, int tries = 100)
+  {
+    cocos2d::Vec2 coord = cocos2d::Vec2::ZERO;
+
+    while( tries-- && coord == cocos2d::Vec2::ZERO )
+    {
+      cocos2d::Vec2 randomCoord = cocos2d::Vec2( cocos2d::RandomHelper::random_int(0, width),
+                                                 cocos2d::RandomHelper::random_int(0, height) );
+      if ( checkPattern(randomCoord, pattern))
+        coord = randomCoord;
+    }
+
+    return coord;
+  }
+
   void floodfill(cocos2d::Vec2 pos, char c)
   {
     set(pos, c);

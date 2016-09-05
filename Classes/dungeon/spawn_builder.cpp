@@ -11,6 +11,7 @@ namespace cc = cocos2d;
 namespace butcher {
 
 bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
+
 {
   bool result = true;
 
@@ -37,7 +38,7 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   addMobs();
 
   //debugMapPrint();
-  //debugSpawnStatsPrint();
+  debugSpawnStatsPrint();
 
   _objectsLayer->setObjects(_objects);
 
@@ -48,11 +49,10 @@ void SpawnBuilder::spawnWell()
 {
   if ( cc::RandomHelper::random_int(0, 100) < _dungeon->settings->well_spawn_chance() )
   {
-   auto coord = _dungeon->rooms[cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1)]
-       ->getRandomFloorCoord(_dungeon->grid);
+    cc::Vec2 coord = _dungeon->grid.findCoordWithPattern(".........");
 
-   if ( addActorSpawn((int)ActorID::WELL, coord.x, coord.y) )
-     cc::log("SPWANED WELL at %f, %f", coord.x, coord.y);
+    if ( coord != cc::Vec2::ZERO )
+      addActorSpawn((int)ActorID::WELL, coord.y, coord.x);
   }
 }
 
@@ -83,11 +83,9 @@ bool SpawnBuilder::addStairs()
   cc::Vec2 upStairs;
   cc::Vec2 downStairs;
 
-
   for(int i = 0; i < TRY_COUNT; ++i)
   {
-    int randomIdx = cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1);
-    upStairs = _dungeon->rooms[randomIdx]->getRandomFloorCoord(_dungeon->grid);
+    upStairs = _dungeon->grid.findCoordWithPattern(".........");
 
     if ( addActorSpawn(4, upStairs ) )
     {
@@ -104,8 +102,7 @@ bool SpawnBuilder::addStairs()
     added = false;
     for(int i = 0; i < TRY_COUNT; ++i)
     {
-      int randomIdx = cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1);
-      downStairs = _dungeon->rooms[randomIdx]->getRandomFloorCoord(_dungeon->grid);
+      downStairs = _dungeon->grid.findCoordWithPattern(".........");
 
       if ( addActorSpawn(3,  downStairs ) )
       {
@@ -123,7 +120,7 @@ bool SpawnBuilder::addStairs()
 
 void SpawnBuilder::addMobs()
 {
-  //Grid g = _dungeon->grid;
+  Grid g = _dungeon->grid;
 
   int mobCount(0);
 
@@ -137,7 +134,7 @@ void SpawnBuilder::addMobs()
         cc::Vec2 coord = room->getRandomFloorCoord(_dungeon->grid);
         if ( addActorSpawn( (int)getRandomMobID(), coord ) )
         {
-          //g.set(coord, 'M');
+          g.set(coord, 'M');
           ++mobCount;
         }
       }
@@ -145,7 +142,7 @@ void SpawnBuilder::addMobs()
   }
 
   cc::log("Spawned %d mobs in %u rooms.", mobCount, (unsigned)_dungeon->rooms.size());
-  //cc::log("%s", g.toStr().c_str());
+  cc::log("%s", g.toStr().c_str());
 }
 
 bool SpawnBuilder::addActorSpawn(int id, int y, int x)

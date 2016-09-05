@@ -56,10 +56,10 @@
       width:35,
       height:35,
       max_mob_density:15,
-      mob_spawn_chance:100,
+      mob_spawn_chance:85,
       well_spawn_chance:50,
       wall_percent:40,
-      room_split_percent:10,
+      room_split_percent:13,
       generation_params: [ 
         {
           reps: 4,

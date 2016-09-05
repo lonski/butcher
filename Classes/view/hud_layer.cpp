@@ -285,17 +285,17 @@ void HudLayer::showCraftbook(cocos2d::Ref *)
 
 void HudLayer::showMinimap(cocos2d::Ref *)
 {
-  if ( _minimapSprite )
-  {
-    removeChild(_minimapSprite, false);
-    _minimapSprite = nullptr;
-  }
-  else
-  {
-    updateMinimap();
-    addChild(_minimapSprite);
-  }
-//  BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
+//  if ( _minimapSprite )
+//  {
+//    removeChild(_minimapSprite, false);
+//    _minimapSprite = nullptr;
+//  }
+//  else
+//  {
+//    updateMinimap();
+//    addChild(_minimapSprite);
+//  }
+  BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
 }
 
 }
