@@ -242,7 +242,7 @@ void Player::autoheal()
 {
   if ( getHp() < getMaxHp() )
   {
-    if ( cc::RandomHelper::random_int(0,100) < 20 )
+    if ( cc::RandomHelper::random_int(0,100) < 10 )
     {
       setHp(getHp() + 1);
     }
