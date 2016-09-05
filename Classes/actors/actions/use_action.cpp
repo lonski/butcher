@@ -79,9 +79,7 @@ bool UseAction::useOnSelf()
     _user->fadeText( _effect.getName(), cc::Color4B::ORANGE, 1, false);
   }
 
-  //Modify HP
-  if ( _item.item->getHp() != 0 )
-    _user->setHp( _user->getHp() + _item.item->getHp() );
+  BUTCHER.showMainScreen();
 
   return true;
 }

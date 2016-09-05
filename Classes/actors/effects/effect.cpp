@@ -16,7 +16,8 @@ Effect::Effect(const EffectData *data)
     if ( data->sprite_file() )
       _spriteFile = data->sprite_file()->c_str();
 
-    _name = data->name()->c_str();
+    if ( data->name() )
+      _name = data->name()->c_str();
 
     auto mods = data->modifiers();
     for (unsigned i = 0; i < mods->Length(); ++i)

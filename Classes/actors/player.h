@@ -24,6 +24,7 @@ public:
   virtual void onKill(std::shared_ptr<Character> killed);
   virtual void onHit(std::shared_ptr<Character> hit);
   virtual void onNextTurn();
+  virtual void onDestroy(std::shared_ptr<Actor> killer);
 
   Inventory& getInventory();
   CraftBook& getCraftbook();
@@ -44,6 +45,8 @@ public:
   void scheduleAction(std::shared_ptr<ActorAction> action);
   bool hasScheduledAction() const;
   bool triggerScheduledAction(Target target);
+
+  virtual bool isOutOfControl();
 
 private:
   Inventory _inventory;

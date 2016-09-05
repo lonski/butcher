@@ -143,9 +143,6 @@ std::vector<std::string> Item::getItemInfo()
     info.push_back(" ");
     info.push_back("Provides effect:");
 
-    if ( _hp != 0)
-      info.push_back(std::string("Hp: ") + ( _hp > 0 ? "+" : "" ) + toStr(_hp) );
-
     if ( _effect != EffectID::None )
     {
       Effect e = BUTCHER.effectsDatabase().createEffect(_effect);

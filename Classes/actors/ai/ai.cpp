@@ -21,8 +21,7 @@ void Ai::update()
 {
   updateTarget();
 
-  FSMStateType state = cc::RandomHelper::random_int(0,100) < 20 ? FSMStateType::WANDERING
-                                                                : FSMStateType::IDLE;
+  FSMStateType state = FSMStateType::IDLE;
 
   if ( getTarget().pos != cc::Vec2::ZERO )
   {

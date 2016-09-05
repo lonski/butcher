@@ -55,10 +55,11 @@
       map_template:"dungeons/empty_cave.tmx",
       width:35,
       height:35,
-      max_mob_density:12,
-      mob_spawn_chance:5,
+      max_mob_density:15,
+      mob_spawn_chance:100,
+      well_spawn_chance:50,
       wall_percent:40,
-      room_split_percent:20,
+      room_split_percent:10,
       generation_params: [ 
         {
           reps: 4,
@@ -85,6 +86,7 @@
       height:35,
       max_mob_density:10,
       mob_spawn_chance:50,
+      well_spawn_chance:50,
       min_room_size:4,
       max_room_size:8,
       max_features:100,

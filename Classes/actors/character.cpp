@@ -75,12 +75,23 @@ int Character::getHp() const
 
 void Character::setHp(int hp)
 {
-  _hp = hp;
+  if ( hp != _hp )
+  {
+    int toSet = std::min(hp, getMaxHp());
+    int diff = toSet - _hp;
 
-  if ( _hp > getMaxHp() )
-    setHp( getMaxHp() );
+    if ( diff != 0 )
+    {
+      _hp = toSet;
 
-  notify(EventType::Modified);
+      if ( diff > 0 )
+        fadeText("+"+ toStr(diff)+"HP", cc::Color4B::GREEN);
+      else
+        fadeText(toStr(diff), cc::Color4B::RED);
+
+      notify(EventType::Modified);
+    }
+  }
 }
 
 int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
@@ -92,9 +103,7 @@ int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
 
   setHp( getHp() - dmg );
 
-  if ( dmg > 0 )
-    fadeText( "-" + cocos2d::Value(dmg).asString(), cocos2d::Color4B::RED );
-  else
+  if ( dmg == 0 )
     fadeText( "Resisted", cocos2d::Color4B::GRAY );
 
   if ( getHp() <= 0 )
@@ -153,6 +162,26 @@ void Character::onDestroy(std::shared_ptr<Actor> killer)
 bool Character::isAlive() const
 {
   return getHp() > 0;
+}
+
+void Character::addEffect(const Effect &effect)
+{
+  if ( effect.getTurns() == -1 ) //Permament instant effect
+  {
+    for ( Modifier m : effect.getModifiers() )
+    {
+      if ( m.attribute == AttributeType::HP )
+        setHp( getHp() + m.value );
+      else if ( m.attribute == AttributeType::MAX_HP )
+        setMaxHp(getMaxHp() + m.value);
+      else
+        setAttribute( m.attribute, getAttribute(m.attribute) + m.value );
+    }
+  }
+  else
+  {
+    Actor::addEffect(effect);
+  }
 }
 
 int Character::agregateModifiers(std::function<int (Modifier)> filter) const

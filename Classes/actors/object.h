@@ -14,6 +14,11 @@ public:
   virtual int getZ() const;
 
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
+
+  virtual void onInterract(std::shared_ptr<Actor> actor);
+
+private:
+  EffectID _effect;
 };
 
 }

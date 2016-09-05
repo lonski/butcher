@@ -37,6 +37,14 @@
       blocks:1
     },
     {
+      id:65,
+      name:"Well",
+      type:3,
+      sprite_file:"images/well.png",
+      transparent:1,
+      effect_id:5
+    },
+    {
       id:16,
       name:"Calf",
       hp:2,
@@ -815,13 +823,13 @@
     {
       id:54,
       name:"Stew of Weak Healing",
-      hp:10,
       level:1,
       category:4,
       type:2,
       sprite_file:"images/weak_healing.png",
       transparent:1,
       is_usable:1,
+      effect_id:4,
       use_target:1
     },
     {

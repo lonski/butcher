@@ -39,9 +39,13 @@ Butcher &Butcher::getInstance()
 
 void Butcher::init()
 {
+  _dungeonLevel = 0;
+  _player = nullptr;
+
   _actors.load("actors_data_wire.bin");
   _recipes.load("recipes_data_wire.bin");
   _effects.load("effects_data_wire.bin");
+  _dungeons = LevelManager();
 
   _hud = new HudLayer();
   _currentScene = GameMenu::createScene(false);
@@ -54,7 +58,8 @@ void Butcher::showMainScreen()
 
 void Butcher::startNewGame()
 {
-  _player = nullptr;
+  init();
+
   getPlayer()->giveLevelUpBonuses();
   getPlayer()->addObserver( _hud );
 
@@ -63,9 +68,9 @@ void Butcher::startNewGame()
   }, "Preparing new game..");
 }
 
-void Butcher::showGameMenu()
+void Butcher::showGameMenu(bool gameRunning)
 {
-  cc::Director::getInstance()->pushScene( GameMenu::createScene(true) );
+  cc::Director::getInstance()->pushScene( GameMenu::createScene(gameRunning) );
 }
 
 void Butcher::showInventory()

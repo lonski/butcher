@@ -32,15 +32,28 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   }
 
   addPredefinedSpawns();
+  spawnWell();
   result &= addStairs();
   addMobs();
 
   //debugMapPrint();
-  debugSpawnStatsPrint();
+  //debugSpawnStatsPrint();
 
   _objectsLayer->setObjects(_objects);
 
   return result;
+}
+
+void SpawnBuilder::spawnWell()
+{
+  if ( cc::RandomHelper::random_int(0, 100) < _dungeon->settings->well_spawn_chance() )
+  {
+   auto coord = _dungeon->rooms[cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1)]
+       ->getRandomFloorCoord(_dungeon->grid);
+
+   if ( addActorSpawn((int)ActorID::WELL, coord.x, coord.y) )
+     cc::log("SPWANED WELL at %f, %f", coord.x, coord.y);
+  }
 }
 
 void SpawnBuilder::setMobIntroduction(const std::multimap<int, ActorID> &mobIntroduction)

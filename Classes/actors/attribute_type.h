@@ -13,6 +13,7 @@ enum class AttributeType
   DamageReduction,
   Damage,
   HP,
+  MAX_HP,
   END
 };
 
@@ -30,7 +31,9 @@ static inline std::string AttributeType2Str(AttributeType t)
       return "Damage";
     case AttributeType::HP:
       return "HP";
-    default:;
+    case AttributeType::MAX_HP:
+      return "Maximum HP";
+  default:;
   }
   return "";
 }

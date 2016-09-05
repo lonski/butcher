@@ -40,6 +40,7 @@ private:
 
   std::map<ActorID, int> _spawnStats;
 
+  void spawnWell();
 };
 
 }

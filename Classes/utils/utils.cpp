@@ -78,7 +78,7 @@ cocos2d::Label* make_label(const std::string &text, cocos2d::Color4B color, int 
   return label;
 }
 
-void showMessage(const std::vector<std::string>& msg, cocos2d::Color4B color, cocos2d::Node* parent)
+void showMessage(const std::vector<std::string>& msg, cocos2d::Color4B color, cocos2d::Node* parent, std::function<void()> onCloseFn)
 {
   int margin = 10;
   auto origin = cc::Director::getInstance()->getVisibleOrigin();
@@ -134,6 +134,7 @@ void showMessage(const std::vector<std::string>& msg, cocos2d::Color4B color, co
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {
       parent->removeChild(layout);
+      onCloseFn();
     }
   });
 

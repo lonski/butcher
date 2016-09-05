@@ -35,6 +35,29 @@
           special: 1
         }
       ]
+    },
+    {
+      id:4,
+      name:"Stew of Weak Healing",
+      turns:-1,
+      modifiers: [ 
+        {
+          attr: 5,
+          value: 10,
+          special: 0
+        }
+      ]
+    },
+    {
+      id:5,
+      turns:-1,
+      modifiers: [ 
+        {
+          attr: 5,
+          value: 2,
+          special: 0
+        }
+      ]
     }
   ]
 }

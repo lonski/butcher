@@ -10,6 +10,7 @@ namespace butcher {
     STAIRS_DOWN = 3,
     STAIRS_UP = 4,
     DOOR = 7,
+    WELL = 65,
     CALF = 16,
     COW = 2,
     COW_FARMER = 14,

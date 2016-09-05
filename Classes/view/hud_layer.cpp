@@ -254,6 +254,12 @@ void HudLayer::onNotify(Subject *subject, EventType event)
     {
       showMessage({"Weapon cracked!"}, cc::Color4B::RED, this);
     }
+    else if ( event == EventType::GameOver )
+    {
+      showMessage({"You died.", "Game over.", "TODO: Make separate screen for this."}, cc::Color4B::RED,this, [](){
+        BUTCHER.showGameMenu(false);
+      });
+    }
   }
 }
 
@@ -264,7 +270,7 @@ void HudLayer::updateMinimap()
 
 void HudLayer::showMenu(Ref *)
 {
-  BUTCHER.showGameMenu();
+  BUTCHER.showGameMenu(true);
 }
 
 void HudLayer::showInventory(cocos2d::Ref *)

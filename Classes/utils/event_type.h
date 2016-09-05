@@ -8,7 +8,8 @@ enum class EventType {
   Modified,
   LevelUP,
   Moved,
-  WeaponCracked
+  WeaponCracked,
+  GameOver
 };
 
 }

@@ -40,10 +40,11 @@ public:
     virtual bool canShootAt(cocos2d::Vec2 coord);
 
     virtual bool isOutOfControl();
+    virtual bool isAlive() const;
 
     virtual void onDestroy(std::shared_ptr<Actor> killer);
 
-    virtual bool isAlive() const;
+    virtual void addEffect(const Effect& effect);
 
 protected:
     int _level;

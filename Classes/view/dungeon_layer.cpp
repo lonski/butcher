@@ -139,9 +139,14 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   {
     player->triggerScheduledAction(target);
   }
-  else if ( direction == Direction::Middle && !_state->isAnyMobInFov() )
+  else if ( direction == Direction::Middle )
   {
-    player->autoheal();
+    if ( !_state->isAnyMobInFov() )
+      player->autoheal();
+
+    for ( auto a : _state->getActorsAt(player->getTileCoord()) )
+      if ( a != player )
+        a->onInterract(player);
   }
   else if ( direction != Direction::None )
   {

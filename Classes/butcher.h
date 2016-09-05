@@ -25,7 +25,7 @@ public:
     void showMainScreen();
 
     void startNewGame();
-    void showGameMenu();
+    void showGameMenu(bool gameRunning);
     void showInventory();
     void showCraft();
     void saveGame();

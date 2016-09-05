@@ -43,6 +43,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/ai/fsm/states/wandering_state.cpp \
 ../../Classes/actors/ai/fsm/states/move_to_target_state.cpp \
 ../../Classes/actors/ai/fsm/states/melee_attack_state.cpp \
+../../Classes/actors/ai/fsm/states/ranged_attack_state.cpp \
 ../../Classes/data/actors_database.cpp \
 ../../Classes/data/levels_database.cpp \
 ../../Classes/data/effects_database.cpp \

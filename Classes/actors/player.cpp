@@ -121,6 +121,11 @@ void Player::onNextTurn()
   }
 }
 
+void Player::onDestroy(std::shared_ptr<Actor> killer)
+{
+  notify(EventType::GameOver);
+}
+
 Inventory& Player::getInventory()
 {
   return _inventory;
@@ -240,7 +245,6 @@ void Player::autoheal()
     if ( cc::RandomHelper::random_int(0,100) < 20 )
     {
       setHp(getHp() + 1);
-      fadeText("+1HP", cc::Color4B::GREEN);
     }
   }
 }
@@ -267,6 +271,11 @@ bool Player::triggerScheduledAction(Target target)
   }
 
   return false;
+}
+
+bool Player::isOutOfControl()
+{
+  return getHp() <= 0;
 }
 
 CraftBook& Player::getCraftbook()

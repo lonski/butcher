@@ -84,6 +84,7 @@ struct LevelData : private flatbuffers::Table {
   const flatbuffers::Vector<flatbuffers::Offset<CAGenerationParams>> *generation_params() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<CAGenerationParams>> *>(30); }
   int32_t max_mob_density() const { return GetField<int32_t>(32, 0); }
   int32_t mob_spawn_chance() const { return GetField<int32_t>(34, 0); }
+  int32_t well_spawn_chance() const { return GetField<int32_t>(36, 0); }
 };
 
 struct LevelDataBuilder {
@@ -105,12 +106,14 @@ struct LevelDataBuilder {
   void add_generation_params(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<CAGenerationParams>>> generation_params) { fbb_.AddOffset(30, generation_params); }
   void add_max_mob_density(int32_t max_mob_density) { fbb_.AddElement<int32_t>(32, max_mob_density, 0); }
   void add_mob_spawn_chance(int32_t mob_spawn_chance) { fbb_.AddElement<int32_t>(34, mob_spawn_chance, 0); }
+  void add_well_spawn_chance(int32_t well_spawn_chance) { fbb_.AddElement<int32_t>(36, well_spawn_chance, 0); }
   LevelDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<LevelData> Finish() { return flatbuffers::Offset<LevelData>(fbb_.EndTable(start_, 16)); }
+  flatbuffers::Offset<LevelData> Finish() { return flatbuffers::Offset<LevelData>(fbb_.EndTable(start_, 17)); }
 };
 
-inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, flatbuffers::Offset<flatbuffers::Vector<int32_t>> depth, flatbuffers::Offset<flatbuffers::String> map_template, int8_t generator, int32_t width, int32_t height, int32_t min_room_size, int32_t max_room_size, int32_t max_features, int32_t min_corridor_length, int32_t max_corridor_length, int32_t room_chance, int32_t wall_percent, int32_t room_split_percent, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<CAGenerationParams>>> generation_params, int32_t max_mob_density, int32_t mob_spawn_chance) {
+inline flatbuffers::Offset<LevelData> CreateLevelData(flatbuffers::FlatBufferBuilder &_fbb, flatbuffers::Offset<flatbuffers::Vector<int32_t>> depth, flatbuffers::Offset<flatbuffers::String> map_template, int8_t generator, int32_t width, int32_t height, int32_t min_room_size, int32_t max_room_size, int32_t max_features, int32_t min_corridor_length, int32_t max_corridor_length, int32_t room_chance, int32_t wall_percent, int32_t room_split_percent, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<CAGenerationParams>>> generation_params, int32_t max_mob_density, int32_t mob_spawn_chance, int32_t well_spawn_chance) {
   LevelDataBuilder builder_(_fbb);
+  builder_.add_well_spawn_chance(well_spawn_chance);
   builder_.add_mob_spawn_chance(mob_spawn_chance);
   builder_.add_max_mob_density(max_mob_density);
   builder_.add_generation_params(generation_params);
