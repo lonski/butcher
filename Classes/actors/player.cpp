@@ -83,6 +83,12 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
   {
     door->open();
   }
+
+  std::shared_ptr<Object> obj = std::dynamic_pointer_cast<Object>(obstacle);
+  if ( obj )
+  {
+    obj->onInterract(shared_from_this());
+  }
 }
 
 void Player::onKill(std::shared_ptr<Character> killed)
@@ -236,17 +242,6 @@ bool Player::isUsingRangedWeapon()
     return false;
 
   return true;
-}
-
-void Player::autoheal()
-{
-  if ( getHp() < getMaxHp() )
-  {
-    if ( cc::RandomHelper::random_int(0,100) < 10 )
-    {
-      setHp(getHp() + 1);
-    }
-  }
 }
 
 void Player::scheduleAction(std::shared_ptr<ActorAction> action)

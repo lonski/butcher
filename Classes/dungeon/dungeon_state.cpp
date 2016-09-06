@@ -8,6 +8,7 @@
 #include <utils/profiler.h>
 #include <actors/object.h>
 #include <actors/monster.h>
+#include <utils/profiler.h>
 
 namespace cc = cocos2d;
 
@@ -19,7 +20,9 @@ DungeonState::DungeonState()
   , _meta(nullptr)
   , _currentView(nullptr)
   , _fovMask("circle.mask")
+  , _turnsOnLeave(0)
 {
+  _turnsOnLeave = BUTCHER.getTurnCounter();
 }
 
 cocos2d::TMXTiledMap *DungeonState::map() const
@@ -113,6 +116,37 @@ cocos2d::Size DungeonState::getMapUsableSize() const
 
 void DungeonState::onEnter(DungeonLayer *view)
 {
+  Profiler p;
+  _lastPlayerPosition = BUTCHER.getPlayer()->getTileCoord();
+
+  BUTCHER.setAnimationSuspended(true);
+
+  unsigned long long diff = BUTCHER.getTurnCounter() - _turnsOnLeave;
+  cc::log("onEnter diff = %llu, turnspnLeave = %llu", diff, _turnsOnLeave);
+
+  enum {
+    MAX_UPDATE_TURNS = 100
+  };
+
+  if ( diff > MAX_UPDATE_TURNS )
+  {
+    _turnsOnLeave = _turnsOnLeave + diff - MAX_UPDATE_TURNS;
+    diff = MAX_UPDATE_TURNS;
+  }
+
+  cc::log("onEnter diff adjusted = %llu", diff);
+
+  for( int y = 0; y < _exploredMask.height; ++y )
+    for( int x = 0; x < _exploredMask.width; ++x )
+      if ( _exploredMask.get(x,y) == Tiles::FoV )
+        _exploredMask.set(x,y, Tiles::FoG);
+
+  for (; _turnsOnLeave < BUTCHER.getTurnCounter(); ++_turnsOnLeave )
+    nextTurn();
+
+  BUTCHER.setAnimationSuspended(false);
+  p.log("DungeonState update");
+
   _currentView = view;
   addPlayer();
   spawnActors();
@@ -120,7 +154,8 @@ void DungeonState::onEnter(DungeonLayer *view)
 
 void DungeonState::onExit()
 {
-  removeActor( BUTCHER.getPlayer() );
+  removeActor( BUTCHER.getPlayer() );  
+  _turnsOnLeave = BUTCHER.getTurnCounter();
 }
 
 void DungeonState::spawnActors()
@@ -206,14 +241,20 @@ std::vector<std::shared_ptr<Actor> > DungeonState::getActors(std::function<bool 
 
 void DungeonState::nextTurn()
 {
-  computeFov(BUTCHER.getPlayer()->getTileCoord().x,
-             BUTCHER.getPlayer()->getTileCoord().y);
+  if ( _lastPlayerPosition != BUTCHER.getPlayer()->getTileCoord() )
+  {
+    _lastPlayerPosition = BUTCHER.getPlayer()->getTileCoord();
+    computeFov(BUTCHER.getPlayer()->getTileCoord().x,
+               BUTCHER.getPlayer()->getTileCoord().y);
+  }
 
   for(auto a : _actors)
   {
     a->onNextTurn();
     a->getSprite()->setVisible( isInFov(a->getTileCoord()) );
   }
+
+
 }
 
 bool DungeonState::isBlocked(cc::Vec2 tileCoord, std::shared_ptr<Actor>* blocking_actor)

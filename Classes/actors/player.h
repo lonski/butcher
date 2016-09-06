@@ -41,7 +41,6 @@ public:
   virtual bool canShootAt(cocos2d::Vec2 coord);
   bool isUsingRangedWeapon();
 
-  void autoheal();
   void scheduleAction(std::shared_ptr<ActorAction> action);
   bool hasScheduledAction() const;
   bool triggerScheduledAction(Target target);

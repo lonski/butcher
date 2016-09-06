@@ -18,6 +18,7 @@
       name:"Stairs down",
       type:4,
       sprite_file:"images/stairs_down.png",
+      blocks:1,
       transparent:1
     },
     {
@@ -25,6 +26,7 @@
       name:"Stairs up",
       type:5,
       sprite_file:"images/stairs_up.png",
+      blocks:1,
       transparent:1
     },
     {
@@ -41,6 +43,7 @@
       name:"Well",
       type:3,
       sprite_file:"images/well.png",
+      blocks:1,
       transparent:1,
       effect_id:5
     },

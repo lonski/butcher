@@ -21,7 +21,24 @@ Butcher::Butcher()
   : _currentScene(nullptr)
   , _hud(nullptr)
   , _dungeonLevel(0)
+  , _turnCounter(0)
+  , _isAnimationSuspended(false)
 {
+}
+
+unsigned long long Butcher::getTurnCounter() const
+{
+  return _turnCounter;
+}
+
+void Butcher::setAnimationSuspended(bool suspend)
+{
+  _isAnimationSuspended = suspend;
+}
+
+bool Butcher::isAnimationSuspended() const
+{
+  return _isAnimationSuspended;
 }
 
 Butcher &Butcher::getInstance()
@@ -39,6 +56,7 @@ Butcher &Butcher::getInstance()
 
 void Butcher::init()
 {
+  _turnCounter = 0;
   _dungeonLevel = 0;
   _player = nullptr;
 
@@ -260,6 +278,7 @@ DungeonState *Butcher::getCurrentDungeon()
 
 void Butcher::nextTurn()
 {
+  ++_turnCounter;
   DungeonState* d = getCurrentDungeon();
   if ( d )
     d->nextTurn();

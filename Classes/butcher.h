@@ -46,6 +46,10 @@ public:
     RecipeDatabase& recipesDatabase();
     EffectDatabase& effectsDatabase();
 
+    unsigned long long getTurnCounter() const;
+    void setAnimationSuspended(bool suspend);
+    bool isAnimationSuspended() const;
+
 private:
     Butcher();
     Butcher(const Butcher&) = delete;
@@ -61,6 +65,9 @@ private:
     LevelManager _dungeons;
 
     unsigned _dungeonLevel;
+    unsigned long long _turnCounter;
+
+    bool _isAnimationSuspended;
 
     void setPlayerPosition(unsigned level, DungeonState* dungeonState);
 };

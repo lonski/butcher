@@ -100,6 +100,8 @@ void DungeonLayer::onEnter()
 
 void DungeonLayer::onExit()
 {
+  Layer::onExit();
+
   _state->onExit();
 
   removeAllChildren();
@@ -141,9 +143,12 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   }
   else if ( direction == Direction::Middle )
   {
-    if ( !_state->isAnyMobInFov() )
-      player->autoheal();
+    //Autoheal
+    if ( !_state->isAnyMobInFov() && player->getHp() < player->getMaxHp())
+      if ( cc::RandomHelper::random_int(0,100) < 10 )
+        player->setHp(player->getHp() + 1);
 
+    //Interract with objects
     for ( auto a : _state->getActorsAt(player->getTileCoord()) )
       if ( a != player )
         a->onInterract(player);

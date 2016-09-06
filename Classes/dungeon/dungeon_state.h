@@ -59,6 +59,8 @@ private:
   cocos2d::TMXLayer*    _meta;
   DungeonLayer* _currentView;
   permissive::maskT _fovMask;
+  unsigned long  long _turnsOnLeave;
+  cocos2d::Vec2 _lastPlayerPosition;
 
   Grid _exploredMask;
   std::set< std::shared_ptr<Actor> > _actors;

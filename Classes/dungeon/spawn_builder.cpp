@@ -38,7 +38,7 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   addMobs();
 
   //debugMapPrint();
-  debugSpawnStatsPrint();
+  //debugSpawnStatsPrint();
 
   _objectsLayer->setObjects(_objects);
 
@@ -120,7 +120,7 @@ bool SpawnBuilder::addStairs()
 
 void SpawnBuilder::addMobs()
 {
-  Grid g = _dungeon->grid;
+  //Grid g = _dungeon->grid;
 
   int mobCount(0);
 
@@ -134,7 +134,7 @@ void SpawnBuilder::addMobs()
         cc::Vec2 coord = room->getRandomFloorCoord(_dungeon->grid);
         if ( addActorSpawn( (int)getRandomMobID(), coord ) )
         {
-          g.set(coord, 'M');
+          //g.set(coord, 'M');
           ++mobCount;
         }
       }
@@ -142,7 +142,7 @@ void SpawnBuilder::addMobs()
   }
 
   cc::log("Spawned %d mobs in %u rooms.", mobCount, (unsigned)_dungeon->rooms.size());
-  cc::log("%s", g.toStr().c_str());
+  //cc::log("%s", g.toStr().c_str());
 }
 
 bool SpawnBuilder::addActorSpawn(int id, int y, int x)

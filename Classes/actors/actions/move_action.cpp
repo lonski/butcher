@@ -65,10 +65,13 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
     return false;
   }
 
-  actor->setPosition(pixelPos, true);
+  actor->setPosition(pixelPos, !BUTCHER.isAnimationSuspended());
 
-  cc::MoveTo* move_action = cc::MoveTo::create(0.1, pixelPos);
-  actor->getSprite()->runAction( move_action );
+  if ( !BUTCHER.isAnimationSuspended() )
+  {
+    cc::MoveTo* move_action = cc::MoveTo::create(0.1, pixelPos);
+    actor->getSprite()->runAction( move_action );
+  }
 
   for ( auto a : _state->getActorsAt(actor->getTileCoord()) )
     if ( a != actor )

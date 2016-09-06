@@ -253,25 +253,28 @@ void Actor::onHit(std::shared_ptr<Character>)
 
 void Actor::fadeText(const std::string &text, cc::Color4B color, float speed, bool up)
 {
-  if ( !getSprite() )
+  if ( !BUTCHER.isAnimationSuspended() )
   {
-    //cc::log("Actor::fadeText Sprite is null!");
-    return;
+    if ( !getSprite() )
+    {
+      //cc::log("Actor::fadeText Sprite is null!");
+      return;
+    }
+
+    cc::Label* label = make_label(text, color, 22, cc::Vec2(0.5, 0.5));
+
+    cc::Size size = getSprite()->getBoundingBox().size;
+    label->setPosition( size.width / 2, size.height );
+    label->setGlobalZOrder( getSprite()->getGlobalZOrder() + 3 );
+    getSprite()->addChild(label, 1);
+
+    if ( up )
+      label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, size.height / 3)) );
+    else
+      label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, - (size.height / 3))) );
+
+    label->runAction( cc::FadeOut::create(speed) );
   }
-
-  cc::Label* label = make_label(text, color, 22, cc::Vec2(0.5, 0.5));
-
-  cc::Size size = getSprite()->getBoundingBox().size;
-  label->setPosition( size.width / 2, size.height );
-  label->setGlobalZOrder( getSprite()->getGlobalZOrder() + 3 );
-  getSprite()->addChild(label, 1);
-
-  if ( up )
-    label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, size.height / 3)) );
-  else
-    label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, - (size.height / 3))) );
-
-  label->runAction( cc::FadeOut::create(speed) );
 }
 
 void Actor::setSprite(cc::Sprite *sprite)
