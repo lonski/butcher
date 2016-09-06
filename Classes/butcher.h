@@ -28,6 +28,8 @@ public:
     void showGameMenu(bool gameRunning);
     void showInventory();
     void showCraft();
+    void showWaypoints();
+
     void saveGame();
     void loadGame();
 
@@ -35,7 +37,12 @@ public:
     DungeonState* getCurrentDungeon();
     unsigned getDungeonLevel() const;
 
-    void goToLevel(unsigned level);
+    /**
+     * @brief Loads dungeon state of a given level
+     * @param objectToSpawnPlayer If set then player will be spawned on object of given ID.
+     *                            If not he will be spawned on stairs or on waypoint (if entering the game)
+     */
+    void goToLevel(unsigned level, ActorID objectToSpawnPlayer = ActorID::INVALID);
     void nextTurn();
 
     void print(const std::string& str,
@@ -69,7 +76,8 @@ private:
 
     bool _isAnimationSuspended;
 
-    void setPlayerPosition(unsigned level, DungeonState* dungeonState);
+    void setPlayerPosition(DungeonState* dungeonState, ActorID place);
+    ActorID determinePlayerPlacePoint(unsigned level);
 };
 
 #define BUTCHER Butcher::getInstance()

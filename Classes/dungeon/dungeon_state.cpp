@@ -214,9 +214,10 @@ void DungeonState::addActor(ActorID id, cc::Vec2 coord)
 
     std::shared_ptr<Waypoint> waypoint = std::dynamic_pointer_cast<Waypoint>(actor);
     if ( waypoint && BUTCHER.getPlayer()->knowsWaypoint(getLevel()) )
+    {
       waypoint->activate();
-    else if ( waypoint )
-      cc::log("players does not know waypoint on level %d", getLevel());
+      waypoint->setLevel(getLevel());
+    }
 
   }
   else

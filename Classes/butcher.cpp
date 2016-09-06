@@ -101,6 +101,11 @@ void Butcher::showCraft()
   cc::Director::getInstance()->pushScene( CraftView::createScene(getPlayer()) );
 }
 
+void Butcher::showWaypoints()
+{
+  cc::log("%s", __PRETTY_FUNCTION__);
+}
+
 void Butcher::saveGame()
 {
   flatbuffers::FlatBufferBuilder builder;
@@ -203,7 +208,17 @@ cocos2d::Scene* Butcher::getCurrentScene() const
   return _currentScene;
 }
 
-void Butcher::goToLevel(unsigned level)
+ActorID Butcher::determinePlayerPlacePoint(unsigned level)
+{
+  ActorID idToPlaceOn = (level >= _dungeonLevel ? ActorID::STAIRS_UP : ActorID::STAIRS_DOWN);
+
+  if ( ( level == 1 && _dungeonLevel <= 1 ) )
+    idToPlaceOn = ActorID::WAYPOINT;
+
+  return idToPlaceOn;
+}
+
+void Butcher::goToLevel(unsigned level, ActorID objectToSpawnPlayer)
 {
   if ( level <= 0 )
   {
@@ -214,7 +229,8 @@ void Butcher::goToLevel(unsigned level)
   DungeonState* dungeonState = _dungeons.getLevel(level);
 
   getPlayer()->getSprite()->removeAllChildren();
-  setPlayerPosition(level, dungeonState);
+  setPlayerPosition(dungeonState, objectToSpawnPlayer == ActorID::INVALID ? determinePlayerPlacePoint(level)
+                                                                          : objectToSpawnPlayer );
 
   _dungeonLevel = level;
 
@@ -231,14 +247,10 @@ void Butcher::goToLevel(unsigned level)
   _currentScene = new_scene;
 }
 
-void Butcher::setPlayerPosition(unsigned level, DungeonState* dungeonState)
+void Butcher::setPlayerPosition(DungeonState* dungeonState, ActorID place)
 {
-  ActorID id = ActorID::WAYPOINT;
-  if ( level > 1 )
-    id = (level >= _dungeonLevel ? ActorID::STAIRS_UP : ActorID::STAIRS_DOWN);
-
-  auto actors = dungeonState->getActors([id](std::shared_ptr<Actor> a){
-    return a->getID() == id;
+  auto actors = dungeonState->getActors([place](std::shared_ptr<Actor> a){
+    return a->getID() == place;
   });
 
   if ( !actors.empty() )

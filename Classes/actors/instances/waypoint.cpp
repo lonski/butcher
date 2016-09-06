@@ -2,6 +2,7 @@
 #include "cocos2d.h"
 #include <data/actors_generated.h>
 #include <actors/player.h>
+#include <butcher.h>
 
 namespace cc = cocos2d;
 
@@ -9,6 +10,7 @@ namespace butcher {
 
 Waypoint::Waypoint(const ActorData *data)
   : Object(data)
+  , _level(0)
 {
   if (data)
   {
@@ -33,17 +35,25 @@ std::unique_ptr<Actor> Waypoint::clone(std::unique_ptr<Actor> allocated)
 
 void Waypoint::onInterract(std::shared_ptr<Actor> actor)
 {
-  cc::log("%s", __PRETTY_FUNCTION__);
-
   std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(actor);
-  if ( player && !_activated )
+  if ( player && !_activated && _level > 0 )
+  {
     activate();
+    player->addWaypoint(_level);
+  }
+
+  BUTCHER.showWaypoints();
 }
 
 void Waypoint::activate()
 {
   setSpriteTexture(_openedSpriteImage);
   _activated = true;
+}
+
+void Waypoint::setLevel(int level)
+{
+  _level = level;
 }
 
 }
