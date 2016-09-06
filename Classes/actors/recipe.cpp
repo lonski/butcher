@@ -114,10 +114,7 @@ bool Recipe::checkIngridients()
       }
     }
     if ( !present )
-    {
-      cc::log("%s: missing ingridient ID%d", __PRETTY_FUNCTION__, (int)kv.first);
       return false;
-    }
   }
 
   return true;

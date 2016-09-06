@@ -1,27 +1,28 @@
-#ifndef DOORCLOSED_H
-#define DOORCLOSED_H
+#ifndef WAYPOINT_H
+#define WAYPOINT_H
 
 #include <actors/object.h>
 
 namespace butcher {
 
-class Door : public Object
+class Waypoint : public Object
 {
 public:
-  Door(const ActorData* data);
+  Waypoint(const ActorData* data);
   virtual std::unique_ptr<Actor> clone(std::unique_ptr<Actor> allocated = nullptr);
-
-  bool open();
-  bool close();
 
   virtual void onInterract(std::shared_ptr<Actor> actor);
 
+  void activate();
+
 private:
-  bool _closed;
+  bool _activated;
   std::string _openedSpriteImage;
   std::string _closedSpriteImage;
+
+
 };
 
 }
 
-#endif // DOORCLOSED_H
+#endif // WAYPOINT_H

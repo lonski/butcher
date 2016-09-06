@@ -5,6 +5,7 @@
 #include <data/levels_generated.h>
 #include <butcher.h>
 #include <data/actors_database.h>
+#include <dungeon/waypoints.h>
 
 namespace cc = cocos2d;
 
@@ -33,7 +34,8 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   }
 
   addPredefinedSpawns();
-  spawnWell();
+  addWell();
+  addPortal();
   result &= addStairs();
   addMobs();
 
@@ -45,7 +47,7 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   return result;
 }
 
-void SpawnBuilder::spawnWell()
+void SpawnBuilder::addWell()
 {
   if ( cc::RandomHelper::random_int(0, 100) < _dungeon->settings->well_spawn_chance() )
   {
@@ -143,6 +145,17 @@ void SpawnBuilder::addMobs()
 
   cc::log("Spawned %d mobs in %u rooms.", mobCount, (unsigned)_dungeon->rooms.size());
   //cc::log("%s", g.toStr().c_str());
+}
+
+void SpawnBuilder::addPortal()
+{
+  if ( waypoints.find(_dungeon->level) != waypoints.end() )
+  {
+    cc::Vec2 coord = _dungeon->grid.findCoordWithPattern(".........");
+
+    if ( coord != cc::Vec2::ZERO )
+      addActorSpawn((int)ActorID::WAYPOINT, coord.y, coord.x);
+  }
 }
 
 bool SpawnBuilder::addActorSpawn(int id, int y, int x)

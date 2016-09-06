@@ -24,7 +24,7 @@ DungeonState *LevelManager::getLevel(int level)
 
   if ( dungeonState == nullptr )
   {
-    dungeonState = new DungeonState();
+    dungeonState = new DungeonState(level);
 
     DungeonDescription dsc = generateMap(level);
     while (!dsc.tmx)

@@ -22,7 +22,7 @@ class DungeonState
 {
 public:
 
-  DungeonState();
+  DungeonState(int level);
 
   cocos2d::TMXTiledMap* map() const;
 
@@ -53,6 +53,8 @@ public:
                                                     std::function<bool(std::shared_ptr<Actor>)> filterFn = [](std::shared_ptr<Actor>){return true;});
   std::vector< std::shared_ptr<Actor> > getActors(std::function<bool(std::shared_ptr<Actor>)> filter);
 
+  int getLevel() const;
+
 private:
   cocos2d::TMXTiledMap* _map;
   cocos2d::TMXLayer*    _tiles;
@@ -66,6 +68,7 @@ private:
   std::set< std::shared_ptr<Actor> > _actors;
 
   cocos2d::Size _usableMapSize;
+  int _level;
 
   void addPlayer();
   void addActor(ActorID id, cocos2d::Vec2 coord);

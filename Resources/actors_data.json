@@ -48,6 +48,16 @@
       effect_id:5
     },
     {
+      id:66,
+      name:"Waypoint",
+      is_closed:1,
+      opened_sprite_file:"images/portal.png",
+      type:8,
+      sprite_file:"images/portal_deactivated.png",
+      blocks:1,
+      transparent:1
+    },
+    {
       id:16,
       name:"Calf",
       hp:2,

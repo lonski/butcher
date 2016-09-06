@@ -12,7 +12,8 @@ enum ActorType:byte {
 	StairsDown = 4,
 	StairsUp = 5,
 	Door = 6,
-	Trap = 7
+	Trap = 7,
+	Waypoint = 8
 }
 
 table DropRuleData {

@@ -148,6 +148,7 @@ set(GAME_SRC
   Classes/actors/instances/stairs_down.cpp
   Classes/actors/instances/stairs_up.cpp
   Classes/actors/instances/door.cpp
+  Classes/actors/instances/waypoint.cpp
 
   Classes/actors/actions/move_action.cpp
   Classes/actors/actions/attack_action.cpp
@@ -226,6 +227,7 @@ set(GAME_HEADERS
   Classes/actors/instances/stairs_up.h
   Classes/actors/attribute_type.h
   Classes/actors/instances/door.h
+  Classes/actors/instances/waypoint.h
 
   Classes/actors/actions/actor_action.h
   Classes/actors/actions/move_action.h

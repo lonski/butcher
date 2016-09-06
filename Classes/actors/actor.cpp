@@ -13,6 +13,7 @@
 #include <actors/instances/stairs_up.h>
 #include <actors/instances/door.h>
 #include <actors/trap.h>
+#include <actors/instances/waypoint.h>
 
 namespace cc = cocos2d;
 
@@ -73,6 +74,9 @@ std::unique_ptr<Actor> Actor::create(const ActorData *data)
       break;
     case ActorType_Trap:
       actor.reset(new Trap(data));
+      break;
+    case ActorType_Waypoint:
+      actor.reset(new Waypoint(data));
       break;
     default:
       cc::log("Actor::create: incorrect actor type (%d)!", data->type());

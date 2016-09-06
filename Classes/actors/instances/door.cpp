@@ -1,6 +1,7 @@
 #include "door.h"
 #include <butcher.h>
 #include "cocos2d.h"
+#include <actors/player.h>
 
 namespace cc = cocos2d;
 
@@ -13,7 +14,7 @@ Door::Door(const ActorData *data)
   if (data)
   {
     _closed = data->is_closed();
-    //_openedSpriteImage = data->opened_sprite_file()->c_str();
+    _openedSpriteImage = data->opened_sprite_file()->c_str();
     _closedSpriteImage = data->sprite_file()->c_str();
   }
 }
@@ -54,6 +55,13 @@ bool Door::close()
     return true;
   }
   return false;
+}
+
+void Door::onInterract(std::shared_ptr<Actor> actor)
+{
+  std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(actor);
+  if ( player )
+    open();
 }
 
 }

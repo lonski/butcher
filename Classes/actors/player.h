@@ -47,9 +47,14 @@ public:
 
   virtual bool isOutOfControl();
 
+  bool knowsWaypoint(int level) const;
+  void addWaypoint(int level);
+  std::vector<int> getWaypoints() const;
+
 private:
   Inventory _inventory;
   CraftBook _craftbook;
+  std::set<int> _waypoints;
 
   std::shared_ptr<ActorAction> _scheduledAction;
 

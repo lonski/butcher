@@ -11,6 +11,7 @@ namespace butcher {
     STAIRS_UP = 4,
     DOOR = 7,
     WELL = 65,
+    WAYPOINT = 66,
     CALF = 16,
     COW = 2,
     COW_FARMER = 14,

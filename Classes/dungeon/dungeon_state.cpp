@@ -9,18 +9,20 @@
 #include <actors/object.h>
 #include <actors/monster.h>
 #include <utils/profiler.h>
+#include <actors/instances/waypoint.h>
 
 namespace cc = cocos2d;
 
 namespace butcher {
 
-DungeonState::DungeonState()
+DungeonState::DungeonState(int level)
   : _map(nullptr)
   , _tiles(nullptr)
   , _meta(nullptr)
   , _currentView(nullptr)
   , _fovMask("circle.mask")
   , _turnsOnLeave(0)
+  , _level(level)
 {
   _turnsOnLeave = BUTCHER.getTurnCounter();
 }
@@ -199,12 +201,23 @@ void DungeonState::addPlayer()
 
 void DungeonState::addActor(ActorID id, cc::Vec2 coord)
 {
+  //On first level theare are no stairs. Only waypoint.
+  if ( id == ActorID::STAIRS_UP && getLevel() == 1 )
+    return;
+
   std::shared_ptr<Actor> actor{ BUTCHER.actorsDatabase().createActor<Actor>(id) };
   if ( actor )
   {
     cc::Vec2 pos = tileCoordToPosition(_map, coord);
     actor->setPosition(pos);
     addActor( actor );
+
+    std::shared_ptr<Waypoint> waypoint = std::dynamic_pointer_cast<Waypoint>(actor);
+    if ( waypoint && BUTCHER.getPlayer()->knowsWaypoint(getLevel()) )
+      waypoint->activate();
+    else if ( waypoint )
+      cc::log("players does not know waypoint on level %d", getLevel());
+
   }
   else
   {
@@ -232,6 +245,11 @@ std::vector<std::shared_ptr<Actor> > DungeonState::getActors(std::function<bool 
       actors.push_back(a);
 
   return actors;
+}
+
+int DungeonState::getLevel() const
+{
+  return _level;
 }
 
 void DungeonState::nextTurn()

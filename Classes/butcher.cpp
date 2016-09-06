@@ -142,6 +142,7 @@ void Butcher::saveGame()
                                        getPlayer()->getCraftbook().getFreePoints(),
                                        recipes);
 
+  auto waypoints = builder.CreateVector(getPlayer()->getWaypoints());
 
   //create save data
   SaveDataBuilder save(builder);
@@ -151,6 +152,7 @@ void Butcher::saveGame()
   save.add_inventory( inventory );
   save.add_craftbook( craftbook );
   save.add_dungeon_level(_dungeonLevel);
+  save.add_waypoints(waypoints);
 
   builder.Finish( save.Finish() );
 
@@ -231,9 +233,14 @@ void Butcher::goToLevel(unsigned level)
 
 void Butcher::setPlayerPosition(unsigned level, DungeonState* dungeonState)
 {
-  auto actors = dungeonState->getActors([&](std::shared_ptr<Actor> a){
-    return a->getID() == (level >= _dungeonLevel ? ActorID::STAIRS_UP : ActorID::STAIRS_DOWN);
+  ActorID id = ActorID::WAYPOINT;
+  if ( level > 1 )
+    id = (level >= _dungeonLevel ? ActorID::STAIRS_UP : ActorID::STAIRS_DOWN);
+
+  auto actors = dungeonState->getActors([id](std::shared_ptr<Actor> a){
+    return a->getID() == id;
   });
+
   if ( !actors.empty() )
     getPlayer()->setPosition(actors.front()->getPosition());
 }

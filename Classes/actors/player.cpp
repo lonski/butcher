@@ -16,6 +16,7 @@ namespace butcher {
 Player::Player(const ActorData *data)
   : Character(data)
 {
+  _waypoints.insert(1);
 }
 
 std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
@@ -26,6 +27,7 @@ std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
 
   p->_inventory = _inventory;
   p->_craftbook = _craftbook;
+  p->_waypoints = _waypoints;
 
   return std::move( Character::clone(std::move(std::unique_ptr<Actor>{p})) );
 }
@@ -64,6 +66,10 @@ void Player::load(const SaveData *data)
     {
       _craftbook.addRecipe( BUTCHER.recipesDatabase().createRecipe( (RecipeID)recs->Get(i) ) );
     }
+
+    _waypoints.clear();
+    for ( int wIdx = 0; wIdx < data->waypoints()->Length(); ++wIdx )
+      _waypoints.insert(data->waypoints()->Get(wIdx));
   }
 }
 
@@ -76,12 +82,6 @@ void Player::onCollide(std::shared_ptr<Actor> obstacle)
       performAction( new ShotAction(Target(mob)) );
     else
       performAction( new AttackAction(Target(mob)) );
-  }
-
-  std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(obstacle);
-  if ( door )
-  {
-    door->open();
   }
 
   std::shared_ptr<Object> obj = std::dynamic_pointer_cast<Object>(obstacle);
@@ -270,6 +270,24 @@ bool Player::triggerScheduledAction(Target target)
 bool Player::isOutOfControl()
 {
   return getHp() <= 0;
+}
+
+bool Player::knowsWaypoint(int level) const
+{
+  return _waypoints.find(level) != _waypoints.end();
+}
+
+void Player::addWaypoint(int level)
+{
+  _waypoints.insert(level);
+}
+
+std::vector<int> Player::getWaypoints() const
+{
+  std::vector<int> wp;
+  for ( int w : _waypoints )
+    wp.push_back(w);
+  return wp;
 }
 
 CraftBook& Player::getCraftbook()

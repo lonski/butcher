@@ -1,6 +1,7 @@
 // automatically generated, do not modify
 #ifndef FLATBUFFERS_GENERATED_ACTORS_BUTCHER_H_
 #define FLATBUFFERS_GENERATED_ACTORS_BUTCHER_H_
+
 #include "flatbuffers/flatbuffers.h"
 
 namespace butcher {
@@ -14,10 +15,11 @@ enum {
   ActorType_StairsUp = 5,
   ActorType_Door = 6,
   ActorType_Trap = 7,
+  ActorType_Waypoint = 8,
 };
 
 inline const char **EnumNamesActorType() {
-  static const char *names[] = { "Monster", "Player", "Item", "Object", "StairsDown", "StairsUp", "Door", "Trap", nullptr };
+  static const char *names[] = { "Monster", "Player", "Item", "Object", "StairsDown", "StairsUp", "Door", "Trap", "Waypoint", nullptr };
   return names;
 }
 

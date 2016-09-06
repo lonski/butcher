@@ -28,6 +28,7 @@ private:
   void addPredefinedSpawns();
   bool addStairs();
   void addMobs();
+  void addPortal();
 
   bool addActorSpawn(int id, int y, int x);
   bool addActorSpawn(int id, cocos2d::Vec2 pos);
@@ -40,7 +41,7 @@ private:
 
   std::map<ActorID, int> _spawnStats;
 
-  void spawnWell();
+  void addWell();
 };
 
 }
