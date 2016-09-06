@@ -134,6 +134,7 @@ set(GAME_SRC
   Classes/view/inventory_view.cpp
   Classes/view/craft_view.cpp
   Classes/view/minimap.cpp
+  Classes/view/waypoint_view.cpp
 
   Classes/actors/actor.cpp
   Classes/actors/object.cpp
@@ -208,6 +209,7 @@ set(GAME_HEADERS
   Classes/view/hud_log.h
   Classes/view/game_menu.h
   Classes/view/inventory_view.h
+  Classes/view/minimap.h
   Classes/view/minimap.h
 
   Classes/actors/actor.h

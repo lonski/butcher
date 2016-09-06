@@ -29,6 +29,7 @@ std::unique_ptr<Actor> Waypoint::clone(std::unique_ptr<Actor> allocated)
   o->_activated = _activated;
   o->_openedSpriteImage = _openedSpriteImage;
   o->_closedSpriteImage = _closedSpriteImage;
+  o->_level = _level;
 
   return std::move(Object::clone(std::unique_ptr<Actor>{o}));
 }
@@ -42,7 +43,9 @@ void Waypoint::onInterract(std::shared_ptr<Actor> actor)
     player->addWaypoint(_level);
   }
 
-  BUTCHER.showWaypoints();
+  if ( player )
+    BUTCHER.showWaypoints();
+
 }
 
 void Waypoint::activate()

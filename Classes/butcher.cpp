@@ -9,6 +9,7 @@
 #include <view/game_menu.h>
 #include <view/inventory_view.h>
 #include <view/craft_view.h>
+#include <view/waypoint_view.h>
 #include <data/save_generated.h>
 
 namespace cc = cocos2d;
@@ -103,7 +104,7 @@ void Butcher::showCraft()
 
 void Butcher::showWaypoints()
 {
-  cc::log("%s", __PRETTY_FUNCTION__);
+  cc::Director::getInstance()->pushScene( WaypointView::createScene() );
 }
 
 void Butcher::saveGame()

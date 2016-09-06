@@ -213,10 +213,12 @@ void DungeonState::addActor(ActorID id, cc::Vec2 coord)
     addActor( actor );
 
     std::shared_ptr<Waypoint> waypoint = std::dynamic_pointer_cast<Waypoint>(actor);
-    if ( waypoint && BUTCHER.getPlayer()->knowsWaypoint(getLevel()) )
+    if ( waypoint )
     {
-      waypoint->activate();
       waypoint->setLevel(getLevel());
+
+      if ( BUTCHER.getPlayer()->knowsWaypoint(getLevel()) )
+        waypoint->activate();
     }
 
   }
