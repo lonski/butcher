@@ -633,6 +633,9 @@ void CraftView::learnRecipe()
       btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
         if ( type == cc::ui::Widget::TouchEventType::ENDED )
         {
+          recipeList->setEnabled(false);
+          closeBtn->setEnabled(false);
+
           learnRecipeItemInfo(info, canLearn, [=](){
             _player->getCraftbook().setFreePoints( _freePoints - rec->getCost());
             _player->getCraftbook().addRecipe(rec);
@@ -645,7 +648,11 @@ void CraftView::learnRecipe()
           [=](){
             showRecipeIngredients(rec);
           }
-          , recipeList);
+          ,
+          [=](){
+            recipeList->setEnabled(true);
+            closeBtn->setEnabled(true);
+          });
         }
       });
 
@@ -730,10 +737,11 @@ void CraftView::craftChooseEngineering(cocos2d::Ref *)
   chooseCraftCommon();
 }
 
-void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled, std::function<void ()> learnFn, std::function<void ()> ingredientsFn, cocos2d::ui::ListView *recipeList)
+void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
+                                    std::function<void ()> learnFn,
+                                    std::function<void ()> ingredientsFn,
+                                    std::function<void ()> onCloseFn )
 {
-  recipeList->setEnabled(false);
-
   int margin = 10;
   auto origin = cc::Director::getInstance()->getVisibleOrigin();
   auto visibleSize = cc::Director::getInstance()->getVisibleSize();
@@ -790,7 +798,6 @@ void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
     {
       ask({"Are you sure?"}, this,
       [=](){
-        recipeList->setEnabled(true);
         learnFn();
         this->removeChild(layout);
       }, [](){});
@@ -825,8 +832,8 @@ void CraftView::learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
   closeBtn->addTouchEventListener([=](cc::Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {
-      recipeList->setEnabled(true);
       this->removeChild(layout);
+      onCloseFn();
     }
   });
 

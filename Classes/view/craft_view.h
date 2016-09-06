@@ -75,7 +75,11 @@ private:
   void chooseCraftCommon();
 
   void learnRecipe();
-  void learnRecipeItemInfo(std::vector<std::string> info, bool enabled, std::function<void ()> learnFn, std::function<void ()> ingredientsFn, cocos2d::ui::ListView* recipeList);
+  void learnRecipeItemInfo(std::vector<std::string> info, bool enabled,
+                           std::function<void ()> learnFn,
+                           std::function<void ()> ingredientsFn,
+                           std::function<void ()> onCloseFn);
+
   void showRecipeIngredients(std::shared_ptr<Recipe> rec);
 
   cocos2d::ui::Button* makeListItem(const std::string& title, const std::string& sprite_fn);
