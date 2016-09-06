@@ -108,6 +108,7 @@ cocos2d::Node *Minimap::generate()
 
   putObject(ActorID::STAIRS_DOWN);
   putObject(ActorID::STAIRS_UP);
+  putObject(ActorID::WELL);
 
   for ( int y = 0; y < _height; ++y )
   {

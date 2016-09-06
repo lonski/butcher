@@ -79,8 +79,6 @@ bool UseAction::useOnSelf()
     _user->fadeText( _effect.getName(), cc::Color4B::ORANGE, 1, false);
   }
 
-  BUTCHER.showMainScreen();
-
   return true;
 }
 
@@ -125,7 +123,6 @@ bool UseAction::useOnFloor()
 
   DungeonState* dung = BUTCHER.getCurrentDungeon();
   dung->addActor(item);
-  BUTCHER.showMainScreen();
 
   return true;
 }
@@ -142,7 +139,6 @@ bool UseAction::useRange()
 
   std::shared_ptr<ThrowAction> action(new ThrowAction(_item.item->clone()));
   player->scheduleAction(action);
-  BUTCHER.showMainScreen();
 
   return true;
 }

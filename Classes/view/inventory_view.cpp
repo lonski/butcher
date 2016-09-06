@@ -3,6 +3,7 @@
 #include <utils/utils.h>
 #include <actors/actions/equip_action.h>
 #include <actors/actions/use_action.h>
+#include <butcher.h>
 
 namespace cc = cocos2d;
 
@@ -409,10 +410,7 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
         if ( _player->performAction( new UseAction(item) ) )
         {
           _player->getInventory().removeItem(AmountedItem(item.item,1));
-          _bottomPanel->removeChild(layout);
-          fillInventoryItems();
-          fillBodySlots();
-          fillCharacterInfo();
+          BUTCHER.showMainScreen();
         }
       }
     });
