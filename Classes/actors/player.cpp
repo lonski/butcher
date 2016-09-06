@@ -110,8 +110,7 @@ void Player::onHit(std::shared_ptr<Character>)
   if ( wpn.item && wpn.item->rollBreak() )
   {
     getInventory().unequip(ItemSlotType::WEAPON);
-    fadeText("Weapon cracked!", cc::Color4B::RED);
-    notify(EventType::WeaponCracked);
+    notify(EventData(EventType::ItemDestroyed, "Weapon cracked!"));
   }
 }
 
@@ -175,7 +174,7 @@ int Player::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
       if ( i.item && i.item->rollBreak() )
       {
         getInventory().unequip(s);
-        fadeText(ItemSlotType2Str(s) + " destroyed!", cc::Color4B::RED);
+        notify(EventData(EventType::ItemDestroyed, ItemSlotType2Str(s) + " destroyed!"));
       }
     }
   }

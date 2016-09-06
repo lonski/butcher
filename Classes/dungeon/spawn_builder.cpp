@@ -38,7 +38,7 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   addMobs();
 
   //debugMapPrint();
-  //debugSpawnStatsPrint();
+  debugSpawnStatsPrint();
 
   _objectsLayer->setObjects(_objects);
 

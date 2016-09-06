@@ -12,7 +12,7 @@ class Observer
 {
 public:
   virtual ~Observer() {}
-  virtual void onNotify(Subject* subject, EventType event) = 0;
+  virtual void onNotify(Subject* subject, const EventData& event) = 0;
 };
 
 class Subject
@@ -22,7 +22,7 @@ public:
   virtual ~Subject();
   virtual void addObserver(Observer* observer);
   virtual void removeObserver(Observer* observer);
-  virtual void notify(EventType event);
+  virtual void notify(const EventData& event);
 
 private:
   std::set<Observer*> _observers;

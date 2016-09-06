@@ -116,13 +116,11 @@ cocos2d::Size DungeonState::getMapUsableSize() const
 
 void DungeonState::onEnter(DungeonLayer *view)
 {
-  Profiler p;
   _lastPlayerPosition = BUTCHER.getPlayer()->getTileCoord();
 
   BUTCHER.setAnimationSuspended(true);
 
   unsigned long long diff = BUTCHER.getTurnCounter() - _turnsOnLeave;
-  cc::log("onEnter diff = %llu, turnspnLeave = %llu", diff, _turnsOnLeave);
 
   enum {
     MAX_UPDATE_TURNS = 100
@@ -134,8 +132,6 @@ void DungeonState::onEnter(DungeonLayer *view)
     diff = MAX_UPDATE_TURNS;
   }
 
-  cc::log("onEnter diff adjusted = %llu", diff);
-
   for( int y = 0; y < _exploredMask.height; ++y )
     for( int x = 0; x < _exploredMask.width; ++x )
       if ( _exploredMask.get(x,y) == Tiles::FoV )
@@ -145,7 +141,6 @@ void DungeonState::onEnter(DungeonLayer *view)
     nextTurn();
 
   BUTCHER.setAnimationSuspended(false);
-  p.log("DungeonState update");
 
   _currentView = view;
   addPlayer();

@@ -51,7 +51,76 @@
   ],
   levels:[
     {
-      depth:[1,20],
+      depth:[1,1],
+      map_template:"dungeons/empty_cave.tmx",
+      width:50,
+      height:50,
+      max_mob_density:15,
+      mob_spawn_chance:85,
+      well_spawn_chance:50,
+      wall_percent:40,
+      room_split_percent:13,
+      generation_params: [ 
+        {
+          reps: 4,
+          r1_cutoff: 5,
+          r2_cutoff: 2
+        },
+        {
+          reps: 3,
+          r1_cutoff: 5,
+          r2_cutoff: -1
+        },
+        {
+          reps: 3,
+          r1_cutoff: 5,
+          r2_cutoff: 1
+        }
+      ]
+    },
+    {
+      depth:[2,2],
+      map_template:"dungeons/empty_cave.tmx",
+      width:35,
+      height:35,
+      max_mob_density:15,
+      mob_spawn_chance:80,
+      well_spawn_chance:100,
+      wall_percent:40,
+      room_split_percent:13,
+      generation_params: [ 
+        {
+          reps: 3,
+          r1_cutoff: 5,
+          r2_cutoff: 0
+        }
+      ]
+    },
+    {
+      depth:[3,4],
+      map_template:"dungeons/empty_cave.tmx",
+      width:35,
+      height:35,
+      max_mob_density:15,
+      mob_spawn_chance:80,
+      well_spawn_chance:100,
+      wall_percent:40,
+      room_split_percent:13,
+      generation_params: [ 
+        {
+          reps: 4,
+          r1_cutoff: 5,
+          r2_cutoff: 2
+        },
+        {
+          reps: 3,
+          r1_cutoff: 6,
+          r2_cutoff: -1
+        }
+      ]
+    },
+    {
+      depth:[4,10],
       map_template:"dungeons/empty_cave.tmx",
       width:35,
       height:35,

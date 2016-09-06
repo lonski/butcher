@@ -20,7 +20,7 @@ void Subject::removeObserver(Observer *observer)
   _observers.erase( observer );
 }
 
-void Subject::notify(EventType event)
+void Subject::notify(const EventData &event)
 {
   for ( auto o : _observers )
     o->onNotify(this, event);
