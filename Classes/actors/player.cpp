@@ -290,6 +290,11 @@ std::vector<int> Player::getWaypoints() const
   return wp;
 }
 
+int Player::getHighestWaypoint() const
+{
+  return _waypoints.empty() ? 1 : *_waypoints.rbegin();
+}
+
 CraftBook& Player::getCraftbook()
 {
   return _craftbook;

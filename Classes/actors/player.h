@@ -50,6 +50,7 @@ public:
   bool knowsWaypoint(int level) const;
   void addWaypoint(int level);
   std::vector<int> getWaypoints() const;
+  int getHighestWaypoint() const;
 
 private:
   Inventory _inventory;

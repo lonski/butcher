@@ -79,7 +79,7 @@ void WaypointView::addComponents()
 
     btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
       if ( type == cc::ui::Widget::TouchEventType::ENDED )
-        LoadingScreen::run([&](){
+        LoadingScreen::run([=](){
           BUTCHER.goToLevel(wpLevel, ActorID::WAYPOINT);
         }, "Teleporting..");
     });

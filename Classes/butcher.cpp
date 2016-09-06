@@ -191,15 +191,16 @@ void Butcher::loadGame()
 
   _player = nullptr;
   _dungeons = LevelManager();
-  _dungeonLevel = data->dungeon_level();
 
   getPlayer()->load(data);
   getPlayer()->addObserver( _hud );
 
+  _dungeonLevel = getPlayer()->getHighestWaypoint();
+
   _hud->onNotify(getPlayer().get(), EventType::Modified);
 
   LoadingScreen::run([this](){
-    goToLevel(_dungeonLevel);
+    goToLevel(_dungeonLevel, ActorID::WAYPOINT);
   }, "Loading game..");
 
 }
@@ -220,7 +221,7 @@ ActorID Butcher::determinePlayerPlacePoint(unsigned level)
 }
 
 void Butcher::goToLevel(unsigned level, ActorID objectToSpawnPlayer)
-{
+{  
   if ( level <= 0 )
   {
     cc::log("Can't go to level %d!", level);
