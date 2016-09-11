@@ -59,7 +59,19 @@ bool ShotAction::perform(std::shared_ptr<Actor> performer)
 
   DirectPath path;
   path.calculate(shotter->getTileCoord(), _target.pos, [dungeon](cocos2d::Vec2 pos){
-    return dungeon->isBlocked(pos);
+
+    std::shared_ptr<Actor> blockingActor;
+    bool blocked = dungeon->isBlocked(pos, &blockingActor);
+
+    std::shared_ptr<Character> c = blockingActor ? std::dynamic_pointer_cast<Character>(blockingActor)
+                                                 : nullptr;
+
+    bool blockedByCharacter = blocked && c != nullptr;
+    bool blockedByObject = blocked && !blockedByCharacter;
+
+    //10% chance to block hit another character on the way
+    return blockedByObject || (blockedByCharacter && cc::RandomHelper::random_int(0,100) <= 10 );
+
   }, false);
 
   if (path.empty())
