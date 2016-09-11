@@ -73,9 +73,9 @@ private:
   void addPlayer();
   void addActor(ActorID id, cocos2d::Vec2 coord);
   void spawnActors();
+  void refreshActors();
 
   void computeFov(int x, int y);
-
 };
 
 }

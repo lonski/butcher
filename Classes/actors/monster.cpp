@@ -112,10 +112,14 @@ ActorID Monster::getAmmoID() const
   return _ammoId;
 }
 
-void Monster::setSprite(cocos2d::Sprite *sprite)
+void Monster::refresh()
 {
-  Actor::setSprite(sprite);
+  Actor::refresh();
+  drawNameAndHp();
+}
 
+void Monster::drawNameAndHp()
+{
   if ( getSprite() )
   {
     auto order = getSprite()->getGlobalZOrder();
@@ -144,6 +148,12 @@ void Monster::setSprite(cocos2d::Sprite *sprite)
     getSprite()->addChild(_hpBar);
 
   }
+}
+
+void Monster::setSprite(cocos2d::Sprite *sprite)
+{
+  Actor::setSprite(sprite);
+  drawNameAndHp();
 }
 
 }

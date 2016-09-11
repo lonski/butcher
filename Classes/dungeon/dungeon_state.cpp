@@ -116,6 +116,12 @@ cocos2d::Size DungeonState::getMapUsableSize() const
   return _usableMapSize;
 }
 
+void DungeonState::refreshActors()
+{
+  for ( auto a : _actors )
+    a->refresh();
+}
+
 void DungeonState::onEnter(DungeonLayer *view)
 {
   _lastPlayerPosition = BUTCHER.getPlayer()->getTileCoord();
@@ -145,8 +151,10 @@ void DungeonState::onEnter(DungeonLayer *view)
   BUTCHER.setAnimationSuspended(false);
 
   _currentView = view;
+
   addPlayer();
   spawnActors();
+  refreshActors();
 }
 
 void DungeonState::onExit()

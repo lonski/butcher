@@ -24,6 +24,8 @@ public:
   virtual bool canShootAt(cocos2d::Vec2 coord);
   virtual ActorID getAmmoID() const;
 
+  virtual void refresh();
+
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);
 
@@ -34,6 +36,7 @@ private:
   cocos2d::ui::LoadingBar* _hpBar;
   int _range;
   ActorID _ammoId;
+  void drawNameAndHp();
 };
 
 }

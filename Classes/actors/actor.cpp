@@ -272,12 +272,14 @@ void Actor::fadeText(const std::string &text, cc::Color4B color, float speed, bo
     label->setGlobalZOrder( getSprite()->getGlobalZOrder() + 3 );
     getSprite()->addChild(label, 1);
 
+    cc::FiniteTimeAction* moveAction = nullptr;
     if ( up )
-      label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, size.height / 3)) );
+      moveAction = cc::MoveBy::create(speed, cc::Vec2(0, size.height / 3));
     else
-      label->runAction( cc::MoveBy::create(speed, cc::Vec2(0, - (size.height / 3))) );
+      moveAction = cc::MoveBy::create(speed, cc::Vec2(0, - (size.height / 3)));
 
-    label->runAction( cc::FadeOut::create(speed) );
+
+    label->runAction( cc::Sequence::create( cc::Spawn::create(moveAction, cc::FadeOut::create(speed), nullptr), cc::RemoveSelf::create(), nullptr ) );
   }
 }
 
@@ -320,6 +322,12 @@ std::vector<Effect> Actor::getEffects()
 bool Actor::isAlive() const
 {
   return false;
+}
+
+void Actor::refresh()
+{
+  if ( getSprite() )
+    getSprite()->removeAllChildren();
 }
 
 }

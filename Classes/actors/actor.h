@@ -97,6 +97,11 @@ public:
 
   virtual bool isAlive() const;
 
+  /**
+   * @brief Cleans up all fading texts and draws any additional sprite elements like hp bar or name.
+   */
+  virtual void refresh();
+
 protected:
   virtual void setSprite(cocos2d::Sprite* sprite);
   std::map<EffectID, Effect> _effects;
