@@ -254,10 +254,10 @@ void HudLayer::onNotify(Subject *subject, const EventData& event)
     {
       showMessage({event.param}, cc::Color4B::RED, this);
     }
-    else if ( event.id == EventType::GameOver )
-    {
-      showMessage({"You died.", "Game over.", "TODO: Make separate screen for this."}, cc::Color4B::RED,this, [](){
-        BUTCHER.showGameMenu(false);
+    else if ( event.id == EventType::PlayerDied )
+    {      
+      showMessage(explode(event.param, '|'), cc::Color4B::RED,this, [player](){
+        player->setHp(player->getMaxHp() / 10);
       });
     }
   }
@@ -285,17 +285,17 @@ void HudLayer::showCraftbook(cocos2d::Ref *)
 
 void HudLayer::showMinimap(cocos2d::Ref *)
 {
-//  if ( _minimapSprite )
-//  {
-//    removeChild(_minimapSprite, false);
-//    _minimapSprite = nullptr;
-//  }
-//  else
-//  {
-//    updateMinimap();
-//    addChild(_minimapSprite);
-//  }
-  BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
+  if ( _minimapSprite )
+  {
+    removeChild(_minimapSprite, false);
+    _minimapSprite = nullptr;
+  }
+  else
+  {
+    updateMinimap();
+    addChild(_minimapSprite);
+  }
+//  BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
 }
 
 }

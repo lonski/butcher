@@ -8,6 +8,8 @@
 #include <cmath>
 #include "cocos2d.h"
 #include <utils/utils.h>
+#include <butcher.h>
+#include <view/loading_scene.h>
 
 namespace cc = cocos2d;
 
@@ -68,7 +70,7 @@ void Player::load(const SaveData *data)
     }
 
     _waypoints.clear();
-    for ( int wIdx = 0; wIdx < data->waypoints()->Length(); ++wIdx )
+    for ( unsigned wIdx = 0; wIdx < data->waypoints()->Length(); ++wIdx )
       _waypoints.insert(data->waypoints()->Get(wIdx));
   }
 }
@@ -128,7 +130,17 @@ void Player::onNextTurn()
 
 void Player::onDestroy(std::shared_ptr<Actor> killer)
 {
-  notify(EventType::GameOver);
+  int expLoss = getExp() / 20; // 5% exp lost on death
+  setExp(getExp() - expLoss);
+
+  std::string msg = "You died!|"
+                    " |"
+                    "You have been killed by a(n) " + killer->getName() + " and lost " + toStr(expLoss) + "XP!";
+
+  LoadingScreen::run([this, msg](){
+    BUTCHER.goToLevel(getHighestWaypoint(), ActorID::WAYPOINT);
+    this->notify(EventData(EventType::PlayerDied, msg));
+  }, "Respawning..");
 }
 
 Inventory& Player::getInventory()
@@ -195,7 +207,7 @@ void Player::setExp(int exp)
 
 int Player::getExpForNextLevel() const
 {
-  return std::pow(getLevel(), 3) * 60;
+  return getExpForLevel(getLevel() + 1);
 }
 
 void Player::giveLevelUpBonuses()
@@ -293,6 +305,11 @@ std::vector<int> Player::getWaypoints() const
 int Player::getHighestWaypoint() const
 {
   return _waypoints.empty() ? 1 : *_waypoints.rbegin();
+}
+
+int Player::getExpForLevel(int level) const
+{
+  return std::pow(level - 1, 3) * 60;
 }
 
 CraftBook& Player::getCraftbook()

@@ -31,6 +31,35 @@ void MoveToTarget::update()
     if (_ai->getTarget().pos == cc::Vec2::ZERO)
       return;
 
+//    cc::Vec2 myPos = _ai->getActor()->getTileCoord();
+
+//    cc::Vec2 dd = _ai->getTarget().pos - myPos;
+//    int stepdx = (dd.x > 0 ? 1:-1);
+//    int stepdy = (dd.y > 0 ? 1:-1);
+
+//    DungeonState* dungeon = BUTCHER.getCurrentDungeon();
+
+//    float distance=sqrtf(dd.x*dd.x+dd.y*dd.y);
+//    if ( distance >= 2 )
+//    {
+//        dd.x = (int)(round(dd.x/distance));
+//        dd.y = (int)(round(dd.y/distance));
+
+//        cc::log("MoveToTarget: %d %d", (int)dd.x, (int)dd.y);
+
+//        if ( !dungeon->isBlocked(myPos + dd) )
+//        {
+//          _ai->getActor()->performAction( new MoveAction(dd) );
+//        }
+//        else if ( !dungeon->isBlocked(cc::Vec2(myPos.x + stepdx, myPos.y)) )
+//        {
+//          _ai->getActor()->performAction( new MoveAction(cc::Vec2(stepdx, 0)) );
+//        }
+//        else if ( !dungeon->isBlocked(cc::Vec2(myPos.x,myPos.y+stepdy)) )
+//        {
+//            _ai->getActor()->performAction( new MoveAction(cc::Vec2(0, stepdy)) );
+//        }
+//   }
     if ( _ai->getTarget().pos != _lastTarget.pos || _path->empty() )
       calculatePath();
 

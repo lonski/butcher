@@ -59,6 +59,8 @@ private:
 
   std::shared_ptr<ActorAction> _scheduledAction;
 
+  int getExpForLevel(int level) const;
+
 };
 
 }

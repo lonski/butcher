@@ -105,6 +105,7 @@ bool LevelManager::validateConnection(const DungeonDescription& dsc)
 {
   cc::Vec2 start = getSpawn(ActorID::STAIRS_UP, dsc);
   cc::Vec2 finish = getSpawn(ActorID::STAIRS_DOWN, dsc);
+  cc::Vec2 waypoint = getSpawn(ActorID::WAYPOINT, dsc);
 
   if ( start == cc::Vec2::ZERO || finish == cc::Vec2::ZERO )
   {
@@ -118,7 +119,11 @@ bool LevelManager::validateConnection(const DungeonDescription& dsc)
 
   AStarPath path;
 
-  return path.calculate(start, finish, isBlockedFn);
+  bool pathCorrect = path.calculate(start, finish, isBlockedFn);
+  if ( waypoint != cc::Vec2::ZERO && pathCorrect )
+    pathCorrect &= path.calculate(finish, waypoint, isBlockedFn);
+
+  return pathCorrect;
 }
 
 cocos2d::Vec2 LevelManager::getSpawn(ActorID actor, const DungeonDescription &dsc)

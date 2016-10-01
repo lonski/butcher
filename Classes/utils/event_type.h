@@ -11,7 +11,7 @@ enum class EventType {
   LevelUP,
   Moved,
   ItemDestroyed,
-  GameOver
+  PlayerDied
 };
 
 struct EventData

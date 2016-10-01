@@ -96,6 +96,9 @@ void Character::setHp(int hp)
 
 int Character::takeDamage(Damage damage, std::shared_ptr<Actor> attacker)
 {
+  if ( getHp() <= 0 )
+    return 0;
+
   int dmg = damage.roll() - getAttribute(AttributeType::DamageReduction);
 
   if ( dmg < 0 )

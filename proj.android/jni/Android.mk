@@ -28,6 +28,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/actors/inventory.cpp \
 ../../Classes/actors/effects/effect.cpp \
 ../../Classes/actors/instances/stairs_down.cpp \
+../../Classes/actors/instances/waypoint.cpp \
 ../../Classes/actors/instances/stairs_up.cpp \
 ../../Classes/actors/instances/door.cpp \
 ../../Classes/actors/actions/move_action.cpp \
@@ -63,6 +64,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/utils/dices.cpp \
 ../../Classes/utils/path.cpp \
 ../../Classes/view/inventory_view.cpp \
+../../Classes/view/waypoint_view.cpp \
 ../../Classes/actors/actions/equip_action.cpp \
 ../../Classes/actors/recipe.cpp \
 ../../Classes/data/recipes_database.cpp \

@@ -12,41 +12,56 @@ namespace butcher {
 MoveAction::MoveAction(Direction::Symbol direction)
   : _state( BUTCHER.getCurrentDungeon() )
   , _direction(direction)
+  , _dd(cc::Vec2::ZERO)
 {
 
 }
 
+MoveAction::MoveAction(cocos2d::Vec2 diff)
+  : _state( BUTCHER.getCurrentDungeon() )
+  , _direction(Direction::Symbol::None)
+  , _dd(diff)
+{
+}
+
 bool MoveAction::perform(std::shared_ptr<Actor> actor)
 {
-  if ( _direction == Direction::None )
+  if ( _direction == Direction::None && _dd == cc::Vec2::ZERO )
     return false;
 
   cc::Vec2 pos = actor->getTileCoord();
   cc::TMXTiledMap* map = _state->map();
 
-  switch(_direction)
+  if ( _direction != Direction::Symbol::None )
   {
-    case Direction::East: pos.x += 1; break;
-    case Direction::West: pos.x -= 1; break;
-    case Direction::North: pos.y -= 1; break;
-    case Direction::South: pos.y += 1; break;
-    case Direction::SouthWest: {
-      pos.y += 1;
-      pos.x -= 1;
-    }break;
-    case Direction::SouthEast: {
-      pos.y += 1;
-      pos.x += 1;
-    }break;
-    case Direction::NorthEast: {
-      pos.y -= 1;
-      pos.x += 1;
-    }break;
-    case Direction::NorthWest: {
-      pos.y -= 1;
-      pos.x -= 1;
-    }break;
-    default:;
+    switch(_direction)
+    {
+      case Direction::East: pos.x += 1; break;
+      case Direction::West: pos.x -= 1; break;
+      case Direction::North: pos.y -= 1; break;
+      case Direction::South: pos.y += 1; break;
+      case Direction::SouthWest: {
+        pos.y += 1;
+        pos.x -= 1;
+      }break;
+      case Direction::SouthEast: {
+        pos.y += 1;
+        pos.x += 1;
+      }break;
+      case Direction::NorthEast: {
+        pos.y -= 1;
+        pos.x += 1;
+      }break;
+      case Direction::NorthWest: {
+        pos.y -= 1;
+        pos.x -= 1;
+      }break;
+      default:;
+    }
+  }
+  else
+  {
+    pos += _dd;
   }
 
   auto pixelPos = tileCoordToPosition(map, pos);

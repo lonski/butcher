@@ -8,7 +8,9 @@ namespace butcher {
 
 static const std::map<int, std::string> waypoints = {
   { 1, "Caves" },
-  { 3, "Farms" }
+  { 5, "Farms" },
+  { 10, "Villages" },
+  { 15, "Barracks" }
 };
 
 }
