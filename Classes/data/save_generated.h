@@ -1,7 +1,6 @@
 // automatically generated, do not modify
 #ifndef save_gen_h
 #define save_gen_h
-
 #include "flatbuffers/flatbuffers.h"
 
 namespace butcher {
@@ -59,9 +58,10 @@ struct SaveData : private flatbuffers::Table {
   int32_t exp() const { return GetField<int32_t>(4, 0); }
   int32_t level() const { return GetField<int32_t>(6, 0); }
   int32_t dungeon_level() const { return GetField<int32_t>(8, 0); }
-  const flatbuffers::Vector<int32_t> *waypoints() const { return GetPointer<const flatbuffers::Vector<int32_t> *>(10); }
-  const flatbuffers::Vector<flatbuffers::Offset<InventoryData>> *inventory() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<InventoryData>> *>(12); }
-  const CraftbookData *craftbook() const { return GetPointer<const CraftbookData *>(14); }
+  int32_t quick_switch() const { return GetField<int32_t>(10, 0); }
+  const flatbuffers::Vector<int32_t> *waypoints() const { return GetPointer<const flatbuffers::Vector<int32_t> *>(12); }
+  const flatbuffers::Vector<flatbuffers::Offset<InventoryData>> *inventory() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<InventoryData>> *>(14); }
+  const CraftbookData *craftbook() const { return GetPointer<const CraftbookData *>(16); }
 };
 
 struct SaveDataBuilder {
@@ -70,18 +70,20 @@ struct SaveDataBuilder {
   void add_exp(int32_t exp) { fbb_.AddElement<int32_t>(4, exp, 0); }
   void add_level(int32_t level) { fbb_.AddElement<int32_t>(6, level, 0); }
   void add_dungeon_level(int32_t dungeon_level) { fbb_.AddElement<int32_t>(8, dungeon_level, 0); }
-  void add_waypoints(flatbuffers::Offset<flatbuffers::Vector<int32_t>> waypoints) { fbb_.AddOffset(10, waypoints); }
-  void add_inventory(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<InventoryData>>> inventory) { fbb_.AddOffset(12, inventory); }
-  void add_craftbook(flatbuffers::Offset<CraftbookData> craftbook) { fbb_.AddOffset(14, craftbook); }
+  void add_quick_switch(int32_t quick_switch) { fbb_.AddElement<int32_t>(10, quick_switch, 0); }
+  void add_waypoints(flatbuffers::Offset<flatbuffers::Vector<int32_t>> waypoints) { fbb_.AddOffset(12, waypoints); }
+  void add_inventory(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<InventoryData>>> inventory) { fbb_.AddOffset(14, inventory); }
+  void add_craftbook(flatbuffers::Offset<CraftbookData> craftbook) { fbb_.AddOffset(16, craftbook); }
   SaveDataBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  flatbuffers::Offset<SaveData> Finish() { return flatbuffers::Offset<SaveData>(fbb_.EndTable(start_, 6)); }
+  flatbuffers::Offset<SaveData> Finish() { return flatbuffers::Offset<SaveData>(fbb_.EndTable(start_, 7)); }
 };
 
-inline flatbuffers::Offset<SaveData> CreateSaveData(flatbuffers::FlatBufferBuilder &_fbb, int32_t exp, int32_t level, int32_t dungeon_level, flatbuffers::Offset<flatbuffers::Vector<int32_t>> waypoints, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<InventoryData>>> inventory, flatbuffers::Offset<CraftbookData> craftbook) {
+inline flatbuffers::Offset<SaveData> CreateSaveData(flatbuffers::FlatBufferBuilder &_fbb, int32_t exp, int32_t level, int32_t dungeon_level, int32_t quick_switch, flatbuffers::Offset<flatbuffers::Vector<int32_t>> waypoints, flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<InventoryData>>> inventory, flatbuffers::Offset<CraftbookData> craftbook) {
   SaveDataBuilder builder_(_fbb);
   builder_.add_craftbook(craftbook);
   builder_.add_inventory(inventory);
   builder_.add_waypoints(waypoints);
+  builder_.add_quick_switch(quick_switch);
   builder_.add_dungeon_level(dungeon_level);
   builder_.add_level(level);
   builder_.add_exp(exp);

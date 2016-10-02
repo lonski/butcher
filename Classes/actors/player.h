@@ -52,16 +52,22 @@ public:
   std::vector<int> getWaypoints() const;
   int getHighestWaypoint() const;
 
+  ActorID getQuickSwitchWeaponID() const;
+  std::shared_ptr<Item> getQuickSwitchWeapon();
+  void setQuickSwitchWeapon(ActorID itemId);
+
 private:
   Inventory _inventory;
   CraftBook _craftbook;
   std::set<int> _waypoints;
+  ActorID _quickSwitchWeapon;
 
   std::shared_ptr<ActorAction> _scheduledAction;
 
   int getExpForLevel(int level) const;
 
 };
+
 
 }
 

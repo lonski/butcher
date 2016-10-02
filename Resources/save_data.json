@@ -1,0 +1,28 @@
+{
+	exp: 10,
+	level: 1,
+	dungeon_level: 1,
+	quick_switch: 0,
+	inventory: [
+		{
+			item_id:6,
+			amount:100,
+			equipped:0
+		},
+		{
+			item_id:57,
+			amount:10,
+			equipped:0
+		},
+		{
+			item_id:24,
+			amount:10,
+			equipped:0
+		}
+	],
+	craftbook: {
+		free_points: 10,
+		recipes: []
+	},
+	waypoints: [1]
+}

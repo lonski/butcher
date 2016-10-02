@@ -17,6 +17,7 @@ namespace butcher {
 
 Player::Player(const ActorData *data)
   : Character(data)
+  , _quickSwitchWeapon(ActorID::INVALID)
 {
   _waypoints.insert(1);
 }
@@ -30,6 +31,7 @@ std::unique_ptr<Actor> Player::clone(std::unique_ptr<Actor> allocated)
   p->_inventory = _inventory;
   p->_craftbook = _craftbook;
   p->_waypoints = _waypoints;
+  p->_quickSwitchWeapon = _quickSwitchWeapon;
 
   return std::move( Character::clone(std::move(std::unique_ptr<Actor>{p})) );
 }
@@ -72,6 +74,9 @@ void Player::load(const SaveData *data)
     _waypoints.clear();
     for ( unsigned wIdx = 0; wIdx < data->waypoints()->Length(); ++wIdx )
       _waypoints.insert(data->waypoints()->Get(wIdx));
+
+    cc::log("XXX %d", data->quick_switch());
+    setQuickSwitchWeapon(static_cast<ActorID>(data->quick_switch()));
   }
 }
 
@@ -305,6 +310,23 @@ std::vector<int> Player::getWaypoints() const
 int Player::getHighestWaypoint() const
 {
   return _waypoints.empty() ? 1 : *_waypoints.rbegin();
+}
+
+ActorID Player::getQuickSwitchWeaponID() const
+{
+  return _quickSwitchWeapon;
+}
+
+std::shared_ptr<Item> Player::getQuickSwitchWeapon()
+{
+  return getInventory().getItem(getQuickSwitchWeaponID()).item;
+}
+
+void Player::setQuickSwitchWeapon(ActorID itemId)
+{
+  cc::log("QuickSwitch set to %d", (int)itemId);
+  _quickSwitchWeapon = itemId;
+  notify(EventType::QuickSwitchWeaponChanged);
 }
 
 int Player::getExpForLevel(int level) const

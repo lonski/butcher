@@ -13,12 +13,14 @@ class EquipAction : public ActorAction
 {
 public:
   EquipAction(std::shared_ptr<Item> item);
+  EquipAction(ActorID item_id);
   EquipAction(const AmountedItem& amountedItem);
 
   virtual bool perform(std::shared_ptr<Actor> equipper);
 
 private:
  AmountedItem _item;
+ ActorID _itemID;
 
 };
 

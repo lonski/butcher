@@ -153,8 +153,10 @@ void SpawnBuilder::addPortal()
   {
     cc::Vec2 coord = _dungeon->grid.findCoordWithPattern(".........");
 
-    if ( coord != cc::Vec2::ZERO )
+    if ( coord != cc::Vec2::ZERO ){
       addActorSpawn((int)ActorID::WAYPOINT, coord.y, coord.x);
+      _dungeon->spawns[coord] = ActorID::WAYPOINT;
+    }
   }
 }
 

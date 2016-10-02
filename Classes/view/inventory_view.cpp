@@ -376,10 +376,13 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
   destroyBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
     {
-      ask({"Destroy " + item.item->getName() + "(s)?"},this,[=](){
+      ask({"Destroy " + item.item->getName() + "(s)?"},this,[=](){  
         _player->getInventory().removeItem(item);
         _bottomPanel->removeChild(layout);
         fillInventoryItems();
+
+        if ( _player->getQuickSwitchWeaponID() == item.item->getID() )
+          _player->setQuickSwitchWeapon(ActorID::INVALID);
       },
       [=](){
         _bottomPanel->removeChild(layout);
@@ -455,6 +458,29 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
     size.height += eqBtn->getBoundingBox().size.height + _margin;
     layout->addChild(eqBtn);
     posY += eqBtn->getBoundingBox().size.height + _margin;
+  }
+
+  if ( item.item->getCategory() == ItemCategory::Weapon )
+  {
+    //SET QUICK SWITCH
+    cc::ui::Button* qsBtn = cc::ui::Button::create();
+    qsBtn->loadTextures("images/button_orange.png", "images/button_orange_click.png", "");
+    qsBtn->setTitleFontName("fonts/Marker Felt.ttf");
+    qsBtn->setTitleText("Set quick switch");
+    qsBtn->setTitleFontSize(22);
+    qsBtn->setAnchorPoint(cc::Vec2(0,0));
+    qsBtn->setPosition(cc::Vec2(_margin*2, posY));
+    qsBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+      if ( type == cc::ui::Widget::TouchEventType::ENDED )
+      {
+        _player->setQuickSwitchWeapon(item.item->getID());
+        _bottomPanel->removeChild(layout);
+        _itemList->setEnabled(true);
+      }
+    });
+    size.height += qsBtn->getBoundingBox().size.height + _margin;
+    layout->addChild(qsBtn);
+    posY += qsBtn->getBoundingBox().size.height + _margin;
   }
 
   //INFO

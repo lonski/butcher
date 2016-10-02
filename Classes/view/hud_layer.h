@@ -29,6 +29,10 @@ public:
   CREATE_FUNC(HudLayer);
 
 private:
+  int _margin;
+  cocos2d::Vec2 _origin;
+  cocos2d::Size _visibleSize;
+
   int _logCount;
   HudLog* _log;
   cocos2d::ui::LoadingBar* _expBar;
@@ -38,11 +42,16 @@ private:
   cocos2d::Label* _dungeonLevelLabel;
   Minimap _minimap;
   cocos2d::Node* _minimapSprite;
+  cocos2d::MenuItemImage* _wpnSwitchButton;
+  cocos2d::Sprite* _wpnSwitchWpnSprite;
+  cocos2d::Sprite* _wpnSwitchArrowSprite;
 
   void showMenu(cocos2d::Ref*);
   void showInventory(cocos2d::Ref*);
   void showCraftbook(cocos2d::Ref*);
   void showMinimap(cocos2d::Ref*);
+
+  void weaponSwitch(cocos2d::Ref*);
 
   void initExpBar();
   void initHpBar();
@@ -50,6 +59,10 @@ private:
   void updateExpBar(Player* player);
   void updateHpBar(Player* player);
   void initMinimap();
+  void initMenu();
+  void initHudLog();
+  void initQuickButtons();
+  void updateQuickWeaponSwitch();
 };
 
 }

@@ -91,7 +91,7 @@ DungeonDescription LevelManager::generateMap(unsigned level)
 
   if ( !validateConnection(description) )
   {
-    cc::log("%s validate connection failed!", __PRETTY_FUNCTION__);
+    cc::log("ERROR %s validate connection failed!", __PRETTY_FUNCTION__);
     return DungeonDescription();
   }
 
@@ -120,8 +120,11 @@ bool LevelManager::validateConnection(const DungeonDescription& dsc)
   AStarPath path;
 
   bool pathCorrect = path.calculate(start, finish, isBlockedFn);
-  if ( waypoint != cc::Vec2::ZERO && pathCorrect )
+
+  if ( waypoint != cc::Vec2::ZERO && pathCorrect ){
     pathCorrect &= path.calculate(finish, waypoint, isBlockedFn);
+    cc::log("Found Waypoint, checking path -> %s", pathCorrect ? "OK" : "NOK");
+  }
 
   return pathCorrect;
 }

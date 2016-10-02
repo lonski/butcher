@@ -154,6 +154,8 @@ void Butcher::saveGame()
   SaveDataBuilder save(builder);
 
   save.add_exp( getPlayer()->getExp() );
+  save.add_quick_switch( (int)getPlayer()->getQuickSwitchWeaponID() );
+  cc::log("SAVE %d",(int)getPlayer()->getQuickSwitchWeaponID());
   save.add_level( getPlayer()->getLevel() );
   save.add_inventory( inventory );
   save.add_craftbook( craftbook );

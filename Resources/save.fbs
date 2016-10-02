@@ -15,6 +15,7 @@ table SaveData {
 	exp:int;
 	level:int;
 	dungeon_level:int;
+	quick_switch:int;
 	waypoints:[int];
 
 	inventory:[InventoryData];
