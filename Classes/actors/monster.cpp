@@ -141,7 +141,7 @@ void Monster::drawNameAndHp()
 
     _hpBar = cc::ui::LoadingBar::create();
     _hpBar->loadTexture("images/progress_bar_red_4.png");
-    _hpBar->setPercent(100);
+    _hpBar->setPercent((float)getHp() / (float)getMaxHp() * 100);
     _hpBar->setAnchorPoint(cc::Vec2(0.5,0));
     _hpBar->setGlobalZOrder(order+2);
     _hpBar->setPosition(barBg->getPosition());

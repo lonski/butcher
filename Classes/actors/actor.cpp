@@ -327,7 +327,10 @@ bool Actor::isAlive() const
 void Actor::refresh()
 {
   if ( getSprite() )
+  {
     getSprite()->removeAllChildren();
+    setTileCoord(getTileCoord());
+  }
 }
 
 }

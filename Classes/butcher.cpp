@@ -91,33 +91,29 @@ void Butcher::startNewGame()
 
 void Butcher::showGameMenu(bool gameRunning)
 {
-  if ( isTurnFinished() )
-    cc::Director::getInstance()->pushScene( GameMenu::createScene(gameRunning) );
+  cc::Director::getInstance()->pushScene( GameMenu::createScene(gameRunning) );
 }
 
 void Butcher::showInventory()
 {
-  if ( isTurnFinished() )
-    cc::Director::getInstance()->pushScene( InventoryView::createScene(getPlayer()) );
+  cc::Director::getInstance()->pushScene( InventoryView::createScene(getPlayer()) );
 }
 
 void Butcher::showCraft()
 {
-  if ( isTurnFinished() )
-    cc::Director::getInstance()->pushScene( CraftView::createScene(getPlayer()) );
+  cc::Director::getInstance()->pushScene( CraftView::createScene(getPlayer()) );
 }
 
 void Butcher::showWaypoints()
 {
-  if ( isTurnFinished() )
-    cc::Director::getInstance()->pushScene( WaypointView::createScene() );
+  cc::Director::getInstance()->pushScene( WaypointView::createScene() );
 }
 
 void Butcher::popScene()
 {
   cc::Director::getInstance()->popScene();
   _ongoingActions.clear();
-  getCurrentDungeon()->redrawActors();
+  getCurrentDungeon()->refresh();
 }
 
 void Butcher::saveGame()
@@ -336,15 +332,10 @@ DungeonState *Butcher::getCurrentDungeon()
 
 void Butcher::nextTurn()
 {
-  cc::log("Next Turn");
-  pushOngoingAction((cc::Action*)0x1);
-
   ++_turnCounter;
   DungeonState* d = getCurrentDungeon();
   if ( d )
     d->nextTurn();
-
-  removeOngoingAction((cc::Action*)0x1);
 }
 
 void Butcher::print(const std::string &str, cocos2d::Color4B color)

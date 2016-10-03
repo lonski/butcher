@@ -73,16 +73,22 @@ void WaypointView::addComponents()
   //waypoints list
   cc::ui::ListView* waypointList = cc::ui::ListView::create();
 
-  for ( int wpLevel :  BUTCHER.getPlayer()->getWaypoints() )
+  for ( auto& kv :  waypoints )
   {
+    int wpLevel = kv.first;
     cc::ui::Button* btn = makeListItem(wpLevel);
 
-    btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
-      if ( type == cc::ui::Widget::TouchEventType::ENDED )
-        LoadingScreen::run([=](){
-          BUTCHER.goToLevel(wpLevel, ActorID::WAYPOINT);
-        }, "Teleporting..");
-    });
+    if ( BUTCHER.getPlayer()->knowsWaypoint(wpLevel) )
+    {
+      btn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
+        if ( type == cc::ui::Widget::TouchEventType::ENDED )
+          LoadingScreen::run([=](){
+            BUTCHER.goToLevel(wpLevel, ActorID::WAYPOINT);
+          }, "Teleporting..");
+      });
+    }
+    else
+      btn->setEnabled(false);
 
     waypointList->pushBackCustomItem( btn );
 

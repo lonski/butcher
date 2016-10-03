@@ -390,14 +390,10 @@ bool DungeonState::isAnyMobInFov()
   return false;
 }
 
-void DungeonState::redrawActors()
+void DungeonState::refresh()
 {
   for ( std::shared_ptr<Actor> a : _actors )
-  {
-    cc::Vec2 coord = a->getTileCoord();
-    if ( coord != positionToTileCoord(_map, a->getSprite()->getPosition()) )
-      a->setTileCoord(coord);
-  }
+    a->refresh();
 }
 
 void DungeonState::computeFov(int x, int y)

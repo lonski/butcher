@@ -129,6 +129,8 @@ void DungeonLayer::move(Direction::Symbol direction)
 
 void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 {
+  BUTCHER.pushOngoingAction((cc::Action*)0x1);
+
   cc::Vec2 touchCoord = getTouchCoord(touch);
   Direction::Symbol direction = getTouchDirection(touchCoord);
   Target target = getTouchTarget(touchCoord);
@@ -158,6 +160,7 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   }
 
   BUTCHER.nextTurn();
+  BUTCHER.removeOngoingAction((cc::Action*)0x1);
 }
 
 Target DungeonLayer::getTouchTarget(cc::Vec2 touchCoord)
