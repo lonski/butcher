@@ -8,6 +8,7 @@
 #include <utils/utils.h>
 #include <utils/path.h>
 #include <utils/profiler.h>
+#include <utils/path.h>
 
 namespace cc = cocos2d;
 
@@ -188,10 +189,13 @@ cocos2d::Vec2 DungeonLayer::getTouchCoord(cc::Touch* touch)
 
 Direction::Symbol DungeonLayer::getTouchDirection(cc::Vec2 touchCoord)
 {
-  cc::Vec2 diff = touchCoord - BUTCHER.getPlayer()->getTileCoord();
-  Direction::Symbol direction = Direction::fromPosition(diff);
+  AStarPath path;
+  path.calculate(BUTCHER.getPlayer()->getTileCoord(), touchCoord, [=](cc::Vec2 pos){
+    return _state->isBlockedByWall(pos.x, pos.y);
+  });
+  path.walk();
 
-  return direction;
+  return Direction::fromPosition(path.walk() - BUTCHER.getPlayer()->getTileCoord());
 }
 
 void DungeonLayer::setViewPointCenter(cc::Vec2 position)
