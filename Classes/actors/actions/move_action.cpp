@@ -84,8 +84,13 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
 
   if ( !BUTCHER.isAnimationSuspended() )
   {
-    cc::MoveTo* move_action = cc::MoveTo::create(0.1, pixelPos);
-    actor->getSprite()->runAction( move_action );
+    cc::MoveTo* action = cc::MoveTo::create(0.1, pixelPos);
+    BUTCHER.pushOngoingAction(action);
+
+    actor->getSprite()->runAction(cc::Sequence::create(action , cc::CallFunc::create([action](){
+                                      BUTCHER.removeOngoingAction(action);
+                                    }), nullptr ));
+
   }
 
   for ( auto a : _state->getActorsAt(actor->getTileCoord()) )

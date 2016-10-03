@@ -85,26 +85,39 @@ void Butcher::startNewGame()
   LoadingScreen::run([](){
     BUTCHER.goToLevel(1);
   }, "Preparing new game..");
+
+  _ongoingActions.clear();
 }
 
 void Butcher::showGameMenu(bool gameRunning)
 {
-  cc::Director::getInstance()->pushScene( GameMenu::createScene(gameRunning) );
+  if ( isTurnFinished() )
+    cc::Director::getInstance()->pushScene( GameMenu::createScene(gameRunning) );
 }
 
 void Butcher::showInventory()
 {
-  cc::Director::getInstance()->pushScene( InventoryView::createScene(getPlayer()) );
+  if ( isTurnFinished() )
+    cc::Director::getInstance()->pushScene( InventoryView::createScene(getPlayer()) );
 }
 
 void Butcher::showCraft()
 {
-  cc::Director::getInstance()->pushScene( CraftView::createScene(getPlayer()) );
+  if ( isTurnFinished() )
+    cc::Director::getInstance()->pushScene( CraftView::createScene(getPlayer()) );
 }
 
 void Butcher::showWaypoints()
 {
-  cc::Director::getInstance()->pushScene( WaypointView::createScene() );
+  if ( isTurnFinished() )
+    cc::Director::getInstance()->pushScene( WaypointView::createScene() );
+}
+
+void Butcher::popScene()
+{
+  cc::Director::getInstance()->popScene();
+  _ongoingActions.clear();
+  getCurrentDungeon()->redrawActors();
 }
 
 void Butcher::saveGame()
@@ -207,6 +220,26 @@ void Butcher::loadGame()
 
 }
 
+void Butcher::pushOngoingAction(cocos2d::Action *a)
+{
+  _ongoingActions.insert(a);
+}
+
+void Butcher::removeOngoingAction(cocos2d::Action *a)
+{
+  _ongoingActions.erase(a);
+}
+
+bool Butcher::isTurnFinished() const
+{
+  if ( !_ongoingActions.empty() ){
+    cc::log("Turn not ended, actions remaining: %u", (unsigned)_ongoingActions.size());
+    for ( auto a : _ongoingActions )
+      cc::log("\t  %p", a);
+  }
+  return _ongoingActions.empty();
+}
+
 cocos2d::Scene* Butcher::getCurrentScene() const
 {
   return _currentScene;
@@ -249,6 +282,8 @@ void Butcher::goToLevel(unsigned level, ActorID objectToSpawnPlayer)
 
   cc::Director::getInstance()->replaceScene( new_scene );
   _currentScene = new_scene;
+
+  _ongoingActions.clear();
 }
 
 void Butcher::setPlayerPosition(DungeonState* dungeonState, ActorID place)
@@ -301,10 +336,15 @@ DungeonState *Butcher::getCurrentDungeon()
 
 void Butcher::nextTurn()
 {
+  cc::log("Next Turn");
+  pushOngoingAction((cc::Action*)0x1);
+
   ++_turnCounter;
   DungeonState* d = getCurrentDungeon();
   if ( d )
     d->nextTurn();
+
+  removeOngoingAction((cc::Action*)0x1);
 }
 
 void Butcher::print(const std::string &str, cocos2d::Color4B color)

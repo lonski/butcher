@@ -330,6 +330,11 @@ bool DungeonState::isBlockedByWall(int x, int y)
   return blocked;
 }
 
+bool DungeonState::isBlockedByWall(cocos2d::Vec2 tileCoord)
+{
+  return isBlockedByWall(tileCoord.x, tileCoord.y);
+}
+
 bool DungeonState::isOpaque(cc::Vec2 tileCoord)
 {
   std::shared_ptr<Actor> blocking_actor;
@@ -383,6 +388,16 @@ bool DungeonState::isAnyMobInFov()
       return true;
   }
   return false;
+}
+
+void DungeonState::redrawActors()
+{
+  for ( std::shared_ptr<Actor> a : _actors )
+  {
+    cc::Vec2 coord = a->getTileCoord();
+    if ( coord != positionToTileCoord(_map, a->getSprite()->getPosition()) )
+      a->setTileCoord(coord);
+  }
 }
 
 void DungeonState::computeFov(int x, int y)

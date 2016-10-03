@@ -30,8 +30,14 @@ public:
     void showCraft();
     void showWaypoints();
 
+    void popScene();
+
     void saveGame();
     void loadGame();
+
+    void pushOngoingAction(cocos2d::Action* a);
+    void removeOngoingAction(cocos2d::Action* a);
+    bool isTurnFinished() const;
 
     cocos2d::Scene* getCurrentScene() const;
     DungeonState* getCurrentDungeon();
@@ -75,6 +81,8 @@ private:
     unsigned long long _turnCounter;
 
     bool _isAnimationSuspended;
+
+    std::set<cocos2d::Action*> _ongoingActions;
 
     void setPlayerPosition(DungeonState* dungeonState, ActorID place);
     ActorID determinePlayerPlacePoint(unsigned level);

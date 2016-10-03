@@ -17,7 +17,6 @@ namespace butcher {
 DungeonLayer::DungeonLayer()
     : _listener(nullptr)
     , _state(nullptr)
-    , _turnDone(true)
 {
 }
 
@@ -114,7 +113,7 @@ void DungeonLayer::onExit()
 
 bool DungeonLayer::onTouchBegan(cc::Touch*, cc::Event*)
 {
-  return _turnDone && getPosition() == _viewPoint;
+  return BUTCHER.isTurnFinished();
 }
 
 void DungeonLayer::move(Direction::Symbol direction)
@@ -130,8 +129,6 @@ void DungeonLayer::move(Direction::Symbol direction)
 
 void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
 {
-  _turnDone = false;
-
   cc::Vec2 touchCoord = getTouchCoord(touch);
   Direction::Symbol direction = getTouchDirection(touchCoord);
   Target target = getTouchTarget(touchCoord);
@@ -161,8 +158,6 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   }
 
   BUTCHER.nextTurn();
-
-  _turnDone = true;
 }
 
 Target DungeonLayer::getTouchTarget(cc::Vec2 touchCoord)
@@ -189,13 +184,28 @@ cocos2d::Vec2 DungeonLayer::getTouchCoord(cc::Touch* touch)
 
 Direction::Symbol DungeonLayer::getTouchDirection(cc::Vec2 touchCoord)
 {
-  AStarPath path;
-  path.calculate(BUTCHER.getPlayer()->getTileCoord(), touchCoord, [=](cc::Vec2 pos){
-    return _state->isBlockedByWall(pos.x, pos.y);
-  });
-  path.walk();
+  cc::Vec2 myPos = BUTCHER.getPlayer()->getTileCoord();
+  cc::Vec2 diff = touchCoord - myPos;
 
-  return Direction::fromPosition(path.walk() - BUTCHER.getPlayer()->getTileCoord());
+  Direction::Symbol d = Direction::fromPosition(diff);
+
+  if ( _state->isBlockedByWall(myPos + Direction::toPosition(d)) )
+  {
+    if ( std::abs(diff.x) > std::abs(diff.y) )
+    {
+      d = Direction::fromPosition(cc::Vec2(diff.x, 0));
+      if ( _state->isBlockedByWall(myPos + Direction::toPosition(d)) )
+        d = Direction::fromPosition(cc::Vec2(0, diff.y));
+    }
+    else
+    {
+      d = Direction::fromPosition(cc::Vec2(0,diff.y));
+      if ( _state->isBlockedByWall(myPos + Direction::toPosition(d)) )
+        d = Direction::fromPosition(cc::Vec2(diff.x, 0));
+    }
+  }
+
+  return d;
 }
 
 void DungeonLayer::setViewPointCenter(cc::Vec2 position)
@@ -209,7 +219,12 @@ void DungeonLayer::setViewPointCenter(cc::Vec2 position)
   cc::Vec2 centerOfView(winSize.width/2, winSize.height/2);
   _viewPoint = centerOfView - pos;
 
-  runAction( cc::MoveTo::create(0.1,_viewPoint));
+  auto action = cc::MoveTo::create(0.1,_viewPoint);
+  BUTCHER.pushOngoingAction(action);
+
+  runAction(cc::Sequence::create(action , cc::CallFunc::create([action](){
+              BUTCHER.removeOngoingAction(action);
+            }), nullptr ));
 }
 
 }

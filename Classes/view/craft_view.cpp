@@ -103,7 +103,7 @@ void CraftView::createCloseButton()
   closeBtn->setPosition(cc::Vec2(_origin.x + _visibleSize.width, _origin.y + _visibleSize.height));
   closeBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
     if ( type == cc::ui::Widget::TouchEventType::ENDED )
-      cc::Director::getInstance()->popScene();
+      BUTCHER.popScene();
   });
   addChild(closeBtn);
 }

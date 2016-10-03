@@ -21,7 +21,7 @@ void GameMenu::quitGame(cocos2d::Ref *)
 
 void GameMenu::backToGame(cocos2d::Ref *)
 {
-  cc::Director::getInstance()->popScene();
+  BUTCHER.popScene();
 }
 
 void GameMenu::saveGame(cocos2d::Ref *)

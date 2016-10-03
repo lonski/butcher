@@ -180,6 +180,32 @@ Symbol fromPosition(cocos2d::Vec2 pos)
   return Middle;
 }
 
+cocos2d::Vec2 toPosition(Symbol s)
+{
+  switch(s)
+  {
+  case North:
+    return cc::Vec2(0,-1);
+  case South:
+    return cc::Vec2(0,1);
+  case West:
+    return cc::Vec2(-1,0);
+  case East:
+    return cc::Vec2(1,0);
+  case NorthWest:
+    return cc::Vec2(-1,-1);
+  case NorthEast:
+    return cc::Vec2(1,-1);
+  case SouthEast:
+    return cc::Vec2(1,1);
+  case SouthWest:
+    return cc::Vec2(-1,1);
+  default:
+    return cc::Vec2::ZERO;
+  }
+  return cc::Vec2::ZERO;
+}
+
 
 }
 

@@ -364,7 +364,7 @@ void HudLayer::showMinimap(cocos2d::Ref *)
 //          AmountedItem( BUTCHER.actorsDatabase().createActor<Item>(ActorID::BONE), 100)
 //        ));
 
-    BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
+//    BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
 }
 
 void HudLayer::weaponSwitch(cocos2d::Ref *)
