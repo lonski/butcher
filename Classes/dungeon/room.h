@@ -15,7 +15,7 @@ struct Rect
   int getAreaSize() const;
   int getFloorSize(const Grid& gridPlacedOn) const;
   cocos2d::Vec2 getRandomFloorCoord(const Grid& gridPlacedOn) const;
-
+  cocos2d::Vec2 findCoordWithPattern(const Grid& gridPlacedOn, const std::string& pattern, int tries = 100);
   bool place(Grid& grid, char c);
 
   int width;

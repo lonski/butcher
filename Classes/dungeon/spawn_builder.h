@@ -20,28 +20,33 @@ public:
   void setMobIntroduction(const std::multimap< int, ActorID >& mobIntroduction);
 
 private:
+  enum {
+    MAX_TRIES = 100
+  };
+
   DungeonDescription* _dungeon;
   cocos2d::TMXObjectGroup* _objectsLayer;
   cocos2d::ValueVector _objects;
   std::multimap< int, ActorID > _mobIntroduction;
+  std::map<ActorID, int> _spawnStats;
+
+  std::set< std::shared_ptr<Rect> > _usedRooms;
 
   void addPredefinedSpawns();
   bool addStairs();
   void addMobs();
-  void addPortal();
+  bool addPortal();
+  bool addWell();
 
   bool addActorSpawn(int id, int y, int x);
   bool addActorSpawn(int id, cocos2d::Vec2 pos);
   std::shared_ptr<Rect> getRandomRoom() const;
+  std::shared_ptr<Rect> getRandomNotUsedRoom() const;
   ActorID getRandomMobID();
   bool canInsertObject(cocos2d::ValueMap obj);
 
   void debugMapPrint();
   void debugSpawnStatsPrint();
-
-  std::map<ActorID, int> _spawnStats;
-
-  void addWell();
 };
 
 }

@@ -34,12 +34,12 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   }
 
   addPredefinedSpawns();
-  addWell();
-  addPortal();
+  result &= addWell();
+  result &= addPortal();
   result &= addStairs();
   addMobs();
 
-  //debugMapPrint();
+  debugMapPrint();
   debugSpawnStatsPrint();
 
   _objectsLayer->setObjects(_objects);
@@ -47,15 +47,23 @@ bool SpawnBuilder::generateSpawns(DungeonDescription& dungeon)
   return result;
 }
 
-void SpawnBuilder::addWell()
+bool SpawnBuilder::addWell()
 {
-  if ( cc::RandomHelper::random_int(0, 100) < _dungeon->settings->well_spawn_chance() )
+  int tries = MAX_TRIES;
+  while(tries--)
   {
-    cc::Vec2 coord = _dungeon->grid.findCoordWithPattern(".........");
-
-    if ( coord != cc::Vec2::ZERO )
+    auto room = getRandomNotUsedRoom();
+    cc::Vec2 coord = room->findCoordWithPattern(_dungeon->grid, ".........", 10);
+    if ( coord != cc::Vec2::ZERO && _dungeon->spawns.find(coord) == _dungeon->spawns.end())
+    {
+      _usedRooms.insert(room);
       addActorSpawn((int)ActorID::WELL, coord.y, coord.x);
+      _dungeon->spawns[coord] = ActorID::WELL;
+      return true;
+    }
   }
+  cc::log("%s Failed to place well.", __PRETTY_FUNCTION__);
+  return false;
 }
 
 void SpawnBuilder::setMobIntroduction(const std::multimap<int, ActorID> &mobIntroduction)
@@ -87,12 +95,14 @@ bool SpawnBuilder::addStairs()
 
   for(int i = 0; i < TRY_COUNT; ++i)
   {
-    upStairs = _dungeon->grid.findCoordWithPattern(".........");
+    auto room = getRandomNotUsedRoom();
+    upStairs = room->findCoordWithPattern(_dungeon->grid, ".........", 10);
 
-    if ( addActorSpawn(4, upStairs ) )
+    if ( _dungeon->spawns.find(upStairs) == _dungeon->spawns.end() && addActorSpawn(4, upStairs ) )
     {
       added = true;
       _dungeon->spawns[upStairs] = ActorID::STAIRS_UP;
+      _usedRooms.insert(room);
       break;
     }
 
@@ -104,12 +114,14 @@ bool SpawnBuilder::addStairs()
     added = false;
     for(int i = 0; i < TRY_COUNT; ++i)
     {
-      downStairs = _dungeon->grid.findCoordWithPattern(".........");
+      auto room = getRandomNotUsedRoom();
+      downStairs = room->findCoordWithPattern(_dungeon->grid, ".........", 10);
 
-      if ( addActorSpawn(3,  downStairs ) )
+      if ( _dungeon->spawns.find(downStairs) == _dungeon->spawns.end() && addActorSpawn(3,  downStairs ) )
       {
-        _dungeon->spawns[downStairs] = ActorID::STAIRS_DOWN;
         added = true;
+        _dungeon->spawns[downStairs] = ActorID::STAIRS_DOWN;
+        _usedRooms.insert(room);
         break;
       }
 
@@ -147,17 +159,27 @@ void SpawnBuilder::addMobs()
   //cc::log("%s", g.toStr().c_str());
 }
 
-void SpawnBuilder::addPortal()
+bool SpawnBuilder::addPortal()
 {
-  if ( waypoints.find(_dungeon->level) != waypoints.end() )
-  {
-    cc::Vec2 coord = _dungeon->grid.findCoordWithPattern(".........");
+  if ( waypoints.find(_dungeon->level) == waypoints.end() )
+    return true;
 
-    if ( coord != cc::Vec2::ZERO ){
+  int tries = MAX_TRIES;
+  while(tries--)
+  {
+    auto room = getRandomNotUsedRoom();
+    cc::Vec2 coord = room->findCoordWithPattern(_dungeon->grid, ".........", 10);
+    if ( coord != cc::Vec2::ZERO && _dungeon->spawns.find(coord) == _dungeon->spawns.end())
+    {
+      _usedRooms.insert(room);
       addActorSpawn((int)ActorID::WAYPOINT, coord.y, coord.x);
       _dungeon->spawns[coord] = ActorID::WAYPOINT;
+      return true;
     }
   }
+
+  cc::log("%s Failed to spawn portal", __PRETTY_FUNCTION__);
+  return false;
 }
 
 bool SpawnBuilder::addActorSpawn(int id, int y, int x)
@@ -191,10 +213,33 @@ std::shared_ptr<Rect> SpawnBuilder::getRandomRoom() const
   return _dungeon->rooms[ cc::RandomHelper::random_int(0, (int)_dungeon->rooms.size() - 1) ];
 }
 
+std::shared_ptr<Rect> SpawnBuilder::getRandomNotUsedRoom() const
+{
+  int tries = MAX_TRIES;
+  while(tries--)
+  {
+    auto room = getRandomRoom();
+    if ( _usedRooms.find(room) == _usedRooms.end() )
+      return room;
+  }
+  return nullptr;
+}
+
 void SpawnBuilder::debugMapPrint()
 {
   Grid tmp = _dungeon->grid;
-  tmp.floodfill(getRandomRoom()->getRandomCoord(), '+');
+  //tmp.floodfill(getRandomRoom()->getRandomCoord(), '+');
+  for ( auto& kv : _dungeon->spawns ){
+    if ( kv.second == ActorID::WELL )
+      tmp.set(kv.first.x, kv.first.y, 'O');
+    else if ( kv.second == ActorID::STAIRS_DOWN )
+      tmp.set(kv.first.x, kv.first.y, '>');
+    else if ( kv.second == ActorID::STAIRS_UP )
+      tmp.set(kv.first.x, kv.first.y, '<');
+    else if ( kv.second == ActorID::WAYPOINT )
+      tmp.set(kv.first.x, kv.first.y, '&');
+  }
+
   cc::log("%s", tmp.toStr().c_str());
 }
 

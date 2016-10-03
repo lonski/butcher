@@ -49,6 +49,20 @@ cocos2d::Vec2 Rect::getRandomFloorCoord(const Grid &gridPlacedOn) const
   return coord;
 }
 
+cocos2d::Vec2 Rect::findCoordWithPattern(const Grid &gridPlacedOn, const std::string &pattern, int tries)
+{
+  cocos2d::Vec2 coord = cocos2d::Vec2::ZERO;
+
+  while( tries-- && coord == cocos2d::Vec2::ZERO )
+  {
+    cocos2d::Vec2 randomCoord = getRandomFloorCoord(gridPlacedOn);
+    if ( gridPlacedOn.checkPattern(randomCoord, pattern))
+      coord = randomCoord;
+  }
+
+  return coord;
+}
+
 bool Rect::place(Grid &grid, char c)
 {
   if (coord.x < 1 || coord.y < 1 || coord.x + width > grid.width - 1 || coord.y + height > grid.height - 1)
