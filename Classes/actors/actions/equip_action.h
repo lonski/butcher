@@ -16,7 +16,7 @@ public:
   EquipAction(ActorID item_id);
   EquipAction(const AmountedItem& amountedItem);
 
-  virtual bool perform(std::shared_ptr<Actor> equipper);
+  virtual ActorAction::Result perform(std::shared_ptr<Actor> equipper);
 
 private:
  AmountedItem _item;

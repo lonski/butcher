@@ -10,6 +10,7 @@
 #include <utils/utils.h>
 #include <butcher.h>
 #include <view/loading_scene.h>
+#include <dungeon/dungeon_state.h>
 
 namespace cc = cocos2d;
 
@@ -270,7 +271,7 @@ bool Player::hasScheduledAction() const
   return _scheduledAction != nullptr;
 }
 
-bool Player::triggerScheduledAction(Target target)
+ActorAction::Result Player::triggerScheduledAction(Target target)
 {
   if ( hasScheduledAction() )
   {
@@ -281,7 +282,7 @@ bool Player::triggerScheduledAction(Target target)
     return performAction(action);
   }
 
-  return false;
+  return ActorAction::Result::NOK;
 }
 
 bool Player::isOutOfControl()
@@ -324,9 +325,26 @@ std::shared_ptr<Item> Player::getQuickSwitchWeapon()
 
 void Player::setQuickSwitchWeapon(ActorID itemId)
 {
-  cc::log("QuickSwitch set to %d", (int)itemId);
   _quickSwitchWeapon = itemId;
   notify(EventType::QuickSwitchWeaponChanged);
+}
+
+ActorAction::Result Player::performAction(std::shared_ptr<ActorAction> action)
+{
+  ActorAction::Result r = Character::performAction(action);
+  if ( r == ActorAction::Result::COST_EXTRA_TURN ){
+    BUTCHER.nextTurn(false);
+  }
+  return r;
+}
+
+ActorAction::Result Player::performAction(ActorAction *action)
+{
+  ActorAction::Result r = Character::performAction(action);
+  if ( r == ActorAction::Result::COST_EXTRA_TURN ){
+    BUTCHER.nextTurn(false);
+  }
+  return r;
 }
 
 int Player::getExpForLevel(int level) const

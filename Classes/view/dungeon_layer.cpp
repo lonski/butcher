@@ -120,7 +120,7 @@ void DungeonLayer::move(Direction::Symbol direction)
 {
   auto player = BUTCHER.getPlayer();
 
-  if ( player->performAction(new MoveAction(direction)) )
+  if ( player->performAction(new MoveAction(direction)) == ActorAction::Result::OK )
   {
     BUTCHER.getPlayer()->notify(EventType::Moved);
     this->setViewPointCenter(BUTCHER.getPlayer()->getPosition());
@@ -155,7 +155,7 @@ void DungeonLayer::onTouchEnded(cc::Touch* touch, cc::Event*)
   }
   else if ( direction != Direction::None )
   {
-    if ( target.actors.empty() || !player->performAction(new ShotAction(target)) )
+    if ( target.actors.empty() || player->performAction(new ShotAction(target)) == ActorAction::Result::NOK )
       move(direction);
   }
 

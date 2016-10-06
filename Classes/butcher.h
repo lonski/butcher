@@ -49,7 +49,7 @@ public:
      *                            If not he will be spawned on stairs or on waypoint (if entering the game)
      */
     void goToLevel(unsigned level, ActorID objectToSpawnPlayer = ActorID::INVALID);
-    void nextTurn();
+    void nextTurn(bool incTurn = true);
 
     void print(const std::string& str,
              cocos2d::Color4B color = cocos2d::Color4B(185, 130, 185, 255));

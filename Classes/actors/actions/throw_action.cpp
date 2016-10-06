@@ -37,28 +37,28 @@ void ThrowAction::executeEffects(std::shared_ptr<Item> grenadeItem)
   }
 }
 
-bool ThrowAction::perform(std::shared_ptr<Actor> performer)
+ActorAction::Result ThrowAction::perform(std::shared_ptr<Actor> performer)
 
 {
   _performer = performer;
   if ( !_performer )
   {
     cocos2d::log("%s: performer is null.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   std::shared_ptr<Item> grenadeItem = std::dynamic_pointer_cast<Item>(_grenade);
   if ( !grenadeItem )
   {
     cocos2d::log("%s: grenadeItem is null.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   runThrowAnimation();
   executeEffects(grenadeItem);
   runExplosionAnimation(grenadeItem);
 
-  return true;
+  return ActorAction::Result::OK;
 }
 
 void ThrowAction::runExplosionAnimation(std::shared_ptr<Item> grenadeItem)

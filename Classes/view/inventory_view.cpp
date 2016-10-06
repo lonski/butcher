@@ -410,7 +410,7 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
     useBtn->addTouchEventListener([=](Ref*, cc::ui::Widget::TouchEventType type){
       if ( type == cc::ui::Widget::TouchEventType::ENDED )
       {
-        if ( _player->performAction( new UseAction(item) ) )
+        if ( _player->performAction( new UseAction(item) ) != ActorAction::Result::NOK )
         {
           _player->getInventory().removeItem(AmountedItem(item.item,1));
           BUTCHER.showMainScreen();
@@ -439,7 +439,7 @@ void InventoryView::chooseItemAction(const AmountedItem &item)
       {
         AmountedItem i = item;
         i.amount = 1;
-        if ( _player->performAction( new EquipAction(i) ) )
+        if ( _player->performAction( new EquipAction(i) ) == ActorAction::Result::OK )
         {
           _player->getInventory().removeItem(i);
           _bottomPanel->removeChild(layout);

@@ -16,13 +16,13 @@ ShotAction::ShotAction(Target target)
 {
 }
 
-bool ShotAction::perform(std::shared_ptr<Actor> performer)
+ActorAction::Result ShotAction::perform(std::shared_ptr<Actor> performer)
 {
   _performer = performer;
   if ( !performer )
   {
     cocos2d::log("%s: performer is null.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   std::shared_ptr<Character> shotter = std::dynamic_pointer_cast<Character>(performer);
@@ -30,7 +30,7 @@ bool ShotAction::perform(std::shared_ptr<Actor> performer)
   if ( !shotter )
   {
     cocos2d::log("%s: shotter is not a character.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   if ( !shotter->canShootAt(_target.pos) )
@@ -39,7 +39,7 @@ bool ShotAction::perform(std::shared_ptr<Actor> performer)
     if ( p && p->isUsingRangedWeapon() && !hasAmmo())
       shotter->fadeText("Out of ammo!", cc::Color4B::RED);
 
-    return false;
+    return ActorAction::Result::NOK;
   }
 
 
@@ -47,11 +47,11 @@ bool ShotAction::perform(std::shared_ptr<Actor> performer)
   if ( !victim )
   {
     cocos2d::log("%s: victim is not a character.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   if ( !takeAmmo() )
-    return false;
+    return ActorAction::Result::NOK;
 
   cc::Vec2 shotTarget = victim->getPosition();
 
@@ -77,7 +77,7 @@ bool ShotAction::perform(std::shared_ptr<Actor> performer)
   if (path.empty())
   {
     cocos2d::log("%s: path is empty.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   cc::Vec2 pos = cc::Vec2::ZERO;

@@ -539,6 +539,15 @@
       transparent:1
     },
     {
+      id:67,
+      name:"Blood",
+      level:2,
+      category:1,
+      type:2,
+      sprite_file:"images/blood.png",
+      transparent:1
+    },
+    {
       id:19,
       name:"Bone Club",
       damage:"1d4",
@@ -956,6 +965,42 @@
       transparent:1,
       is_usable:1,
       effect_id:2,
+      use_target:2
+    },
+    {
+      id:68,
+      name:"Stew of Light Healing",
+      level:2,
+      category:4,
+      type:2,
+      sprite_file:"images/light_healing.png",
+      transparent:1,
+      is_usable:1,
+      effect_id:6,
+      use_target:1
+    },
+    {
+      id:69,
+      name:"Cowkick",
+      level:2,
+      category:4,
+      type:2,
+      sprite_file:"images/cowkick.png",
+      transparent:1,
+      is_usable:1,
+      effect_id:7,
+      use_target:1
+    },
+    {
+      id:70,
+      name:"Blinding Poison",
+      level:2,
+      category:4,
+      type:2,
+      sprite_file:"images/blinding_poison.png",
+      transparent:1,
+      is_usable:1,
+      effect_id:8,
       use_target:2
     },
     {

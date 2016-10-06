@@ -6,6 +6,7 @@
 #include <actors/actor_id.h>
 #include <utils/observer.h>
 #include <actors/effects/effect.h>
+#include <actors/actions/actor_action.h>
 #include "cocos2d.h"
 
 namespace butcher {
@@ -45,8 +46,8 @@ public:
   std::unique_ptr<cocos2d::Sprite>& getSprite();
   void setSpriteTexture(const std::string& fn);
 
-  virtual bool performAction(std::shared_ptr<ActorAction> action);
-  virtual bool performAction(ActorAction* action);
+  virtual ActorAction::Result performAction(std::shared_ptr<ActorAction> action);
+  virtual ActorAction::Result performAction(ActorAction* action);
 
   /**
    * @brief Returns true if actor is unable to perform actions for example due to paralysis

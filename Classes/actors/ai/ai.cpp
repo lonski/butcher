@@ -23,7 +23,7 @@ void Ai::update()
 
   FSMStateType state = cc::RandomHelper::random_int(0,100) < 5 ? FSMStateType::WANDERING
                                                                : FSMStateType::IDLE;
-
+float distance = 0;
   if ( getTarget().pos != cc::Vec2::ZERO )
   {
     //  Enemy not in FoV.
@@ -35,7 +35,7 @@ void Ai::update()
     // Enemy in FoV. Determine action.
     else
     {
-      float distance = calculateDistance(getActor()->getTileCoord(), getTarget().pos);
+      distance = calculateDistance(getActor()->getTileCoord(), getTarget().pos);
 
       //Enemy in neighbour tile
       if ( distance < 2 )

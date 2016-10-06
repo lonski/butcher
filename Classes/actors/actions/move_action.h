@@ -14,7 +14,7 @@ class MoveAction : public ActorAction
 public:
   MoveAction(Direction::Symbol direction);
   MoveAction(cocos2d::Vec2 diff);
-  virtual bool perform(std::shared_ptr<Actor> actor);
+  virtual ActorAction::Result perform(std::shared_ptr<Actor> actor);
 
 private:
   DungeonState* _state;

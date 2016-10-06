@@ -43,7 +43,7 @@ public:
 
   void scheduleAction(std::shared_ptr<ActorAction> action);
   bool hasScheduledAction() const;
-  bool triggerScheduledAction(Target target);
+  ActorAction::Result triggerScheduledAction(Target target);
 
   virtual bool isOutOfControl();
 
@@ -55,6 +55,9 @@ public:
   ActorID getQuickSwitchWeaponID() const;
   std::shared_ptr<Item> getQuickSwitchWeapon();
   void setQuickSwitchWeapon(ActorID itemId);
+
+  virtual ActorAction::Result performAction(std::shared_ptr<ActorAction> action);
+  virtual ActorAction::Result performAction(ActorAction* action);
 
 private:
   Inventory _inventory;

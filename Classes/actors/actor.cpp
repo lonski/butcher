@@ -150,24 +150,24 @@ void Actor::setSpriteTexture(const std::string &fn)
   _sprite->setTexture(fn);
 }
 
-bool Actor::performAction(std::shared_ptr<ActorAction> action)
+ActorAction::Result Actor::performAction(std::shared_ptr<ActorAction> action)
 {
   if ( isOutOfControl() )
-    return false;
+    return ActorAction::Result::NOK;
 
   if ( !action )
-    return false;
+    return ActorAction::Result::NOK;
 
   return action->perform( shared_from_this() );
 }
 
-bool Actor::performAction(ActorAction *action)
+ActorAction::Result Actor::performAction(ActorAction *action)
 {
   if ( isOutOfControl() )
-    return false;
+    return ActorAction::Result::NOK;
 
   if ( !action )
-    return false;
+    return ActorAction::Result::NOK;
 
   std::unique_ptr<ActorAction> a_ptr(action);
   return action->perform( shared_from_this() );

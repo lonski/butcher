@@ -15,17 +15,17 @@ public:
   UseAction(std::shared_ptr<Item> item);
   UseAction(const AmountedItem& amountedItem);
 
-  virtual bool perform(std::shared_ptr<Actor> user);
+  virtual ActorAction::Result perform(std::shared_ptr<Actor> user);
 
 private:
  AmountedItem _item;
  std::shared_ptr<Character> _user;
  Effect _effect;
 
- bool useOnSelf();
- bool useOnWeapon();
- bool useOnFloor();
- bool useRange();
+ ActorAction::Result useOnSelf();
+ ActorAction::Result useOnWeapon();
+ ActorAction::Result useOnFloor();
+ ActorAction::Result useRange();
 
 };
 

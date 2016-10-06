@@ -3,7 +3,7 @@
     {
       id:1,
       name:"Focus",
-      turns:30,
+      turns:50,
       modifiers: [ 
         {
           attr: 1,
@@ -15,7 +15,7 @@
     {
       id:2,
       name:"Slow poison",
-      turns:20,
+      turns:50,
       modifiers: [ 
         {
           attr: 1,
@@ -55,6 +55,47 @@
         {
           attr: 5,
           value: 2,
+          special: 0
+        }
+      ]
+    },
+    {
+      id:6,
+      name:"Stew of Light Healing",
+      turns:-1,
+      modifiers: [ 
+        {
+          attr: 5,
+          value: 20,
+          special: 0
+        }
+      ]
+    },
+    {
+      id:7,
+      name:"Cowkick",
+      turns:50,
+      modifiers: [ 
+        {
+          attr: 1,
+          value: 1,
+          special: 0
+        },
+        {
+          attr: 2,
+          value: 1,
+          special: 0
+        }
+      ]
+    },
+    {
+      id:8,
+      name:"Blinding Poison",
+      turns:50,
+      modifiers: [ 
+        {
+          attr: 1,
+          value: -2,
           special: 0
         }
       ]

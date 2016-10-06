@@ -15,7 +15,7 @@ public:
   PickUpAction(std::shared_ptr<Item> item);
   PickUpAction(const AmountedItem& amountedItem);
 
-  virtual bool perform(std::shared_ptr<Actor> pickuper);
+  virtual ActorAction::Result perform(std::shared_ptr<Actor> pickuper);
 
 private:
  AmountedItem _item;

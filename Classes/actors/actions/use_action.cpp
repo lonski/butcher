@@ -20,25 +20,25 @@ UseAction::UseAction(const AmountedItem &amountedItem)
 {
 }
 
-bool UseAction::perform(std::shared_ptr<Actor> user)
+ActorAction::Result UseAction::perform(std::shared_ptr<Actor> user)
 {
   _user = std::dynamic_pointer_cast<Character>(user);
 
   if ( !_user )
   {
     cc::log("%s user is not a character", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   if ( !_item.item )
   {
     cc::log("%s item is null", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   _effect = BUTCHER.effectsDatabase().createEffect(_item.item->getEffectID());
 
-  bool ret = false;
+  ActorAction::Result ret = ActorAction::Result::NOK;
 
   switch (_item.item->getUseTarget())
   {
@@ -62,7 +62,7 @@ bool UseAction::perform(std::shared_ptr<Actor> user)
   return ret;
 }
 
-bool UseAction::useOnSelf()
+ActorAction::Result UseAction::useOnSelf()
 {
   //Apply effect
   if ( _effect.getID() != EffectID::None )
@@ -79,30 +79,30 @@ bool UseAction::useOnSelf()
     _user->fadeText( _effect.getName(), cc::Color4B::ORANGE, 1, false);
   }
 
-  return true;
+  return ActorAction::Result::COST_EXTRA_TURN;
 }
 
-bool UseAction::useOnWeapon()
+ActorAction::Result UseAction::useOnWeapon()
 {
   std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(_user);
 
   if ( !player )
   {
     cc::log("%s user is not a player", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   AmountedItem wpn = player->getInventory().equipped(ItemSlotType::WEAPON);
   if ( !wpn.item )
   {
     cc::log("%s weapon is not equipped", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   if ( _effect.getID() == EffectID::None )
   {
     cc::log("%s invalid effect", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   std::string message = "Weapon: " + _effect.getName() + " fades";
@@ -113,10 +113,10 @@ bool UseAction::useOnWeapon()
   wpn.item->addEffect( _effect );
   player->fadeText( "Weapon: " + _effect.getName(), cc::Color4B::ORANGE, 1, false);
 
-  return true;
+  return ActorAction::Result::COST_EXTRA_TURN;
 }
 
-bool UseAction::useOnFloor()
+ActorAction::Result UseAction::useOnFloor()
 {
   std::shared_ptr<Actor> item = _item.item->clone();
   item->setTileCoord( BUTCHER.getPlayer()->getTileCoord() );
@@ -124,23 +124,23 @@ bool UseAction::useOnFloor()
   DungeonState* dung = BUTCHER.getCurrentDungeon();
   dung->addActor(item);
 
-  return true;
+  return ActorAction::Result::COST_EXTRA_TURN;
 }
 
-bool UseAction::useRange()
+ActorAction::Result UseAction::useRange()
 {
   std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(_user);
 
   if ( !player )
   {
     cc::log("%s user is not a player", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   std::shared_ptr<ThrowAction> action(new ThrowAction(_item.item->clone()));
   player->scheduleAction(action);
 
-  return true;
+  return ActorAction::Result::OK;
 }
 
 }

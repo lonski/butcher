@@ -164,7 +164,6 @@ void Butcher::saveGame()
 
   save.add_exp( getPlayer()->getExp() );
   save.add_quick_switch( (int)getPlayer()->getQuickSwitchWeaponID() );
-  cc::log("SAVE %d",(int)getPlayer()->getQuickSwitchWeaponID());
   save.add_level( getPlayer()->getLevel() );
   save.add_inventory( inventory );
   save.add_craftbook( craftbook );
@@ -228,11 +227,6 @@ void Butcher::removeOngoingAction(cocos2d::Action *a)
 
 bool Butcher::isTurnFinished() const
 {
-  if ( !_ongoingActions.empty() ){
-    cc::log("Turn not ended, actions remaining: %u", (unsigned)_ongoingActions.size());
-    for ( auto a : _ongoingActions )
-      cc::log("\t  %p", a);
-  }
   return _ongoingActions.empty();
 }
 
@@ -330,9 +324,11 @@ DungeonState *Butcher::getCurrentDungeon()
   return _dungeons.getLevel(_dungeonLevel);
 }
 
-void Butcher::nextTurn()
+void Butcher::nextTurn(bool incTurn)
 {
-  ++_turnCounter;
+  if ( incTurn )
+    ++_turnCounter;
+
   DungeonState* d = getCurrentDungeon();
   if ( d )
     d->nextTurn();

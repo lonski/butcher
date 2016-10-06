@@ -11,7 +11,14 @@ class Actor;
 class ActorAction
 {
 public:
-  virtual bool perform(std::shared_ptr<Actor> actor) = 0;
+  enum class Result
+  {
+    OK,
+    NOK,
+    COST_EXTRA_TURN
+  };
+
+  virtual ActorAction::Result perform(std::shared_ptr<Actor> actor) = 0;
   virtual void setTarget(Target target) {}
 
 };

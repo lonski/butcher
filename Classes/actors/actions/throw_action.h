@@ -13,7 +13,7 @@ class ThrowAction : public ActorAction
 {
 public:
   ThrowAction(std::shared_ptr<Actor> grenade);
-  virtual bool perform(std::shared_ptr<Actor> performer);
+  virtual ActorAction::Result perform(std::shared_ptr<Actor> performer);
   virtual void setTarget(Target target);
 
 private:

@@ -21,12 +21,12 @@ EquipAction::EquipAction(const AmountedItem &amountedItem)
 {
 }
 
-bool EquipAction::perform(std::shared_ptr<Actor> equipper)
+ActorAction::Result EquipAction::perform(std::shared_ptr<Actor> equipper)
 {
   std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(equipper);
 
   if ( _item.item == nullptr && _itemID == ActorID::INVALID)
-    return false;
+    return ActorAction::Result::NOK;
 
   if ( player )
   {
@@ -40,20 +40,20 @@ bool EquipAction::perform(std::shared_ptr<Actor> equipper)
     }
 
     if ( !_item.item )
-      return false;
+      return ActorAction::Result::NOK;
 
     if ( _item.item->getLevel() > player->getLevel() )
-      return false;
+      return ActorAction::Result::NOK;
 
     if ( inv.equip(_item) )
     {
       player->fadeText("Equipped " + _item.item->getName(), cocos2d::Color4B::GREEN);
-      return true;
+      return ActorAction::Result::OK;
     }
 
   }
 
-  return false;
+  return ActorAction::Result::NOK;
 }
 
 }

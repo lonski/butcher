@@ -24,10 +24,10 @@ MoveAction::MoveAction(cocos2d::Vec2 diff)
 {
 }
 
-bool MoveAction::perform(std::shared_ptr<Actor> actor)
+ActorAction::Result MoveAction::perform(std::shared_ptr<Actor> actor)
 {
   if ( _direction == Direction::None && _dd == cc::Vec2::ZERO )
-    return false;
+    return ActorAction::Result::NOK;
 
   cc::Vec2 pos = actor->getTileCoord();
   cc::TMXTiledMap* map = _state->map();
@@ -68,7 +68,7 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
   if ( !validatePosition(pixelPos) )
   {
     cc::log("MoveAction: invalid position!");
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   std::shared_ptr<Actor> blocking_actor;
@@ -77,7 +77,7 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
     if ( blocking_actor != nullptr )
       actor->onCollide(blocking_actor);
 
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   actor->setPosition(pixelPos, !BUTCHER.isAnimationSuspended());
@@ -97,7 +97,7 @@ bool MoveAction::perform(std::shared_ptr<Actor> actor)
     if ( a != actor )
       a->onInterract(actor);
 
-  return true;
+  return ActorAction::Result::OK;
 }
 
 bool MoveAction::validatePosition(cc::Vec2 pos) const

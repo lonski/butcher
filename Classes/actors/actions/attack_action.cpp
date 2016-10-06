@@ -16,12 +16,12 @@ AttackAction::AttackAction(Target target)
 {
 }
 
-bool AttackAction::perform(std::shared_ptr<Actor> performer)
+ActorAction::Result AttackAction::perform(std::shared_ptr<Actor> performer)
 {
   if ( !performer )
   {
     cocos2d::log("%s: performer is null.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   std::shared_ptr<Character> a = std::dynamic_pointer_cast<Character>(performer);
@@ -29,7 +29,7 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer)
   if ( !a )
   {
     cocos2d::log("%s: performer is not a character.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   std::shared_ptr<Character> t = std::dynamic_pointer_cast<Character>(_target.first());
@@ -37,7 +37,7 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer)
   if ( !t )
   {
     cocos2d::log("%s: target is null.", __PRETTY_FUNCTION__);
-    return false;
+    return ActorAction::Result::NOK;
   }
 
   float atk = a->getAttribute(AttributeType::Attack);
@@ -66,7 +66,7 @@ bool AttackAction::perform(std::shared_ptr<Actor> performer)
   {
     t->fadeText("miss", cocos2d::Color4B(128,128,128,255));
   }
-  return true;
+  return ActorAction::Result::OK;
 }
 
 std::shared_ptr<Item> AttackAction::getWeapon(std::shared_ptr<Character> c)

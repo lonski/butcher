@@ -354,9 +354,11 @@ void HudLayer::showMinimap(cocos2d::Ref *)
     addChild(_minimapSprite);
   }
 
+//  BUTCHER.getPlayer()->getCraftbook().setFreePoints(20);
+//  BUTCHER.getPlayer()->setExp( BUTCHER.getPlayer()->getExpForNextLevel() );
 //  BUTCHER.getPlayer()->performAction(
 //        new PickUpAction(
-//          AmountedItem( BUTCHER.actorsDatabase().createActor<Item>(ActorID::INTESTINES), 10)
+//          AmountedItem( BUTCHER.actorsDatabase().createActor<Item>(ActorID::BLOOD), 100)
 //        ));
 
 //  BUTCHER.getPlayer()->performAction(
@@ -364,7 +366,18 @@ void HudLayer::showMinimap(cocos2d::Ref *)
 //          AmountedItem( BUTCHER.actorsDatabase().createActor<Item>(ActorID::BONE), 100)
 //        ));
 
+//  BUTCHER.getPlayer()->performAction(
+//        new PickUpAction(
+//          AmountedItem( BUTCHER.actorsDatabase().createActor<Item>(ActorID::MEAT_GRENADE), 100)
+//        ));
+
+//  BUTCHER.getPlayer()->performAction(
+//        new PickUpAction(
+//          AmountedItem( BUTCHER.actorsDatabase().createActor<Item>(ActorID::SLIPPERY_TRAP), 100)
+//        ));
+
 //    BUTCHER.goToLevel(BUTCHER.getDungeonLevel()+1);
+//  BUTCHER.nextTurn();
 }
 
 void HudLayer::weaponSwitch(cocos2d::Ref *)
@@ -377,7 +390,7 @@ void HudLayer::weaponSwitch(cocos2d::Ref *)
     AmountedItem eq = player->getInventory().equipped(ItemSlotType::WEAPON);
     ActorID currentlyEq = eq.item ? eq.item->getID() : ActorID::INVALID;
 
-    bool performed = player->performAction( new EquipAction(itemId) );
+    bool performed = player->performAction( new EquipAction(itemId) ) == ActorAction::Result::OK;
 
     if ( currentlyEq != ActorID::INVALID && performed )
     {
